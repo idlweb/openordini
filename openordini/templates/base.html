@@ -1,0 +1,273 @@
+{% load i18n %}
+{% load url from future %}
+
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8" />
+    <title>{% trans "OpenMunicipio" %} - {% block title %}{% endblock %}</title>
+
+    <!-- To ensure devices display responsive pages properly, include the viewport meta tag. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    {% block head_css_includes %}
+        {% if DEBUG %}
+<!--
+            <link href="{{ STATIC_URL }}less/styles.less" rel="stylesheet/less">
+            <link href="{{ STATIC_URL }}less/styles-responsive.less" rel="stylesheet/less"> -->
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/styles-responsive.css" />
+
+            <script type="text/javascript" src="{{ STATIC_URL }}js/less-1.3.1.min.js"></script>
+
+        {% else %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/styles-responsive.css" />
+        {% endif %}
+
+    {% endblock head_css_includes %}
+
+    <style type="text/css">
+    {% block extra_style %}{% endblock %}
+    </style>
+
+    {% block head_js_includes %}
+        <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <!--[if IE]><link rel="stylesheet" href="{{ STATIC_URL }}css/ui-custom-theme/jquery-ui-1.8.16.ie.css"><![endif]-->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/include.js" data-url="{{ STATIC_URL }}"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"></script>
+    {% endblock head_js_includes %}
+
+    <script type="text/javascript" charset="utf-8">
+    {% block extra_js %}{% endblock %}
+    </script>
+
+    {% block extra_head %}{% endblock %}
+
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+<div id="wrapper"><!-- #wrapper -->
+
+
+  {% if ALERT_BAR|length > 0 %}
+      <!-- DEMO ALERT -->
+      <div style="position: inherit;" class="navbar navbar-fixed-top" id="page-alert">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+
+            <div class="row-fluid">
+              <div class="span12">{{ ALERT_BAR|safe }}</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+  {% endif %}
+
+    <!-- TOPBAR -->
+  <div class="navbar" id="navbar-top">
+    <nav class="navbar-inner">
+      <a href="{% url "home" %}" class="brand">
+        <img src="{{ STATIC_URL }}img/logo-openmunicipio.png" alt="Openmunicipio - Informati, monitora e partecipa ai lavori del tuo municipio">
+        <!--open<strong>municipio</strong>{% if site_version %}<span class="version">{{ site_version }}</span>{% endif %}
+        <small></small>-->
+        {% if ALERT_NAVBAR|length > 0 %}
+          <button class="btn btn-danger navbar-fixed-top ">{{ ALERT_NAVBAR|safe }}</button>
+        {% endif %}
+      </a>
+      
+      {% block access %}
+          {% if user.is_authenticated %}
+              <div id="user-tools" class="text-right pull-right dropdown">
+                  <a href="#" id="dropsignin"
+                     role="button" class="dropdown-toggle" data-toggle="dropdown"
+                  >Ciao, <strong>
+{% if UI_ALLOW_NICKNAMES %}{{ user.username }}{% else %}{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}{% endif %}
+                    </strong><b class="caret" style="margin-top:6px"></b></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dropsignin">
+
+                  {% if request.user.is_superuser %}
+                      <li><a tabindex="-1" href="{% url "admin:index" %}">amministrazione</a></li>
+                  {% endif %}
+                  {% if request.user.userprofile %}
+                      <li><a tabindex="-1" href="{% url "profiles_edit_profile" %}">impostazioni</a></li>
+                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" user.username %}">profilo</a></li>
+                      <li class="divider"></li>
+
+                  {% endif %}
+                      <li>
+                          <a tabindex="-1"
+                             href="{% url "logout" %}?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}"
+                                  >esci</a>
+                      </li>
+                  </ul>
+              </div>
+          {% else %}
+              <ul class="nav pull-right">
+                  <li>Per partecipare o registrarti
+                      <a href="/accounts/login/?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}">
+                          Entra
+                          <img src="{{ STATIC_URL }}img/login_icons.png" alt="icone segnalatrici social login"/>
+                      </a>
+
+                  </li>
+              </ul>
+          {% endif %}
+      {% endblock %}
+    </nav>
+  </div>
+  <!-- /TOPBAR -->
+
+
+  <header>
+
+    <!-- AREA-TITLE -->
+    <hgroup class="container-fluid">
+      <div class="row-fluid">
+        <h1 class="span11" id="area-title">
+          {% block content_header_container %}<a href="/" style="color: white;">{{ main_city }}</a> <small>{% block content_header %}{% endblock %}</small>{% endblock %}
+        </h1>
+        <p class="span1" id="city-logo" class="text-right pull-right">
+            {% block content_header_city_logo %}
+                <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/all.png" alt="Comune di {{ main_city }}">
+            {% endblock %}
+        </p>
+      </div>
+    </hgroup>
+    <!-- /AREA-TITLE -->
+
+    <!-- MAIN-NAVBAR -->
+    {% block main_navbar %}
+        <div class="navbar" id="main-nav">
+            <div class="navbar-inner">
+                <nav class="container-fluid" style="padding:0;">
+                    <ul class="nav">
+                        <li {% block people_class %}{% endblock %}><a href="{% url "om_politician_list" %}">Albo</a></li>
+                        <li class="{% block acts_class %}{% endblock %}"><a href="{% url "om_act_search" %}">Atti e Progetti</a></li>
+                        <li class="{% block speech_class %}{% endblock %}"><a href="{% url "om_speech_search" %}">Progettazione Partecipata</a></li>
+                        <li class="{% block votations_class %}{% endblock %}"><a href="{% url "om_votation_search" %}">Votazioni</a></li>
+                        <li {% block tags_class %}{% endblock %}><a href="{% url "om_topic_list" %}">Argomenti</a></li>
+                        <li {% block users_class %}{% endblock %}><a href="/users/">Comunità</a></li>
+                    </ul>
+                    {% comment %}
+                    <ul class="nav pull-right">
+                        <form method="get" action="{% url "om_act_search" %}" id="search-form">
+                            <input type="text" class="input-medium search-query" name="q" placeholder="Cerca negli atti">
+                            <button type="submit" class="btn">Cerca</button>
+                        </form>
+                    </ul>
+                    {% endcomment %}
+                </nav>
+            </div>
+        </div>
+    {% endblock %}
+    <!-- /MAIN-NAVBAR -->
+
+    {% block sub_nav %}{% endblock %}
+      
+  </header>
+
+  <!-- MAIN-SECTION -->
+  <section id="main" class="{% block container_class %}container-fluid{% endblock %}"><!-- #main container for content and sidebar area -->
+  {% block container %}{% endblock %}
+  </section>
+  <!-- /MAIN-SECTION -->
+
+  <!-- FOOTER-NAV -->
+  <footer>
+      <section class="texts">
+          <div class="container-fluid">
+              <div class="row-fluid">
+                  <div class="span4">
+                      <h2>Open Municipio</h2>
+                      <p>
+                          Open Municipio è un progetto dell'Associazione Openpolis e di
+                          Informaetica per i comuni d'Italia. &Egrave; una piattaforma web
+                          di informazione, monitoraggio e partecipazione attiva alla vita
+                          delle città che vi aderiscono. Ora sei sul sito Open municipio
+                          di {{ main_city }}.
+                      </p>
+                      <ul><li><a href="http://www.openmunicipio.it">Il progetto</a></li>
+                          <li><a href="{% url "om_regolamento" %}">Regolamento</a></li>
+                          <li><a href="{% url "om_condizioni" %}">Condizioni d'uso</a></li>
+                          <li><a href="{% url "om_privacy" %}">Informativa sui dati personali</a></li>
+                          <li><a href="{% url "om_contatti" %}">Contatti</a></li>
+                      </ul>
+                      <p>
+                          <!-- social sites -->
+                          {% if SOCIAL_SITES.facebook %}
+                          <a href="{{ SOCIAL_SITES.facebook }}" target="_blank"><img src="{{ STATIC_URL }}img/footer-fb.png"/></a>                        
+                          &nbsp;&nbsp;&nbsp;
+                          {% endif %}
+                          {% if SOCIAL_SITES.twitter %}
+                          <a href="{{ SOCIAL_SITES.twitter }}" target="_blank"><img src="{{ STATIC_URL }}img/footer-tw.png"/></a>
+                          &nbsp;&nbsp;&nbsp;
+                          {% endif %}
+                      </p>
+                  </div>
+
+                  <div class="span4">
+                      <h2>Come fare per</h2>
+                      <ul>
+                          <li><a href="{% url "om_registrarsi" %}">Registrarsi</a></li>
+                          <li><a href="{% url "om_monitorare" %}">Monitorare un atto, un politico o un argomento</a></li>
+                          <li><a href="{% url "om_votare" %}">Votare e commentare un atto</a></li>
+                          <li><a href="{% url "om_domande" %}">Altre domande e risposte frequenti</a></li>
+                      </ul>
+                  </div>
+
+                  <div class="span4">
+                      <h2>Open data e open source</h2>
+                      <p>
+                          Puoi scaricare sia il codice sorgente dell'applicazione Open municipio (licenziato AGPL 3)
+                          che i dati (licenziati IODL 2.0)
+                      </p>
+                      <ul>
+                          <li><a href="http://github.com/openpolis/open_municipio" target="_blank">Il codice sorgente</a></li>
+                          <li><a href="{% url "om_software" %}">I software utilizzati</a></li>
+                          <li><a href="{% url "om_opendata" %}">Perché non ci sono ancora gli Open data?</a></li>
+                      </ul>
+                  </div>
+
+
+
+              </div>
+          </div>
+      </section>
+      <section class="logos">
+          <div class="container-fluid">
+              <div class="row-fluid">
+                  <div class="span4"><a href="http://www.openpolis.it"><img src="{{ STATIC_URL }}img/footer-logo-openpolis.png"/></a></div>
+                  <div class="span4"><a href="{{ main_city_website }}"><img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/footer.png"/></a></div>
+                  <div class="span4"><a href="http://www.informaetica.it"><img src="{{ STATIC_URL }}img/footer-logo-informaetica.png"/></a></div>
+              </div>
+          </div>
+      </section>
+  </footer>
+  <!-- /FOOTER-NAV -->
+
+</div><!-- #wrapper -->
+
+{% block footer_js_includes %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-popover.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrapx-clickover.js"></script>
+    <script type="text/javascript">
+
+
+        $(function(){
+            $('a[rel=info-popover]').clickover();
+        })
+
+    </script>
+
+{% endblock %}
+
+
+{% if GOOGLE_ANALYTICS %}
+    {% include "commons/google_analytics.html" with GOOGLE_ANALYTICS=GOOGLE_ANALYTICS %}
+{% endif %}
+</body>
+</html>

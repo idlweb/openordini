@@ -1,0 +1,21 @@
+{% load url from future %}
+<nav class="navbar" id="sub-nav">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <ul class="nav">
+                <li {% ifequal active 'Giunta' %}class="unpipe"{% endifequal %}>
+                    <a href="{% url 'om_institution_citigov' %}"
+                       {% ifequal active 'Giunta' %} class="active"{% endifequal %}>Presidenza</a>
+                </li>
+                <li {% ifequal active 'Consiglio' %}class="unpipe"{% endifequal %}>
+                    <a href="{% url 'om_institution_council' %}" {% ifequal active 'Consiglio' %}
+                       class="active"{% endifequal %}>Consiglio</a>
+                </li>
+                <li {% ifequal active 'Commissioni' %}class="unpipe"{% endifequal %}>
+                    <a href="{% url 'om_institution_committees' %}" {% ifequal active 'Commissioni' %}
+                       class="active"{% endifequal %}>Commissioni ed Iscritti</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

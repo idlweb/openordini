@@ -1,0 +1,23 @@
+Django==1.5.0
+-e git+https://github.com/idlweb/open_municipio.git@dev-senigallia#egg=open_municipio
+
+# Requirements for OpenMunicipio
+# Requirements from github or mercurial repositories
+git+https://github.com/carljm/django-model-utils.git
+git+https://github.com/seldon/django-taggit.git
+git+https://github.com/informaetica/django-voting.git
+-e hg+https://bitbucket.org/fspegni/django-registration#egg=registration
+hg+https://fspegni@bitbucket.org/richert/django-profiles
+git+https://github.com/toastdriven/django-haystack.git@a01dc53adf8ddda4f99ae4437ad93015cf08695d
+git+git://github.com/omab/django-social-auth.git@v0.7.28#egg=django-social-auth
+
+# Additional requirements in staging/production
+psycopg2==2.5.1
+Fabric==1.4.3
+Pygments
+sphinx
+python-memcached
+rtf2xml==1.33
+
+django-payments==0.6.3
+django-apptemplates==0.0.1
