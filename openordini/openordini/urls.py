@@ -9,7 +9,6 @@ from django.conf import settings
 
 from open_municipio.urls import *
 
-
 urlpatterns += patterns('',
-    url('^payments/', include('payments.urls')),
+    url('^payments/', include('openordini.oo_payments.urls')),
 )
