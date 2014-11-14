@@ -1,0 +1,9 @@
+{% extends "open_municipio:profiles/profile_detail.html" %}
+
+{% block content %}
+{{ block.super }}
+{% if profile.user == request.user %}
+<hr class="big">
+{% include "profiles/_payment.html" %}
+{% endif %}
+{% endblock %}

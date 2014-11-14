@@ -18,6 +18,5 @@ Pygments
 sphinx
 python-memcached
 rtf2xml==1.33
-
-django-payments==0.6.3
+git+https://github.com/idlweb/django-payments.git
 django-apptemplates==0.0.1
