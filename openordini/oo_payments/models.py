@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from open_municipio.people.models import Person
 
@@ -94,10 +95,10 @@ class Payment(BasePayment):
     order = models.ForeignKey(Order, blank=True, verbose_name=_("order"))
 
     def get_failure_url(self):
-        return 'http://example.com/failure/'
+        return reverse('oo_payment_error')
 
     def get_success_url(self):
-        return 'http://example.com/success/'
+        return reverse('oo_payment_succeed')
 
     def get_purchased_items(self):
         # you'll probably want to retrieve these from an associated order

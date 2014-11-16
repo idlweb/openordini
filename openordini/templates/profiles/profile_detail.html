@@ -4,6 +4,6 @@
 {{ block.super }}
 {% if profile.user == request.user %}
 <hr class="big">
-{% include "profiles/_payment.html" %}
+<a href="{% url 'oo_payment_details' %}">Paga ora</a>
 {% endif %}
 {% endblock %}

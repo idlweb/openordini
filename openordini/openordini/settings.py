@@ -1,18 +1,12 @@
 from open_municipio.settings import *
 
-DOMAIN_ROOT = os.path.abspath(os.path.dirname(os.path.dirname((os.path.dirname(__file__)))))
 # root directory for this Django project (on the server machine)
-PROJECT_ROOT = os.path.join(DOMAIN_ROOT, 'openordini')
+MAIN_APP_ROOT = os.path.join(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.join(os.path.dirname(MAIN_APP_ROOT))
 REPO_ROOT = os.path.abspath(os.path.dirname(PROJECT_ROOT))
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'openordini',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '5432',
     }
 }
 
@@ -30,13 +24,13 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'openordini.oo_payments',
 )
 
-ROOT_URLCONF = 'openordini.urls'
+ROOT_URLCONF = 'openordini.openordini.urls'
 
-MEDIA_ROOT = os.path.join(DOMAIN_ROOT, 'public', 'media')
-STATIC_ROOT = os.path.join(DOMAIN_ROOT, 'public', 'static')
+MEDIA_ROOT = os.path.join(REPO_ROOT, 'public', 'media')
+STATIC_ROOT = os.path.join(REPO_ROOT, 'public', 'static')
 
 STATICFILES_DIRS += (
-    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(MAIN_APP_ROOT, 'static'),
 )
 
 LOGGING = {
@@ -61,11 +55,8 @@ LOGGING = {
         },
         'logfile': {
             'level':'DEBUG',
-#            'class':'logging.handlers.RotatingFileHandler',
             'class':'logging.FileHandler',
-            'filename': os.path.join(DOMAIN_ROOT,"log","logfile"),
-#            'maxBytes': 5 * 1024 * 1024,
-#            'backupCount': 10,
+            'filename': os.path.join(REPO_ROOT,"log","logfile"),
             'formatter': 'standard',
             },
         'mail_admins': {
@@ -74,11 +65,8 @@ LOGGING = {
         },
         'webapp': {
             'level':'DEBUG',
-#            'class':'logging.handlers.RotatingFileHandler',
             'class':'logging.FileHandler',
             'filename': REPO_ROOT + "/log/webapp.log",
-#            'maxBytes': 50000,
-#            'backupCount': 5,
             'formatter': 'standard',
         },
     },
