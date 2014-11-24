@@ -1,5 +1,5 @@
 from fabric.api import cd, lcd, env, execute, hide, put, require, \
-                        roles, run, sudo, task
+                        roles, run, sudo, task, settings
 from fabric.contrib.files import exists
 from fabric.utils import fastprint
 
@@ -179,11 +179,12 @@ def stop_uwsgi():
     fastprint("Stopping running instance of uwsgi ..." % env, show_prefix=True)
     with hide('stdout','running'):
         with cd(env.domain_root):
+            with settings(warn_only=True):
 
-            pid_file = "./private/nginx/%(project)s.pid" % env
+                pid_file = "./private/nginx/%(project)s.pid" % env
 
-            if exists(pid_file):
-                run_venv('uwsgi --stop %s' % pid_file)
+                if exists(pid_file):
+                    run_venv('uwsgi --stop %s' % pid_file)
 
 
     fastprint(" done." % env, end='\n')
