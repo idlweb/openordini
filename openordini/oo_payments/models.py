@@ -69,11 +69,11 @@ class SubscriptionOrder(Order):
     
     date_begin = models.DateField(blank=False, verbose_name=_("subscription begin"))
     date_end = models.DateField(blank=False, verbose_name=_("subscription end"))
-    plan = models.ForeignKey(SubscriptionPlan, blank=False, 
-                    verbose_name=_("subscription plan"))
+    plan = models.ForeignKey(SubscriptionPlan, blank=False, verbose_name=_("subscription plan"))
 
     def save(self, *args, **kwargs):
-        self.name = _("%(plan)s - %(person)s - from: %(from)s - to: %(to)s") % {
+        self.name =  "test"
+        ("%(plan)s - %(person)s - from: %(from)s - to: %(to)s") % {
             "plan": self.plan.name, "from":self.date_begin, "to":self.date_end,
             "person": self.person,
         }

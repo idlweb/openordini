@@ -22,9 +22,9 @@ def payment_details(request):
     person = request.user.userprofile.person
 
     order, created = SubscriptionOrder.objects.get_or_create(
-        person=person,
-        date_begin='%s-01-01' % year,
-        date_end='%s-12-31' % year,
+       person=person,
+       date_begin='%s-01-01' % year,
+       date_end='%s-12-31' % year,
     )
 
     pay_default = {
@@ -53,3 +53,4 @@ def payment_details(request):
         return redirect(str(redirect_to))
     return TemplateResponse(request, 'oo_payments/payment.html',
                             {'form': form, 'payment': payment})
+    
