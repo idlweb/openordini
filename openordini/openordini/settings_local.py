@@ -4,7 +4,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #        'NAME': 'openordini',
-        'NAME': 'ooantonio',
+        'NAME': 'openordini',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
