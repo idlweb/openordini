@@ -10,6 +10,17 @@ DATABASES = {
     }
 }
 
+#AUTHENTICATION_BACKENDS = (
+#    'django.contrib.auth.backends.ModelBackend',
+#    'django_cas.backends.CASBackend',
+#)
+
+#MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+#    'django_cas.middleware.CASMiddleware',
+#)
+
+#CAS_SERVER_URL = '' # this MUST be set in your deploy settings
+
 TEMPLATE_LOADERS = (
     'apptemplates.Loader',
 ) + TEMPLATE_LOADERS
@@ -19,6 +30,7 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = INSTALLED_APPS + (
+    'django_cas',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -98,3 +110,8 @@ PAYMENT_MODEL = 'oo_payments.Payment'
 
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {})}
+
+SUBSCRIPTION_MAPS = {
+    'FIRST': ("STUD", ),
+    'ALL': ("PSCH", "PSLG",)
+}
