@@ -14,4 +14,13 @@ DATABASES = {
 
 ROOT_URLCONF = 'openordini.openordini.urls_local'
 
-#CAS_SERVER_URL = 'http://localhost:8000/cas/'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas.backends.CASBackend',
+)
+
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    'django_cas.middleware.CASMiddleware',
+)
+
+CAS_SERVER_URL = 'http://localhost:8080/cas/'
