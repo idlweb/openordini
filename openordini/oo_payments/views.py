@@ -7,7 +7,7 @@ from decimal import Decimal
 
 from datetime import date
 
-from .models import SubscriptionOrder, Payment
+from .models import SubscriptionOrder, Payment, SubscriptionPlan
 
 class PaymentSucceed(TemplateView):
     template_name = 'oo_payments/succeed.html'
@@ -19,12 +19,25 @@ def payment_details(request):
 
     year = date.today().year
 
+    if not request.user.is_authenticated():
+        raise ValueError("You must be authenticated in order to access this view")
+
+#    print "profile: %s" % request.user.userprofile
+
     person = request.user.userprofile.person
 
+    if SubscriptionPlan.objects.all().count() == 0:
+        raise ValueError("You must have at least one SubscriptionPlan before calling this view")
+
+    order_defaults = {
+        'plan': SubscriptionPlan.objects.all()[0]
+    }
+
     order, created = SubscriptionOrder.objects.get_or_create(
-       person=person,
-       date_begin='%s-01-01' % year,
-       date_end='%s-12-31' % year,
+        person=person,
+        date_begin='%s-01-01' % year,
+        date_end='%s-12-31' % year,
+        defaults = order_defaults
     )
 
     pay_default = {

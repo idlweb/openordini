@@ -16,3 +16,13 @@ DATABASES = {
 MEDIA_ROOT = os.path.join(REPO_ROOT, '..', 'public', 'media')
 STATIC_ROOT = os.path.join(REPO_ROOT, '..', 'public', 'static')
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_cas.backends.CASBackend',
+)
+
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    'django_cas.middleware.CASMiddleware',
+)
+
+CAS_SERVER_URL = 'http://www.psicologipuglia.it/cas/'

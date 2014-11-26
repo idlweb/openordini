@@ -3,7 +3,8 @@ from openordini.openordini.settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'openordini',
+#        'NAME': 'openordini',
+        'NAME': 'ooantonio',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -11,3 +12,6 @@ DATABASES = {
     }
 }
 
+ROOT_URLCONF = 'openordini.openordini.urls_local'
+
+#CAS_SERVER_URL = 'http://localhost:8000/cas/'
