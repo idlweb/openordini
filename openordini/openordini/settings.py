@@ -41,9 +41,12 @@ ROOT_URLCONF = 'openordini.openordini.urls'
 MEDIA_ROOT = os.path.join(REPO_ROOT, 'public', 'media')
 STATIC_ROOT = os.path.join(REPO_ROOT, 'public', 'static')
 
-STATICFILES_DIRS += (
+STATIC_URL = "/static/"
+
+
+STATICFILES_DIRS = (
     os.path.join(MAIN_APP_ROOT, 'static'),
-)
+) + STATICFILES_DIRS
 
 LOGGING = {
     'version': 1,
