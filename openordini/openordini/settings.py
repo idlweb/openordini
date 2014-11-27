@@ -10,16 +10,17 @@ DATABASES = {
     }
 }
 
-#AUTHENTICATION_BACKENDS = (
-#    'django.contrib.auth.backends.ModelBackend',
-#    'django_cas.backends.CASBackend',
-#)
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
+    'django_cas.backends.CASBackend',
 
-#MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-#    'django_cas.middleware.CASMiddleware',
-#)
+)
 
-#CAS_SERVER_URL = '' # this MUST be set in your deploy settings
+MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'django_cas.middleware.CASWithGatewayMiddleware',
+)
 
 TEMPLATE_LOADERS = (
     'apptemplates.Loader',
@@ -118,3 +119,9 @@ SUBSCRIPTION_MAPS = {
     'FIRST': ("STUD", ),
     'ALL': ("PSCH", "PSLG",)
 }
+
+CAS_IGNORE_REFERER = False
+CAS_LOGOUT_COMPLETELY = True
+CAS_SERVER_URL = '' # this MUST be set in your deploy settings
+CAS_GATEWAY_PARAMETER = "gateway"
+CAS_GATEWAY_LOOP_PARAMETER = "gateway"
