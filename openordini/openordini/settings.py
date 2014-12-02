@@ -1,4 +1,5 @@
 from open_municipio.settings import *
+from openordini.cas_integration import CAS_populate_user
 
 # root directory for this Django project (on the server machine)
 MAIN_APP_ROOT = os.path.join(os.path.dirname(__file__))
@@ -35,6 +36,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
+    'openordini.cas_integration',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -125,3 +127,4 @@ CAS_LOGOUT_COMPLETELY = True
 CAS_SERVER_URL = '' # this MUST be set in your deploy settings
 CAS_GATEWAY_PARAMETER = "gateway"
 CAS_GATEWAY_LOOP_PARAMETER = "gateway"
+CAS_USER_DETAILS_RESOLVER = CAS_populate_user

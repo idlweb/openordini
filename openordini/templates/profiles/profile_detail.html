@@ -1,9 +1,19 @@
 {% extends "open_municipio:profiles/profile_detail.html" %}
 
+{% load cas_integration %}
+
 {% block content %}
 {{ block.super }}
 {% if profile.user == request.user %}
 <hr class="big">
+<h2>Link  personalizzati</h2>
+{% for cap in request.user.capabilities.all %}
+<a href="{{ cap.link }}">{{ cap.name }}</a><br/>
+{% empty %}
+<i>Nessun link</i>
+{% endfor %}
+<hr class="big">
+<h2>Iscrizioni albo e pagamenti</h2>
 <a href="{% url 'oo_payment_details' %}">Paga ora</a>
 {% endif %}
 {% endblock %}
