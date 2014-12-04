@@ -11,16 +11,15 @@ DATABASES = {
     }
 }
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'django.contrib.auth.backends.RemoteUserBackend',
-    'django_cas.backends.CASBackend',
-
-)
+##AUTHENTICATION_BACKENDS = (
+##    'django.contrib.auth.backends.ModelBackend',
+##    'django.contrib.auth.backends.RemoteUserBackend',
+##    'django_cas.backends.CASBackend',
+##
+##)
 
 MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-    'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'django_cas.middleware.CASWithGatewayMiddleware',
+    'django_cas.middleware.CASMiddleware',
 )
 
 TEMPLATE_LOADERS = (
@@ -32,6 +31,7 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = INSTALLED_APPS + (
+    'mama_cas',
     'django_cas',
     'payments',   
     'open_municipio',

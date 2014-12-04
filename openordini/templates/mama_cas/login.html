@@ -1,0 +1,77 @@
+{% extends "base_one_column.html" %}
+{%  load i18n %}
+{% load url from future %}
+
+{% block title %}Accedi al sito {{ site_name }}{% endblock %}
+
+{% block content_header %}Accesso al sito{% endblock %}
+
+{% block content %}
+    <div class="login container">
+        <div class="row-fluid offset4">
+{% comment %}
+
+            <div class="span4 social">
+                <h2>Accedi coi social network</h2>
+                <p>Usa i tuoi account dei social network per accedere comodamente a Open municipio</p>
+                <p>
+                    <a href="{% url 'socialauth_begin' 'google-oauth2' %}" class="btn btn-inverse">
+                        <img src="{{ STATIC_URL }}img/login-google-icon.png"/>&nbsp;&nbsp;&nbsp;
+                        Accedi con Google
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'socialauth_begin' 'twitter' %}" class="btn btn-info">
+                        <img src="{{ STATIC_URL }}img/login-twitter-icon.png"/>&nbsp;&nbsp;&nbsp;
+                        Accedi con Twitter
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'socialauth_begin' 'facebook' %}" class="btn btn-primary">
+                        <img src="{{ STATIC_URL }}img/login-fb-icon.png"/>&nbsp;&nbsp;&nbsp;
+                        Accedi con Facebook
+                    </a>
+                </p>
+            </div>
+{% endcomment %}
+
+            <div class="span4">
+                <h2>Entra con username e password</h2>
+                <p>Usa il tuo username e la tua password per accedere al sito o
+                    <a href="{% url 'registration_register' %}">registrati a Open municipio</a> per ricevere le tue credenziali di accesso.</p>
+                <form method="post" class="form-horizontal">{% csrf_token %}
+                    <input type="hidden" name="next" value="{% if "/accounts" in request.REQUEST.next %}/{% else %}{% firstof request.REQUEST.next "/" %}{% endif %}" />
+                    {{ form.non_field_errors }}
+                    <div class="control-group">
+                        <label for="id_username" class="control-label">{% trans "Username" %}:</label>
+                        <div class="controls">
+                            {{ form.username.errors }} {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="id_password" class="control-label">{% trans "Password" %}:</label>
+                        <div class="controls">
+                            {{ form.password.errors }} {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            {% comment %}
+                            <label class="checkbox">
+                                <input type="checkbox">{%  trans "Remember me" %}
+                            </label>
+                            {%  endcomment %}
+                            <button type="submit" class="btn">{% trans "Log in" %}</button>
+                            <br/>
+                            <a href="/accounts/password/reset/" class="alt_button">Hai dimenticato la password?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block sidebar %}{% endblock %}

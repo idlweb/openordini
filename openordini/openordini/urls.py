@@ -27,3 +27,6 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url('^payments/', include('openordini.oo_payments.urls')),
 )
+
+urlpatterns += patterns('', (r'^cas/', include('mama_cas.urls')))
+

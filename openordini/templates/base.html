@@ -92,13 +92,13 @@
                   {% endif %}
                   {% if request.user.userprofile %}
                       <li><a tabindex="-1" href="{% url "profiles_edit_profile" %}">impostazioni</a></li>
-                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" user.username %}">profilo</a></li>
+                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" %}">profilo</a></li>
                       <li class="divider"></li>
 
                   {% endif %}
                       <li>
                           <a tabindex="-1"
-                             href="{% url "logout" %}?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}"
+                             href="{% url "logout" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}"
                                   >esci</a>
                       </li>
                   </ul>
@@ -106,7 +106,7 @@
           {% else %}
               <ul class="nav pull-right">
                   <li>Per partecipare o registrarti
-                      <a href="{% url "auth_login" %}?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}">
+                      <a href="{% url "auth_login" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}">
                           Entra
                           <img src="{{ STATIC_URL }}img/login_icons.png" alt="icone segnalatrici social login"/>
                       </a>

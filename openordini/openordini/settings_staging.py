@@ -25,4 +25,4 @@ MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
     'django_cas.middleware.CASMiddleware',
 )
 
-CAS_SERVER_URL = 'http://cms.psicologipuglia.it/cas/'
+CAS_SERVER_URL = 'http://%s/cas/' % ALLOWED_HOSTS[0]

@@ -21,4 +21,5 @@ rtf2xml==1.33
 git+https://github.com/idlweb/django-payments.git
 django-apptemplates==0.0.1
 uWSGI==2.0.8
+-e git+https://github.com/jbittel/django-mama-cas.git#egg=mama-cas
 -e git+https://github.com/fspegni/django-cas.git#egg=django-cas
