@@ -3,7 +3,7 @@ from django.contrib.auth import login, get_backends
 from open_municipio.locations.models import Location
 
 #from open_municipio.users.forms import UserRegistrationForm
-#from open_municipio.users.models import UserProfile
+from open_municipio.users.models import UserProfile as OMUserProfile
 from .forms import UserRegistrationForm
 from .models import UserProfile
 
@@ -24,7 +24,11 @@ def user_created(sender, user, request, **kwargs):
     ``UserProfile`` must be created too. Necessary information is
     supposed to be found in POST data.
     """
-    print "in oo registration backend ..."
+
+    # deletes the user profiles created by OM ... it's not
+    # very efficient (INSERT + DELETE) but makes the two systems
+    # more decoupled
+    OMUserProfile.objects.filter(user=user).delete()
 
     form = UserRegistrationForm(request.POST)
     user.first_name = form.data['first_name']
