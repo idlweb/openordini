@@ -128,3 +128,12 @@ CAS_SERVER_URL = '' # this MUST be set in your deploy settings
 CAS_GATEWAY_PARAMETER = "gateway"
 CAS_GATEWAY_LOOP_PARAMETER = "gateway"
 CAS_USER_DETAILS_RESOLVER = CAS_populate_user
+
+# override registration configuration
+REGISTRATION_AUTO_LOGIN = True
+AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
+
+REGISTRATION_GROUP_MEMBERS_AUTO = True
+GROUP_PSICOLOGO_FORENSE = "psicologi forensi"
+GROUP_PSICOLOGO_LAVORO = "psicologi del lavoro"
+GROUP_PSICOLOGO_CLINICO = "psicologi clinici"

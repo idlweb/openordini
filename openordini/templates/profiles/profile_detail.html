@@ -4,7 +4,13 @@
 
 {% block content %}
 {{ block.super }}
+<hr class="big">
+<h2>Progetti</h2>
+<i>Nessun progetto finora</i>
 {% if profile.user == request.user %}
+<hr class="big">
+<h2>Fascicoli</h2>
+<i>Nessun fascicolo finora</i>
 <hr class="big">
 <h2>Link  personalizzati</h2>
 {% for cap in request.user.capabilities.all %}
@@ -16,4 +22,16 @@
 <h2>Iscrizioni albo e pagamenti</h2>
 <a href="{% url 'oo_payment_details' %}">Paga ora</a>
 {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+{% if profile.user.groups.all %}
+<h3>Tipologia di iscrizione all'Albo</h3>
+<ul>
+{% for group in profile.user.groups.all %}
+<li>{{ group }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{{ block.super }}
 {% endblock %}

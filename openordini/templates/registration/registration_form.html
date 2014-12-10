@@ -1,0 +1,70 @@
+{% extends "registration/base_user.html" %}
+{% load i18n %}
+
+{% block title %}Registrazione al sito{% endblock %}
+{% block content_header %}Registrazione al sito{% endblock %}
+
+{% block content %}
+    <div class="registration container">
+        <div class="row-fluid">
+            <div class="span8">
+                <p>Per partecipare a Open municipio e commentare e votare gli atti,
+                    o monitorare atti, politici e argomenti, bisogna essere registrati al sito.</p>
+
+                <form enctype="multipart/form-data" action="" method="post" class="form-horizontal" accept-charset="utf-8">
+                    {% csrf_token %}
+                    <div class="alert-error">
+                        {{ form.non_field_errors }}
+                    </div>
+
+                    <legend>Dati per accedere al sito</legend>
+                    {% include "registration/form_element.html" with element=form.username %}
+                    {% include "registration/form_element.html" with element=form.password1 %}
+                    {% include "registration/form_element.html" with element=form.password2 %}
+
+                    <legend>Dati personali</legend>
+                    {% include "registration/form_element.html" with element=form.email prepend="@" %}
+{% comment %}
+                    {% include "registration/form_element.html" with element=form.location %}
+{% endcomment %}
+                    {% include "registration/form_element.html" with element=form.first_name %}
+                    {% include "registration/form_element.html" with element=form.last_name %}
+                    {% include "registration/form_element.html" with element=form.sex %}
+
+                    {% include "registration/form_element.html" with element=form.birth_date %}
+                    {% include "registration/form_element.html" with element=form.birth_location %}
+
+                    {% if UI_ALLOW_NICKNAMES %}
+                    	{% include "registration/form_element.html" with element=form.uses_nickname checkbox=1 %}
+                    {% endif %}
+{% comment %}
+                    {% include "registration/form_element.html" with element=form.says_is_politician checkbox=1 %}
+{% endcomment %}
+                    {% include "registration/form_element.html" with element=form.description %}
+                    {% include "registration/form_element.html" with element=form.image %}
+
+                    {% include "registration/form_element.html" with element=form.says_is_psicologo_clinico checkbox=1 %}
+                    {% include "registration/form_element.html" with element=form.says_is_psicologo_lavoro checkbox=1 %}
+                    {% include "registration/form_element.html" with element=form.says_is_psicologo_forense checkbox=1 %}
+
+
+
+{% comment %}
+                    {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
+{% endcomment %}
+
+                    <div id="legal" class="alert">
+                        {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
+                        {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
+                    </div>
+
+                    <div class="form-actions">
+                         <button type="submit" class="btn btn-info">Invia</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
