@@ -8,18 +8,16 @@ from django.conf import settings
 from django_cas.decorators import login_required
 
 from open_municipio.urls import *
-from open_municipio.om.views import HomeView
 
-##class OOHomeView(HomeView):
-##
-##    def get(self, *args, **kwargs):
-##        return super(OOHomeView, self).get(*args, **kwargs)
-##
-##
+from ..oo_users.forms import UserRegistrationForm
+
 urlpatterns = patterns('',
 
-#    url(r'^$', OOHomeView.as_view(), name='home'),
     # must override existing urls
+    url(r'^accounts/register/$', register, {
+            'backend': 'registration.backends.default.DefaultBackend',
+            'form_class': UserRegistrationForm,
+        }, name='registration_register'),
     url(r'^accounts/login/$', 'django_cas.views.login', name='auth_login'),
     url(r'^logout/$', 'django_cas.views.logout', name='logout'),
 ) + urlpatterns

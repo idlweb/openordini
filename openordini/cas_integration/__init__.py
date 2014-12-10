@@ -1,11 +1,9 @@
 
-CAS_URI = 'http://www.yale.edu/tp/cas'
+CAS_URI = 'http://localhost:8080/cas'
 NSMAP = {'cas': CAS_URI}
 CAS = '{%s}' % CAS_URI
 
 def CAS_populate_user(user, authentication_response):
-    from .models import Capability
-
 
     print "raw response for user (%s): %s" % (user, authentication_response)
 
@@ -17,14 +15,3 @@ def CAS_populate_user(user, authentication_response):
 
         if attr.find(CAS + 'is_staff', NSMAP) is not None:
             user.is_staff = attr.find(CAS + 'is_staff', NSMAP).text.upper() == 'TRUE'
-
-    # recreate all capabilities for user
-    Capability.objects.filter(user=user).delete()
-
-    # TODO parameterize these urls
-
-    for g in user.groups.all():
-        capability, created = Capability.objects.get_or_create(user=user, name="weblog", link="http://cms.psicologipuglia.it/%s/" % g.name)
-    capability, created = Capability.objects.get_or_create(user=user, name="profile", link="http://oo.psicologipuglia.it/users/profile/%s/" % user.username)
-
-    print "user cap (%s): %s" % (type(user), user.capabilities)

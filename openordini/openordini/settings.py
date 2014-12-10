@@ -11,16 +11,28 @@ DATABASES = {
     }
 }
 
-##AUTHENTICATION_BACKENDS = (
-##    'django.contrib.auth.backends.ModelBackend',
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
 ##    'django.contrib.auth.backends.RemoteUserBackend',
-##    'django_cas.backends.CASBackend',
+    'django_cas.backends.CASBackend',
+
+)
+
+##MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+###    'django_cas.middleware.CASWithGatewayMiddleware',
+##    'django_cas.middleware.CASMiddleware',
 ##
 ##)
-
-MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_cas.middleware.CASMiddleware',
 )
+
 
 TEMPLATE_LOADERS = (
     'apptemplates.Loader',
@@ -37,6 +49,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'open_municipio',
     'openordini.oo_payments',
     'openordini.cas_integration',
+    'openordini.oo_users',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -104,7 +117,16 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
             }, 
-                
+        'mama_cas.forms': {
+            'handlers': ['console', ],
+            'level': 'DEBUG',
+            'propagate': True,
+            },
+        'mama_cas.mixins': {
+            'handlers': ['console', ],
+            'level': 'DEBUG',
+            'propagate': True,
+            },               
     }
 }
 
@@ -125,6 +147,10 @@ SUBSCRIPTION_MAPS = {
 CAS_IGNORE_REFERER = False
 CAS_LOGOUT_COMPLETELY = True
 CAS_SERVER_URL = '' # this MUST be set in your deploy settings
-CAS_GATEWAY_PARAMETER = "gateway"
-CAS_GATEWAY_LOOP_PARAMETER = "gateway"
+#CAS_GATEWAY_PARAMETER = "gateway"
+#CAS_GATEWAY_LOOP_PARAMETER = "gateway"
 CAS_USER_DETAILS_RESOLVER = CAS_populate_user
+
+# override registration configuration
+REGISTRATION_AUTO_LOGIN = True
+AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
