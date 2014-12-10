@@ -15,3 +15,5 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     birth_date = forms.DateField(required=True, label=_("Birth date"), widget=forms.widgets.DateInput(format="%d/%m/%Y"), help_text=u"Usa il formato gg/mm/aaaa")
     birth_location = forms.CharField(max_length=100, label=_("Birth location"))
+
+    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), widget=forms.widgets.DateInput(format="%d/%m/%Y"), help_text=u"Usa il formato gg/mm/aaaa")

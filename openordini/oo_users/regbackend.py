@@ -63,6 +63,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.says_is_psicologo_clinico = is_psi_clinico
     extra_data.says_is_psicologo_lavoro = is_psi_lavoro
     extra_data.says_is_psicologo_forense = is_psi_forense
+    extra_data.register_subscription_date = form.cleaned_data.get("register_subscription_date", None)
 
     extra_data.uses_nickname = form.data['uses_nickname'] if 'uses_nickname' in form.data else False
     extra_data.wants_newsletter = False

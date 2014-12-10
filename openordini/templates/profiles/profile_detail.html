@@ -1,9 +1,105 @@
-{% extends "open_municipio:profiles/profile_detail.html" %}
-
+{% extends "base_two_columns.html" %}
+{% load popover_info %}
+{% load newscache_tags %}
+{% load url from future %}
 {% load cas_integration %}
 
+{% block title %}Profilo utente{% endblock %}
+{% block content_header %}Profilo di {{ profile }}{% endblock %}
+{% block content_header_city_logo %}
+    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/citizen.png"
+         xmlns="http://www.w3.org/1999/html"
+         alt="Comune di {{ main_city }}">
+{% endblock %}
+
+{% block users_class %}class="active"{% endblock %}
+{% block body_class %}citizen{% endblock %}
+
+{% block sub_nav %}
+    {%  include 'profiles/profile_subnav.html' %}
+{% endblock %}
+
+{% load thumbnail %}
+ 
 {% block content %}
-{{ block.super }}
+
+  {% if profile %}
+
+    <div class="row-fluid">
+      <div class="span12">
+        {% if person %}
+          {% thumbnail profile.person.image "100x100" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left">
+          {% endthumbnail %}
+        {%  else %}
+          {% thumbnail profile.image "100x100" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left">
+          {% endthumbnail %}
+        {%  endif %}
+
+        <h2>{{ profile.public_name }}</h2>
+        <ul class="unstyled">
+          <li>Iscritto al sito dal <strong>{{ profile.user.date_joined|date:"d/m/Y" }}</strong></li>
+          {% if profile.location %}
+              <li><strong>{{ profile.location }}</strong></li>
+          {% endif %}
+          {% if profile.register_subscription_date %}
+              <li>Iscritto all'Albo dal <strong>{{ profile.register_subscription_date|date:"d/m/Y" }}</strong></li>
+          {% endif %}
+          {% if user_social_accounts %}
+            <li>Accede con
+            {% for a in user_social_accounts %}
+                <strong>{{ a }}</strong>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            </li>
+          {%  else %}
+              <li>Utente <strong>registrato</strong>             
+          {% endif %}
+          {% if profile.user.groups.all %}
+            <li>Membro dei gruppi:
+            {% for group in profile.user.groups.all %}
+            <strong>{{ group }}</strong>, 
+            {% empty %}
+            <i>Nessun gruppo</i>
+            {% endfor %}
+            </li>
+          {% endif %}
+
+
+        </ul>
+
+        <p>
+          {{ profile.description }}
+        </p>
+
+        {% if not profile.user.is_active %}
+        Questo profilo non &egrave; attivo. Questo pu&ograve; avvenire a seguito di una decisione dell'utente o di una violazione del <a href="{% url 'om_regolamento' %}">regolamento</a>.
+        {% endif %}
+
+      </div>
+    </div>
+
+    <hr class="big">
+
+    <h2>Atti monitorati {% popover_info 'atti-monitorati' %}</h2>
+
+    <table class="data">
+      <thead>
+      <tr>
+        <th>Data</th>
+        <th class="span12">Atto</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for monitoring in act_monitoring_list %}
+        <tr>
+          <td>{{ monitoring.created_at|date:'d.m.Y' }}</td>
+          <td><a href="{{ monitoring.content_object.get_absolute_url }}">{{ monitoring.content_object }}</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
 <hr class="big">
 <h2>Progetti</h2>
 <i>Nessun progetto finora</i>
@@ -22,16 +118,47 @@
 <h2>Iscrizioni albo e pagamenti</h2>
 <a href="{% url 'oo_payment_details' %}">Paga ora</a>
 {% endif %}
+
+
+  {% else %}  
+      Non ha un profilo pubblico
+  {% endif %}
 {% endblock %}
 
 {% block sidebar %}
-{% if profile.user.groups.all %}
-<h3>Tipologia di iscrizione all'Albo</h3>
-<ul>
-{% for group in profile.user.groups.all %}
-<li>{{ group }}</li>
-{% endfor %}
-</ul>
-{% endif %}
-{{ block.super }}
+    {% if profile %}
+        <h2>Politici monitorati {% popover_info 'politici-monitorati' 'left' %}</h2>
+        <table id="monitoring-table">
+            <tbody><tr>
+                <td>
+                    <div class="circle">{{ politician_monitoring_list|length }}</div>
+                </td>
+                <td>
+                    {% for p in politician_monitoring_list %}
+                        <a href="{{ p.object.get_absolute_url }}">{{ p.object.first_name }} {{ p.object.last_name }}</a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>Argomenti monitorati {% popover_info 'argomenti-monitorati' 'left' %}</h2>
+        <dl class="taxonomy-cloud">
+            {% for topic in topic_monitoring_list %}
+                <dt class="with-margin">
+                    <span class="{{ topic.content_type.name|lower }}">
+                        <a href="{{ topic.object.get_absolute_url }}">{{ topic.object }}</a></span>
+                </dt>
+            {% endfor %}
+        </dl>
+    {% endif %}
+
+	{% if profile %}
+    	{% news_for_object profile as i_news %}
+    	{% include 'commons/news_list.html' with news_list=i_news news_title='Ultime su '|add:profile.public_name %}
+    {% endif %}
+
 {% endblock %}

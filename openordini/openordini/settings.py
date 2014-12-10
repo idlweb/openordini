@@ -14,7 +14,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 ##    'django.contrib.auth.backends.RemoteUserBackend',
-    'django_cas.backends.CASBackend',
+    'django_cas_ng.backends.CASBackend',
 
 )
 
@@ -24,13 +24,13 @@ AUTHENTICATION_BACKENDS = (
 ##
 ##)
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware', # this was after SessionMiddleware ... test the new order works...
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas.middleware.CASMiddleware',
+#    'django_cas.middleware.CASMiddleware',
 )
 
 
@@ -44,7 +44,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = INSTALLED_APPS + (
     'mama_cas',
-    'django_cas',
+    'django_cas_ng',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
