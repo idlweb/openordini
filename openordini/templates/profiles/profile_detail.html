@@ -13,8 +13,8 @@
 <i>Nessun fascicolo finora</i>
 <hr class="big">
 <h2>Link  personalizzati</h2>
-{% for cap in request.user.capabilities.all %}
-<a href="{{ cap.link }}">{{ cap.name }}</a><br/>
+{% for cap_name,link in request.user|get_capabilities %}
+<a href="{{ link }}">{{ cap_name }}</a><br/>
 {% empty %}
 <i>Nessun link</i>
 {% endfor %}

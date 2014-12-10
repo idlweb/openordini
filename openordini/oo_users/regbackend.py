@@ -32,7 +32,6 @@ def user_created(sender, user, request, **kwargs):
     # more decoupled
     OMUserProfile.objects.filter(user=user).delete()
 
-
     form = UserRegistrationForm(request.POST)
 
     # this populates the form.cleaned_data dict
