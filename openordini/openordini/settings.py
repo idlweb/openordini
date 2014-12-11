@@ -1,5 +1,5 @@
 from open_municipio.settings import *
-from openordini.cas_integration import CAS_populate_user
+#from openordini.cas_integration import CAS_populate_user
 
 # root directory for this Django project (on the server machine)
 MAIN_APP_ROOT = os.path.join(os.path.dirname(__file__))
@@ -14,7 +14,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 ##    'django.contrib.auth.backends.RemoteUserBackend',
-    'django_cas_ng.backends.CASBackend',
+##    'django_cas_ng.backends.CASBackend',
 
 )
 
@@ -39,7 +39,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = INSTALLED_APPS + (
     #'grappelli',
     'mama_cas',
-    'django_cas_ng',
+#    'django_cas_ng',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
