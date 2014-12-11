@@ -18,11 +18,6 @@ AUTHENTICATION_BACKENDS = (
 
 )
 
-##MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-###    'django_cas.middleware.CASWithGatewayMiddleware',
-##    'django_cas.middleware.CASMiddleware',
-##
-##)
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -43,13 +38,15 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = INSTALLED_APPS + (
+    #'grappelli',
     'mama_cas',
     'django_cas',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
-    'openordini.cas_integration',
-    'openordini.oo_users',
+    'openordini.cas_integration',  
+    'openordini.acts_fulfillments',  
+    'openordini.oo_people',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'

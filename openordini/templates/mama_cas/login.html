@@ -13,7 +13,7 @@
 
             <div class="span4 social">
                 <h2>Accedi coi social network</h2>
-                <p>Usa i tuoi account dei social network per accedere comodamente a Open municipio</p>
+                <p>Usa i tuoi account dei social network per accedere comodamente a NPOP</p>
                 <p>
                     <a href="{% url 'socialauth_begin' 'google-oauth2' %}" class="btn btn-inverse">
                         <img src="{{ STATIC_URL }}img/login-google-icon.png"/>&nbsp;&nbsp;&nbsp;
@@ -38,9 +38,10 @@
             <div class="span4">
                 <h2>Entra con username e password</h2>
                 <p>Usa il tuo username e la tua password per accedere al sito o
-                    <a href="{% url 'registration_register' %}">registrati a Open municipio</a> per ricevere le tue credenziali di accesso.</p>
-                <form method="post" class="form-horizontal">{% csrf_token %}
-                    <input type="hidden" name="next" value="{% if "/accounts" in request.REQUEST.next %}/{% else %}{% firstof request.REQUEST.next "/" %}{% endif %}" />
+                    <a href="{% url 'registration_register' %}">registrati a NPOP</a> per ricevere le tue credenziali di accesso.</p>
+                <form method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    
                     {{ form.non_field_errors }}
                     <div class="control-group">
                         <label for="id_username" class="control-label">{% trans "Username" %}:</label>

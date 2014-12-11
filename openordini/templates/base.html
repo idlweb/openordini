@@ -91,8 +91,8 @@
                       <li><a tabindex="-1" href="{% url "admin:index" %}">amministrazione</a></li>
                   {% endif %}
                   {% if request.user.userprofile %}
-                      <li><a tabindex="-1" href="{% url "profiles_edit_profile" %}">impostazioni</a></li>
-                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" %}">profilo</a></li>
+                      <li><a tabindex="-1" href="{% url "profiles_edit_profile"  %}">impostazioni</a></li>
+                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" request.user.username %}">profilo</a></li>
                       <li class="divider"></li>
 
                   {% endif %}
@@ -182,11 +182,7 @@
                   <div class="span4">
                       <h2>Open Municipio</h2>
                       <p>
-                          Open Municipio è un progetto dell'Associazione Openpolis e di
-                          Informaetica per i comuni d'Italia. &Egrave; una piattaforma web
-                          di informazione, monitoraggio e partecipazione attiva alla vita
-                          delle città che vi aderiscono. Ora sei sul sito Open municipio
-                          di {{ main_city }}.
+                          OpenOrdini è un progetto dell...
                       </p>
                       <ul><li><a href="http://www.openmunicipio.it">Il progetto</a></li>
                           <li><a href="{% url "om_regolamento" %}">Regolamento</a></li>
