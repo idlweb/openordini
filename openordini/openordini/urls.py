@@ -25,8 +25,11 @@ urlpatterns = patterns('',
 ) + urlpatterns
 
 urlpatterns += patterns('',
+	url('^people/', include('openordini.oo_people.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
-)
+) + urlpatterns
 
 urlpatterns += patterns('', (r'^cas/', include('mama_cas.urls')))
+
+#urlpatterns += patterns('', url(r'^grappelli/', include('grappelli.urls'))) # grappelli URLS
 

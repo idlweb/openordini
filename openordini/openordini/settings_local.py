@@ -15,3 +15,5 @@ DATABASES = {
 ROOT_URLCONF = 'openordini.openordini.urls_local'
 
 CAS_SERVER_URL = 'http://localhost:8080/cas/'
+
+

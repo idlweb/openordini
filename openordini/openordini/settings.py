@@ -11,16 +11,18 @@ DATABASES = {
     }
 }
 
-##AUTHENTICATION_BACKENDS = (
-##    'django.contrib.auth.backends.ModelBackend',
-##    'django.contrib.auth.backends.RemoteUserBackend',
-##    'django_cas.backends.CASBackend',
-##
-##)
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.RemoteUserBackend',
+    'django_cas.backends.CASBackend',
+
+)
 
 MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + (
-    'django_cas.middleware.CASMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
+    'django_cas.middleware.CASWithGatewayMiddleware',
 )
+
 
 TEMPLATE_LOADERS = (
     'apptemplates.Loader',
@@ -31,12 +33,15 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = INSTALLED_APPS + (
+    #'grappelli',
     'mama_cas',
     'django_cas',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
-    'openordini.cas_integration',
+    'openordini.cas_integration',  
+    'openordini.acts_fulfillments',  
+    'openordini.oo_people',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
