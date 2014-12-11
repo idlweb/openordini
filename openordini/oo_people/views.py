@@ -27,6 +27,7 @@ class OOPoliticianDetailView(PoliticianDetailView):
 
         print "ctx before: %s" % ctx
         ctx["presented_acts"] = Act.objects.filter(actsupport__charge__pk__in=self.object.all_institution_charges)
+        ctx["n_presented_acts"] = len(ctx["presented_acts"])
         print "fixed ctx: %s" % ctx
 
         if self.request.user.is_superuser:
