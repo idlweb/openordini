@@ -11,6 +11,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView
+from open_municipio.acts.models import Act
 from django.core import serializers
 
 from sorl.thumbnail import get_thumbnail
@@ -25,8 +26,11 @@ class OOPoliticianDetailView(PoliticianDetailView):
         #... filtra ctx["presented_acts"] ...
 
         print "ctx before: %s" % ctx
+        ctx["presented_acts"] = Act.objects.filter(actsupport__charge__pk__in=self.object.all_institution_charges)
+        print "fixed ctx: %s" % ctx
 
         if self.request.user.is_superuser:
+            print "superuser can get all..."
             return ctx
 
         url_slug = self.kwargs["slug"]
@@ -35,6 +39,8 @@ class OOPoliticianDetailView(PoliticianDetailView):
         try:
             curr_profile = self.request.user.get_profile()
         except ObjectDoesNotExist:
+            pass
+        except AttributeError:
             pass
 
         if curr_profile and curr_profile.person and \

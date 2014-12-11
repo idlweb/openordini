@@ -8,9 +8,12 @@ from django.conf import settings
 
 from open_municipio.urls import *
 
+from .views import OOHomeView
 from ..oo_users.forms import UserRegistrationForm
 
 urlpatterns = patterns('',
+
+    url(r'^$', OOHomeView.as_view(), name="home"),
 
     # must override existing urls
     url(r'^accounts/register/$', register, {
