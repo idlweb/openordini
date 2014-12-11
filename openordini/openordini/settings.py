@@ -145,7 +145,7 @@ CAS_LOGOUT_COMPLETELY = True
 CAS_SERVER_URL = '' # this MUST be set in your deploy settings
 #CAS_GATEWAY_PARAMETER = "gateway"
 #CAS_GATEWAY_LOOP_PARAMETER = "gateway"
-CAS_USER_DETAILS_RESOLVER = CAS_populate_user
+#CAS_USER_DETAILS_RESOLVER = CAS_populate_user
 
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
