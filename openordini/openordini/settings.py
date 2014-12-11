@@ -14,19 +14,18 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 ##    'django.contrib.auth.backends.RemoteUserBackend',
-    'django_cas.backends.CASBackend',
+    'django_cas_ng.backends.CASBackend',
 
 )
 
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas.middleware.CASMiddleware',
-)
+##MIDDLEWARE_CLASSES = (
+##    'django.contrib.sessions.middleware.SessionMiddleware',
+##    'django.middleware.common.CommonMiddleware',
+##    'django.middleware.csrf.CsrfViewMiddleware',
+##    'django.contrib.auth.middleware.AuthenticationMiddleware',
+##    'django.contrib.messages.middleware.MessageMiddleware',
+##    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+##)
 
 
 TEMPLATE_LOADERS = (
@@ -40,7 +39,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = INSTALLED_APPS + (
     #'grappelli',
     'mama_cas',
-    'django_cas',
+    'django_cas_ng',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -150,4 +149,4 @@ CAS_USER_DETAILS_RESOLVER = CAS_populate_user
 
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
-AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
+#AUTH_PROFILE_MODULE = 'oo_users.UserProfile'

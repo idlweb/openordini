@@ -5,7 +5,6 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 from django.conf import settings
-from django_cas.decorators import login_required
 
 from open_municipio.urls import *
 
@@ -18,16 +17,12 @@ urlpatterns = patterns('',
             'backend': 'registration.backends.default.DefaultBackend',
             'form_class': UserRegistrationForm,
         }, name='registration_register'),
-    url(r'^accounts/login/$', 'django_cas.views.login', name='auth_login'),
-    url(r'^logout/$', 'django_cas.views.logout', name='logout'),
-) + urlpatterns
-
-urlpatterns += patterns('',
+    url(r'^accounts/login/$', 'django_cas_ng.views.login', name='auth_login'),
+    url(r'^logout/$', 'django_cas_ng.views.logout', name='logout'),
 	url('^people/', include('openordini.oo_people.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
+
+    url(r'^cas/', include('mama_cas.urls')),
+
 ) + urlpatterns
-
-urlpatterns += patterns('', (r'^cas/', include('mama_cas.urls')))
-
-#urlpatterns += patterns('', url(r'^grappelli/', include('grappelli.urls'))) # grappelli URLS
 

@@ -5,7 +5,6 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 from django.conf import settings
-from django_cas.decorators import login_required
 
 from open_municipio.urls import *
 from open_municipio.om.views import HomeView
