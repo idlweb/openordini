@@ -16,7 +16,9 @@ from django.core import serializers
 
 from sorl.thumbnail import get_thumbnail
 
-class OOPoliticianDetailView(PoliticianDetailView):
+from ..commons.mixins import FilterActsByUser
+
+class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
     def get_context_data(self, **kwargs):
 
@@ -26,38 +28,13 @@ class OOPoliticianDetailView(PoliticianDetailView):
         #... filtra ctx["presented_acts"] ...
 
         print "ctx before: %s" % ctx
-        ctx["presented_acts"] = Act.objects.filter(actsupport__charge__pk__in=self.object.all_institution_charges)
-        ctx["n_presented_acts"] = len(ctx["presented_acts"])
-        print "fixed ctx: %s" % ctx
+        all_acts = Act.objects.filter(Q(actsupport__charge__pk__in=self.object.all_institution_charges) | Q(recipient_set__in=self.object.all_institution_charges))
 
-        if self.request.user.is_superuser:
-            print "superuser can get all..."
-            return ctx
+        filtered_acts = self.filter_acts(all_acts, self.request.user)
 
-        url_slug = self.kwargs["slug"]
-        curr_profile = None
+        ctx["presented_acts"] = filtered_acts
+        ctx["n_presented_acts"] = len(filtered_acts)
 
-        try:
-            curr_profile = self.request.user.get_profile()
-        except ObjectDoesNotExist:
-            pass
-        except AttributeError:
-            pass
-
-        if curr_profile and curr_profile.person and \
-                curr_profile.person.slug == url_slug:
-            
-            final_acts = []
-                
-            for act in ctx["presented_acts"]:
-
-                if isinstance(act, Fascicolo): 
-                    continue
-        
-                final_acts.append(act)
-
-            ctx["presented_acts"] = final_acts
-            
         return ctx
 
 
