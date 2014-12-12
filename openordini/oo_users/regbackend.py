@@ -76,6 +76,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.description = form.cleaned_data['description']
     extra_data.image =  person.img
     extra_data.person = person
+    extra_data.register_subscription_date = register_subscription_date
     extra_data.save()
 
     # aggiungi a gruppi e commissioni
