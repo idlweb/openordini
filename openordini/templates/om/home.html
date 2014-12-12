@@ -1,0 +1,343 @@
+{% extends "base_one_column.html" %}
+{% load monitoring_tags %}
+{% load tags_cloud %}
+{% load om_utils %}
+{% load popover_info %}
+{% load people_tags %}
+{% load url from future %}
+
+
+{% block title %}Home page{% endblock %}
+{% block body_class %}homepage{% endblock %}
+{% block content_header_container %}<a href="/" style="color: white;">{{ main_city }}</a>{% endblock %}
+
+{% block sub_nav %}
+  <section id="payoff" class="container-fluid">
+    <div class="row-fluid">
+      <div class="informati span2">
+        <h2>Informati</h2>
+        <p>Tutta l'attività dell'Ordine in tempo reale e
+          sempre disponibile, con dati ufficiali.</p>
+      </div>
+      <div class="monitora span2">
+        <h2>Monitora</h2>
+        <p>Puoi monitorare l'andamento dei progetti.</p>
+      </div>
+      <div class="partecipa span2">
+        <h2>Partecipa</h2>
+        <p>Intervieni nella vita dell'Ordine: commenta e vota
+          l'attività nella community della NPOP</p>
+      </div>
+      <div class="cosa-fanno span4">
+        <h2>Scopri gli psicologi della tua regione:</h2>
+        <br/>
+            <input type="text" class="input-large" id="search-politician"
+                   data-provide="typeahead" data-items="5" data-minLength="2"
+                   placeholder="Digita il nome di uno psicologo">
+      </div>
+    </div>
+  </section>
+
+  <section id="section_1533090974" class="section content-box scheme1  section-border-no section-bborder-no section-height-content section-bgtype-image section-fixed-background-no  section-bgstyle-stretch section-triangle-no triangle-location-top parallax-section-no section-overlay-no section-overlay-dot-no  focusable" style="padding-top:20px;padding-bottom:20px;background-color:#3498db;" >
+  <div class="section-overlay" style=""></div><div class="container section-content"><div class="row-fluid"><div class="row-fluid equal-cheight-no  element-padding-no element-vpadding-no">
+
+
+  <div class="section-column span3" style="">
+    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+      <style type="text/css" scoped="">#feature_boxes_1304931418 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
+  <div id="feature_boxes_container_1304931418" class="clearfix" style="margin-bottom:0">
+    <div id="feature_boxes_1304931418" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-no  ">
+      <div class="span"><div class="inner-content " ><a href="http://46.28.5.157/~npop2/feed"><div class="feature_box no-content"><span class="brad-icon " ><i class="fa-rss"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">RSS</div><h4>Le notize al volo</h4></div><div class="hr"><span></span></div></div></div></a></div></div>
+    </div>
+  </div>
+
+    </div> 
+  </div> 
+
+  <div class="section-column span3" style="">
+    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+      <style type="text/css" scoped="">#feature_boxes_392094904 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
+  <div id="feature_boxes_container_392094904" class="clearfix" style="margin-bottom:0">
+    <div id="feature_boxes_392094904" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-medium  ">
+      <div class="span"><div class="inner-content " ><div class="feature_box no-content"><span class="brad-icon "><i class="fa-volume-up"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">ONLINE</div><h4>Streaming</h4></div><div class="hr"><span></span></div></div></div></div></div>
+    </div>
+  </div>
+
+    </div> 
+  </div> 
+
+  <div class="section-column span3" style="">
+    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+      <style type="text/css" scoped="">#feature_boxes_1808377046 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
+  <div id="feature_boxes_container_1808377046" class="clearfix" style="margin-bottom:0">
+    <div id="feature_boxes_1808377046" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-no  ">
+      <div class="span"><div class="inner-content "><a href="#"><div class="feature_box no-content"><span class="brad-icon"><i class="fa-sitemap"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">ACCESSO FACILITATO</div><h4>Mappa visuale del sito</h4></div><div class="hr"><span></span></div></div></div></a></div></div>
+    </div>
+  </div>
+
+    </div> 
+  </div> 
+</div></div></div></section>
+
+
+
+    {% if events|length > 0 %}
+
+    <section id="agenda">
+       <div class="container-fluid">
+           <div class="row-fluid">
+               <div class="span12">
+                   <h2>Cosa succede nell'Albo, gli eventi:{% popover_info 'agenda' %}</h2>
+                   <div class="row-fluid">
+                       {% for event in events %}
+                           <div class="span6">{% include 'events/_inline_home.html' %}</div>
+                       {% endfor %}
+                   </div>
+               </div>
+           </div>
+       </div>
+
+    </section>
+    {% endif %}
+
+{% endblock %}
+
+{% block container %}
+
+  <article>
+      <div class="row-fluid">
+          <div class="span6">
+              <h2>Ultimi progetti presentati da noi psicologi</h2>
+              <table class="items-list">
+                  <tbody>
+                  {% for a in last_presented_acts %}
+                      <tr>
+                          <td>{{ a.presentation_date|circled:"full" }}</td>
+                          <td>
+                              {% include 'acts/_act_inline.html' with act=a.downcast only %}
+                              {% object_inline_monitoring a.downcast %}
+                          </td>
+                      </tr>
+                  {% empty %}
+                  Nessun atto presentato
+                  {% endfor %}
+                  </tbody>
+              </table>
+
+
+          </div>
+
+          <div class="span6">
+              <h2>Ultime attività dei cittadini</h2>
+              <table class="items-list">
+                  <tbody>
+                  {% for n in last_community_news %}
+                      <tr>
+                          <td>
+                              <div class="circle-date pull-left">
+                                  <span class="day">{{ n.news_date|date:'d' }}</span>
+                                  <span class="month">{{ n.news_date|date:'M' }}</span>
+                              </div>
+                          </td>
+                          <td>
+                              {{ n.text|safe }}
+                          </td>
+                      </tr>
+                  {% empty %}
+                  Nessuna attivit&agrave; 
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+      <div class="row-fluid">
+          <div class="span4">
+              <h2>I più presenti al voto</h2>
+              <div>
+                  I dati si riferiscono alle votazioni svolte in Consiglio.<br/>
+                  Non vengono calcolate le presenze alle sedute né se l'assenza
+                  abbia motivazioni politiche.
+              </div>
+              <ul class="people-list">
+                  {% for politician in least_absent %}
+                      <li>
+                          {% with politician|get_absent_label as absent_label %}
+                          {% include 'people/politician_list_section.html' with value=absent_label %}
+                          {% endwith %}
+                          {% object_inline_monitoring politician.person %}
+                      </li>
+                  {% empty %}
+                  Nessun consigliere
+                  {% endfor %}
+              </ul>
+          </div>
+          <div class="span4">
+              <h2>I più monitorati</h2>
+              <div>
+                  Sono gli amministratori più seguiti dagli utenti del sito che in
+                  questo modo ricevono aggiornamenti su tutte le attività istituzionali
+                  del politico.
+              </div>
+              <ul class="people-list">
+                  {% for p in top_monitored %}
+                      <li>
+                          {% include 'people/politician_list_section.html' with politician=p.object.current_institution_charges.0 %}
+                          {% object_inline_monitoring p.object %}
+                      </li>
+                  {% empty %}
+                  Nessun amministratore monitorato
+
+                  {% endfor %}
+              </ul>
+          </div>
+          <div class="span4">
+              <h2>I consiglieri con più atti</h2>
+              <div>
+                  Sono i Consiglieri che hanno presentato più atti come primo firmatario.
+              </div>
+              <ul class="people-list">
+                  {% for p in most_acts %}
+                      <li>
+                          {% include 'people/politician_list_section.html' with politician=p value=p.n_acts what='atti' %}
+                          {% object_inline_monitoring p.person %}
+                      </li>
+                  {% empty %}
+                  Nessun consigliere
+
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+
+      <div class="row-fluid">
+          <div class="span6">
+              <h2>Atti in evidenza {% popover_info 'atti-chiave' %}</h2>
+              <table class="items-list">
+                  <tbody>
+                  {% for a in key_acts %}
+                      <tr><td>
+                          {% include 'acts/_act_inline.html' with act=a.downcast only %}
+                          {% object_inline_monitoring a.downcast %}
+                      </td></tr>
+                  {% empty %}
+                      <tr>
+                          <td><p>Nessun atto in evidenza.</p></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+          <div class="span6">
+              <h2>Ultimi voti chiave {% popover_info 'voti-chiave' %}</h2>
+              <table class="items-list">
+                  <tbody>
+                  {% for v in key_votations %}
+                      {% include 'votations/_votation_inline.html' with votation=v only %}
+                  {% empty %}
+                      <tr>
+                          <td><p>Nessun voto chiave.</p></td>
+                      </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+      <div class="row-fluid">
+          <div class="span12">
+              <h2>Argomenti più discussi {% popover_info 'argomenti-piu-discussi' %}</h2>
+              {% if tags_to_cloud %}
+              {% tags_cloud tags_to_cloud %}
+              {% else %}
+              Nessun argomento
+              {% endif %}
+          </div>
+      </div>
+
+  </article>
+
+
+  {% if ALERT_POPUP|length > 0 %}
+      <div class="modal" id="home-alert">
+          <div class="modal-header">
+              <button class="close" data-dismiss="modal">×</button>
+              <img src="{{ STATIC_URL }}img/logo-openmunicipio.png" alt="Open municipio">
+          </div>
+          <div class="modal-body">
+              <p>{{ ALERT_POPUP|safe }}</p>
+          </div>
+          <div class="modal-footer">
+              <a href="#" class="btn btn-primary btn-large" data-dismiss="modal">Entra nel sito</a>
+          </div>
+      </div>
+  {% endif %}
+
+
+{% endblock container %}
+
+
+{% block footer_js_includes %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+          function removenull(str) {
+              var new_str = str;
+              if (str == '') {
+                  new_str = str.replace('', "N/A");
+              }
+              else if (str == null) {
+                  new_str = "N/A";
+              }
+
+              return new_str;
+          }
+          $('#search-politician').typeahead({
+              source: function(typeahead, query) {
+                  $.ajax({
+                      url: "{% url 'om_politician_search'  %}",
+                      dataType: "json",
+                      type: "GET",
+                      data: {
+                          max_rows: 10,
+                          key: query,
+                          ajax: 1
+                      },
+                      success: function(data) {
+                          var return_list = [], i = data.length;
+                          while (i--) {
+                              return_list[i] = {
+                                  slug: data[i].fields.slug,
+                                  image: data[i].fields.img,
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                          }
+                          typeahead.process(return_list);
+                      }
+                  });
+              },
+              onselect: function(obj) {
+                  window.location.href = "http://{{ current_site }}/people/" + obj.slug;
+              }
+          });
+          $('a.event_toggle_modal').each(function() {
+              var link = $(this);
+              link.click(function(e) {
+                  e.preventDefault();
+                  $(link.attr('href')).modal();
+              });
+          });
+      });
+  </script>
+
+    {% if ALERT_POPUP|length > 0 %}
+      <script type="text/javascript">
+          $(document).ready(function(){
+              $('#home-alert').modal();
+          });
+      </script>
+  {% endif %}
+{% endblock %}
