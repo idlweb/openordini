@@ -16,9 +16,11 @@
 {% block users_class %}class="active"{% endblock %}
 {% block body_class %}citizen{% endblock %}
 
+{% comment %}
 {% block sub_nav %}
     {%  include 'profiles/profile_subnav.html' %}
 {% endblock %}
+{% endcomment %}
 
 {% load thumbnail %}
  
@@ -40,7 +42,7 @@
 
         <h2>{{ profile.public_name }}</h2>
         <ul class="unstyled">
-          <li>Iscritto dal <strong>{{ profile.user.date_joined|date:"d/m/Y" }}</strong></li>
+          <li>Iscritto al sito dal <strong>{{ profile.user.date_joined|date:"d/m/Y" }}</strong></li>
           {% if profile.location %}
               <li><strong>{{ profile.location }}</strong></li>
           {% endif %}
@@ -58,8 +60,12 @@
                 <a href="{{ profile.person.get_absolute_url }}">pagina di Open Municipio</a></li>
           {% endif %}
 
+          {% if profile.register_subscription_date %}
+              <li>Iscritto all'Albo dal <strong>{{ profile.register_subscription_date|date:"d/m/Y" }}</strong></li>
+          {% endif %}
+    
           {% if profile.user.groups.all %}
-              <li>Iscritto in: <strong>{{ profile.user.groups.all|join:"</strong>, <strong>" }}</strong>
+              <li>Qualifiche: <strong>{{ profile.user.groups.all|join:"</strong>, <strong>" }}</strong>
               </li>
           {% endif %}
 

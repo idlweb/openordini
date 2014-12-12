@@ -124,7 +124,7 @@ SUBSCRIPTION_MAPS = {
 
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
-#AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
+AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
 
 REGISTRATION_AUTO_ADD_GROUP = True
 SYSTEM_GROUP_NAMES = {
