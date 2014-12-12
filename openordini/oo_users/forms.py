@@ -13,9 +13,9 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     sex = forms.ChoiceField(choices=Person.SEX, required=True, label=_("Sex"))
 
-    birth_date = forms.DateField(required=True, label=_("Birth date"), widget=forms.widgets.DateInput(format="%d/%m/%Y"))
+    birth_date = forms.DateField(required=True, label=_("Birth date"), widget=forms.widgets.DateInput(format="%d/%m/%Y"), help_text=u"Usa il formato gg/mm/aaaa")
     birth_location = forms.CharField(max_length=100, required=False, label=_("Birth location"))
-    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per gli utenti che sono già iscritti all'Albo degli Psicologi", widget=forms.widgets.DateInput(format="%d/%m/%Y"))
+    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per coloro i quali sono già iscritti all'Albo degli Psicologi. Usa il formato gg/mm/aaaa", widget=forms.widgets.DateInput(format="%d/%m/%Y"))
 
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))

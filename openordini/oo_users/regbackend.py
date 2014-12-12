@@ -1,11 +1,12 @@
 from django.conf import settings
+from django.db import transaction
 from django.contrib.auth import login, get_backends
 from django.contrib.auth.models import Group
 from open_municipio.locations.models import Location
 
 #from open_municipio.users.forms import UserRegistrationForm
 from open_municipio.users.models import UserProfile as OMUserProfile
-from open_municipio.people.models import Person
+from open_municipio.people.models import Person, Institution, InstitutionCharge
 from .forms import UserRegistrationForm
 from .models import UserProfile
 
@@ -19,6 +20,7 @@ registration workflow.
 """
 
 
+@transaction.commit_on_success
 @receiver(user_registered)
 def user_created(sender, user, request, **kwargs):
     """
@@ -59,6 +61,7 @@ def user_created(sender, user, request, **kwargs):
     says_is_psicologo_lavoro = form.cleaned_data.get('says_is_psicologo_lavoro', False)
     says_is_psicologo_forense = form.cleaned_data.get('says_is_psicologo_forense', False)
 
+    register_subscription_date = form.cleaned_data.get('register_subscription_date', False)
 
     extra_data = UserProfile(user=user)
     extra_data.says_is_politician = False 
@@ -75,20 +78,46 @@ def user_created(sender, user, request, **kwargs):
     extra_data.person = person
     extra_data.save()
 
+    # aggiungi a gruppi e commissioni
+
     if settings.REGISTRATION_AUTO_ADD_GROUP:
+
+        is_registered = (register_subscription_date != None)
+
         if says_is_psicologo_lavoro:
+
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
             g.user_set.add(user)
+
+            if is_registered:
+                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_lavoro"])
+
+                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
+                member_charge.save()
  
         if says_is_psicologo_clinico:
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
             g.user_set.add(user)
+
+            if is_registered: 
+                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_clinico"])
+
+                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
+                member_charge.save()
+
+
     
         if says_is_psicologo_forense:
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
+
             g.user_set.add(user)
     
- 
+            if is_registered: 
+                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_forense"])
+                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
+                member_charge.save()
+
+
 
 @receiver(user_activated)
 def log_in_user(sender, user, request, **kwargs):

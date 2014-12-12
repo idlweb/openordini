@@ -1,5 +1,4 @@
 from open_municipio.settings import *
-#from openordini.cas_integration import CAS_populate_user
 
 # root directory for this Django project (on the server machine)
 MAIN_APP_ROOT = os.path.join(os.path.dirname(__file__))
@@ -10,22 +9,6 @@ DATABASES = {
     'default': {
     }
 }
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-##    'django.contrib.auth.backends.RemoteUserBackend',
-    'django_cas_ng.backends.CASBackend',
-
-)
-
-##MIDDLEWARE_CLASSES = (
-##    'django.contrib.sessions.middleware.SessionMiddleware',
-##    'django.middleware.common.CommonMiddleware',
-##    'django.middleware.csrf.CsrfViewMiddleware',
-##    'django.contrib.auth.middleware.AuthenticationMiddleware',
-##    'django.contrib.messages.middleware.MessageMiddleware',
-##    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-##)
 
 
 TEMPLATE_LOADERS = (
@@ -38,8 +21,6 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = INSTALLED_APPS + (
     #'grappelli',
-    'mama_cas',
-    'django_cas_ng',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -141,13 +122,6 @@ SUBSCRIPTION_MAPS = {
     'ALL': ("PSCH", "PSLG",)
 }
 
-CAS_IGNORE_REFERER = False
-CAS_LOGOUT_COMPLETELY = True
-CAS_SERVER_URL = '' # this MUST be set in your deploy settings
-#CAS_GATEWAY_PARAMETER = "gateway"
-#CAS_GATEWAY_LOOP_PARAMETER = "gateway"
-#CAS_USER_DETAILS_RESOLVER = CAS_populate_user
-
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
 #AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
@@ -157,4 +131,10 @@ SYSTEM_GROUP_NAMES = {
     "psicologo_lavoro": "psicologi del lavoro",
     "psicologo_clinico": "psicologi clinici",
     "psicologo_forense": "psicologi forensi",
+}
+
+COMMITTEE_SLUGS = {
+    "psicologo_lavoro": "psicologi-del-lavoro",
+    "psicologo_clinico": "psicologi-clinici",
+    "psicologo_forense": "psicologi-forensi",
 }

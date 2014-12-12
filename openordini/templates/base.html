@@ -98,7 +98,7 @@
                   {% endif %}
                       <li>
                           <a tabindex="-1"
-                             href="{% url "logout" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}"
+                             href="{% url "auth_logout" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}"
                                   >esci</a>
                       </li>
                   </ul>
