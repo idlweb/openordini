@@ -56,7 +56,7 @@ class Fascicolo(Act):
         ('SOSPESO', 'sospeso', _('sospeso')),
     )
 
-    OM_DETAIL_VIEW_NAME = "om_fascicolo_detail"
+    OM_DETAIL_VIEW_NAME = "oo_fascicolo_detail"
 
     status = models.CharField(_('status'), choices=STATUS, max_length=12)
     approval_date = models.DateField(_('approval date'), null=True, blank=True,)

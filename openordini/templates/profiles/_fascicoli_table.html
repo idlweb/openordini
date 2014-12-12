@@ -1,0 +1,18 @@
+    <table class="data">
+      <thead>
+      <tr>
+        <th>Data</th>
+        <th class="span12">Atto</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for act in act_list %}
+        <tr>
+          <td>{{ act.created|date:'d.m.Y' }}</td>
+          <td><a href="{{ act.get_absolute_url }}">{{ act.title }}</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+

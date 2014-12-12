@@ -22,7 +22,10 @@ urlpatterns = patterns('',
         }, name='registration_register'),
     url(r'^accounts/login/$', 'django_cas_ng.views.login', name='auth_login'),
     url(r'^logout/$', 'django_cas_ng.views.logout', name='logout'),
+
+    url('^acts/', include('openordini.acts_fulfillments.urls')),
 	url('^people/', include('openordini.oo_people.urls')),
+    url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
 
     url(r'^cas/', include('mama_cas.urls')),

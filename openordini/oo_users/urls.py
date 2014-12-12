@@ -8,9 +8,14 @@ from django.conf import settings
 
 from open_municipio.urls import *
 from open_municipio.om.views import HomeView
-from .views import FascicoloDetailView
+from openordini.oo_people.views import *
+
+from .views import OOUserProfileDetailView
 
 # place app url patterns here
 urlpatterns = patterns('',
-	url(r'^fascicolo/(?P<slug>[-\w]+)/$', FascicoloDetailView.as_view(), name='oo_fascicolo_detail'),
+	url(r'^profile/$', 
+        OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
+    url(r'^profile/(?P<username>[\w\.@]+)/$', 
+        OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
 )
