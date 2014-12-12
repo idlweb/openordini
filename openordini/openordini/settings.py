@@ -14,7 +14,7 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 ##    'django.contrib.auth.backends.RemoteUserBackend',
-##    'django_cas_ng.backends.CASBackend',
+    'django_cas_ng.backends.CASBackend',
 
 )
 
@@ -39,13 +39,14 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = INSTALLED_APPS + (
     #'grappelli',
     'mama_cas',
-#    'django_cas_ng',
+    'django_cas_ng',
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
     'openordini.cas_integration',  
     'openordini.acts_fulfillments',  
     'openordini.oo_people',
+    'openordini.oo_users',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -150,3 +151,10 @@ CAS_SERVER_URL = '' # this MUST be set in your deploy settings
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
 #AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
+
+REGISTRATION_AUTO_ADD_GROUP = True
+SYSTEM_GROUP_NAMES = {
+    "psicologo_lavoro": "psicologi del lavoro",
+    "psicologo_clinico": "psicologi clinici",
+    "psicologo_forense": "psicologi forensi",
+}

@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.contrib.auth import login, get_backends
+from django.contrib.auth.models import Group
 from open_municipio.locations.models import Location
 
 #from open_municipio.users.forms import UserRegistrationForm
 from open_municipio.users.models import UserProfile as OMUserProfile
+from open_municipio.people.models import Person
 from .forms import UserRegistrationForm
 from .models import UserProfile
 
@@ -31,23 +33,62 @@ def user_created(sender, user, request, **kwargs):
     OMUserProfile.objects.filter(user=user).delete()
 
     form = UserRegistrationForm(request.POST)
-    user.first_name = form.data['first_name']
-    user.last_name = form.data['last_name']
+
+    # this is required to populate form.cleaned_data used in the following
+    form.is_valid()
+
+    # create the user
+    user.first_name = form.cleaned_data['first_name']
+    user.last_name = form.cleaned_data['last_name']
     user.save()
 
-    extra_data = UserProfile(user=user)
-    extra_data.says_is_politician = form.data['says_is_politician'] if 'says_is_politician' in form.data else False
-    extra_data.says_is_psicologo_clinico = form.data['says_is_psicologo_clinico'] if 'says_is_psicologo_clinico' in form.data else False
-    extra_data.says_is_psicologo_lavoro = form.data['says_is_psicologo_lavoro'] if 'says_is_psicologo_lavoro' in form.data else False
-    extra_data.says_is_psicologo_forense = form.data['says_is_psicologo_forense'] if 'says_is_psicologo_forense' else False
+    # create the person
 
-    extra_data.uses_nickname = form.data['uses_nickname'] if 'uses_nickname' in form.data else False
-    extra_data.wants_newsletter = False
-    extra_data.wants_newsletter = form.data['wants_newsletter'] if 'wants_newsletter' in form.data else False
+    person = Person()
+    person.first_name = user.first_name
+    person.last_name = user.last_name
+    person.birth_date = form.cleaned_data["birth_date"]
+    person.birth_location = form.cleaned_data.get("birth_location", None)
+    person.sex = form.cleaned_data["sex"]
+    person.img = request.FILES.get('image', None)
+    person.save()
+
+    # create the userprofile
+
+    says_is_psicologo_clinico = form.cleaned_data.get('says_is_psicologo_clinico', False)
+    says_is_psicologo_lavoro = form.cleaned_data.get('says_is_psicologo_lavoro', False)
+    says_is_psicologo_forense = form.cleaned_data.get('says_is_psicologo_forense', False)
+
+
+    extra_data = UserProfile(user=user)
+    extra_data.says_is_politician = False 
+    extra_data.says_is_psicologo_clinico = says_is_psicologo_clinico
+    extra_data.says_is_psicologo_lavoro = says_is_psicologo_lavoro
+    extra_data.says_is_psicologo_forense = says_is_psicologo_forense
+    extra_data.is_asl_employee = form.cleaned_data.get('is_asl_employee', False)
+    extra_data.is_self_employed = form.cleaned_data.get('is_self_employed', False)
+    extra_data.uses_nickname = form.cleaned_data.get('uses_nickname', False)
+    extra_data.wants_newsletter = form.data.get('wants_newsletter', False)
     extra_data.location = Location.objects.get(pk=form.data['location']) if ("location" in form.data) and (form.data['location'] != '') else None
-    extra_data.description = form.data['description']
-    extra_data.image = request.FILES['image'] if 'image' in request.FILES else None
+    extra_data.description = form.cleaned_data['description']
+    extra_data.image =  person.img
+    extra_data.person = person
     extra_data.save()
+
+    if settings.REGISTRATION_AUTO_ADD_GROUP:
+        if says_is_psicologo_lavoro:
+            g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
+            g.user_set.add(user)
+ 
+        if says_is_psicologo_clinico:
+            g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
+            g.user_set.add(user)
+    
+        if says_is_psicologo_forense:
+            g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
+            g.user_set.add(user)
+    
+ 
 
 @receiver(user_activated)
 def log_in_user(sender, user, request, **kwargs):
