@@ -9,77 +9,51 @@
 
 {% block title %}Home page{% endblock %}
 {% block body_class %}homepage{% endblock %}
-{% block content_header_container %}<a href="/" style="color: white;">{{ main_city }}</a>{% endblock %}
+{% block content_header_container %}<a href="/" style="color: #2d2d2d; opacity: 0.70;">{{ main_city }}</a>{% endblock %}
 
 {% block sub_nav %}
   <section id="payoff" class="container-fluid">
-    <div class="row-fluid">
-      <div class="informati span2">
-        <h2>Informati</h2>
-        <p>Tutta l'attività dell'Ordine in tempo reale e
-          sempre disponibile, con dati ufficiali.</p>
-      </div>
-      <div class="monitora span2">
-        <h2>Monitora</h2>
-        <p>Puoi monitorare l'andamento dei progetti.</p>
-      </div>
-      <div class="partecipa span2">
-        <h2>Partecipa</h2>
-        <p>Intervieni nella vita dell'Ordine: commenta e vota
-          l'attività nella community della NPOP</p>
-      </div>
-      <div class="cosa-fanno span4">
-        <h2>Scopri gli psicologi della tua regione:</h2>
-        <br/>
-            <input type="text" class="input-large" id="search-politician"
+    <div class="row-fluid" >
+      
+      <div class="cosa-fanno span4" style="">
+        <h2 style="width: 1100px;
+text-align: center;
+position: relative;
+margin-top: 11%;
+font-size: 28px;
+padding-bottom: 5px;
+font-weight: 100;
+display: inline-block;
+margin-bottom: 0;
+font-weight: normal;
+text-align: center;
+vertical-align: middle;
+cursor: pointer;
+background-image: none;
+border: 2px solid #CCC;
+white-space: nowrap;
+padding: 34px 0px 21px 0px;
+border-radius: 20px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
+">Scopri gli psicologi della tua regione:
+        
+            <input style="width: 300px;
+width: 300px;
+line-height: 19px;
+height: 37px;
+font-size: 17px;
+margin-left: 12px;
+padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politician"
                    data-provide="typeahead" data-items="5" data-minLength="2"
                    placeholder="Digita il nome di uno psicologo">
+        </h2>
       </div>
     </div>
   </section>
-
-  <section id="section_1533090974" class="section content-box scheme1  section-border-no section-bborder-no section-height-content section-bgtype-image section-fixed-background-no  section-bgstyle-stretch section-triangle-no triangle-location-top parallax-section-no section-overlay-no section-overlay-dot-no  focusable" style="padding-top:20px;padding-bottom:20px;background-color:#3498db;" >
-  <div class="section-overlay" style=""></div><div class="container section-content"><div class="row-fluid"><div class="row-fluid equal-cheight-no  element-padding-no element-vpadding-no">
-
-
-  <div class="section-column span3" style="">
-    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
-      <style type="text/css" scoped="">#feature_boxes_1304931418 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
-  <div id="feature_boxes_container_1304931418" class="clearfix" style="margin-bottom:0">
-    <div id="feature_boxes_1304931418" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-no  ">
-      <div class="span"><div class="inner-content " ><a href="http://46.28.5.157/~npop2/feed"><div class="feature_box no-content"><span class="brad-icon " ><i class="fa-rss"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">RSS</div><h4>Le notize al volo</h4></div><div class="hr"><span></span></div></div></div></a></div></div>
-    </div>
-  </div>
-
-    </div> 
-  </div> 
-
-  <div class="section-column span3" style="">
-    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
-      <style type="text/css" scoped="">#feature_boxes_392094904 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
-  <div id="feature_boxes_container_392094904" class="clearfix" style="margin-bottom:0">
-    <div id="feature_boxes_392094904" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-medium  ">
-      <div class="span"><div class="inner-content " ><div class="feature_box no-content"><span class="brad-icon "><i class="fa-volume-up"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">ONLINE</div><h4>Streaming</h4></div><div class="hr"><span></span></div></div></div></div></div>
-    </div>
-  </div>
-
-    </div> 
-  </div> 
-
-  <div class="section-column span3" style="">
-    <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
-      <style type="text/css" scoped="">#feature_boxes_1808377046 .feature_box > .brad-icon{-webkit-border-radius:50%;border-radius:50%;color:#dddddd;color:rgba(221,221,221,1);border-color:#dddddd;border-color:rgba(221,221,221,1);border-width:1px;}</style>
-  <div id="feature_boxes_container_1808377046" class="clearfix" style="margin-bottom:0">
-    <div id="feature_boxes_1808377046" class="row-fluid style1 background-shadow-no background-radius-yes feature_boxes box-style2 enable-hr-no element-vpadding-no hr-type-tiny hr-color-light hr-style-normal normal-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style2  align-content-center-no align-icon-center-no columns-1 crease-background-no element-padding-no  ">
-      <div class="span"><div class="inner-content "><a href="#"><div class="feature_box no-content"><span class="brad-icon"><i class="fa-sitemap"></i></span><div class="heading"><div class="heading-content"><div class="subtitle">ACCESSO FACILITATO</div><h4>Mappa visuale del sito</h4></div><div class="hr"><span></span></div></div></div></a></div></div>
-    </div>
-  </div>
-
-    </div> 
-  </div> 
-</div></div></div></section>
-
-
 
     {% if events|length > 0 %}
 
@@ -102,7 +76,68 @@
 
 {% endblock %}
 
+
 {% block container %}
+
+  <div class="row-fluid" height="20%">
+    
+  </style>
+     <div class="row-fluid equal-cheight-no  element-padding-default element-vpadding-default">
+        <div class="section-column span12" style="">
+            <div class="inner-content  content-box " style="padding-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;">
+                <style type="text/css" scoped="">i {font-style: normal !important; } #feature_boxes_2124216310 .feature_box > .brad-icon{color:#3498db;color:rgba(52,152,219,1);}</style>
+                <div  style="margin-bottom:0; border-bottom: 1px solid #ebe8e0;">
+                      <div style="text-align: center;" id="feature_boxes_2124216310" class="row-fluid style2 background-shadow-no background-radius-yes feature_boxes box-style3 enable-hr-no element-vpadding- hr-type-tiny hr-color-default hr-style-style1 ex-large-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style1  align-content-center-yes align-icon-center-yes columns-3 crease-background-no element-padding-large  ">
+
+                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns">
+                                  <div align="center" class="inner-content " style="">
+                                        <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%;"><span class="brad-icon " ><i class="fa-mobile fa-4x"></i></span>
+                                            <div class="heading">
+                                                <div style="margin-top: 15px; margin-bottom: 15px;" class="heading-content"><h4>INFORMATI</h4>
+                                                </div>
+                                                <div class="hr"><span></span>
+                                                </div>
+                                            </div>
+                                            <div class="feature-content">Tutta l'attività dell'Ordine in tempo reale e sempre disponibile, con dati ufficiali.
+                                            </div>
+                                        </div>
+                                  </div>
+                            </div>  
+                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns">
+                                  <div align="center" class="inner-content " style="">
+                                        <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%; margin-left: -10%;"><span class="brad-icon " ><i class="fa-comments fa-4x"></i></span>
+                                            <div class="heading">
+                                                <div style="margin-top: 15px; margin-bottom: 15px;" class="heading-content"><h4>MONITORATI</h4>
+                                                </div>
+                                                <div class="hr"><span></span>
+                                                </div>
+                                            </div>
+                                            <div class="feature-content">Puoi monitorare l'andamento dei progetti.
+                                            </div>
+                                        </div>
+                                  </div>
+                            </div>
+                            <div style="width: 30%;" class="span not-bottom-columns top-columns right-columns">
+                                <div align="center" class="inner-content " style="">
+                                      <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%;"><span class="brad-icon " ><i class="fa-cogs fa-4x"></i></span>
+                                            <div class="heading">
+                                                <div style="margin-top: 15px; margin-bottom: 15px;" class="heading-content"><h4>PARTECIPI</h4>
+                                                </div>
+                                                <div class="hr"><span></span>
+                                                </div>
+                                            </div>
+                                            <div class="feature-content">ntervieni nella vita dell'Ordine: commenta e vota l'attività nella community della NPOP
+                                            </div>
+                                      </div>
+                                </div>
+                            </div>            
+                      </div>
+
+                </div> 
+          </div> 
+      </div>
+  </div>
+
 
   <article>
       <div class="row-fluid">

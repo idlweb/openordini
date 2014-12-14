@@ -17,10 +17,7 @@
             <link href="{{ STATIC_URL }}less/styles-responsive.less" rel="stylesheet/less"> -->
             <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
             <link rel="stylesheet" href="{{ STATIC_URL }}css/styles-responsive.css" />
-            <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" />
-            <!--link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.css" /-->
-            <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="{{ STATIC_URL }}css/layout.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}font_awesome/css/font-awesome.min.css" />
             <script type="text/javascript" src="{{ STATIC_URL }}js/less-1.3.1.min.js"></script>
 
         {% else %}
@@ -72,7 +69,7 @@
   <div class="navbar" id="navbar-top">
     <nav class="navbar-inner">
       <a href="{% url "home" %}" class="brand">
-        <img src="{{ STATIC_URL }}img/logo-openmunicipio.png" alt="Openmunicipio - Informati, monitora e partecipa ai lavori del tuo municipio">
+        <img src="{{ STATIC_URL }}img/logo-openmunicipio.jpg" alt="NPOP - Informati, monitora e partecipa ai lavori del tuo municipio">
         <!--open<strong>municipio</strong>{% if site_version %}<span class="version">{{ site_version }}</span>{% endif %}
         <small></small>-->
         {% if ALERT_NAVBAR|length > 0 %}
@@ -94,14 +91,14 @@
                       <li><a tabindex="-1" href="{% url "admin:index" %}">amministrazione</a></li>
                   {% endif %}
                   {% if request.user.userprofile %}
-                      <li><a tabindex="-1" href="{% url "profiles_edit_profile"  %}">impostazioni</a></li>
-                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" request.user.username %}">profilo</a></li>
+                      <li><a tabindex="-1" href="{% url "profiles_edit_profile" %}">impostazioni</a></li>
+                      <li><a tabindex="-1" href="{%  url "profiles_profile_detail" user.username %}">profilo</a></li>
                       <li class="divider"></li>
 
                   {% endif %}
                       <li>
                           <a tabindex="-1"
-                             href="{% url "logout" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}"
+                             href="{% url "logout" %}?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}"
                                   >esci</a>
                       </li>
                   </ul>
@@ -109,7 +106,7 @@
           {% else %}
               <ul class="nav pull-right">
                   <li>Per partecipare o registrarti
-                      <a href="{% url "auth_login" %}?next={% if "/accounts" in request.path or "/users/profile/" == request.path %}/{% else %}{{ request.path }}{% endif %}">
+                      <a href="/accounts/login/?next={% if "/accounts" in request.path %}/{% else %}{{ request.path }}{% endif %}">
                           Entra
                           <img src="{{ STATIC_URL }}img/login_icons.png" alt="icone segnalatrici social login"/>
                       </a>
@@ -126,14 +123,14 @@
   <header>
 
     <!-- AREA-TITLE -->
-    <hgroup class="container-fluid">
+    <hgroup class="container-fluid" style="background-image: url({{ STATIC_URL }}img/img_sezione_titolo.jpg) !important; background-position-y: -638px;">
       <div class="row-fluid">
         <h1 class="span11" id="area-title">
-          {% block content_header_container %}<a href="/" style="color: white;">{{ main_city }}</a> <small>{% block content_header %}{% endblock %}</small>{% endblock %}
+          {% block content_header_container %}<a href="/" style="">{{ main_city }}</a> <small>{% block content_header %}{% endblock %}</small>{% endblock %}
         </h1>
-        <p class="span1" id="city-logo" class="text-right pull-right">
+        <p class="span1" id="city-logo" style="margin-left: -170px;" class="text-right pull-right">
             {% block content_header_city_logo %}
-                <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/all.png" alt="Comune di {{ main_city }}">
+                <img src="{{ STATIC_URL }}img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
             {% endblock %}
         </p>
       </div>
@@ -146,12 +143,12 @@
             <div class="navbar-inner">
                 <nav class="container-fluid" style="padding:0;">
                     <ul class="nav">
-                        <li {% block people_class %}{% endblock %}><a href="{% url "om_politician_list" %}">Albo</a></li>
-                        <li class="{% block acts_class %}{% endblock %}"><a href="{% url "om_act_search" %}">Atti e Progetti</a></li>
-                        <li class="{% block speech_class %}{% endblock %}"><a href="{% url "om_speech_search" %}">Progettazione Partecipata</a></li>
+                        <li {% block people_class %}{% endblock %}><a href="{% url "om_politician_list" %}">Politici</a></li>
+                        <li class="{% block acts_class %}{% endblock %}"><a href="{% url "om_act_search" %}">Atti</a></li>
+                        <li class="{% block speech_class %}{% endblock %}"><a href="{% url "om_speech_search" %}">Dibattiti</a></li>
                         <li class="{% block votations_class %}{% endblock %}"><a href="{% url "om_votation_search" %}">Votazioni</a></li>
                         <li {% block tags_class %}{% endblock %}><a href="{% url "om_topic_list" %}">Argomenti</a></li>
-                        <li {% block users_class %}{% endblock %}><a href="/users/">Comunità</a></li>
+                        <li {% block users_class %}{% endblock %}><a href="/users/">Cittadini</a></li>
                     </ul>
                     {% comment %}
                     <ul class="nav pull-right">
@@ -183,9 +180,13 @@
           <div class="container-fluid">
               <div class="row-fluid">
                   <div class="span4">
-                      <h2>Open Municipio</h2>
+                      <h2>NPOP</h2>
                       <p>
-                          OpenOrdini è un progetto dell...
+                          NPOP è un progetto dell'Ordine degli Psicologi della regione Puglia con la partecipazione di
+                          >Informaetica< e >idl-Informatizzazione Del Lavoro< per le istituzioni d'Italia. &Egrave; una piattaforma web
+                          di informazione, monitoraggio e partecipazione attiva alla vita
+                          delle istituzioni. Ora sei sul sito dell'Albo degli psicologi
+                          della: {{ main_city }}.
                       </p>
                       <ul><li><a href="http://www.openmunicipio.it">Il progetto</a></li>
                           <li><a href="{% url "om_regolamento" %}">Regolamento</a></li>
@@ -237,9 +238,9 @@
       <section class="logos">
           <div class="container-fluid">
               <div class="row-fluid">
-                  <div class="span4"><a href="http://www.openpolis.it"><img src="{{ STATIC_URL }}img/footer-logo-openpolis.png"/></a></div>
-                  <div class="span4"><a href="{{ main_city_website }}"><img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/footer.png"/></a></div>
-                  <div class="span4"><a href="http://www.informaetica.it"><img src="{{ STATIC_URL }}img/footer-logo-informaetica.png"/></a></div>
+                  <!--div class="span4"><a href="http://www.openpolis.it"><img src="{{ STATIC_URL }}img/footer-logo-openpolis.png"/></a></div-->
+                  <div class="span4"><a href="{{ main_city_website }}">{{ main_city_website }}</a></div>
+                  <!--div class="span4"><a href="http://www.informaetica.it"><img src="{{ STATIC_URL }}img/footer-logo-informaetica.png"/></a></div-->
               </div>
           </div>
       </section>

@@ -134,11 +134,12 @@ textarea {
 }
 body {
   margin: 0;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: FontAwesome, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 17px;
   color: #000000;
   background-color: #ffffff;
+
 }
 a {
   color: #285698;
@@ -2941,7 +2942,8 @@ input[type="submit"].btn.btn-mini {
 .navbar-inner {
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #000000;
+  background-color: #2d2d2d;
+  opacity: 0.7;
 }
 .navbar .container {
   width: auto;
@@ -4305,7 +4307,8 @@ body footer .texts ul li {
 body footer .logos {
   padding: 10px;
   text-align: center;
-  background-color: #000000;
+  background-color: #2d2d2d;
+  opacity: 0.7;
 }
 #navbar-top {
   height: 55px;
@@ -4371,13 +4374,13 @@ body footer .logos {
   color: #999999;
 }
 #wrapper > header {
-  background: #4788c2;
+  background: #3498db;
 }
 #wrapper > header #area-title {
   color: #ffffff;
-  padding-top: 30px;
+  padding-top: 12px;
   padding-bottom: 30px;
-  font-size: 40px;
+  font-size: 27px;
 }
 #wrapper > header #area-title small {
   color: #ffffff;
@@ -4704,14 +4707,14 @@ table#status-table col {
 }
 table#status-table col.current {
   background-color: #91b8da;
-  background-image: -moz-linear-gradient(top, #4788c2, #ffffff);
-  background-image: -ms-linear-gradient(top, #4788c2, #ffffff);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4788c2), to(#ffffff));
-  background-image: -webkit-linear-gradient(top, #4788c2, #ffffff);
-  background-image: -o-linear-gradient(top, #4788c2, #ffffff);
-  background-image: linear-gradient(top, #4788c2, #ffffff);
+  background-image: -moz-linear-gradient(top, #3498db, #ffffff);
+  background-image: -ms-linear-gradient(top, #3498db, #ffffff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3498db), to(#ffffff));
+  background-image: -webkit-linear-gradient(top, #3498db, #ffffff);
+  background-image: -o-linear-gradient(top, #3498db, #ffffff);
+  background-image: linear-gradient(top, #3498db, #ffffff);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4788c2', endColorstr='#ffffff', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3498db', endColorstr='#ffffff', GradientType=0);
 }
 table#status-table col.past {
   background-color: #c8dced;
@@ -5009,8 +5012,8 @@ table.stats th {
   display: inline-block;
   background-color: #ebe8e0;
   color: #000000;
-  height: 50px;
-  width: 50px;
+  height: 36px;
+  width: 36px;
   line-height: 36px;
   -webkit-border-radius: 36px;
   -moz-border-radius: 36px;
@@ -5050,14 +5053,14 @@ table.stats th {
 .circle-fulldate {
   font-size: 18px;
   padding: 8px;
-  margin: 8px;
+  margin: 0px -14px 0px 9px;
   font-weight: bold;
   text-align: center;
   display: inline-block;
   background-color: #ebe8e0;
   color: #000000;
-  height: 50px;
-  width: 50px;
+  height: 36px;
+  width: 36px;
   line-height: 36px;
   -webkit-border-radius: 36px;
   -moz-border-radius: 36px;
