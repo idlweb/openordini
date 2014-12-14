@@ -1,0 +1,41 @@
+{% extends 'base_two_columns.html' %}
+
+{% load popover_info %}
+
+{% block title %}Albo | Iscritti e Commissioni{% endblock title %}
+{% block content_header %}Iscritti e Commissioni{% endblock %}
+{% block institutions_class %}active{% endblock %}
+
+{% block people_class %}class="active"{% endblock %}
+{% block body_class %}politician{% endblock %}
+
+{% block content_header_city_logo %}
+    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png" alt="Comune di {{ main_city }}">
+{% endblock %}
+
+{% block sub_nav %}
+    {%  include 'commons/subnav.html' with active='Commissioni' %}
+{% endblock %}
+
+{% block content %}
+    <h2>Commissioni {% popover_info 'commissioni-del-consiglio' %}</h2>
+    <div class="party-people">
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="unstyled">
+                    {% for committee in committees %}
+                        <li><a href="{{ committee.get_absolute_url }}">{{ committee.name }}:</a>
+                            <a href="{{ committee.get_absolute_url }}"><strong>{{ committee.description }}</strong></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <section>
+        {% include 'commons/calendar.html' with events=events %}
+    </section>
+{% endblock %}

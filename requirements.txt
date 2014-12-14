@@ -24,3 +24,4 @@ uWSGI==2.0.8
 -e git+https://github.com/jbittel/django-mama-cas.git#egg=mama-cas
 #-e git+https://github.com/fspegni/django-cas.git#egg=django-cas
 django-cas-ng==3.1.0
+django-awesome-bootstrap==3.2.0
