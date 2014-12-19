@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from payments import get_payment_model, RedirectNeeded
 
 from decimal import Decimal
@@ -8,12 +9,44 @@ from decimal import Decimal
 from datetime import date
 
 from .models import SubscriptionOrder, Payment, SubscriptionPlan
+from .forms import PaymentForm, PaymentInfoForm
 
 class PaymentSucceed(TemplateView):
     template_name = 'oo_payments/succeed.html'
 
 class PaymentError(TemplateView):
     template_name = 'oo_payments/error.html'
+
+class PaymentInfo(FormView):
+    template_name = 'oo_payments/payment_info.html'
+    form_class = PaymentInfoForm
+
+    def get_success_url(self):
+        return reverse('oo_payment_details')
+
+    def get_context_data(self, *args, **kwargs):
+
+        ctx = super(PaymentInfo, self).get_context_data(*args, **kwargs)
+        print "in get context..."
+
+        plan_pk = self.request.GET.get("payment_type")
+        plan = SubscriptionPlan.objects.get(pk=plan_pk)
+    
+        # check plans are compatible with user profile
+        user_plans = SubscriptionPlan.get_for_user(self.request.user)
+        if plan not in user_plans:
+            raise ValueError("The specified payment type (%s) is not allowed for user" % plan)
+    
+        ctx["plan"] = plan
+        print "ctx: %s" % ctx
+        return ctx
+
+    def get_form(self, *args, **kwargs):
+    
+        form = self.form_class()
+        form.fields["payment_type"].initial = self.request.GET.get("payment_type")
+        return form
+
 
 def payment_details(request):
 

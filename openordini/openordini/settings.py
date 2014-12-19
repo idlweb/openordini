@@ -142,3 +142,10 @@ COMMITTEE_SLUGS = {
     "psicologo_clinico": "psicologi-clinici",
     "psicologo_forense": "psicologi-forensi",
 }
+
+SITE_INFO = {
+    'main_city': u'NPOP',
+    'site_version': u'Beta',
+    'main_city_logo': 'img/city-logo/city-logo.png',
+    'main_city_website': 'http://www.psicologipuglia.it',
+}
