@@ -2,9 +2,32 @@
 
 {% block content %}
 <!-- templates/payment.html -->
+<div class="container">
+<div class="row">
+<div class="offset4 span4 text-center">
 <form action="{{ form.action }}" method="{{ form.method }}">
+    <h1>{{ plan.name }}</h1>
+    <fieldset class="container">
+    <p class="row">
+        <span class="span2">Netto:</span>
+        <span class="span2 text-right">{{ plan.net_amount }} {{plan.currency }}</span>
+    </p>
+    <p class="row">
+        <span class="span2">Tasse:</span>
+        <span class="span2 text-right">{{ plan.tax }} {{plan.currency }}</span>
+    </p>
+    <p class="row">
+        <span class="span2">Totale:</span>
+        <span class="span2 text-right">{{ plan.total_amount }} {{plan.currency }}</span>
+    </p>
+    </fieldset>
+    <hr/>
+    <h2>Effettua pagamento</h2>
     {% csrf_token %}
     {{ form.as_p }}
     <p><input type="submit" value="Proceed" /></p>
 </form>
+</div>
+</div>
+</div>
 {% endblock %}

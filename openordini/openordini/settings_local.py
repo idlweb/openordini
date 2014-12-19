@@ -13,6 +13,10 @@ DATABASES = {
 
 ROOT_URLCONF = 'openordini.openordini.urls_local'
 
-#CAS_SERVER_URL = 'http://localhost:8080/cas/'
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+PAYMENT_BASE_URL = 'http://localhost:8000/'
+
+PAYMENT_VARIANTS = {
+    'default': ('payments.dummy.DummyProvider', {})}
+

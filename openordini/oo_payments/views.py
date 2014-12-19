@@ -22,15 +22,24 @@ def payment_details(request):
     if not request.user.is_authenticated():
         raise ValueError("You must be authenticated in order to access this view")
 
-#    print "profile: %s" % request.user.userprofile
+    print "profile: %s (%s)" % (request.user.userprofile, type(request.user.userprofile))
 
-    person = request.user.userprofile.person
+    profile = request.user.get_profile()
+    person = profile.person
 
     if SubscriptionPlan.objects.all().count() == 0:
         raise ValueError("You must have at least one SubscriptionPlan before calling this view")
 
+    plan_pk = request.GET.get("payment_type")
+    plan = SubscriptionPlan.objects.get(pk=plan_pk)
+
+    # check plans are compatible with user profile
+    user_plans = SubscriptionPlan.get_for_user(request.user)
+    if plan not in user_plans:
+        raise ValueError("The specified payment type (%s) is not allowed for user" % plan)
+
     order_defaults = {
-        'plan': SubscriptionPlan.objects.all()[0]
+        'plan': plan,
     }
 
     order, created = SubscriptionOrder.objects.get_or_create(
@@ -64,6 +73,12 @@ def payment_details(request):
         form = payment.get_form(data=request.POST or None)
     except RedirectNeeded as redirect_to:
         return redirect(str(redirect_to))
-    return TemplateResponse(request, 'oo_payments/payment.html',
-                            {'form': form, 'payment': payment})
+
+    ctx = {
+        'form': form,
+        'payment': payment,
+        'plan': plan,
+    }
+
+    return TemplateResponse(request, 'oo_payments/payment.html', ctx)
     

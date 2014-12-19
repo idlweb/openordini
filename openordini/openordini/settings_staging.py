@@ -36,3 +36,14 @@ CAS_LOGOUT_COMPLETELY = True
 #CAS_USER_DETAILS_RESOLVER = CAS_populate_user
 
 CAS_SERVER_URL = 'http://%s/cas/' % ALLOWED_HOSTS[0]
+
+PAYMENT_BASE_URL = 'http://%s/' % ALLOWED_HOSTS[0]
+
+PAYMENT_VARIANTS = {
+    'default': ('payments.paypal.PaypalProvider', {
+        'client_id': 'xxx',
+        'secret': 'xxx',
+        'endpoint': 'https://api.sandbox.paypal.com',
+        'capture': False,
+    })}
+

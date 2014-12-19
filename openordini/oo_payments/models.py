@@ -1,9 +1,12 @@
 from django.db import models
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from open_municipio.people.models import Person
+from openordini.oo_users.models import UserProfile
 
 # Create your models here.
 
@@ -32,10 +35,38 @@ class SubscriptionPlan(models.Model):
     def total_amount(self):
         return self.net_amount + self.tax
 
+    @staticmethod
+    def get_for_user(user):
+        
+        assert isinstance(user, User)
+
+        profile = user.get_profile()
+        assert isinstance(profile, UserProfile)
+
+        # add the payment form  
+        user_charges = profile.committee_charges
+
+#        print "user charges: %s" % user_charges
+    
+        sub_codes = set()
+        for curr_charge in user_charges:
+#            print "curr charge institution: %s" % curr_charge.institution
+            curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
+            if curr_code:
+                sub_codes.add(curr_code)
+
+#        print "all payment codes: %s" % sub_codes
+        plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
+        return plans
+
+
     class Meta:
         unique_together = ( ('name',), ('code',))
         verbose_name = _("subscription plan")
         verbose_name_plural = _("subscription plans")
+
+    def __unicode__(self):
+        return "%s (%s)" % (self.name, self.code)
 
 
 class Order(models.Model):
@@ -107,3 +138,8 @@ class Payment(BasePayment):
     class Meta:
         verbose_name = _("payment")
         verbose_name_plural = _("payments")
+
+class Subscription(Person):
+
+    class Meta:
+        proxy = True

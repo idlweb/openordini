@@ -49,20 +49,7 @@ class OOUserProfileDetailView(UserProfileDetailView):
 
 #        print "return ctx: %s" % ctx
 
-        # add the payment form  
-        user_charges = curr_person.userprofile.committee_charges
-
-#        print "user charges: %s" % user_charges
-    
-        sub_codes = set()
-        for curr_charge in user_charges:
-#            print "curr charge institution: %s" % curr_charge.institution
-            curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
-            if curr_code:
-                sub_codes.add(curr_code)
-
-#        print "all payment codes: %s" % sub_codes
-        plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
+        plans = SubscriptionPlan.get_for_user(self.request.user)
         plan_choices = map(lambda p: (p.pk, p.name), plans)
 #        print "plan choices: %s" % plan_choices
         ctx["form_payment"] = PaymentForm(choices=plan_choices)

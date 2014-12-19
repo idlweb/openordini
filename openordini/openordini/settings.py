@@ -10,7 +10,6 @@ DATABASES = {
     }
 }
 
-
 TEMPLATE_LOADERS = (
     'apptemplates.Loader',
 ) + TEMPLATE_LOADERS
@@ -19,8 +18,9 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates'),
 ) + TEMPLATE_DIRS
 
-INSTALLED_APPS = INSTALLED_APPS + (
-    #'grappelli',
+INSTALLED_APPS = (
+    'grappelli',
+    ) + INSTALLED_APPS + (
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -28,6 +28,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'openordini.acts_fulfillments',  
     'openordini.oo_people',
     'openordini.oo_users',
+    'openordini.openordini',
     'awesome_bootstrap',
 )
 
@@ -111,7 +112,7 @@ LOGGING = {
 
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
-PAYMENT_BASE_URL = 'http://localhost:8000/'
+PAYMENT_BASE_URL = '' # 'http://localhost:8000/'
 
 PAYMENT_MODEL = 'oo_payments.Payment'
 
