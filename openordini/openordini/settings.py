@@ -117,7 +117,8 @@ PAYMENT_BASE_URL = '' # 'http://localhost:8000/'
 PAYMENT_MODEL = 'oo_payments.Payment'
 
 PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {})}
+    'default': ('payments.dummy.DummyProvider', {})
+}
 
 SUBSCRIPTION_COMMITTEE_MAPS = {
     "studenti": "STUD",
