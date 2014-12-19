@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 
 from open_municipio.users.models import UserProfile as OMUserProfile
 from open_municipio.people.models import municipality
+
 
 class UserProfile(OMUserProfile):
 
@@ -36,3 +38,5 @@ class UserProfile(OMUserProfile):
     class Meta:
         verbose_name = _("user profile")
         verbose_name_plural = _("user profiles")
+
+

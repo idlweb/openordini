@@ -4,7 +4,6 @@
 {% load url from future %}
 {% load cas_integration %}
 
-
 {% block title %}Profilo utente{% endblock %}
 {% block content_header %}Profilo di {{ profile }}{% endblock %}
 {% block content_header_city_logo %}
@@ -68,7 +67,6 @@
               <li>Qualifiche: <strong>{{ profile.user.groups.all|join:"</strong>, <strong>" }}</strong>
               </li>
           {% endif %}
-
         </ul>
 
         <p>
