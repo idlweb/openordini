@@ -38,25 +38,32 @@ class SubscriptionPlan(models.Model):
     @staticmethod
     def get_for_user(user):
         
-        assert isinstance(user, User)
+#        assert isinstance(user, User)
 
-        profile = user.get_profile()
-        assert isinstance(profile, UserProfile)
+        plans = []
 
-        # add the payment form  
-        user_charges = profile.committee_charges
+        try:
 
-#        print "user charges: %s" % user_charges
+            profile = user.get_profile()
+            assert isinstance(profile, UserProfile)
     
-        sub_codes = set()
-        for curr_charge in user_charges:
-#            print "curr charge institution: %s" % curr_charge.institution
-            curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
-            if curr_code:
-                sub_codes.add(curr_code)
+            # add the payment form  
+            user_charges = profile.committee_charges
+    
+    #        print "user charges: %s" % user_charges
+        
+            sub_codes = set()
+            for curr_charge in user_charges:
+    #            print "curr charge institution: %s" % curr_charge.institution
+                curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
+                if curr_code:
+                    sub_codes.add(curr_code)
+    
+    #        print "all payment codes: %s" % sub_codes
+            plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
+        except AttributeError: 
+            pass
 
-#        print "all payment codes: %s" % sub_codes
-        plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
         return plans
 
 

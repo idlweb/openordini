@@ -16,79 +16,16 @@
 
 {% block content %}
 
-
-  <h1>{{ committee.name }}</h1>
-  <p>{{ committee.description }}</p>
-
-  <hr>
-
-  <div class="party-people">
-    <div class="row-fluid">
-      {% comment %}Commitee leaders{% endcomment %}
-      <div class="span6">
-
-        <p>
-          {% if president %}
-            <a href="{{ president.charge.person.get_absolute_url }}">
-              <strong>{{ president.charge.person.full_name }}</strong>
-              {% if president.group %}
-                ({{ president.group.acronym }})
-              {% endif %}
-            </a><br/>
-            {{ president.get_charge_type_display }}
-          {% else %}
-            Presidente non definito
-          {% endif %}
-        </p>
-
-        {% for vp in vice_presidents %}
-          <p>
-            <a href="{{ vp.charge.person.get_absolute_url }}">
-              <strong>{{ vp.charge.person.full_name }}</strong>
-              {% if vp.group %}
-                ({{ vp.group.acronym }})
-              {% endif %}
-            </a><br/>
-            {{ vp.get_charge_type_display }}
-
-          </p>
-        {% endfor %}
-
-        <address>
-          {% for r in resources %}
-            {% if r.resource_type == 'URL' %}
-              {% if 'http://' not in r.value %}
-                {{ r.description }}: <a href="http://{{ r.value }}">{{ r.value }}</a><br/>
-              {%  else %}
-                {{ r.description }}: <a href="{{ r.value }}">{{ r.value }}</a><br/>
-              {% endif %}
-            {% else %}
-              {% if r.resource_type == 'EMAIL' %}
-                <a href="mailto:{{ r.value }}">{{ r.value }}</a><br/>
-              {%  else %}
-                {{ r.value }}<br/>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </address>
-
-
-      </div>
-      {% comment %}Committee peoples{% endcomment %}
-      <div class="span6">
-        <ul class="unstyled">
-          {% for member in members %}
-            <li><a href="{{ member.person.get_absolute_url }}"><strong>{{ member.person.full_name }}</strong>
-              {% if member.group %}
-                ({{ member.group.acronym }})
-              {% endif %}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
+  {% include "people/_institution_single.html" with committee=committee members=members level=1 %}
 
   <hr class="big">
+  <h1>Raggruppamenti</h1>
+  <hr/>
+
+  {% for sub_comm in sub_committees %}
+    {% include "people/_institution_single.html" with committee=sub_comm members=sub_comm.members level=2 %}
+    <hr/>
+  {% endfor %}
 
 {% endblock %}
 
