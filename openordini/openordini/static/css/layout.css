@@ -1,0 +1,395 @@
+/* Table of Content
+ *	- Display
+ *	- Default Layout
+ *	- Layout with Fancy Divider Type 1
+ *	- Layout with Fancy Divider Type 2
+ */
+ 
+ 
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font-family: inherit;
+	/*vertical-align: baseline;*/
+	zooom: 1;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+img { -ms-interpolation-mode: bicubic; }
+object, embed { max-width: 100%; }
+
+/*  Foundation Style */
+* {
+	box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-khtml-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.container {
+	margin: 0px auto;
+	padding: 0 25px;
+	width: 100%;
+	max-width: 1150px;
+}
+
+.row-fluid  {
+	width: 100%;
+	max-width: 100%;
+	margin: 0 auto;
+	clear:both;
+}
+.row-fluid .row-fluid  {
+	width: auto;
+	max-width: none;
+	min-width: 0;
+	margin: 0 -20px 0;
+}
+
+.row [class*="span"] , .row-fluid [class*="span"],  .row-fluid  .one_fifth {
+	float: left;
+	padding:0 20px;
+	position: relative;
+	min-height:1px;
+}
+
+.row [class*="span"] , .row-fluid [class*="span"],  .row-fluid .one_fifth {
+	margin-bottom:40px;
+}
+
+
+.section-content > .row-fluid > .row-fluid > .span12{
+	margin-bottom:0!important
+}
+
+.section-column{
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+	background-size:cover;
+	background-repeat:no-repeat;
+}
+
+.section-column > .inner-content{
+	position:relative;
+	z-index:10;
+}
+
+/* Element padding no */
+
+.row-fluid.element-padding-no {
+	margin:0;
+}
+
+.row-fluid.element-padding-no > [class*="span"] ,
+.row.element-padding-no > [class*="span"]{
+	padding:0;
+	margin-bottom:0;
+}
+
+
+.row-fluid.element-vpadding-no > [class*="span"] ,
+.row.element-vpadding-no > [class*="span"]{
+	margin-bottom:0;
+}
+
+/* Element padding large */
+.row-fluid.element-padding-large,
+.row.element-padding-large{
+	margin:0 -30px;
+}
+
+.row-fluid.element-padding-large > [class*="span"] ,
+.row.element-padding-large > [class*="span"]{
+	padding:0 30px;
+}
+
+.row-fluid.element-vpadding-large > [class*="span"] ,
+.row.element-vpadding-large > [class*="span"]{
+	margin-bottom:60px;
+}
+
+/*elemet padding 50px */
+.row-fluid.element-padding-large2,
+.row.element-padding-large2{
+	margin:0 -25px;
+}
+
+.row-fluid.element-padding-large2 > [class*="span"] ,
+.row.element-padding-large2 > [class*="span"]{
+	padding:0 25px;
+}
+
+.row-fluid.element-vpadding-large2 > [class*="span"] ,
+.row.element-vpadding-large2 > [class*="span"]{
+	margin-bottom:50px;
+}
+
+
+/*elemet padding 40px */
+.row-fluid.element-padding-medium2,
+.row.element-padding-medium2{
+	margin:0 -15px;
+}
+
+.row-fluid.element-padding-medium2 > [class*="span"] ,
+.row.element-padding-medium2 > [class*="span"]{
+	padding:0 15px;
+}
+
+.row-fluid.element-vpadding-medium2 > [class*="span"] ,
+.row.element-vpadding-medium2 > [class*="span"]{
+	margin-bottom:30px;
+}
+
+
+/* Element padding Small*/
+.row-fluid.element-padding-small,
+.row.element-padding-small
+{
+	margin:0 -10px;
+}
+
+.row-fluid.element-padding-small > [class*="span"],
+.row.element-padding-small > [class*="span"]{
+	padding:0 10px;
+}
+
+
+.row-fluid.element-vpadding-small > [class*="span"],
+.row.element-vpadding-small > [class*="span"]{
+	margin-bottom:20px;
+}
+
+
+
+/* Element padding 10px*/
+.row-fluid.element-padding-small2,
+.row.element-padding-small2
+{
+	margin:0 -5px;
+}
+
+.row-fluid.element-padding-small2 > [class*="span"],
+.row.element-padding-small2 > [class*="span"]{
+	padding:0 5px;
+}
+
+
+.row-fluid.element-vpadding-small2 > [class*="span"],
+.row.element-vpadding-small2 > [class*="span"]{
+	margin-bottom:10px;
+}
+
+
+
+/* Element padding Narrow */
+.row-fluid.element-padding-narrow,
+.row.element-padding-narrow{
+	margin:0 -3px;
+}
+
+.row-fluid.element-padding-narrow > [class*="span"],
+.row.element-padding-narrow > [class*="span"]{
+	padding:0 2px;
+}
+
+.row-fluid.element-vpadding-narrow > [class*="span"],
+.row.element-vpadding-narrow > [class*="span"]{
+	margin-bottom:4px;
+}
+
+
+.row:before, .row:after , .row-fluid:before, .row-fluid:after{
+	display: table;
+	line-height: 0;
+	content: "";
+}
+.row-fluid:after  , .row:after { clear: both; }
+.row.columns-12 [class*="span"] , .row-fluid .span1, .row-fluid.columns-12 .span { width: 8.333%; }
+.row.columns-6 [class*="span"] , .row-fluid .span2, .row-fluid.columns-6 .span { width: 16.667%; }
+.row.columns-4 [class*="span"] , .row-fluid .span3, .row-fluid.columns-4 .span { width: 25%; }
+.row.columns-3 [class*="span"] , .row-fluid .span4, .row-fluid.columns-3 .span { width: 30.333%; }
+.row-fluid .span5 { width: 41.667%; }
+.row.columns-2 [class*="span"] , .row-fluid .span6 ,  .row-fluid.columns-2 .span { width: 43%; }
+.row-fluid .span7 { width: 58.333%; }
+.row-fluid .span8 { width: 66.667%; }
+.row-fluid .span9 { width: 75%; }
+.row-fluid .span10{ width: 83.333%; }
+.row-fluid .span11{ width: 91.667%; }
+.row-fluid .span12, .row-fluid.columns-1 [class*="span"]{ width: 100%; }
+.row.columns-5 [class*="span"] , .row-fluid .spanone_fifth, .row-fluid.columns-5 .span { width: 20%; }
+.row-fluid .span6:nth-child(2n+1),.row-fluid.columns-2 .span:nth-child(2n+1),
+.row-fluid .span4:nth-child(3n+1),.row-fluid.columns-3 .span:nth-child(3n+1),
+.row-fluid .span3:nth-child(4n+1),.row-fluid.columns-4 .span:nth-child(4n+1),
+.row-fluid .spanone_fifth:nth-child(5n+1),.row-fluid.columns-5 .span:nth-child(5n+1),
+.row-fluid .span2:nth-child(6n+1),.row-fluid.columns-6 .span:nth-child(6n+1){
+    /*clear:both;*/
+}
+
+/* Row Style 2 */
+.row-fluid.style2 ,  .row.style2 {
+	margin: 0!important;
+}
+
+.row.style2 > [class*="span"] , .row-fluid.style2 > [class*="span"] {
+	padding: 0!important;
+	margin-bottom:0!important;
+	position: relative;
+}
+
+.row.style2 > [class*="span"] > .inner-content , .row-fluid.style2 > [class*="span"] > .inner-content {
+	padding: 20px 30px;
+}
+
+
+.row-fluid.style2.element-padding-no > [class*="span"] > .inner-content{
+	padding:0;
+}
+
+.row-fluid.style2.element-padding-large > [class*="span"] > .inner-content{
+	padding:35px 45px;
+}
+
+.row-fluid.style2.element-padding-large2 > [class*="span"] > .inner-content{
+	padding:25px 30px;
+}
+
+.row-fluid.style2.element-padding-narrow > [class*="span"] > .inner-content{
+	padding:2px;
+}
+
+.row-fluid.style2.element-padding-small > [class*="span"] > .inner-content{
+	padding:10px;
+}
+
+.row-fluid.style2.element-padding-small2 > [class*="span"] > .inner-content{
+	padding:5px;
+}
+
+
+.row.style2 > [class*="span"]:after{
+	content: "";
+	position: absolute;
+	display: inline-block;
+	height: 90%;
+	width: 1px;
+	right: -1px;
+	top: 5%;
+	background: #e8e8e8;
+	z-index:1;
+}
+
+
+.row-fluid.style2 .not-right-columns:before{
+	content: "";
+	position: absolute;
+	display: inline-block;
+	height: 90%;
+	width: 1px;
+	right: -1px;
+	top: 5%;
+	background: #e8e8e8;
+	z-index:1;
+}
+
+.content-box.scheme1 .row-fluid.style2 > [class*="span"]:after,
+.content-box.scheme1 .row-fluid.style2 > [class*="span"]:before
+{
+	background-color:#aaa;
+	background-color:rgba(255,255,255,0.5);
+}
+
+
+.row-fluid.style2 .not-bottom-columns:after {
+	content: "";
+	position: absolute;
+	display: inline-block;
+	width: 90%;
+	height: 1px;
+	left: 5%;
+	bottom: -1px;
+	background: #e8e8e8;
+	z-index:1;
+}
+
+.row-fluid.style3.background-radius-yes [class*="span"] > .inner-content,
+.row.style3.background-radius-yes [class*="span"] > .inner-content{
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	border-radius:4px;
+}
+
+.row-fluid.style3.background-radius-yes.background-radius-full [class*="span"] > .inner-content,
+.row.style3.background-radius-yes.background-radius-full [class*="span"] > .inner-content {
+	-webkit-border-radius:9999px;
+	-moz-border-radius:9999px;
+	-ms-border-radius:9999px;
+	border-radius:9999px;
+}
+
+.row-fluid.style3.background-shadow-yes [class*="span"] > .inner-content,
+.row.style3.background-shadow-yes [class*="span"] > .inner-content{
+	-moz-box-shadow:0 2px 2px rgba(0,0,0,0.05);
+	-ms-box-shadow:0 2px 2px rgba(0,0,0,0.05);
+	-webkit-box-shadow:0 2px 2px rgba(0,0,0,0.05);
+	box-shadow:0 2px 2px rgba(0,0,0,0.05);
+}
+
+.row-fluid.style3 > [class*="span"] > .inner-content,
+.row.style3 > [class*="span"] > .inner-content{
+	padding:25px 25px;
+	border:1px solid transparent;
+	-webkit-transition:background-color 0.3s  ease-in-out, border-color 0.3s ease-in-out;
+	-moz-transition:background-color 0.3s ease-in-out , border-color 0.3s ease-in-out;
+	-ms-transition:background-color 0.3s  ease-in-out, border-color 0.3s ease-in-out;
+	transition:background-color 0.3s ease-in-out , border-color 0.3s ease-in-out;
+}
+
+.row-fluid.style3.element-inner-vertical-padding-narrow [class*="span"] > .inner-content,
+.row.style3.element-inner-vertical-padding-narrow [class*="span"] > .inner-content{
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.row-fluid.style3.element-inner-horizental-padding-narrow [class*="span"] > .inner-content,
+.row.style3.element-inner-horizental-padding-narrow [class*="span"] > .inner-content{
+	padding-left:5px;
+	padding-right:5px;
+}
+
+.row-fluid.style3.element-inner-vertical-padding-large [class*="span"] > .inner-content,
+.row.style3.element-inner-vertical-padding-large [class*="span"] > .inner-content{
+	padding-top:35px;
+	padding-bottom:35px;
+}
+
+.row-fluid.style3.element-inner-horizental-padding-large [class*="span"] > .inner-content,
+.row.style3.element-inner-horizental-padding-large [class*="span"] > .inner-content{
+	padding-left:35px;
+	padding-right:35px;
+}
+
+.carousel-items [class*="span"]{
+	margin-bottom:0!important;
+}

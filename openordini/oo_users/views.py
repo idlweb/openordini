@@ -14,12 +14,16 @@ class OOUserProfileDetailView(UserProfileDetailView):
     model = UserProfile
  
     def get_object(self, queryset=None):
-        user = self.request.user
 
         profile = None
+        user = self.request.user
+
+        url_username = self.kwargs.get("username", None)
 
         try:
-
+            if url_username:
+                user = User.objects.get(username=url_username)
+            
             profile = user.get_profile()
         except (ObjectDoesNotExist, AttributeError):
             pass

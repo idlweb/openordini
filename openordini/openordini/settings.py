@@ -28,6 +28,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'openordini.acts_fulfillments',  
     'openordini.oo_people',
     'openordini.oo_users',
+    'awesome_bootstrap',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
