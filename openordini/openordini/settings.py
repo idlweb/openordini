@@ -117,9 +117,11 @@ PAYMENT_MODEL = 'oo_payments.Payment'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {})}
 
-SUBSCRIPTION_MAPS = {
-    'FIRST': ("STUD", ),
-    'ALL': ("PSCH", "PSLG",)
+SUBSCRIPTION_COMMITTEE_MAPS = {
+    "studenti": "STUD",
+    "psicologi-clinici": "PSIC",
+    "psicologi-del-lavoro": "PSIC",
+    "psicologi-forensi": "PSIC", 
 }
 
 # override registration configuration

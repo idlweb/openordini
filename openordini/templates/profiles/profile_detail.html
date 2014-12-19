@@ -106,7 +106,14 @@
   {% endfor %}
   <hr class="big">
   <h2>Iscrizioni albo e pagamenti</h2>
+{% comment %}
   <a href="{% url 'oo_payment_details' %}">Paga ora</a>
+{% endcomment %}
+  <form action="{% url 'oo_payment_details' %}" method="post">
+  {% csrf_token %}
+  {{ form_payment }}
+  <input type="submit" value="Submit" />
+  </form>
   {% endif %}
 
 {% endblock %}

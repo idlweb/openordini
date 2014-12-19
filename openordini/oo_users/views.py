@@ -1,6 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from open_municipio.users.models import User
 from open_municipio.users.views import UserProfileDetailView
+from open_municipio.people.models import municipality
 
+from ..oo_payments.forms import PaymentForm
+from ..oo_payments.models import SubscriptionPlan
 from ..acts_fulfillments.models import Fascicolo
 from .models import UserProfile
 
@@ -39,4 +44,22 @@ class OOUserProfileDetailView(UserProfileDetailView):
 
 
 #        print "return ctx: %s" % ctx
+
+        # add the payment form  
+        user_charges = curr_person.userprofile.committee_charges
+
+#        print "user charges: %s" % user_charges
+    
+        sub_codes = set()
+        for curr_charge in user_charges:
+#            print "curr charge institution: %s" % curr_charge.institution
+            curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
+            if curr_code:
+                sub_codes.add(curr_code)
+
+#        print "all payment codes: %s" % sub_codes
+        plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
+        plan_choices = map(lambda p: (p.pk, p.name), plans)
+#        print "plan choices: %s" % plan_choices
+        ctx["form_payment"] = PaymentForm(choices=plan_choices)
         return ctx
