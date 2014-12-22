@@ -79,6 +79,9 @@ def user_created(sender, user, request, **kwargs):
     extra_data.register_subscription_date = register_subscription_date
     extra_data.save()
 
+    # aggiungi recapiti
+    extra_data_recapiti = Recapiti(user=user)
+    extra_data_recapiti.indirizzo_residenza = form.cleaned_data.get('indirizzo_residenza',False)
     # aggiungi a gruppi e commissioni
 
     if settings.REGISTRATION_AUTO_ADD_GROUP:

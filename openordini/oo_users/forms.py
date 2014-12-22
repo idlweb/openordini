@@ -20,3 +20,15 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
+    luogo_nascita = forms.CharField(required=True, label=_('luogo di nascita'))
+    indirizzo_residenza = forms.CharField(required=True, label=_('indirizzo di residenza'))
+    citta_residenza = forms.CharField(required=True, label=_('citta di residenza'))
+    indirizzo_domicilio = forms.CharField(required=True, label=_('indirizzo domicilio'))
+    citta_domicilio = forms.CharField(required=True, label=_('citta domicilio'))
+    cap = forms.CharField(required=True, label=_('CAP'))
+    provincia_domicilio = forms.CharField(required=True, label=_('provincia domicilio'))
+    codice_fiscale = forms.CharField(required=True, label=_('codice fiscale'))
+    accertamento_casellario = forms.BooleanField(required=True, label=_('accertamento casellario'))
+    accertamento_universita = forms.BooleanField(required=True, label=_('accertamento universita'))
+
+
