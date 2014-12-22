@@ -80,7 +80,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.save()
 
     # aggiungi recapiti
-    extra_data_recapiti = Recapiti(user=user)
+    extra_data_recapiti = Recapiti(recapiti_psicologo=user)
     extra_data_recapiti.indirizzo_residenza = form.cleaned_data.get('indirizzo_residenza',False)
     # aggiungi a gruppi e commissioni
 
