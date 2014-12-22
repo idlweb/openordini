@@ -63,10 +63,10 @@
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
         {% endcomment %}
 
-                    <div id="legal" class="alert">
-                        {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
-                        {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
-                    </div>
+                            <div id="legal" class="alert">
+                                {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
+                                {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
+                            </div>
                         </div>
                         <div class="tab-pane" id="tab-3">
                         
@@ -79,10 +79,13 @@
                              {% include "registration/form_element.html" with element=form.provincia_domicilio %}
                              {% include "registration/form_element.html" with element=form.codice_fiscale %}
 
-
+                        </div>
                         <div class="tab-pane" id="tab-4">
-                          <legend>Riferimenti e contatti</legend>
-                        </div>                
+                          <legend>Opzioni e servizi</legend>
+                          {% include "registration/form_element.html" with element=form.ritito_agenda %}
+                          {% include "registration/form_element.html" with element=form.invio_tesserino %}
+                        </div>
+
                             {% csrf_token %}
                             <div class="alert-error">
                                 {{ form.non_field_errors }}

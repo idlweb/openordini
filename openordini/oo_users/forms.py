@@ -20,7 +20,6 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
-    luogo_nascita = forms.CharField(required=True, label=_('luogo di nascita'))
     indirizzo_residenza = forms.CharField(required=True, label=_('indirizzo di residenza'))
     citta_residenza = forms.CharField(required=True, label=_('citta di residenza'))
     indirizzo_domicilio = forms.CharField(required=True, label=_('indirizzo domicilio'))
@@ -30,5 +29,8 @@ class UserRegistrationForm(OMUserRegistrationForm):
     codice_fiscale = forms.CharField(required=True, label=_('codice fiscale'))
     accertamento_casellario = forms.BooleanField(required=True, label=_('accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=True, label=_('accertamento universita'))
+
+    ritito_agenda = forms.CharField(required=False, label=_('ritito_agenda'))
+    invio_tesserino = forms.CharField(required=False, label=_('invio_tesserino'))
 
 
