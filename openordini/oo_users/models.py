@@ -42,7 +42,7 @@ class ExtraPeople(models.Model):
         #verbose_name_plural = _("extra people")
 
 class Recapiti(models.Model):
-	psicologo_registrato = models.ForeignKey(ExtraPeople)
+	psicologo_registrato = models.OneToOneField(ExtraPeople)
 	tel_residenza = models.CharField(_('telefono residenza'), help_text=_(u"inserire il telefono della residenza") , max_length=10)
 	tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
 	tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
@@ -55,14 +55,14 @@ class Recapiti(models.Model):
         #verbose_name_plural = _("recapiti")
 
 class caratteristiche_gestione(models.Model):
-	psicologo_registrato = models.OneToOneField(UserProfile)	
-	ritito_agenda = models.BooleanField(_('numero cellulare'), help_text=_(u""))
+	psicologo_registrato = models.OneToOneField(ExtraPeople)	
+	ritiro_agenda = models.BooleanField(_('numero cellulare'), help_text=_(u""))
 	invio_tesserino = models.BooleanField(_('indirizzo email'), help_text=_(u""))
 	numero_faldone = models.IntegerField(_('indirizzo pec'), help_text=_(u""))
 
 
 class Trasferimenti(models.Model):
-	psicologo_registrato = models.OneToOneField(UserProfile)
+	psicologo_registrato = models.OneToOneField(ExtraPeople)
 	trasferimento_data = models.DateField(_('data di trasferimento albo'), help_text=_(u"") , max_length=25)
 	delibera_trasferiemnto =  models.IntegerField(_('delibera trasferimento'), help_text=_(u""))
 	data_delibera_trasferiemnto = models.DateField(_('data delibera trasferimento'), help_text=_(u"") )
@@ -84,7 +84,7 @@ class PsicologoTitoli(models.Model):
     )
 
     # This field is required.
-    psicologo_registrato = models.OneToOneField(UserProfile)
+    psicologo_registrato = models.OneToOneField(ExtraPeople)
     titolo_laurea = models.CharField(_('titolo laurea'), choices=TIPI_FACOLTA, help_text=_(u"") , max_length=50)
     data_iscrizione_albo = models.DateField(_("data iscrizione all'albo"), help_text=_(u"") )
     articolo_tre = models.BooleanField(_('presenza articolo 3'), help_text=_(u""))
