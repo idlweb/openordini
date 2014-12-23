@@ -30,7 +30,7 @@ class UserRegistrationForm(OMUserRegistrationForm):
     accertamento_casellario = forms.BooleanField(required=True, label=_('accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=True, label=_('accertamento universita'))
 
-    ritiro_agenda = forms.CharField(required=False, label=_('ritito_agenda'))
-    invio_tesserino = forms.CharField(required=False, label=_('invio_tesserino'))
+    ritiro_agenda = forms.BooleanField(required=False, label=_('ritito agenda'))
+    invio_tesserino = forms.BooleanField(required=False, label=_('invio tesserino'))
 
 
