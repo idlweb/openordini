@@ -21,6 +21,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'grappelli',
     ) + INSTALLED_APPS + (
+#INSTALLED_APPS += (
     'payments',   
     'open_municipio',
     'openordini.oo_payments',

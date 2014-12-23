@@ -1,3 +1,8 @@
+from django.utils.translation import ugettext as _
+
+APP_LABEL = _("cas_integration")
+APP_TITLE = _("Cas_Integration")
+
 
 CAS_URI = 'http://localhost:8080/cas'
 NSMAP = {'cas': CAS_URI}

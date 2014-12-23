@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-12-23 12:19+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: __init__.py:3
+msgid "acts_fulfillments"
+msgstr "atti ordine"
+
+#: __init__.py:4
+msgid "Acts_Fulfillments"
+msgstr "Atti Ordine"
+
+#: __init__.py:5
+msgid "Acts_fulfillments"
+msgstr "Atti Ordine"
+
+#: models.py:36
+msgid "Counselor"
+msgstr ""
+
+#: models.py:37
+msgid "President"
+msgstr ""
+
+#: models.py:38
+msgid "City Government Member"
+msgstr ""
+
+#: models.py:39
+msgid "City Government"
+msgstr ""
+
+#: models.py:40
+msgid "Mayor"
+msgstr ""
+
+#: models.py:41
+msgid "Psicologo"
+msgstr ""
+
+#: models.py:45 models.py:54
+msgid "approved"
+msgstr ""
+
+#: models.py:46 models.py:55
+msgid "rejected"
+msgstr ""
+
+#: models.py:47 models.py:56
+msgid "sospeso"
+msgstr ""
+
+#: models.py:51
+msgid "presented"
+msgstr ""
+
+#: models.py:52
+msgid "committee"
+msgstr ""
+
+#: models.py:53
+msgid "council"
+msgstr ""
+
+#: models.py:61
+msgid "status"
+msgstr ""
+
+#: models.py:62
+msgid "approval date"
+msgstr ""
+
+#: models.py:63
+msgid "publication date"
+msgstr ""
+
+#: models.py:64
+msgid "Internal identification string for the deliberation, when approved"
+msgstr ""
+
+#: models.py:65
+msgid "execution date"
+msgstr ""
+
+#: models.py:66
+msgid "initiative"
+msgstr ""
+
+#: models.py:70
+msgid "fascicolo"
+msgstr ""
+
+#: models.py:71
+msgid "fascicoli"
+msgstr ""
