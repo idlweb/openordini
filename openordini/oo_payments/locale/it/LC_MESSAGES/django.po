@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-13 23:29+0100\n"
+"POT-Creation-Date: 2014-12-23 12:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,87 +18,113 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:17
-msgid "Euro"
-msgstr "Euro"
+#: __init__.py:3
+msgid "oo_payments"
+msgstr "pagamenti"
 
-#: models.py:18
-msgid "US Dollar"
-msgstr "Dollaro USA"
+#: __init__.py:4
+msgid "Oo_Payments"
+msgstr "Pagamenti"
 
-#: models.py:24
+#: admin.py:17 models.py:28
 msgid "name"
 msgstr "nome"
 
-#: models.py:25
-msgid "code"
-msgstr "codice"
-
-#: models.py:26
-msgid "net amount"
-msgstr "ammontare netto"
-
-#: models.py:27
-msgid "tax"
-msgstr "tasse"
-
-#: models.py:36 models.py:65
-msgid "subscription plan"
-msgstr "abbonamento"
-
-#: models.py:37
-msgid "subscription plans"
-msgstr "abbonamenti"
-
-#: models.py:42 models.py:55 models.py:82
-msgid "order"
-msgstr "ordine"
-
-#: models.py:43
-msgid "sku"
-msgstr "sku"
-
-#: models.py:46
-msgid "quantity"
-msgstr "quantità"
-
-#: models.py:48
-msgid "currency"
-msgstr "valuta"
-
-#: models.py:56
-msgid "orders"
-msgstr "ordini"
-
-#: models.py:61
+#: admin.py:22 models.py:74
 msgid "person"
-    msgstr "persona"
+msgstr "persona"
 
-#: models.py:62
-msgid "subscription begin"
-msgstr "inizio abbonamento"
+#: filters.py:8
+msgid "payed current year"
+msgstr "pagato anno corrente"
 
-#: models.py:63
-msgid "subscription end"
-msgstr "fine abbonamento"
+#: filters.py:14
+msgid "Yes"
+msgstr "Sì"
 
-#: models.py:68
-#, python-format
-msgid "%(plan)s - %(person)s - from: %(from)s - to: %(to)s"
-msgstr "%(plan)s - %(person)s - da: %(from)s - a: %(to)s"
+#: filters.py:15
+msgid "No"
+msgstr "No"
 
-#: models.py:76
-msgid "subscription order"
-msgstr "ordine abbonamento"
-
-#: models.py:77
-msgid "subscription orders"
-msgstr "ordini abbonamento"
-
-#: models.py:95
+#: forms.py:6 models.py:139
 msgid "payment"
 msgstr "pagamento"
 
+#: models.py:21
+msgid "Euro"
+msgstr "Euro"
+
+#: models.py:22
+msgid "US Dollar"
+msgstr "Dollaro USA"
+
+#: models.py:29
+msgid "code"
+msgstr "codice"
+
+#: models.py:30
+msgid "net amount"
+msgstr "ammontare netto"
+
+#: models.py:31
+msgid "tax"
+msgstr "tasse"
+
+#: models.py:32 models.py:82
+msgid "currency"
+msgstr "valuta"
+
+#: models.py:65 models.py:103
+msgid "subscription plan"
+msgstr "abbonamento"
+
+#: models.py:66
+msgid "subscription plans"
+msgstr "abbonamenti"
+
+#: models.py:76 models.py:95 models.py:126
+msgid "order"
+msgstr "ordine"
+
+#: models.py:77
+msgid "sku"
+msgstr "sku"
+
+#: models.py:80
+msgid "quantity"
+msgstr "quantità"
+
 #: models.py:96
+msgid "orders"
+msgstr "ordini"
+
+#: models.py:101
+msgid "subscription begin"
+msgstr "inizio abbonamento"
+
+#: models.py:102
+msgid "subscription end"
+msgstr "fine abbonamento"
+
+#: models.py:117
+msgid "subscription order"
+msgstr "ordine abbonamento"
+
+#: models.py:118
+msgid "subscription orders"
+msgstr "ordini abbonamento"
+
+#: models.py:140
 msgid "payments"
 msgstr "pagamenti"
+
+#: models.py:146
+msgid "subscription"
+msgstr "iscrizione albo"
+
+#: models.py:147
+msgid "subscriptions"
+msgstr "iscrizioni albo"
+
+#~ msgid "%(plan)s - %(person)s - from: %(from)s - to: %(to)s"
+#~ msgstr "%(plan)s - %(person)s - da: %(from)s - a: %(to)s"

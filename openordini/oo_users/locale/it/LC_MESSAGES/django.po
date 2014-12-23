@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-12 14:46+0100\n"
+"POT-Creation-Date: 2014-12-23 12:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: __init__.py:5
+msgid "oo_users"
+msgstr "utenti NPOP"
+
+#: __init__.py:6
+msgid "Oo_Users"
+msgstr "Utenti NPOP"
 
 #: forms.py:10
 msgid "I am a \"psicologo del lavoro\""
@@ -54,54 +62,54 @@ msgstr "Sono dipendente ASL"
 msgid "I am self-employed"
 msgstr "Sono libero professionista"
 
-#: models.py:9 models.py:13
+#: models.py:13 models.py:17
 msgid "psicologo clinico"
 msgstr ""
 
-#: models.py:9
+#: models.py:13
 msgid "notifica l'amministratore che è uno psicologo clinico"
 msgstr ""
 
-#: models.py:10
+#: models.py:14
 msgid "psicologo del lavoro"
 msgstr ""
 
-#: models.py:10
+#: models.py:14
 msgid "notifica l'amministratore che è uno psicologo del lavoro'"
 msgstr ""
 
-#: models.py:11
+#: models.py:15
 msgid "psicologo forense"
 msgstr ""
 
-#: models.py:11
+#: models.py:15
 msgid "notifica l'amministratore che è uno psicologo forense"
 msgstr ""
 
-#: models.py:12
+#: models.py:16
 msgid "ASL employee"
 msgstr "dipendente ASL"
 
-#: models.py:12
+#: models.py:16
 msgid "notifica l'amministratore che è un dipendente ASL"
 msgstr ""
 
-#: models.py:13
+#: models.py:17
 msgid "notifica l'amministratore che è un libero professionista"
 msgstr ""
 
-#: models.py:15
+#: models.py:19
 msgid "register subscription date"
 msgstr "data iscrizione Albo"
 
-#: models.py:15
+#: models.py:19
 msgid "la data in cui si è registrato all'albo"
 msgstr ""
 
-#: models.py:19
+#: models.py:39
 msgid "user profile"
 msgstr "profilo utente"
 
-#: models.py:20
+#: models.py:40
 msgid "user profiles"
 msgstr "profili utente"

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 
 from .models import Payment, SubscriptionOrder, SubscriptionPlan, Subscription
+from .filters import PaymentFilter
 
 from open_municipio.people.models import municipality
 
@@ -33,12 +34,23 @@ class SubscriptionPlanAdmin(admin.ModelAdmin):
     list_display = ("name", "code", "currency", "total_amount", )
 
 
+
 class SubscriptionAdmin(admin.ModelAdmin):
 
-    list_display = ("last_name", "first_name", "username", "order_label",)
+    search_fields = [ "last_name", "first_name", "userprofile__user__username", 
+                        "userprofile__user__email", ]
+
+    list_display = ("last_name", "first_name", "username", "email", "order_label",)
+
+    list_filter = [PaymentFilter,]
 
     def username(self, object):
         return object.userprofile.user.username
+    username.admin_order_field = "userprofile__user__username"
+
+    def email(self, object):
+        return object.userprofile.user.email
+    email.admin_order_field = "userprofile__user__email"
 
     def curr_year_subscription_order(self, object):
         """

@@ -150,3 +150,5 @@ class Subscription(Person):
 
     class Meta:
         proxy = True
+        verbose_name = _("subscription")
+        verbose_name_plural = _("subscriptions")
