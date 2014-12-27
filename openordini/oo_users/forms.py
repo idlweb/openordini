@@ -7,6 +7,13 @@ from open_municipio.people.models import Person
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
+    fieldsets = {
+        "access" : ["username", "password", "password1", ],
+        "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
+        "contacts": ["indirizzo_residenza", "citta_residenza", "indirizzo_domicilio", "citta_domicilio", "cap", "provincia_domicilio", "codice_fiscale", ],
+        "extra" : ["ritiro_agenda", "invio_tesserino"],
+    }
+
     says_is_psicologo_lavoro = forms.BooleanField(required=False, label=_('I am a "psicologo del lavoro"'))
     says_is_psicologo_clinico = forms.BooleanField(required=False, label=_('I am a "psicologo clinico"'))
     says_is_psicologo_forense = forms.BooleanField(required=False, label=_('I am a "psicologo forense"'))
@@ -32,5 +39,4 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     ritiro_agenda = forms.BooleanField(required=False, label=_('ritito agenda'))
     invio_tesserino = forms.BooleanField(required=False, label=_('invio tesserino'))
-
 

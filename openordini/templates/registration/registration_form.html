@@ -1,5 +1,6 @@
 {% extends "registration/base_user.html" %}
 {% load i18n %}
+{% load registration_tags %}
 
 {% block title %}Registrazione al sito{% endblock %}
 {% block content_header %}Registrazione al sito{% endblock %}
@@ -13,10 +14,10 @@
                 
                 <form enctype="multipart/form-data" action="" method="post" class="form-horizontal" accept-charset="utf-8">
  <ul class="nav nav-tabs">
-                      <li class="active"><a href="#tab-1" data-toggle="tab">Credenziali</a></li>
-                      <li><a href="#tab-2" data-toggle="tab">Dati per l'iscrizione</a></li>
-                      <li><a href="#tab-3" data-toggle="tab">Recapiti</a></li>
-                      <li><a href="#tab-4" data-toggle="tab">Richieste</a></li>
+                      <li class="active {% if form|fieldset_error:"access" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Credenziali</a></li>
+                      <li {% if form|fieldset_error:"basic" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Dati per l'iscrizione</a></li>
+                      <li {% if form|fieldset_error:"contacts" %}{% endif %}><a href="#tab-3" data-toggle="tab">Recapiti</a></li>
+                      <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-4" data-toggle="tab">Richieste</a></li>
                 </ul>
                 <div class="tab-content">
                         <div class="tab-pane active" id="tab-1">

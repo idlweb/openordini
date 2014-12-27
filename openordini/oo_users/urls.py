@@ -16,6 +16,8 @@ from .views import OOUserProfileDetailView
 urlpatterns = patterns('',
 	url(r'^profile/$', 
         OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
+    url(r'^profile/edit/$',
+        'profiles.views.edit_profile', name='profiles_edit_profile'),
     url(r'^profile/(?P<username>[\w\.@]+)/$', 
         OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
 )
