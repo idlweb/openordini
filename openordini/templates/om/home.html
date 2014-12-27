@@ -188,11 +188,11 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
 
       <div class="row-fluid">
           <div class="span4">
-              <h2>I più presenti al voto</h2>
+              <h2>I più presenti al voto :-)</h2>
               <div>
                   I dati si riferiscono alle votazioni svolte in Consiglio.<br/>
                   Non vengono calcolate le presenze alle sedute né se l'assenza
-                  abbia motivazioni politiche.
+                  abbia motivazioni 'sindacali'.
               </div>
               <ul class="people-list">
                   {% for politician in least_absent %}
@@ -208,11 +208,10 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
               </ul>
           </div>
           <div class="span4">
-              <h2>I più monitorati</h2>
+              <h2>I professionisti più seguiti</h2>
               <div>
-                  Sono gli amministratori più seguiti dagli utenti del sito che in
-                  questo modo ricevono aggiornamenti su tutte le attività istituzionali
-                  del politico.
+                  Sono gli psicologi più seguiti dagli utenti del sito che in
+                  questo modo ricevono aggiornamenti su tutte le attività del professionista scelto.
               </div>
               <ul class="people-list">
                   {% for p in top_monitored %}
@@ -227,7 +226,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
               </ul>
           </div>
           <div class="span4">
-              <h2>I consiglieri con più atti</h2>
+              <h2>I consiglieri instacabili</h2>
               <div>
                   Sono i Consiglieri che hanno presentato più atti come primo firmatario.
               </div>
@@ -247,7 +246,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
 
       <div class="row-fluid">
           <div class="span6">
-              <h2>Atti in evidenza {% popover_info 'atti-chiave' %}</h2>
+              <h2>Atti in evidenza {% popover_info 'in evidenza' %}</h2>
               <table class="items-list">
                   <tbody>
                   {% for a in key_acts %}
@@ -265,7 +264,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
           </div>
 
           <div class="span6">
-              <h2>Ultimi voti chiave {% popover_info 'voti-chiave' %}</h2>
+              <h2>Votazioni importanti {% popover_info 'votazioni' %}</h2>
               <table class="items-list">
                   <tbody>
                   {% for v in key_votations %}

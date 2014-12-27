@@ -3148,10 +3148,17 @@ input[type="submit"].btn.btn-mini {
 .navbar .nav > li > a {
   float: none;
   padding: 5px 10px 6px;
-  line-height: 19px;
+  
   color: #ffffff;
   text-decoration: none;
-  font-weight: bold;
+  float: none;
+  padding: 5px 10px 6px;
+  text-decoration: none;
+  font-size: 21px;
+  line-height: 22px;
+  margin-left: 14px;
+  padding-left: 10px;
+  font-weight: 200;
 }
 .navbar .nav > li > a:hover {
   background-color: transparent;
@@ -4229,7 +4236,9 @@ body #content hgroup h4 {
   font-weight: normal;
 }
 body #content h2 {
-  font-size: 19px;
+    font-size: 28px;
+	padding-bottom: 5px;
+	font-weight: 500;
 }
 body #content h3 {
   font-size: 16px;

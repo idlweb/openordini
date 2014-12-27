@@ -13,7 +13,7 @@ from ..oo_users.forms import UserRegistrationForm
 
 urlpatterns = patterns('',
 
-    url(r'^grappelli/', include('grappelli.urls')),
+    #url(r'^grappelli/', include('grappelli.urls')),
 
     url(r'^$', OOHomeView.as_view(), name="home"),
 
