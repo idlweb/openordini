@@ -4,11 +4,11 @@
 {% load popover_info %}
 
 {% block title %}Albo | Presidenza{% endblock title %}
-{% block content_header %}Giunta{% endblock %}
+{% block content_header %}Albo{% endblock %}
 {% block institutions_class %}active{% endblock %}
 
 {% block content_header_city_logo %}
-    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png" alt="Comune di {{ main_city }}">
+    <img src="{{ STATIC_URL }}img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
 {% endblock %}
 
 {% block people_class %}class="active"{% endblock %}
@@ -24,7 +24,7 @@
 
   <section class="row-fluid">
 
-      <h2>Giunta {% popover_info 'giunta-comunale' %}</h2>
+      <h2>Albo {% popover_info 'Consiglio Albo' %}</h2>
 
       <table id="giunta" class="data dataTable">
           <thead>
@@ -38,8 +38,8 @@
           </tr>
           </thead>
           <tbody>
-          {%  include 'people/gov_member_table_row.html' with charge=mayor  label="Sindaco" id_prefix="0" %}
-          {%  include 'people/gov_member_table_row.html' with charge=firstdeputy  label="Vice sindaco" id_prefix="1" %}
+          {%  include 'people/gov_member_table_row.html' with charge=mayor  label="Presidente" id_prefix="0" %}
+          {%  include 'people/gov_member_table_row.html' with charge=firstdeputy  label="Vice Presidente" id_prefix="1" %}
           {% for c in citygov.members %}
               {%  include 'people/gov_member_table_row.html' with charge=c id_prefix="2" %}
           {% endfor %}
@@ -57,7 +57,7 @@
         {% include 'commons/calendar.html' with events=events %}
     </section>
 
-  <h2>Ultimi 3 atti della Giunta</h2>
+  <h2>Ultimi 3 atti dell'Albo</h2>
   <ul class="list-plain">
     {% for act in latest_acts %}
       <li><strong><a href="{{ act.get_absolute_url }}">{% if act.adj_title %}{{ act.adj_title }}{% else %}{{ act.title }}{% endif %}</a></strong>
@@ -145,7 +145,7 @@
 
         sort_acts_asc = function(node_a,node_b) {
 
-    		acts_a = parseInt($(node_a).text().replace(/^\s+|\s+$/g, ""));
+    		    acts_a = parseInt($(node_a).text().replace(/^\s+|\s+$/g, ""));
             acts_b = parseInt($(node_b).text().replace(/^\s+|\s+$/g, ""));
 
             if (acts_a < acts_b)
