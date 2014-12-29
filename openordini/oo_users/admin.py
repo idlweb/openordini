@@ -11,16 +11,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 
 from django.contrib.contenttypes.models import ContentType
+from suit.widgets import SuitDateWidget, SuitTimeWidget, SuitSplitDateTimeWidget
+
 
 
 class UserProfileAdmin(admin.ModelAdmin):    
     exclude = ("says_is_politician", )
+    search_fields = ["person__last_name", "person__first_name"]
     
 
 
 """ ERRORE richiesta id"""
-class UserInline(admin.TabularInline):
-    model = OOUserProfile
+#class UserInline(admin.TabularInline):
+#    model = OOUserProfile
 
 
 """ blocco funzionante A3"""
@@ -46,33 +49,16 @@ class RecapitoAdmin(admin.ModelAdmin):
 Query personalizzata Verifiche
 """
 class VerificheListFilter(admin.SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
     title = _('verifiche')
-     # Parameter for the filter that will be used in the URL query.
     parameter_name = 'verifiche'
 
     def lookups(self, request, model_admin):
-        """
-        Returns a list of tuples. The first element in each
-        tuple is the coded value for the option that will
-        appear in the URL query. The second element is the
-        human-readable name for the option that will appear
-        in the right sidebar.
-        """
         return (
             ('casellario', _('casellario da verificare')),
             ('titolo', _('titoli non verificati')),
         )
 
     def queryset(self, request, queryset):
-        """
-        Returns the filtered queryset based on the value
-        provided in the query string and retrievable via
-        `self.value()`.
-        """
-        # Compare the requested value (either '80s' or '90s')
-        # to decide how to filter the queryset.
         if self.value() == 'casellario':
             return queryset.filter(accertamento_casellario=False)
         if self.value() == 'titolo':
@@ -113,10 +99,7 @@ class ExtraPeopleAdmin(admin.ModelAdmin):
 Query personalizzata Specializzazioni
 """
 class SpecializzatiListFilter(admin.SimpleListFilter):
-    # Human-readable title which will be displayed in the
-    # right admin sidebar just above the filter options.
     title = _('specializzati')
-     # Parameter for the filter that will be used in the URL query.
     parameter_name = 'specializzati'
     def lookups(self, request, model_admin):       
         return (
@@ -142,6 +125,15 @@ class AuthSpecializzatiListFilter(SpecializzatiListFilter):
                 self).queryset(request, queryset)     
 
 
+#Non funziona
+#class PsicologoTitoliForm(forms.ModelForm):
+#    class Meta:
+#        model = PsicologoTitoli
+#        widgets = {
+#            'data_iscrizione_albo': SuitSplitDateTimeWidget,            
+#        }
+
+
 class MyPsicologoTitoAdminForm(forms.ModelForm):
     def clean_titolo(self):
         # do something that validates your data
@@ -154,6 +146,30 @@ class PsicologoTitoliAdmin(admin.ModelAdmin):
     form = MyPsicologoTitoAdminForm
     pass
 
+
+"""
+   A subclass of this admin will let you add buttons (like history) in the
+   change view of an entry.
+"""
+class ButtonableModelAdmin(admin.ModelAdmin):
+  
+   buttons=[]
+
+   def change_view(self, request, object_id, extra_context={}):
+      extra_context['buttons']=self.buttons
+      return super(ButtonableModelAdmin, self).change_view(request, object_id, extra_context)
+
+   def __call__(self, request, url):
+      if url is not None:
+         import re
+         res=re.match('(.*/)?(?P<id>\d+)/(?P<command>.*)', url)
+         if res:
+            if res.group('command') in [b.func_name for b in self.buttons]:
+               obj = self.model._default_manager.get(pk=res.group('id'))
+               getattr(self, res.group('command'))(obj)
+               return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+      return super(ButtonableModelAdmin, self).__call__(request, url)
 
 
 

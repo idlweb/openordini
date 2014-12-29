@@ -161,8 +161,8 @@ SUIT_CONFIG = {
     'HEADER_TIME_FORMAT': 'H:i',
 
     # forms
-    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
+    'SHOW_REQUIRED_ASTERISK': True,  # Default True
+    'CONFIRM_UNSAVED_CHANGES': True, # Default True
 
     # menu
     # 'SEARCH_URL': '/admin/auth/user/',
@@ -171,13 +171,18 @@ SUIT_CONFIG = {
         'auth': 'icon-lock',
     },
     # 'MENU_OPEN_FIRST_CHILD': True, # Default True
-    # 'MENU_EXCLUDE': ('auth.group',),
-    # 'MENU': (
-    #     'sites',
-    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
-    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
-    # ),
+    'MENU_EXCLUDE': ('auth.group',),
+     'MENU': (
+        {'app': 'oo_users', 'label': 'Schede psicologi', 'icon':'icon-user', 'models': ('userprofile','extrapeople', 'recapito','psicologotitoli','caratteristiche_gestione','trasferimento')},
+        {'app': 'acts', 'label': 'Gestione atti del Consiglio', 'icon':'icon-book', 'models': ('act','deliberation','interrogation','interpellation','motion','agenda','amendment','transition','document','attach','speech','calendar')},
+         {'app': 'acts_fulfillments', 'label': 'Fascicoli iscritti', 'icon':'icon-book', 'models': ('fascicolo')},
+        {'app': 'newsletter', 'label': 'Newsletter', 'icon':'icon-comment', 'models': ('newsletter')},
+        {'app': 'attendances', 'label': 'Presenze', 'icon':'icon-check', 'models': ('attendance','chargeattendance')},
+        {'app': 'events', 'label': 'Eventi', 'icon':'icon-calendar', 'models': ('event')},       
+         'sites',         
+        {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+         #{'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
+    ),
 
     # misc
     # 'LIST_PER_PAGE': 15
