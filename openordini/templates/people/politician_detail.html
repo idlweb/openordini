@@ -1,0 +1,324 @@
+{% extends "base_two_columns.html" %}
+{% load i18n %}
+{% load comments %}
+{% load voting_tags %}
+{% load om_utils %}
+{% load thumbnail %}
+{% load monitoring_tags %}
+{% load newscache_tags %}
+{% load popover_info %}
+{% load url from future %}
+
+
+{% block title %}Dettaglio {{ person }}{% endblock %}
+{% block content_header %}Politico{% endblock %}
+{% block content_header_city_logo %}
+    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png"
+         xmlns:br="http://www.w3.org/1999/html"
+         alt="Comune di {{ main_city }}">
+{% endblock %}
+{% block body_class %}politician{% endblock %}
+{% block people_class %}class="active"{% endblock %}
+
+
+{% block head_css_includes %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/meter-bar.css" />
+{% endblock head_css_includes %}
+
+{% block head_js_includes %}
+  {{ block.super }}
+  <script src="{{ STATIC_URL }}js/ajax_csrf.js" type="text/javascript" charset="utf-8"></script>
+  <script src="{{ STATIC_URL }}js/jquery.submitlink.js" stype="text/javascript"></script>
+{% endblock head_js_includes %}
+
+{% block sub_nav %}
+    {%  include 'commons/subnav.html' %}
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="row-fluid">
+    <div class="span8">
+
+      <header class="clearfix">
+        {% if person.img %}
+            {% thumbnail person.img "100x100" crop="center" as im %}
+                  <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left politician-picture">
+            {% endthumbnail %}
+        {% else %}
+            <img src="{{ STATIC_URL }}img/placehold/face_100.png" width="100" height="100" class="thumb-left politician-picture">
+        {% endif %}
+
+        <h1>
+          {% if person.is_om_user %}
+            <i class="icon-ok" title="{{ person }} è iscritto a Open municipio"></i>
+          {% endif %}
+          {{ person }}
+        </h1>
+        {% for inst in current_institutions %}
+          <p>{{ inst.institution__name }}</p>
+        {% endfor %}
+
+        <p>
+          {% for resource in resources.EMAIL %}
+            <a href="mailto:{{ resource.value }}">{{ resource.value }}</a>
+          {% endfor %}
+          <br>
+          {% for resource in resources.PHONE %}
+            Tel. {{ resource.value }}
+          {% endfor %}
+          {% for resource in resources.FAX %}
+            Fax {{ resource.value }}
+          {% endfor %}
+        </p>
+      </header>
+
+      {% if current_charges %}
+        <ul class="list-plain">
+            {% for c in current_charges %}
+                <li><strong>{{ c.denomination }}</strong> dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if current_groupcharge %}
+          Gruppo <a href="{% url 'om_institution_group' slug=current_groupcharge.group.slug %}"><strong>{{ current_groupcharge.group }}</strong></a>
+          {% if current_groupcharge.current_responsability %}
+              - {% trans current_groupcharge.current_responsability.get_charge_type_display %}
+              dal {{ current_groupcharge.current_responsability.start_date|date:'d.m.Y' }}
+          {%  endif %}
+          <br/>
+
+          {% if historical_groupcharges %}
+              le altre appartenenze
+              <ul>
+                  {% for gc in historical_groupcharges %}
+                      <li>dal {{ gc.start_date|date:'d.m.Y' }} {%  if gc.end_date %} al {{ gc.end_date|date:'d.m.Y' }}{%  endif %} - {{ gc.group.name }}</li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+      {% endif %}
+
+      {% if current_committee_charges %}
+          <ul class="list-plain">
+            {% for c in current_committee_charges %}
+              <li>{{ c.institution }}:
+                <em>{{ c.institution.description }}</em>
+                {% if c.current_responsability %}
+                  - {% trans c.current_responsability.get_charge_type_display %}
+                  dal {{ c.current_responsability.start_date|date:'d.m.Y' }}
+
+                {%  endif %}
+
+              </li>
+            {% endfor %}
+          </ul>
+      {% endif %}
+
+      {% if resources.FINANCIAL %}
+        <p>
+        {% for resource in resources.FINANCIAL %}
+        <br/>
+        {% with label=resource.description|default:"Informazioni finanziarie" %}
+        {{ label }} <a href="{{ resource.value  }}" alt="{{ label }}" title="{{ label }}" target="_blank"><i class="icon-download"></i></a>
+        {% endwith %}
+        {% endfor %}
+        </p>
+      {% endif %}
+
+    </div>
+
+    <div class="span4">
+      <table>
+          {% for resource in resources.URL %}
+            <tr><td><i class="res res-feed"></i></td><td><a class="website" href="{{ resource.value }}">Sito web</a></td></tr>
+	      {% endfor %}
+          {% for resource in resources.FACEBOOK %}
+            <tr><td><i class="res res-facebook"></i></td><td><a class="facebook" href="{{ resource.value }}">Pagina Facebook</a></td></tr>
+	      {% endfor %}
+          {% for resource in resources.TWITTER %}
+            <tr><td><i class="res res-twitter"></i></td><td><a class="twitter" href="{{ resource.value }}">Profilo Twitter</a></td></tr>
+	      {% endfor %}
+	      {% if person.openpolis_link %}
+            <tr><td><i class="res res-openpolis"></i></td><td><a class="openpolis" href="{{ person.openpolis_link }}">Pagina su Openpolis</a></td></tr>
+	      {% endif %}
+          {% if person.userprofile %}
+            <tr><td><i class="res res-openmunicipio"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">Profilo su Open Ordini</a></td></tr>
+          {% endif %}
+      </table>
+
+    </div>
+
+  </div>
+
+  <hr class="big">
+
+  {% if is_counselor %}
+    <section>
+      <h2>Presenze ({{ n_total_votations }} votazion{{ n_total_votations|pluralize:"e,i" }})</h2>
+      <p>
+          I dati si riferiscono alle votazioni svolte in Consiglio.<br/>
+          Non vengono calcolate le presenze alle sedute né se l'assenza abbia motivazioni politiche.
+      </p>
+      <div class="meter-bar float-container">
+        <div class="meter-bar-container">
+          <label>Presenze</label>
+          <div class="meter-label"><strong class="green">{{ percentage_present_votations }}%</strong>&nbsp;({{ current_counselor_charge.n_present_votations }})</div>
+          <div class="green-meter-bar">
+            <div style="left: {{ percentage_present_votations_average }}%;" class="meter-average"><label>valore medio: {{ percentage_present_votations_average }}%</label>&nbsp;</div>
+            <div style="width: {{ percentage_present_votations }}%;" class="meter-value">&nbsp;</div>
+          </div>
+        </div>
+        <div class="meter-bar-container">
+          <label>Assenze</label>
+          <div class="meter-label"><strong class="red">{{ percentage_absent_votations }}%</strong>&nbsp;({{ current_counselor_charge.n_absent_votations }})</div>
+          <div class="red-meter-bar">
+            <div style="left: {{ percentage_absent_votations_average }}%;" class="meter-average"><label>valore medio: {{ percentage_absent_votations_average }}%</label>&nbsp;</div>
+            <div style="width: {{ percentage_absent_votations }}%;" class="meter-value">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="big">
+
+      <section>
+        <h2>Ultimi voti chiave {% popover_info 'voti-chiave' %}</h2>
+        <table class="data">
+          <thead>
+          <tr>
+            <th>Data della seduta</th>
+            <th>Num votazione</th>
+            <th>Atto</th>
+            <th class="text-center">Voto</th>
+            <th class="text-center">Esito</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for charge_vote in current_charge_votes %}
+            <tr>
+              <td class="text-center">{{ charge_vote.votation.sitting.date }}</td>
+              <td class="text-center">
+                  <a href="{{ charge_vote.votation.get_absolute_url }}">
+                    {{ charge_vote.votation.idnum }}
+                  </a>
+              </td>
+              {% with curr_act=charge_vote.votation.ref_act %}
+              <td {% if not curr_act %}class="text-center"{%  endif %}>
+                  {% if curr_act %}
+                      <a href="{{ curr_act.downcast.get_absolute_url }}"><strong>{{ curr_act.adj_title|default:curr_act.title }}</strong></a>
+                  {%  else %}
+                      -
+                  {% endif %}
+              </td>
+              {% endwith %}
+              <td class="text-center"><span class="label
+                                                           {% if charge_vote.get_vote_display == "Sì" %}label-success{% else %}
+                                                           {% if charge_vote.get_vote_display == "No" %}label-important{% endif %}{% endif %}
+                                                                                                     ">{{ charge_vote.get_vote_display }}</span></td>
+              <td class="text-center"><span class="label
+                                                           {% if charge_vote.votation.get_outcome_display == "Accettato" %}label-success{% else %}
+                                                           {% if charge_vote.votation.get_outcome_display == "Respinto" %}label-important{% endif %}{% endif %}
+                                                                                                     ">{{ charge_vote.votation.get_outcome_display }}</span></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% comment %}
+        <p><i class="icon-play"></i> <a href="{% url 'om_votation_search' %}?q=&person={{ person.slug }}&selected_facets=is_key:sì">Vedi tutti i voti chiave</a></p>
+        {% endcomment %}
+      </section>
+
+      <hr class="big">
+
+      <section>
+          <h2>Voti ribelli ({{ percentage_rebel_votations }}%) {% popover_info 'voti-ribelli' %}</h2>
+          <p>
+              Ha votato {{ current_counselor_charge.n_rebel_votations }} volte ({{ percentage_rebel_votations }}% sul totale dei voti cui era presente) <strong>diversamente dal proprio gruppo</strong> di appartenenza.
+          </p>
+      </section>
+
+      <hr class="big">
+
+  {% endif %}
+
+  {% if n_presented_acts %}
+      <section>
+          <h2>Atti su cui lavora ({{ n_presented_acts }}) {% popover_info 'atti-su-cui-lavora' %}</h2>
+            {% include 'acts/act_table_detail.html' with acts_list=presented_acts %}
+          <p><i class="icon-play"></i> <a href="{% url 'om_act_search' %}?q=&person={{ person.slug }}">Vedi tutti gli atti su cui lavora</a></p>
+
+      </section>
+  {% endif %}
+  
+  {% if n_speeches %}
+      <section>
+          <h2>Ultimi interventi in Consiglio Comunale {% popover_info 'interventi-politico' %}</h2>
+
+          <table class="data">
+              <thead>
+              <tr>
+                  <th class="text-left span5">Seduta</th>
+                  <th>Argomento</th>
+                  <th>Intervento</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for speech in speeches %}
+                  <tr>
+                      <td>{{ speech.sitting_item.sitting }}</td>
+                      <td>{{ speech.sitting_item.title }}</td>
+                      <td><a href="{{ speech.get_absolute_url }}">Leggi il singolo intervento</a><br/>
+                        <a href="{{ speech.sitting_item.get_absolute_url }}">Leggi nel contesto</a>
+                    </td>
+                  </tr>
+              {% endfor %}
+
+        </table>
+        <p><i class="icon-play"></i> <a href="{% url 'om_speech_search' %}?q=&person={{ person.slug }}">Vedi tutti gli interventi</a></p>
+
+
+      </section>
+  {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+
+  <section class="share-tools clearfix">
+      {% load web_services_tags %}
+      {% share person %}
+  </section>
+
+  <section><h3>Monitora {% popover_info 'monitoraggio' 'left' %}</h3>
+      {% object_monitoring person %}
+  </section>
+
+  <hr>
+
+  <section><h3>Argomenti di cui si occupa {% popover_info 'argomenti-di-cui-si-occupa' 'left' %}</h3>
+    <dl class="taxonomy-cloud">
+      {% regroup person_topics|dictsort:"category.name" by category as categorized_topics %}
+      {% for grouped_tags in categorized_topics %}
+        <dt><a href="{{ grouped_tags.grouper.get_absolute_url }}">{{ grouped_tags.grouper.name }}</a></dt>
+        {% for topic in grouped_tags.list %}
+          {% if topic.tag %}
+            <dd><a href="{{ topic.tag.get_absolute_url }}">{{ topic.tag }}</a></dd>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </dl>
+  </section>
+
+  <hr>
+
+  {% institutional_news_for_object person as i_news %}
+  {% include 'commons/news_list.html' with news_list=i_news news_title='Ultime su '|add:person.full_name %}
+  <hr>
+
+
+{#  {% community_news_for_object person as c_news %}#}
+{#  {% include 'commons/news_list.html' with news_list=FIXME news_title='Ultime dalla community' %}#}
+
+{% endblock %}

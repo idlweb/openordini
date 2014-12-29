@@ -10,14 +10,7 @@ from open_municipio.urls import *
 from open_municipio.om.views import HomeView
 from openordini.oo_people.views import *
 
-from .views import OOUserProfileDetailView
-
 # place app url patterns here
 urlpatterns = patterns('',
-	url(r'^profile/$', 
-        OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
-    url(r'^profile/edit/$',
-        'profiles.views.edit_profile', name='profiles_edit_profile'),
-    url(r'^profile/(?P<username>[\w\.@]+)/$', 
-        OOUserProfileDetailView.as_view(), name='profiles_profile_detail'),
+	url(r'^committees/(?P<slug>[-\w]+)/$', OOCommitteeDetailView.as_view(), name='om_institution_committee'),
 )

@@ -19,6 +19,7 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = (
+    #'wpadmin',
     'suit',
     #'grappelli',
     ) + INSTALLED_APPS + (
@@ -119,7 +120,8 @@ PAYMENT_BASE_URL = '' # 'http://localhost:8000/'
 PAYMENT_MODEL = 'oo_payments.Payment'
 
 PAYMENT_VARIANTS = {
-    'default': ('payments.dummy.DummyProvider', {})}
+    'default': ('payments.dummy.DummyProvider', {})
+}
 
 SUBSCRIPTION_COMMITTEE_MAPS = {
     "studenti": "STUD",
@@ -145,6 +147,13 @@ COMMITTEE_SLUGS = {
     "psicologo_forense": "psicologi-forensi",
 }
 
+SITE_INFO = {
+    'main_city': u'NPOP',
+    'site_version': u'Beta',
+    'main_city_logo': 'img/city-logo/city-logo.png',
+    'main_city_website': 'http://www.psicologipuglia.it',
+}
+
 SUIT_CONFIG = {
     # header
     'ADMIN_NAME': 'Nuovo portale degli psicologi',
@@ -152,8 +161,8 @@ SUIT_CONFIG = {
     'HEADER_TIME_FORMAT': 'H:i',
 
     # forms
-    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
+    'SHOW_REQUIRED_ASTERISK': True,  # Default True
+    'CONFIRM_UNSAVED_CHANGES': True, # Default True
 
     # menu
     # 'SEARCH_URL': '/admin/auth/user/',
@@ -162,13 +171,18 @@ SUIT_CONFIG = {
         'auth': 'icon-lock',
     },
     # 'MENU_OPEN_FIRST_CHILD': True, # Default True
-    # 'MENU_EXCLUDE': ('auth.group',),
-    # 'MENU': (
-    #     'sites',
-    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
-    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
-    # ),
+    'MENU_EXCLUDE': ('auth.group',),
+     'MENU': (
+        {'app': 'oo_users', 'label': 'Schede psicologi', 'icon':'icon-user', 'models': ('userprofile','extrapeople', 'recapito','psicologotitoli','caratteristiche_gestione','trasferimento')},
+        {'app': 'acts', 'label': 'Gestione atti del Consiglio', 'icon':'icon-book', 'models': ('act','deliberation','interrogation','interpellation','motion','agenda','amendment','transition','document','attach','speech','calendar')},
+         {'app': 'acts_fulfillments', 'label': 'Fascicoli iscritti', 'icon':'icon-book', 'models': ('fascicolo')},
+        {'app': 'newsletter', 'label': 'Newsletter', 'icon':'icon-comment', 'models': ('newsletter')},
+        {'app': 'attendances', 'label': 'Presenze', 'icon':'icon-check', 'models': ('attendance','chargeattendance')},
+        {'app': 'events', 'label': 'Eventi', 'icon':'icon-calendar', 'models': ('event')},       
+         'sites',         
+        {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+         #{'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
+    ),
 
     # misc
     # 'LIST_PER_PAGE': 15

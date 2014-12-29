@@ -10,7 +10,7 @@ from django.db.models import Q, Count
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
-from open_municipio.people.views import PoliticianDetailView
+from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView
 from open_municipio.acts.models import Act
 from django.core import serializers
 
@@ -34,6 +34,18 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         ctx["presented_acts"] = filtered_acts
         ctx["n_presented_acts"] = len(filtered_acts)
+
+        return ctx
+
+
+class OOCommitteeDetailView(CommitteeDetailView):
+
+    def get_context_data(self, **kwargs):
+        ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)
+
+        ctx["sub_committees"] = self.object.sub_body_set.all()
+
+        print "ctx = %s" % ctx
 
         return ctx
 

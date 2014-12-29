@@ -1,0 +1,5 @@
+li.error,
+li.error a,
+.nav-tabs > .active .error > a {
+  color: #b94a48 !important;
+}

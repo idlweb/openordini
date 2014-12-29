@@ -40,58 +40,80 @@ class UserProfile(OMUserProfile):
 
         return comm
 
+    def __unicode__(self):
+        return self.person.first_name + ' - ' + self.person.last_name 
 
     class Meta:
-        verbose_name = _("user profile")
-        verbose_name_plural = _("user profiles")
+        verbose_name = _("scheda psicologo")
+        verbose_name_plural = _("schede psicologi")
 
 
 class ExtraPeople(models.Model):
-	anagrafica_extra = models.OneToOneField(UserProfile)
-	indirizzo_residenza = models.CharField(_('indirizzo di resicdenza'), help_text=_(u"inserire l'indirizzo di residenza") , max_length=128)
-	citta_residenza = models.CharField(_('città di residenza'), help_text=_(u"inserire la città di residenza") , max_length=128)
-	indirizzo_domicilio = models.CharField(_('indirizzo del domicilio'), help_text=_(u"inserire l'indirizzo del domicilio") , max_length=128)
-	citta_domicilio = models.CharField(_('città di domicilio'), help_text=_(u"inserire la città di domicilio") , max_length=128)
-	cap = models.CharField(_('CAP'), help_text=_(u"inserire il CAP") , max_length=5)
-	provincia_domicilio = models.CharField(_('provincia del domicilio'), help_text=_(u"inserire la provincia del domicilio") , max_length=128)
-	codice_fiscale = models.CharField(_('codice fiscale'), help_text=_(u"inserire il codice fiscale") , max_length=16)
-	accertamento_casellario = models.BooleanField(_('verifica casellario giudiziario'), help_text=_(u""))
-	accertamento_universita = models.BooleanField(_('verifica conseguimento titolo accademico'), help_text=_(u""))
-	
-	
-	#class Meta:
-        #verbose_name = _("extra people")
-        #verbose_name_plural = _("extra people")
-
-class Recapiti(models.Model):
-	recapiti_psicologo = models.OneToOneField(UserProfile)
-	tel_residenza = models.CharField(_('telefono residenza'), help_text=_(u"inserire il telefono della residenza") , max_length=10)
-	tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
-	tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
-	tel_cellulare = models.CharField(_('numero cellulare'), help_text=_(u"inserire il numero del cellulare") , max_length=10)
-	indirizzo_email = models.CharField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=20)
-	indirizzo_pec = models.CharField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=20)
+    anagrafica_extra = models.OneToOneField(UserProfile)
+    indirizzo_residenza = models.CharField(_('indirizzo di resicdenza'), help_text=_(u"inserire l'indirizzo di residenza") , max_length=128)
+    citta_residenza = models.CharField(_('città di residenza'), help_text=_(u"inserire la città di residenza") , max_length=128)
+    indirizzo_domicilio = models.CharField(_('indirizzo del domicilio'), help_text=_(u"inserire l'indirizzo del domicilio") , max_length=128)
+    citta_domicilio = models.CharField(_('città di domicilio'), help_text=_(u"inserire la città di domicilio") , max_length=128)
+    cap = models.CharField(_('CAP'), help_text=_(u"inserire il CAP") , max_length=5)
+    provincia_domicilio = models.CharField(_('provincia del domicilio'), help_text=_(u"inserire la provincia del domicilio") , max_length=128)
+    codice_fiscale = models.CharField(_('codice fiscale'), help_text=_(u"inserire il codice fiscale") , max_length=16)
+    accertamento_casellario = models.BooleanField(_('verifica casellario giudiziario'), help_text=_(u"accertamento casellario"))
+    accertamento_universita = models.BooleanField(_('verifica conseguimento titolo accademico'), help_text=_(u"accertamento universita"))
     
-	#class Meta:
-        #verbose_name = _("recapito")
-        #verbose_name_plural = _("recapiti")
+    def __unicode__(self):
+        return self.anagrafica_extra.person.first_name + ' - ' + self.anagrafica_extra.person.last_name + ' - ' + self.codice_fiscale
 
-class caratteristiche_gestione(models.Model):
-	gestione_psicologo = models.OneToOneField(UserProfile)	
-	ritiro_agenda = models.BooleanField(_('numero cellulare'), help_text=_(u""))
-	invio_tesserino = models.BooleanField(_('indirizzo email'), help_text=_(u""))
-	numero_faldone = models.IntegerField(_('indirizzo pec'), help_text=_(u""))
+    class Meta:
+        verbose_name = _("anagrafica aggiuntiva")
+        verbose_name_plural = _("anagrafiche aggiuntive")
 
 
-class Trasferimenti(models.Model):
-	trasferimenti_psicologo = models.OneToOneField(UserProfile)
-	trasferimento_data = models.DateField(_('data di trasferimento albo'), help_text=_(u"") , max_length=25)
-	delibera_trasferiemnto =  models.IntegerField(_('delibera trasferimento'), help_text=_(u""))
-	data_delibera_trasferiemnto = models.DateField(_('data delibera trasferimento'), help_text=_(u"") )
-	motivazione_trasferimento = models.CharField(_('motivazione trasferimento'), help_text=_(u""), max_length=255)
-	regione_trasferimento = models.CharField(_('regione trasferimento'), help_text=_(u"") , max_length=50)
-	tassa_trasferimento = models.FloatField(_('tassa di trasferimento'))	
+class Recapito(models.Model):
+    recapiti_psicologo = models.OneToOneField(UserProfile)
+    tel_residenza = models.CharField(_('telefono residenza'), help_text=_(u"inserire il telefono della residenza") , max_length=10)
+    tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
+    tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
+    tel_cellulare = models.CharField(_('numero cellulare'), help_text=_(u"inserire il numero del cellulare") , max_length=10)
+    indirizzo_email = models.CharField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=20)
+    indirizzo_pec = models.CharField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=20) 
+    
+    def __unicode__(self):
+        return self.recapiti_psicologo.person.first_name + ' - ' +self.recapiti_psicologo.person.last_name #self.codice_fiscale
 
+
+    class Meta:
+        verbose_name = _("recapito")
+        verbose_name_plural = _("recapiti")
+
+class Caratteristiche_gestione(models.Model):
+    gestione_psicologo = models.OneToOneField(UserProfile)	
+    ritiro_agenda = models.BooleanField(_('ritiro agenda'), help_text=_(u"ritiro agenda"))
+    invio_tesserino = models.BooleanField(_('invio tesserino'), help_text=_(u"invio tesserino"))
+    numero_faldone = models.IntegerField(_('numero_faldone'), help_text=_(u"numero faldone"))
+
+    def __unicode__(self):
+        return self.gestione_psicologo.person.first_name + ' - ' + self.gestione_psicologo.person.last_name 
+
+    class Meta:
+        verbose_name = _("caratteristiche di gestione")
+        verbose_name_plural = _("caratteristiche di gestione")
+
+class Trasferimento(models.Model):
+    trasferimenti_psicologo = models.OneToOneField(UserProfile)
+    trasferimento_data = models.DateField(_('data di trasferimento albo'), help_text=_(u"trasferimento data") , max_length=25)
+    delibera_trasferiemnto =  models.IntegerField(_('delibera trasferimento'), help_text=_(u"delibera trasferimento"))
+    data_delibera_trasferiemnto = models.DateField(_('data delibera trasferimento'), help_text=_(u"data delibera") )
+    motivazione_trasferimento = models.CharField(_('motivazione trasferimento'), help_text=_(u"motivazione delibera"), max_length=255)
+    regione_trasferimento = models.CharField(_('regione trasferimento'), help_text=_(u"regione trasferimento") , max_length=50)
+    tassa_trasferimento = models.FloatField(_('tassa di trasferimento'))
+    
+    def __unicode__(self):
+        return self.trasferimenti_psicologo.person.first_name + ' - ' + self.trasferimenti_psicologo.person.last_name 
+
+
+    class Meta:
+        verbose_name = _("trasferimento")
+        verbose_name_plural = _("trasferimenti")
 
 class PsicologoTitoli(models.Model):
     """
@@ -99,26 +121,33 @@ class PsicologoTitoli(models.Model):
   
     """
     TIPI_FACOLTA = Choices(
-        (1, 'psicologia', _('predefinita')),
-        (2, 'filosofia pedagogica', _('filosofia')),
-        (3, 'medicina', _('medicina')),
-        (4, 'altro', _('altro'))
+        ('psicologia', 'psicologia', _('psicologia')),
+        ('filosofia pedagogica', 'filosofia pedagogica', _('filosofia')),
+        ('medicina', 'medicina', _('medicina')),
+        ('altro', 'altro', _('altro'))
     )
 
     # This field is required.
-    psicologo_registrato = models.OneToOneField(ExtraPeople)
-    titolo_laurea = models.CharField(_('titolo laurea'), choices=TIPI_FACOLTA, help_text=_(u"") , max_length=50)
-    data_iscrizione_albo = models.DateField(_("data iscrizione all'albo"), help_text=_(u"") )
-    articolo_tre = models.BooleanField(_('presenza articolo 3'), help_text=_(u""))
-    articolo_tre_delibera = models.IntegerField(_('delibera art. 3'), help_text=_(u""), max_length=5)
-    articolo_tre_data = models.DateField(_("data delibera art 3"), help_text=_(u"") )
-    articolo_tre_note = models.CharField(_("note per l'articolo 3"), help_text=_(u""), max_length=128)
+    psicologo_registrato = models.OneToOneField(UserProfile)
+    titolo_laurea = models.CharField(_('titolo laurea'), choices=TIPI_FACOLTA, help_text=_(u"titolo laurea") , max_length=50)
+    data_iscrizione_albo = models.DateField(_("data iscrizione all'albo"), help_text=_(u"data iscrizione albo") )
+    articolo_tre = models.BooleanField(_('presenza articolo 3'), help_text=_(u"articolo tre"))
+    articolo_tre_delibera = models.IntegerField(_('delibera art. 3'), help_text=_(u"articolo tre delibera"), max_length=5)
+    articolo_tre_data = models.DateField(_("data delibera art 3"), help_text=_(u"articolo tre data") )
+    articolo_tre_note = models.CharField(_("note per l'articolo 3"), help_text=_(u"articolo tre note"), max_length=128)
     iscrizione_albo = models.BooleanField(_('avvenuta iscrizione'), default=False,
                                         help_text=u"Indica se l'utente si è iscritto all'albo")
     laurea_specializzazione = models.BooleanField(_('laurea specializzazione'), default=False,
                                         help_text=u"Indica se è stata conseguita la specializzazione")
     data_iscrizione_albo = models.DateField(_('data iscrizione albo'), help_text=_(u""))
+    
+    def __unicode__(self):
+        return self.psicologo_registrato.person.first_name + ' - ' + self.psicologo_registrato.person.last_name 
 
+
+    class Meta:
+        verbose_name = _("titoli psicologo")
+        verbose_name_plural = _("titoli psicologi")
     
     
       

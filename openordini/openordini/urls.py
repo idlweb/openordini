@@ -13,7 +13,7 @@ from ..oo_users.forms import UserRegistrationForm
 
 urlpatterns = patterns('',
 
-    #url(r'^grappelli/', include('grappelli.urls')),
+    url(r'^grappelli/', include('grappelli.urls')),
 
     url(r'^$', OOHomeView.as_view(), name="home"),
 
@@ -24,7 +24,8 @@ urlpatterns = patterns('',
         }, name='registration_register'),
 
     url('^acts/', include('openordini.acts_fulfillments.urls')),
-	url('^people/', include('openordini.oo_people.urls')),
+	url('^people/', include('openordini.oo_people.urls.people')),
+    url('^institutions/', include('openordini.oo_people.urls.institutions')),
     url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
 ) + urlpatterns
