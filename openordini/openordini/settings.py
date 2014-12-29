@@ -19,6 +19,7 @@ TEMPLATE_DIRS = (
 ) + TEMPLATE_DIRS
 
 INSTALLED_APPS = (
+    #'wpadmin',
     'suit',
     #'grappelli',
     ) + INSTALLED_APPS + (

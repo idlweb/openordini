@@ -1,0 +1,11 @@
+{% extends "grappelli:admin/index.html" %}
+
+<!-- LOADING -->
+{% load i18n grp_tags log %}
+
+{% block content_title %}
+    {% if title %}
+        <header><h1>{% trans title %}</h1></header>
+    {% endif %}
+{% endblock %}
+
