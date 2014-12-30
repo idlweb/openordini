@@ -9,9 +9,13 @@ def fieldset_error(form, fieldset_name):
         return False
 
     fields = form.fieldsets[fieldset_name]
+    
+#    print "fields %s -> %s" % (fieldset_name, fields)
 
     for curr_field in fields:
         if curr_field in form.errors:
             return True
+#        else:   
+#            print "no error for field: %s" % curr_field
 
     return False

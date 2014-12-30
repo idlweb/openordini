@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 
 from .models import UserProfile as OOUserProfile
-from openordini.oo_users.models import ExtraPeople, Recapito, Caratteristiche_gestione, Trasferimento, PsicologoTitoli
+from .models import ExtraPeople, Recapito, Caratteristiche_gestione, Trasferimento, PsicologoTitoli
 
 from open_municipio.users.models import UserProfile as OMUserProfile
 from django.utils.translation import ugettext_lazy as _

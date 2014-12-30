@@ -27,16 +27,18 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
-    indirizzo_residenza = forms.CharField(required=True, label=_('indirizzo di residenza'))
-    citta_residenza = forms.CharField(required=True, label=_('citta di residenza'))
-    indirizzo_domicilio = forms.CharField(required=True, label=_('indirizzo domicilio'))
-    citta_domicilio = forms.CharField(required=True, label=_('citta domicilio'))
+    indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo residenza'))
+    citta_residenza = forms.CharField(required=True, label=_(u'Città residenza'))
+    indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo domicilio'))
+    citta_domicilio = forms.CharField(required=True, label=_(u'Città domicilio'))
     cap = forms.CharField(required=True, label=_('CAP'))
-    provincia_domicilio = forms.CharField(required=True, label=_('provincia domicilio'))
-    codice_fiscale = forms.CharField(required=True, label=_('codice fiscale'))
-    accertamento_casellario = forms.BooleanField(required=True, label=_('accertamento casellario'))
-    accertamento_universita = forms.BooleanField(required=True, label=_('accertamento universita'))
+    provincia_domicilio = forms.CharField(required=True, label=_('Provincia domicilio'))
+    codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
+    accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
+    accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))
 
-    ritiro_agenda = forms.BooleanField(required=False, label=_('ritito agenda'))
-    invio_tesserino = forms.BooleanField(required=False, label=_('invio tesserino'))
+    ritiro_agenda = forms.BooleanField(required=False, label=_('Ritito agenda'))
+    invio_tesserino = forms.BooleanField(required=False, label=_('Invio tesserino'))
 
+    class Meta:
+        exclude = [ "accertamento_casellario", "accertamento_universita", ]

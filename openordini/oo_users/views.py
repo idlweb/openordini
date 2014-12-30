@@ -48,7 +48,11 @@ class OOUserProfileDetailView(UserProfileDetailView):
 
 
 #        print "return ctx: %s" % ctx
-
+        """ 
+        map: data una funzione ed una sequenza 
+        applica quella funzione ad agni elemento 
+        della sequenza 
+        """
         plans = SubscriptionPlan.get_for_user(self.request.user)
         plan_choices = map(lambda p: (p.pk, p.name), plans)
 #        print "plan choices: %s" % plan_choices
