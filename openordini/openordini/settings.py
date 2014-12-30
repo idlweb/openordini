@@ -174,13 +174,14 @@ SUIT_CONFIG = {
     'MENU_EXCLUDE': ('auth.group',),
      'MENU': (
         {'app': 'oo_users', 'label': 'Schede psicologi', 'icon':'icon-user', 'models': ('userprofile','extrapeople', 'recapito','psicologotitoli','caratteristiche_gestione','trasferimento')},
+        {'app': 'people', 'label': 'Soggetti collegati', 'icon':'icon-user', 'models': ('person','office','institution','group','company','sitting')},       
         {'app': 'acts', 'label': 'Gestione atti del Consiglio', 'icon':'icon-book', 'models': ('act','deliberation','interrogation','interpellation','motion','agenda','amendment','transition','document','attach','speech','calendar')},
-         {'app': 'acts_fulfillments', 'label': 'Fascicoli iscritti', 'icon':'icon-book', 'models': ('fascicolo')},
+        {'app': 'acts_fulfillments', 'label': 'Fascicoli iscritti', 'icon':'icon-book', 'models': ('fascicolo')},
         {'app': 'newsletter', 'label': 'Newsletter', 'icon':'icon-comment', 'models': ('newsletter')},
         {'app': 'attendances', 'label': 'Presenze', 'icon':'icon-check', 'models': ('attendance','chargeattendance')},
         {'app': 'events', 'label': 'Eventi', 'icon':'icon-calendar', 'models': ('event')},       
          'sites',         
-        {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+        {'label': 'Impostazioni', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
          #{'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
     ),
 
