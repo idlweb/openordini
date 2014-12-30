@@ -8,7 +8,7 @@ from open_municipio.locations.models import Location
 from open_municipio.users.models import UserProfile as OMUserProfile
 from open_municipio.people.models import Person, Institution, InstitutionCharge
 from .forms import UserRegistrationForm
-from .models import UserProfile
+from .models import UserProfile, Recapito
 
 from registration.signals import user_registered
 from registration.signals import user_activated
@@ -29,6 +29,7 @@ def user_created(sender, user, request, **kwargs):
     supposed to be found in POST data.
     """
 
+    print "salva utente: %s (user = %s)..." % (user_registered, user)
     # deletes the user profiles created by OM ... it's not
     # very efficient (INSERT + DELETE) but makes the two systems
     # more decoupled
@@ -80,7 +81,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.save()
 
     # aggiungi recapiti
-    extra_data_recapiti = Recapiti(recapiti_psicologo=user)
+    extra_data_recapiti = Recapito(recapiti_psicologo=user)
     extra_data_recapiti.indirizzo_residenza = form.cleaned_data.get('indirizzo_residenza',False)
     # aggiungi a gruppi e commissioni
 

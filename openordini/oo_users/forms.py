@@ -34,9 +34,11 @@ class UserRegistrationForm(OMUserRegistrationForm):
     cap = forms.CharField(required=True, label=_('CAP'))
     provincia_domicilio = forms.CharField(required=True, label=_('Provincia domicilio'))
     codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
-    accertamento_casellario = forms.BooleanField(required=True, label=_('Accertamento casellario'))
-    accertamento_universita = forms.BooleanField(required=True, label=_('accertamento universita'))
+    accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
+    accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))
 
     ritiro_agenda = forms.BooleanField(required=False, label=_('Ritito agenda'))
     invio_tesserino = forms.BooleanField(required=False, label=_('Invio tesserino'))
 
+    class Meta:
+        exclude = [ "accertamento_casellario", "accertamento_universita", ]
