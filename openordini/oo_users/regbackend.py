@@ -8,7 +8,7 @@ from open_municipio.locations.models import Location
 from open_municipio.users.models import UserProfile as OMUserProfile
 from open_municipio.people.models import Person, Institution, InstitutionCharge
 from .forms import UserRegistrationForm
-from .models import UserProfile, Recapito
+from .models import UserProfile, Recapito, ExtraPeople
 
 from registration.signals import user_registered
 from registration.signals import user_activated
@@ -81,9 +81,11 @@ def user_created(sender, user, request, **kwargs):
     extra_data.save()
 
     # aggiungi recapiti
-    extra_data_recapiti = Recapito(recapiti_psicologo=extra_data)
+    extra_data_recapiti = ExtraPeople(anagrafica_extra=extra_data)
     extra_data_recapiti.indirizzo_residenza = form.cleaned_data.get('indirizzo_residenza',False)
     extra_data_recapiti.save()
+
+
     # aggiungi a gruppi e commissioni
 
     if settings.REGISTRATION_AUTO_ADD_GROUP:
@@ -96,8 +98,9 @@ def user_created(sender, user, request, **kwargs):
             g.user_set.add(user)
 
             if is_registered:
+                print "Utente registrato ..."
                 i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_lavoro"])
-
+                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["psicologo_lavoro"])
                 member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
                 member_charge.save()
  
