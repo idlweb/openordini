@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-23 12:02+0100\n"
+"POT-Creation-Date: 2014-12-30 23:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,9 +30,13 @@ msgstr "Pagamenti"
 msgid "name"
 msgstr "nome"
 
-#: admin.py:22 models.py:74
+#: admin.py:22 models.py:89
 msgid "person"
 msgstr "persona"
+
+#: admin.py:77
+msgid "order label"
+msgstr "stato iscrizione"
 
 #: filters.py:8
 msgid "payed current year"
@@ -46,9 +50,21 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: forms.py:6 models.py:139
+#: forms.py:6 models.py:154
 msgid "payment"
 msgstr "pagamento"
+
+#: forms.py:18
+msgid "billing address"
+msgstr "indirizzo fatturazione"
+
+#: forms.py:19
+msgid "city"
+msgstr "città"
+
+#: forms.py:20
+msgid "postcode"
+msgstr "codice postale"
 
 #: models.py:21
 msgid "Euro"
@@ -63,66 +79,70 @@ msgid "code"
 msgstr "codice"
 
 #: models.py:30
+msgid "institution"
+msgstr ""
+
+#: models.py:31
 msgid "net amount"
 msgstr "ammontare netto"
 
-#: models.py:31
+#: models.py:32
 msgid "tax"
 msgstr "tasse"
 
-#: models.py:32 models.py:82
+#: models.py:33 models.py:97
 msgid "currency"
 msgstr "valuta"
 
-#: models.py:65 models.py:103
+#: models.py:80 models.py:118
 msgid "subscription plan"
-msgstr "abbonamento"
+msgstr "tipologia di pagamento"
 
-#: models.py:66
+#: models.py:81
 msgid "subscription plans"
-msgstr "abbonamenti"
+msgstr "tipologie di pagamenti"
 
-#: models.py:76 models.py:95 models.py:126
+#: models.py:91 models.py:110 models.py:141
 msgid "order"
 msgstr "ordine"
 
-#: models.py:77
+#: models.py:92
 msgid "sku"
 msgstr "sku"
 
-#: models.py:80
+#: models.py:95
 msgid "quantity"
 msgstr "quantità"
 
-#: models.py:96
+#: models.py:111
 msgid "orders"
 msgstr "ordini"
 
-#: models.py:101
+#: models.py:116
 msgid "subscription begin"
-msgstr "inizio abbonamento"
-
-#: models.py:102
-msgid "subscription end"
-msgstr "fine abbonamento"
+msgstr "inizio iscrizione"
 
 #: models.py:117
+msgid "subscription end"
+msgstr "fine iscrizione"
+
+#: models.py:132
 msgid "subscription order"
-msgstr "ordine abbonamento"
+msgstr "ordine iscrizione"
 
-#: models.py:118
+#: models.py:133
 msgid "subscription orders"
-msgstr "ordini abbonamento"
+msgstr "ordini iscrizione"
 
-#: models.py:140
+#: models.py:155
 msgid "payments"
 msgstr "pagamenti"
 
-#: models.py:146
+#: models.py:161
 msgid "subscription"
 msgstr "iscrizione albo"
 
-#: models.py:147
+#: models.py:162
 msgid "subscriptions"
 msgstr "iscrizioni albo"
 

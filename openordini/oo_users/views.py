@@ -55,6 +55,6 @@ class OOUserProfileDetailView(UserProfileDetailView):
         """
         plans = SubscriptionPlan.get_for_user(self.request.user)
         plan_choices = map(lambda p: (p.pk, p.name), plans)
-#        print "plan choices: %s" % plan_choices
+        print "plan choices: %s" % plan_choices
         ctx["form_payment"] = PaymentForm(choices=plan_choices)
         return ctx

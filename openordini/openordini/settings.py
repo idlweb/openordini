@@ -123,13 +123,6 @@ PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {})
 }
 
-SUBSCRIPTION_COMMITTEE_MAPS = {
-    "studenti": "STUD",
-    "psicologi-clinici": "PSIC",
-    "psicologi-del-lavoro": "PSIC",
-    "psicologi-forensi": "PSIC", 
-}
-
 # override registration configuration
 REGISTRATION_AUTO_LOGIN = True
 AUTH_PROFILE_MODULE = 'oo_users.UserProfile'

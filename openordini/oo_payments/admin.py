@@ -74,6 +74,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
             label = "%s" % curr_order.name
 
         return label
+    order_label.short_description = _("order label")
         
 
     def queryset(self, request):

@@ -5,7 +5,7 @@
 <div class="container">
 <div class="row">
 <div class="offset4 span4 text-center">
-<form action="{% url "oo_payment_details" %}" method="get">
+<form method="post">
     <h1>{{ plan.name }}</h1>
     <fieldset class="container">
     <p class="row">
@@ -24,8 +24,20 @@
     <hr/>
     <h2>Effettua pagamento</h2>
     {% csrf_token %}
-    {{ form.as_p }}
+    <fieldset class="container">
+    {% for field in form %}
+    {% if field.is_hidden %}
+    {{ field }}
+    {% else %}
+    <p class="row">
+    <div class="span2 text-right">{{ field.label|capfirst }}</div>
+    <div class="span2">{{ field }}</div>
+    </p>
+    {% endif %}
+    {% endfor %}
+    </fieldset>
     <p><input type="submit" value="Proceed" /></p>
+
 </form>
 </div>
 </div>

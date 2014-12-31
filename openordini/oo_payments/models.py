@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from open_municipio.people.models import Person
+from open_municipio.people.models import Person, Institution
 from openordini.oo_users.models import UserProfile
 
 # Create your models here.
@@ -26,14 +26,21 @@ CURRENCY_CHOICES = (
 class SubscriptionPlan(models.Model):
 
     name = models.CharField(max_length=100, blank=False, verbose_name=_("name"))
-    code = models.CharField(max_length=4, blank=False, verbose_name=_("code"))
+    code = models.CharField(max_length=100, blank=False, verbose_name=_("code"))
+    institution_set = models.ManyToManyField(Institution, blank=True, null=True, verbose_name=_("institutions"))
     net_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, verbose_name=_("net amount"), validators=[pos_dec_validator])
     tax = models.DecimalField(max_digits=10, decimal_places=2, blank=True, verbose_name=_("tax"), validators=[pos_dec_validator])
     currency = models.CharField(max_length=10,choices=CURRENCY_CHOICES, blank=False, verbose_name=_("currency"))
 
     @property
+    def institutions(self):
+        return self.institution_set.all()
+
+    @property
     def total_amount(self):
-        return self.net_amount + self.tax
+        net = self.net_amount or 0
+        tax = self.tax or 0
+        return net + tax
 
     @staticmethod
     def get_for_user(user):
@@ -50,17 +57,10 @@ class SubscriptionPlan(models.Model):
             # add the payment form  
             user_charges = profile.committee_charges
     
-    #        print "user charges: %s" % user_charges
+#            print "user charges: %s" % user_charges
         
-            sub_codes = set()
-            for curr_charge in user_charges:
-    #            print "curr charge institution: %s" % curr_charge.institution
-                curr_code = settings.SUBSCRIPTION_COMMITTEE_MAPS.get(curr_charge.institution.slug, None)
-                if curr_code:
-                    sub_codes.add(curr_code)
-    
-    #        print "all payment codes: %s" % sub_codes
-            plans = SubscriptionPlan.objects.filter(code__in=sub_codes)
+            plans = SubscriptionPlan.objects.filter(institution_set__charge_set__person__userprofile=profile).distinct()
+#            print "user plans: %s" % plans
         except AttributeError: 
             pass
 
@@ -102,6 +102,9 @@ class Order(models.Model):
         verbose_name = _("order")
         verbose_name_plural = _("orders")
 
+    def __unicode__(self):
+        return "%s - %s" % (self.name, self.person)
+
 
 class SubscriptionOrder(Order):
     
@@ -115,7 +118,7 @@ class SubscriptionOrder(Order):
             "plan": self.plan.name, "from":self.date_begin, "to":self.date_end,
             "person": self.person,
         }
-        self.sku = self.plan.code
+        self.sku = "sku" # self.plan.code
         self.curr = self.plan.currency
         self.quantity = 1
         return super(SubscriptionOrder, self).save(*args, **kwargs)
