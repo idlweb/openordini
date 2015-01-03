@@ -22,7 +22,7 @@ def update_core_conf():
     require('domain_root', 'app_domain', 'local_repo_root',  
             provided_by=('staging', 'production'))   
     # update configuration -- on the remote machine -- for the Solr core  
-    # serving this OpenMunicipio instance (via rsync)
+    # serving this OpenOrdini instance (via rsync)
     # defaults rsync options: -pthrvz
     fastprint("Syncing Solr configuration for %(app_domain)s..." % env, show_prefix=True)
     extra_opts = '--omit-dir-times'
@@ -42,7 +42,7 @@ def update_core_conf():
 @roles('solr')
 def add_new_core():
     """
-    Add a Solr core for the current OpenMunicipio instance.
+    Add a Solr core for the current OpenOrdini instance.
     """
     require('domain_root', 'app_domain', 'local_repo_root', 'solr_home', 'om_user', 
             provided_by=('staging', 'production'))
@@ -79,7 +79,7 @@ def add_new_core():
             # build a factory function for ``<core>`` elements
             E = objectify.ElementMaker(annotate=False)
             CORE = E.core
-            # if a core definition for this OpenMunicipio instance already exists, 
+            # if a core definition for this OpenOrdini instance already exists, 
             # drop it.
             existing_cores = [el.attrib['name'] for el in cores_el.iterchildren()]
             if env.om_user in existing_cores:

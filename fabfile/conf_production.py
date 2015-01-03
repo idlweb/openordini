@@ -17,18 +17,18 @@ RSYNC_EXCLUDE = (
 PROJECT_NAME = 'open_xxx' ## CHANGEME!
 # a unique identifier for this web application instance
 # usually it's set to the primary domain from which the web application is accessed
-APP_DOMAIN = 'xxx.openmunicipio.it' ## CHANGEME!
+APP_DOMAIN = 'xxx.domain.it' ## CHANGEME!
 # filesystem location of project's repository on the local machine
 LOCAL_REPO_ROOT =  os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
 # filesystem location of Django project's files on the local machine
 LOCAL_PROJECT_ROOT = os.path.join(LOCAL_REPO_ROOT, PROJECT_NAME) 
 # system user (on the server machine) used for managing files 
-# shared between OpenMunicipio's instances
+# shared between OpenOrdini's instances
 WEB_USER = 'om'
 # absolute filesystem path to the public SSH key being used 
 # to login as ``WEB_USER`` on the remote machine(s)
 WEB_USER_HOSTKEY = '~/.ssh/id_rsa.pub' ## CHANGEME!
-# system user (on the server machine) used for managing this OpenMunicipio's instance
+# system user (on the server machine) used for managing this OpenOrdini's instance
 OM_USER = 'om-xxx' ## CHANGEME!
 # absolute filesystem path to the public SSH key being used 
 # to login as the ``OM_USER`` user on the remote machine(s)

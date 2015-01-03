@@ -64,7 +64,7 @@ def update_requirements():
     require('virtualenv_root', 'domain_root', 'local_repo_root', 
             provided_by=('staging', 'production'))
     ensure_virtualenv()
-    fastprint("Updating OpenMunicipio dependencies..." % env, show_prefix=True)
+    fastprint("Updating OpenOrdini dependencies..." % env, show_prefix=True)
     with hide('commands'):
         # upload pip requirements file to the server
         source = os.path.join(env.local_repo_root, 'requirements.txt')

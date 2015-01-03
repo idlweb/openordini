@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from open_municipio.users.models import User
@@ -5,7 +6,7 @@ from open_municipio.users.views import UserProfileDetailView
 from open_municipio.people.models import municipality
 
 from ..oo_payments.forms import PaymentForm
-from ..oo_payments.models import SubscriptionPlan
+from ..oo_payments.models import SubscriptionPlan, SubscriptionOrder
 from ..acts_fulfillments.models import Fascicolo
 from .models import UserProfile
 
@@ -42,6 +43,10 @@ class OOUserProfileDetailView(UserProfileDetailView):
 
 #            print "person: %s" % curr_person
             ctx["acts_fascicoli"]  = Fascicolo.objects.filter(recipient_set__person=curr_person)
+
+            curr_year = datetime.today().year
+
+            ctx["curr_subscription"] = SubscriptionOrder.get_for_person(curr_person, curr_year)
 
         except (ObjectDoesNotExist, AttributeError), err:
             print "error: %s" % err

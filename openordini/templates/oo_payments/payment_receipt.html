@@ -1,0 +1,58 @@
+{% extends "open_municipio:base_two_columns.html" %}
+{% load i18n %}
+
+{% block content %}
+<!-- templates/payment.html -->
+<div class="container">
+<div class="row">
+<div class="offset4 span4 text-center">
+{% with object.order.subscriptionorder.plan as plan %}
+    <h1>{{ plan.name }}</h1>
+    <fieldset class="container">
+    <p class="row">
+        <span class="span2">Netto:</span>
+        <span class="span2 text-right">{{ plan.net_amount }} {{plan.currency }}</span>
+    </p>
+    <p class="row">
+        <span class="span2">Tasse:</span>
+        <span class="span2 text-right">{{ plan.tax }} {{plan.currency }}</span>
+    </p>
+    <p class="row">
+        <span class="span2">Totale:</span>
+        <span class="span2 text-right">{{ plan.total_amount }} {{plan.currency }}</span>
+    </p>
+    </fieldset>
+    <hr/>
+    <h2>Dati ricevuta</h2>
+    <fieldset class="container">
+    <p class="row">
+    <div class="span2 text-right">{% trans "First name:" %}</div>
+    <div class="span2">{{ object.billing_first_name }}</div>
+    </p>
+    <p class="row">
+    <div class="span2 text-right">{% trans "Last name:" %}</div>
+    <div class="span2">{{ object.billing_last_name }}</div>
+    </p>
+    <p class="row">
+    <div class="span2 text-right">{% trans "Email:" %}</div>
+    <div class="span2">{{ object.billing_email }}</div>
+    </p>
+    <p class="row">
+    <div class="span2 text-right">{% trans "Address:" %}</div>
+    <div class="span2">{{ object.billing_address_1 }}</div>
+    </p>
+    <p class="row">
+    <div class="span2 text-right">{% trans "City:" %}</div>
+    <div class="span2">{{ object.billing_city }}</div>
+    </p>
+    <p class="row">
+    <div class="span2 text-right">{% trans "Postcode:" %}</div>
+    <div class="span2">{{ object.billing_postcode }}</div>
+    </p>
+
+    </fieldset>
+{% endwith %}
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from payments import get_payment_model, RedirectNeeded
@@ -18,6 +18,12 @@ class PaymentSucceed(TemplateView):
 
 class PaymentError(TemplateView):
     template_name = 'oo_payments/error.html'
+
+class PaymentReceipt(DetailView):
+    
+    template_name = 'oo_payments/payment_receipt.html'
+    model = Payment
+    
 
 class PaymentInfo(FormView):
     template_name = 'oo_payments/payment_info.html'

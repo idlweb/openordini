@@ -47,7 +47,7 @@ def install_package(pkg_name):
 @roles('admin')          
 def install_system_requirements():
     """
-    Install generic OS-level software required by OpenMunicipio. 
+    Install generic OS-level software required by OpenOrdini. 
     """    
     fastprint("Installing generic software requirements...", show_prefix=True, end='\n')
     with hide('commands'):

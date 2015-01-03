@@ -181,3 +181,7 @@ SUIT_CONFIG = {
     # misc
     # 'LIST_PER_PAGE': 15
 }
+
+PAYMENT_DEADLINES = {
+    "rinnovo-iscrizione": "%s-02-15",
+}

@@ -1,6 +1,8 @@
+from datetime import datetime
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -47,7 +49,7 @@ class SubscriptionPlan(models.Model):
         
 #        assert isinstance(user, User)
 
-        plans = []
+        filtered_plans = []
 
         try:
 
@@ -56,15 +58,29 @@ class SubscriptionPlan(models.Model):
     
             # add the payment form  
             user_charges = profile.committee_charges
+            yearly_plans = settings.PAYMENT_DEADLINES.keys()
+            today = datetime.today()
     
 #            print "user charges: %s" % user_charges
         
-            plans = SubscriptionPlan.objects.filter(institution_set__charge_set__person__userprofile=profile).distinct()
+            plans = SubscriptionPlan.objects.filter(institution_set__charge_set__person__userprofile=profile).exclude(subscriptionorder__person=profile.person, code__in=yearly_plans, subscriptionorder__date_end__lte=today).distinct()
 #            print "user plans: %s" % plans
+
+
+            for curr_plan in plans:
+                dl_text = settings.PAYMENT_DEADLINES.get(curr_plan.code, None)
+                dl = None
+
+                if dl_text:
+                    dl = datetime.strptime(dl_text % today.year, "%Y-%m-%d")
+
+                if not dl or today <= dl:
+                    filtered_plans.append(curr_plan)
+
         except AttributeError: 
             pass
 
-        return plans
+        return filtered_plans
 
 
     class Meta:
@@ -122,6 +138,25 @@ class SubscriptionOrder(Order):
         self.curr = self.plan.currency
         self.quantity = 1
         return super(SubscriptionOrder, self).save(*args, **kwargs)
+
+    @property
+    def year(self):
+        return self.date_begin.year
+
+    @staticmethod
+    def get_for_person(person, year):
+
+        assert isinstance(person, Person)
+ 
+        so = None
+        last_day = "%s-12-31" % year # last day of year
+
+        try:
+            so = SubscriptionOrder.objects.get(person=person, date_begin__lte=last_day, date_end__gte=last_day)
+        except ObjectDoesNotExist:
+            pass
+
+        return so
 
     class Meta:
         verbose_name = _("subscription order")

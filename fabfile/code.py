@@ -19,7 +19,7 @@ def make_website_skeleton():
     """
     require('web_root', 'app_domain', 'om_user', 
                 provided_by=('staging', 'production'))
-    puts("Setting up initial filesystem layout for this OpenMunicipio instance..." % env)
+    puts("Setting up initial filesystem layout for this OpenOrdini instance..." % env)
     with hide('commands'):
         with cd(env.web_root):
             if files.exists(env.app_domain):

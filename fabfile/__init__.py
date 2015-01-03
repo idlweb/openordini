@@ -1,7 +1,7 @@
 ## -*- mode: python -*-
 """
 Fabric script (a.k.a. "fabfile") to automate the deployment process 
-of an instance of the OpenMunicipio web application.
+of an instance of the OpenOrdini web application.
 
 Deployment on both staging & production machine(s) is supported:
 
@@ -29,7 +29,7 @@ import os
 @task
 def staging():
     """
-    Deploy OpenMunicipio to the staging server(s).
+    Deploy OpenOrdini to the staging server(s).
     """
     # import staging's conf module
     import conf_staging as conf
@@ -79,7 +79,7 @@ def staging():
 @task
 def production():
     """
-    Deploy OpenMunicipio to the production server(s).
+    Deploy OpenOrdini to the production server(s).
     """
     env.environment = 'production'
     abort('Production deployment not yet implemented.')
@@ -91,7 +91,7 @@ def production():
 def setup_platform():
     """
     Take care of all preliminay tasks needed to setup the OS of the 
-    target machine(s) in order for the deploy of an OpenMunicipio instance
+    target machine(s) in order for the deploy of an OpenOrdini instance
     to be possible.
     """
     with hide('commands'):
@@ -148,7 +148,7 @@ def deploy():
                     src = 'load_venv_%(environment)s.sh' % env
                     dest = 'load_venv.sh'
                     put(src, dest, mode=0644)
-            # add a new core for this OpenMunicipio instance
+            # add a new core for this OpenOrdini instance
             execute(solr.add_new_core)
             # drop any existing application DB
             execute(db.drop_db)
@@ -158,7 +158,7 @@ def deploy():
         # sanity check
         with hide('everything'):
             if run('test -d %(domain_root)s' % env).failed:
-                abort("It seems that the root dir for this OpenMunicipio instance has not been created, yet.") 
+                abort("It seems that the root dir for this OpenOrdini instance has not been created, yet.") 
 #        with settings(warn_only=True):
 #            execute(webserver.stop)
 #            execute(nginx.stop)
