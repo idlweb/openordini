@@ -1,26 +1,26 @@
 from django.contrib import admin
 from django import forms
 from django.forms import ModelForm
+from django.db import models
 from .models import Fascicolo, InstitutionCharge
+from ..commons.widgets import AdvancedFilteredSelectMultiple
 
 
-class CustomerInstitutionForm(forms.ModelForm): 
-    def __init__(self, *args, **kwargs):
-        super(CustomerInstitutionForm, self).__init__(*args, **kwargs)
-        wtf = InstitutionCharge.objects.filter();
-        w = self.fields['recipient_set'].widget
-        choices = []
-        for choice in wtf:
-            #choices.append((choice.id, choice.name))
-            choices.append(choice.id)
-        w.choices = choices
+class FascicoloAdminForm(forms.ModelForm): 
+
+    class Meta:
+        widgets = {
+            'recipient_set': AdvancedFilteredSelectMultiple("Recipients", is_stacked=True, attrs={'size':24})
+        }
 
 class FascicoloAdmin(admin.ModelAdmin):
     list_display = ("status", "approval_date", "publication_date","execution_date","initiative")
-
-    filter_horizontal = ( "recipient_set", )
     search_fields = ["acts_support__support_type", "acts_support__support_date", ]
-    filter_horizontal = ('recipient_set',)
-    #form = CustomerInstitutionForm 
+
+    # NB don't use filter_horizontal, otherwise it would "override" our customization
+    # since the form uses FitleredSelectMultiple, it already includes the effect 
+    # of flag "filter_horizontal"
+    form = FascicoloAdminForm  
+    
 
 admin.site.register(Fascicolo, FascicoloAdmin)
