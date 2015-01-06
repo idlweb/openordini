@@ -18,7 +18,54 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Sezioni dell'albo {% popover_info 'sezioni-del-consiglio' %}</h2>
+    <h2>Sezioni dell'albo</h2>
+
+<section id="payoff" class="container-fluid">
+    <div class="row-fluid" >
+      
+      <div class="cosa-fanno span4" style="">
+        <h3 style="
+width: 200%;
+text-align: center;
+position: relative;
+margin-top: 11%;
+font-size: 20px;
+padding-bottom: 5px;
+font-weight: 100;
+display: inline-block;
+margin-bottom: 0;
+font-weight: normal;
+text-align: center;
+vertical-align: middle;
+cursor: pointer;
+background-image: none;
+border: 2px solid #CCC;
+white-space: nowrap;
+padding: 34px 0px 21px 0px;
+border-radius: 20px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+background-color: #f5f5f5;
+
+">Scopri gli psicologi della tua regione:
+            </br>
+            <input style="width: 80%;
+line-height: 19px;
+height: 37px;
+font-size: 17px;
+margin-left: 0px;
+padding: 4px 0px 0px 48px;
+margin-top: 6px;" type="text" class="input-large" id="search-politician"
+                   data-provide="typeahead" data-items="5" data-minLength="2"
+                   placeholder="Digita il nome di uno psicologo">
+        </h3>
+      </div>
+    </div>
+    </br>
+  </section>
+
     <div class="">
         <div class="row-fluid">
             <div style="width: 95% !important;" class="span12 tree well">
@@ -101,7 +148,7 @@
                                     <span><i class="icon-user"></i> </span> <a href="{{ committee.get_absolute_url }}"><strong>{{ committee.name }}:</strong></a>
                                     <ul>
                                         <li>
-                                            <span> {{committees.count}} iscritti </span> 
+                                            <span> iscritti </span> 
                                         </li>
                                     </ul>
                                                                                           
@@ -117,7 +164,8 @@
 {% endblock %}
 
 {% block footer_js_includes %}
-   
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
     <script type="text/javascript">
 
 
@@ -145,6 +193,55 @@
             });
 
         });
+
+        $(document).ready(function(){
+          function removenull(str) {
+              var new_str = str;
+              if (str == '') {
+                  new_str = str.replace('', "N/A");
+              }
+              else if (str == null) {
+                  new_str = "N/A";
+              }
+
+              return new_str;
+          }
+          $('#search-politician').typeahead({
+              source: function(typeahead, query) {
+                  $.ajax({
+                      url: "{% url 'om_politician_search'  %}",
+                      dataType: "json",
+                      type: "GET",
+                      data: {
+                          max_rows: 10,
+                          key: query,
+                          ajax: 1
+                      },
+                      success: function(data) {
+                          var return_list = [], i = data.length;
+                          while (i--) {
+                              return_list[i] = {
+                                  slug: data[i].fields.slug,
+                                  image: data[i].fields.img,
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                          }
+                          typeahead.process(return_list);
+                          alert ("sto scrivendo");
+                      }
+                  });
+              },
+              onselect: function(obj) {
+                  window.location.href = "http://{{ current_site }}/people/" + obj.slug;
+              }
+          });
+          $('a.event_toggle_modal').each(function() {
+              var link = $(this);
+              link.click(function(e) {
+                  e.preventDefault();
+                  $(link.attr('href')).modal();
+              });
+          });
+      });
 
     </script>
 

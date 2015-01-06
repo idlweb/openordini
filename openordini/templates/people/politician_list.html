@@ -1,0 +1,206 @@
+{% extends "base_two_columns.html" %}
+{% load i18n %}
+{% load monitoring_tags %}
+{% load newscache_tags %}
+{% load om_utils %}
+{% load thumbnail %}
+{% load people_tags %}
+
+{% block title %} Psicologi {% endblock %}
+{% block content_header %}Psicologi{% endblock %}
+{% block content_header_city_logo %}
+    <img src="{{ STATIC_URL }}img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
+{% endblock %}
+
+{% block people_class %}class="active"{% endblock %}
+{% block body_class %}politician{% endblock %}
+
+{% block footer_js_includes %}
+    {{ block.super }}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
+{% endblock %}
+
+
+{% block sub_nav %}
+    {%  include 'commons/subnav.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="span6">
+            <h2>I più presenti al voto di Consiglio</h2>
+            <p>
+                I dati si riferiscono alle votazioni svolte in Consiglio.<br/>
+                Non vengono calcolate le presenze alle sedute né se l'assenza
+                abbia motivazioni 'sindacali'.
+            </p>
+            <ul class="people-list">
+                {% for politician in least_absent %}
+                    <li>
+                        {% with politician|get_absent_label as absence %}
+                        {% include 'people/politician_list_section.html' with value=absence what='' %}   
+                        {% endwith %}
+                        {% object_inline_monitoring politician.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="span6">
+            <h2>I consiglieri con più atti</h2>
+            <p>
+                Sono i Consiglieri che hanno presentato più atti come primo firmatario.
+            </p>
+            <ul class="people-list">
+                {% for p in most_acts %}
+                    <li>
+                        {% include 'people/politician_list_section.html' with politician=p value=p.n_acts what='atti' %}
+                        {% object_inline_monitoring p.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="row-fluid">
+
+        <div class="span6">
+            <h2>I consiglieri con più mozioni</h2>
+            <p>
+                Sono i Consiglieri che hanno presentato più mozioni o ordini del giorno come primo firmatario.
+            </p>
+            <ul class="people-list">
+                {% for politician in most_motions %}
+                    <li>
+                        {% include 'people/politician_list_section.html' with value=politician.n_acts what='mozioni' %}
+                        {% object_inline_monitoring politician.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="span6">
+            <h2>I consiglieri con più interrogazioni</h2>
+            <p>
+                Sono i Consiglieri che hanno presentato più interrogazioni o interpellanze come primo firmatario.
+            </p>
+            <ul class="people-list">
+                {% for politician in most_interrogations %}
+                    <li>
+                        {% include 'people/politician_list_section.html' with value=politician.n_acts what='interrogazioni' %}
+                        {% object_inline_monitoring politician.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="row-fluid">
+
+        <div class="span6">
+            <h2>I consiglieri più ribelli</h2>
+            <p>
+                Sono i Consiglieri che votano più spesso diversamente dalla maggioranza del gruppo progettuale di appartenenza.
+            </p>
+            <ul class="people-list">
+                {% for politician in most_rebellious %}
+                    <li>
+                        {% with politician|get_rebel_label as label %}
+                        {% include 'people/politician_list_section.html' with value=label %}   
+                        {% endwith %}
+                        {% object_inline_monitoring politician.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="span6">
+            <h2>I consiglieri con più interventi</h2>
+            <p>
+                Sono i Consiglieri che presentano più spesso interventi ed interrogazioni in Consiglio.
+            </p>
+            <ul class="people-list">
+                {% for politician in most_speeches %}
+                    <li>
+                        {% include 'people/politician_list_section.html' with value=politician.n_speeches what="interventi" %}   
+                        {% object_inline_monitoring politician.person %}
+                    </li>
+                {% empty %}
+                Nessun consigliere
+
+                {% endfor %}
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+
+  <div class="container-fluid">
+
+    <h2>Composizione di genere</h2>
+    <p>
+        <img src="//chart.googleapis.com/chart?chxs=0,676767,13.5&chxt=x&chs=360x200&cht=p&chd=t:{{ gender_stats.Donne }},{{ gender_stats.Uomini }}&chl={{ gender_stats.Donne }} Donne|{{ gender_stats.Uomini }} Uomini&chco=285698" alt="" />
+    </p>
+
+    <hr>
+
+    <h2>Fasce di età</h2>
+    <p>
+        <img src="https://chart.googleapis.com/chart?chxs=0,676767,13.5&chxt=x&chs=360x240&chma=0,0,25,25&cht=p&chl=18-25 anni|25-35 anni|35-45 anni|45-55 anni|55-65 anni|over 65&chd=t:{{ age_stats.ventenni }},{{ age_stats.trentenni }},{{ age_stats.quarantenni }},{{ age_stats.cinquantenni }},{{ age_stats.sessantenni }},{{ age_stats.seniores }}&chco=285698,e2e4e6">
+    </p>
+
+    <hr>
+
+    <h2>Atti presentati</h2>
+    <table class="stats">
+        <tr>
+            <td>{{ num_acts.deliberation|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.council_deliberation }}">Delibere di Consiglio</a></th>
+            <td>{{ num_acts.cgdeliberation|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.cg_deliberation }}">Delibere di Commissione</a></th>
+        </tr>
+        <tr>
+            <td>{{ num_acts.motion|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.motion }}">Mozioni</a></th>
+            <td>{{ num_acts.agenda|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.agenda }}">Ordini del giorno</a></th>
+        </tr>
+        <tr>
+            <td>{{ num_acts.interpellation|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.interpellation }}">Interpellanze</a></th>
+            <td>{{ num_acts.interrogation|circled:"colored" }}</td>
+            <th class="span6"><a href="{{ SEARCH_URLS.interrogation }}">Interrogazioni</a></th>
+
+        </tr>
+    </table>
+
+  </div>
+
+  {% comment %}
+  {% institutional_news_for_object 'politicians_all' as i_news %}
+  {% include 'commons/news_list_politicians.html' with news_list=i_news news_object='politicians' news_title='Ultime sui politici' %}
+  {%  endcomment %}
+
+{% endblock %}
