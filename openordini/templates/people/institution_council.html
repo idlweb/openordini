@@ -66,7 +66,7 @@
   <h2>I prossimi appuntamenti</h2>
   {% include 'commons/calendar.html' with events=events %}
 
-  <h2>Le commissioni</h2>
+  <h2>Sezioni pubbliche dell'Ordine</h2>
   <ul class="list-plain">
       {% for committee in committees %}
       <li><a href="{{ committee.get_absolute_url }}"><strong>{{ committee.name }}</strong>: {{ committee.description|truncatewords:3 }}</a></li>
@@ -74,17 +74,19 @@
   </ul>
 
   <hr>
-
+  
+  <!--
   <h2>I gruppi</h2>
   <ul class="list-plain">
     {% for group in groups %}
         <li><a href="{{ group.get_absolute_url }}"><strong>{{ group.name }}</strong>: ({{ group.acronym }})</a></li>
     {% endfor %}
   </ul>
+  -->
 
   <hr>
 
-    <h2>Ultimi 3 atti del Consiglio</h2>
+    <h2>Ultimi 3 atti del Consiglio che la riguardano</h2>
   <ul class="list-plain">
     {% for act in latest_acts %}
     <li><strong><a href="{{ act.get_absolute_url }}">{% if act.adj_title %}{{ act.adj_title }}{% else %}{{ act.title }}{% endif %}</a></strong>
