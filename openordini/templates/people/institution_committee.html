@@ -1,4 +1,14 @@
 {% extends 'base_two_columns.html' %}
+{% load registration_tags %}
+{% load popover_info %}
+
+{% block head_js_includes %}
+        <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+        <!--[if IE]><link rel="stylesheet" href="{{ STATIC_URL }}css/ui-custom-theme/jquery-ui-1.8.16.ie.css"><![endif]-->
+        <script type="text/javascript" src="{{ STATIC_URL }}js/include.js" data-url="{{ STATIC_URL }}"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"></script>        
+{% endblock head_js_includes %}
+
 
 {% block title %}Organi politici | {{ committee.name }}{% endblock title %}
 {% block content_header %}{{ committee.name }}{% endblock %}
@@ -17,16 +27,29 @@
 {% block content %}
 
   {% include "people/_institution_single.html" with committee=committee members=members level=1 %}
-
-  <hr class="big">
-  <h1>Sotto-sezioni dell'Albo:</h1>
-  <hr/>
-
-  {% for sub_comm in sub_committees %}
-    {% include "people/_institution_single.html" with committee=sub_comm members=sub_comm.members level=2 %}
-    <hr/>
-  {% endfor %}
-
+  
+    {%  if sub_committees %}
+        <hr class="big">
+        <h1>Dettaglio sezioni dell'Albo:</h1>
+        <hr/>
+        <div id="sezioni_tabs">
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                {% for sub_comm in sub_committees %}        
+                     <li class="{% cycle 1 2 3 4 5 as y %} {% if y == 1 %} active {% endif %}"><a href="#{{y}}" data-toggle="tab">{{sub_comm}}</a></li>       
+                {% endfor %}
+            </ul>
+            <div id="oo-tab-content" class="tab-content">
+            {% for sub_comm in sub_committees %}
+                            
+                      <div class="{% cycle 1 2 3 4 5 as k %} tab-pane{% if k == 1 %} active {% endif %}" id="{{k}}">                
+                          {% include "people/_institution_single.html" with committee=sub_comm members=sub_comm.members level=2 %}
+                      </div>                        
+          
+           {% endfor %}
+          </div>
+        </div>
+    {% endif %}
+ 
 {% endblock %}
 
 {% block sidebar %}
@@ -53,6 +76,20 @@
   {%  comment %}
   {% include 'commons/news_list.html' with news_list=i_news news_title='Ultime sulla Commissione' %}
   {% endcomment %}
+{% endblock %}
+
+{% block footer_js_includes %}
+   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
+   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
+   <script type="text/javascript">
+
+        jQuery(document).ready(function ($) {
+            $('#tabs').tab();
+        });
+
+
+   </script> 
+
 {% endblock %}
 
 
