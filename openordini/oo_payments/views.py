@@ -35,7 +35,7 @@ class PaymentInfo(FormView):
     def get_context_data(self, *args, **kwargs):
 
         ctx = super(PaymentInfo, self).get_context_data(*args, **kwargs)
-        print "in get context..."
+#        print "in get context..."
 
         plan_pk = self.request.GET.get("payment_type")
         plan = SubscriptionPlan.objects.get(pk=plan_pk)
@@ -46,8 +46,7 @@ class PaymentInfo(FormView):
             raise ValueError("The specified payment type (%s) is not allowed for user" % plan)
     
         ctx["plan"] = plan
-        print "ctx: %s" % ctx
-
+#        print "ctx: %s" % ctx
         return ctx
 
     def get_form(self, *args, **kwargs):
@@ -65,10 +64,27 @@ class PaymentInfo(FormView):
         return ip
     
 
+###<<<<<<< HEAD
     def form_valid(self, *args, **kwargs):
         year = date.today().year
     
         request = self.request
+###=======
+###def payment_details(request):
+###
+###    year = date.today().year
+###
+###    if not request.user.is_authenticated():
+###        raise ValueError("You must be authenticated in order to access this view")
+###
+####    print "profile: %s (%s)" % (request.user.userprofile, type(request.user.userprofile))
+###
+###    profile = request.user.get_profile()
+###    person = profile.person
+###
+###    if SubscriptionPlan.objects.all().count() == 0:
+###        raise ValueError("You must have at least one SubscriptionPlan before calling this view")
+###>>>>>>> master
 
         if not request.user.is_authenticated():
             raise ValueError("You must be authenticated in order to access this view")
@@ -138,7 +154,7 @@ def payment_details(request, payment_id, *args, **kwargs):
 
    
     try:
-        print "payment id: %s" % payment_id
+#        print "payment id: %s" % payment_id
         payment = Payment.objects.get(id=payment_id)
         plan = payment.order.subscriptionorder.plan
         form = payment.get_form(data=request.POST or None)

@@ -19,7 +19,7 @@
   {% include "people/_institution_single.html" with committee=committee members=members level=1 %}
 
   <hr class="big">
-  <h1>Raggruppamenti</h1>
+  <h1>Sotto-sezioni dell'Albo:</h1>
   <hr/>
 
   {% for sub_comm in sub_committees %}
@@ -39,7 +39,7 @@
         {% include 'commons/calendar.html' with events=events %}
     </section>
 
-    <h2>Commissioni</h2>
+    <h2>Sezioni dell'albo</h2>
     <ul class="list-plain">
         {% for c in committees %}
             {% if c.id == committee.id %}

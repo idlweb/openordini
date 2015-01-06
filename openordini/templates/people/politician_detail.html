@@ -11,7 +11,7 @@
 
 
 {% block title %}Dettaglio {{ person }}{% endblock %}
-{% block content_header %}Politico{% endblock %}
+{% block content_header %}Psicologo{% endblock %}
 {% block content_header_city_logo %}
     <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png"
          xmlns:br="http://www.w3.org/1999/html"
@@ -53,7 +53,7 @@
 
         <h1>
           {% if person.is_om_user %}
-            <i class="icon-ok" title="{{ person }} è iscritto a Open municipio"></i>
+            <i class="icon-ok" title="{{ person }} è iscritto a NPOP"></i>
           {% endif %}
           {{ person }}
         </h1>
@@ -318,7 +318,7 @@
   <hr>
 
 
-{#  {% community_news_for_object person as c_news %}#}
-{#  {% include 'commons/news_list.html' with news_list=FIXME news_title='Ultime dalla community' %}#}
+  {% community_news_for_object person as c_news %}
+  {% include 'commons/news_list.html' with news_list=c_news news_title='Ultime dalla community' %}
 
 {% endblock %}
