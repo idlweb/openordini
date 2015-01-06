@@ -29,7 +29,7 @@ def user_created(sender, user, request, **kwargs):
     supposed to be found in POST data.
     """
 
-    print "salva utente: %s (user = %s)..." % (user_registered, user)
+#    print "salva utente: %s (user = %s)..." % (user_registered, user)
     # deletes the user profiles created by OM ... it's not
     # very efficient (INSERT + DELETE) but makes the two systems
     # more decoupled
@@ -98,9 +98,9 @@ def user_created(sender, user, request, **kwargs):
             g.user_set.add(user)
 
             if is_registered:
-                print "Utente registrato ..."
+#                print "Utente registrato ..."
                 i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_lavoro"])
-                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["psicologo_lavoro"])
+#                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["psicologo_lavoro"])
                 member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
                 member_charge.save()
  

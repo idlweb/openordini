@@ -10,7 +10,9 @@ from django.db.models import Q, Count
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
-from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView
+from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
+                                        CouncilListView
+from open_municipio.people.models import Institution
 from open_municipio.acts.models import Act
 from django.core import serializers
 
@@ -27,7 +29,6 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         #... filtra ctx["presented_acts"] ...
 
-        print "ctx before: %s" % ctx
         all_acts = Act.objects.filter(Q(actsupport__charge__pk__in=self.object.all_institution_charges) | Q(recipient_set__in=self.object.all_institution_charges))
 
         filtered_acts = self.filter_acts(all_acts, self.request.user)
@@ -45,8 +46,22 @@ class OOCommitteeDetailView(CommitteeDetailView):
 
         ctx["sub_committees"] = self.object.sub_body_set.all()
 
-        print "ctx = %s" % ctx
-
         return ctx
 
+
+class OOCouncilListView(FilterActsByUser, CouncilListView):
+
+    def get_context_data(self, *args, **kwargs):
+
+        ctx = super(OOCouncilListView, self).get_context_data(*args, **kwargs)
+
+        all_acts = Act.objects.filter(
+            emitting_institution__institution_type=Institution.COUNCIL
+            ) #.order_by('-presentation_date')
+
+        latest_acts = self.filter_acts(all_acts, self.request.user).order_by('-presentation_date')[0:3]
+        
+        ctx["latest_acts"] = latest_acts
+
+        return ctx
 
