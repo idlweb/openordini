@@ -3,6 +3,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -20,6 +21,9 @@ class FascicoloDetailView(ActDetailView):
 
 #        print "user: %s, act: %s" % (user, act)
 
+        if user.is_superuser:
+            return act
+
         allowed_persons = map(lambda c: c.person, act.recipient_set.all())
 
 #        print "allowed: %s" % allowed_persons
@@ -31,12 +35,16 @@ class FascicoloDetailView(ActDetailView):
 
 #        print "non anonymous..."
 
-        profile = user.get_profile()
+        try:
+            profile = user.get_profile()
 #        print "profile: %s" % profile
-        person = profile.person if profile else None
+            person = profile.person if profile else None
 #        print "person: %s" % person
 
-        if not person or person not in allowed_persons:
+            if not person or person not in allowed_persons:
+                raise PermissionDenied
+
+        except ObjectDoesNotExist:
             raise PermissionDenied
 
         return act
