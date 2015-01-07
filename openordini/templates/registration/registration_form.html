@@ -13,19 +13,23 @@
                
                 
                 <form enctype="multipart/form-data" action="" method="post" class="form-horizontal" accept-charset="utf-8">
- <ul class="nav nav-tabs">
+                  <ul class="nav nav-tabs">
                       <li class="active {% if form|fieldset_error:"access" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Credenziali</a></li>
                       <li {% if form|fieldset_error:"basic" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Dati per l'iscrizione</a></li>
                       <li {% if form|fieldset_error:"contacts" %}class="error"{% endif %}><a href="#tab-3" data-toggle="tab">Recapiti</a></li>
                       <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-4" data-toggle="tab">Richieste</a></li>
-                </ul>
-                <div class="tab-content">
+                  </ul>
+                  <div class="tab-content">
                         <div class="tab-pane active" id="tab-1">
                         
                          <legend>Dati per accedere al sito</legend>
                             {% include "registration/form_element.html" with element=form.username %}
                             {% include "registration/form_element.html" with element=form.password1 %}
                             {% include "registration/form_element.html" with element=form.password2 %}
+                            <div class="form-actions passw">
+                               <button type="button" class="btn btn-info btn1" wizard="passo1">Passo 1</button>
+                            </div>                       
+                            
                         </div>
                         <div class="tab-pane" id="tab-2">
                          
@@ -68,6 +72,9 @@
                                 {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
                                 {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
                             </div>
+                            <div class="form-actions passw">
+                               <button type="button" class="btn btn-info btn1" wizard="passo2">Passo 2</button>
+                            </div>   
                         </div>
                         <div class="tab-pane" id="tab-3">
                         
@@ -79,12 +86,17 @@
                              {% include "registration/form_element.html" with element=form.cap %}
                              {% include "registration/form_element.html" with element=form.provincia_domicilio %}
                              {% include "registration/form_element.html" with element=form.codice_fiscale %}
-
+                             <div class="form-actions passw">
+                                 <button type="button" class="btn btn-info btn1" wizard="passo3">Passo 3</button>
+                             </div>   
                         </div>
                         <div class="tab-pane" id="tab-4">
                           <legend>Opzioni e servizi</legend>
                           {% include "registration/form_element.html" with element=form.ritiro_agenda %}
                           {% include "registration/form_element.html" with element=form.invio_tesserino %}
+                          <div class="form-actions">
+                                <button type="submit" class="btn btn-info">Invia iscrizione</button>
+                          </div>
                         </div>
 
                             {% csrf_token %}
@@ -96,13 +108,13 @@
 
                    
                 </div>
-                    <div class="form-actions">
-                         <button type="submit" class="btn btn-info">Invia</button>
-                    </div>
+                    
                 </form>
             </div>
         </div>
     </div>
 
-
+    
 {% endblock %}
+
+ 
