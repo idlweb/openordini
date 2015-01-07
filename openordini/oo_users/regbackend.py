@@ -90,7 +90,7 @@ def user_created(sender, user, request, **kwargs):
 
     if settings.REGISTRATION_AUTO_ADD_GROUP:
 
-        is_registered = (register_subscription_date != None)
+        is_registered = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense ) 
 
         if says_is_psicologo_lavoro:
 

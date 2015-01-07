@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-23 12:03+0100\n"
+"POT-Creation-Date: 2015-01-07 12:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,90 +26,440 @@ msgstr "utenti NPOP"
 msgid "Oo_Users"
 msgstr "Utenti NPOP"
 
-#: forms.py:10
+#: admin.py:52
+msgid "verifiche"
+msgstr ""
+
+#: admin.py:57
+msgid "casellario da verificare"
+msgstr ""
+
+#: admin.py:58
+msgid "titoli non verificati"
+msgstr ""
+
+#: admin.py:102
+msgid "specializzati"
+msgstr ""
+
+#: admin.py:106
+msgid "specializzati presenti"
+msgstr ""
+
+#: forms.py:17
 msgid "I am a \"psicologo del lavoro\""
 msgstr "Sono uno psicologo del lavoro"
 
-#: forms.py:11
+#: forms.py:18
 msgid "I am a \"psicologo clinico\""
 msgstr "Sono uno psicologo clinico"
 
-#: forms.py:12
+#: forms.py:19
 msgid "I am a \"psicologo forense\""
 msgstr "Sono uno psicologo forense"
 
-#: forms.py:14
+#: forms.py:21
 msgid "Sex"
 msgstr "Genere"
 
-#: forms.py:16
+#: forms.py:23
 msgid "Birth date"
 msgstr "Data di nascita"
 
-#: forms.py:17
+#: forms.py:24
 msgid "Birth location"
 msgstr "Località di nascita"
 
-#: forms.py:18
+#: forms.py:25
 msgid "Register subscription date"
 msgstr "Data iscrizione Albo"
 
-#: forms.py:20
+#: forms.py:27
 msgid "I am an ASL employee"
 msgstr "Sono dipendente ASL"
 
-#: forms.py:21
+#: forms.py:28
 msgid "I am self-employed"
 msgstr "Sono libero professionista"
 
-#: models.py:13 models.py:17
+#: forms.py:30
+msgid "Indirizzo residenza"
+msgstr ""
+
+#: forms.py:31
+msgid "Città residenza"
+msgstr ""
+
+#: forms.py:32
+msgid "Indirizzo domicilio"
+msgstr ""
+
+#: forms.py:33
+msgid "Città domicilio"
+msgstr ""
+
+#: forms.py:34 models.py:57
+msgid "CAP"
+msgstr ""
+
+#: forms.py:35
+msgid "Provincia domicilio"
+msgstr ""
+
+#: forms.py:36
+msgid "Codice Fiscale"
+msgstr ""
+
+#: forms.py:37
+msgid "Accertamento casellario"
+msgstr ""
+
+#: forms.py:38 models.py:61
+msgid "accertamento universita"
+msgstr ""
+
+#: forms.py:40
+msgid "Ritito agenda"
+msgstr ""
+
+#: forms.py:41
+msgid "Invio tesserino"
+msgstr ""
+
+#: forms.py:60
+msgid ""
+"If you specify the date when you subscribed the register, you must also "
+"provide what kind of psychologist you are, and vice-versa"
+msgstr ""
+"Se specifichi la data in cui ti sei iscritto all'albo, devi anche specificare "
+"che tipo di psicologo sei, e viceversa."
+
+#: models.py:21 models.py:25
 msgid "psicologo clinico"
 msgstr ""
 
-#: models.py:13
+#: models.py:21
 msgid "notifica l'amministratore che è uno psicologo clinico"
 msgstr ""
 
-#: models.py:14
+#: models.py:22
 msgid "psicologo del lavoro"
 msgstr ""
 
-#: models.py:14
+#: models.py:22
 msgid "notifica l'amministratore che è uno psicologo del lavoro'"
 msgstr ""
 
-#: models.py:15
+#: models.py:23
 msgid "psicologo forense"
 msgstr ""
 
-#: models.py:15
+#: models.py:23
 msgid "notifica l'amministratore che è uno psicologo forense"
 msgstr ""
 
-#: models.py:16
+#: models.py:24
 msgid "ASL employee"
 msgstr "dipendente ASL"
 
-#: models.py:16
+#: models.py:24
 msgid "notifica l'amministratore che è un dipendente ASL"
 msgstr ""
 
-#: models.py:17
+#: models.py:25
 msgid "notifica l'amministratore che è un libero professionista"
 msgstr ""
 
-#: models.py:19
+#: models.py:26
 msgid "register subscription date"
 msgstr "data iscrizione Albo"
 
-#: models.py:19
+#: models.py:26
 msgid "la data in cui si è registrato all'albo"
 msgstr ""
 
-#: models.py:39
-msgid "user profile"
-msgstr "profilo utente"
+#: models.py:47
+msgid "scheda psicologo"
+msgstr ""
 
-#: models.py:40
-msgid "user profiles"
-msgstr "profili utente"
+#: models.py:48
+msgid "schede psicologi"
+msgstr ""
+
+#: models.py:53
+msgid "indirizzo di resicdenza"
+msgstr ""
+
+#: models.py:53
+msgid "inserire l'indirizzo di residenza"
+msgstr ""
+
+#: models.py:54
+msgid "città di residenza"
+msgstr ""
+
+#: models.py:54
+msgid "inserire la città di residenza"
+msgstr ""
+
+#: models.py:55
+msgid "indirizzo del domicilio"
+msgstr ""
+
+#: models.py:55
+msgid "inserire l'indirizzo del domicilio"
+msgstr ""
+
+#: models.py:56
+msgid "città di domicilio"
+msgstr ""
+
+#: models.py:56
+msgid "inserire la città di domicilio"
+msgstr ""
+
+#: models.py:57
+msgid "inserire il CAP"
+msgstr ""
+
+#: models.py:58
+msgid "provincia del domicilio"
+msgstr ""
+
+#: models.py:58
+msgid "inserire la provincia del domicilio"
+msgstr ""
+
+#: models.py:59
+msgid "codice fiscale"
+msgstr ""
+
+#: models.py:59
+msgid "inserire il codice fiscale"
+msgstr ""
+
+#: models.py:60
+msgid "verifica casellario giudiziario"
+msgstr ""
+
+#: models.py:60
+msgid "accertamento casellario"
+msgstr ""
+
+#: models.py:61
+msgid "verifica conseguimento titolo accademico"
+msgstr ""
+
+#: models.py:67
+msgid "anagrafica aggiuntiva"
+msgstr ""
+
+#: models.py:68
+msgid "anagrafiche aggiuntive"
+msgstr ""
+
+#: models.py:73
+msgid "telefono residenza"
+msgstr ""
+
+#: models.py:73
+msgid "inserire il telefono della residenza"
+msgstr ""
+
+#: models.py:74
+msgid "telefono domicilio"
+msgstr ""
+
+#: models.py:74
+msgid "inserire il telefono del domicilio"
+msgstr ""
+
+#: models.py:75
+msgid "telefono ufficio"
+msgstr ""
+
+#: models.py:75
+msgid "inserire il telefono ufficio"
+msgstr ""
+
+#: models.py:76
+msgid "numero cellulare"
+msgstr ""
+
+#: models.py:76
+msgid "inserire il numero del cellulare"
+msgstr ""
+
+#: models.py:77
+msgid "indirizzo email"
+msgstr ""
+
+#: models.py:77
+msgid "inserire l'indirizzo email"
+msgstr ""
+
+#: models.py:78
+msgid "indirizzo pec"
+msgstr ""
+
+#: models.py:78
+msgid "inserire l'indirizzo pec"
+msgstr ""
+
+#: models.py:85
+msgid "recapito"
+msgstr ""
+
+#: models.py:86
+msgid "recapiti"
+msgstr ""
+
+#: models.py:90
+msgid "ritiro agenda"
+msgstr ""
+
+#: models.py:91
+msgid "invio tesserino"
+msgstr ""
+
+#: models.py:92
+msgid "numero_faldone"
+msgstr ""
+
+#: models.py:92
+msgid "numero faldone"
+msgstr ""
+
+#: models.py:98 models.py:99
+msgid "caratteristiche di gestione"
+msgstr ""
+
+#: models.py:103
+msgid "data di trasferimento albo"
+msgstr ""
+
+#: models.py:103
+msgid "trasferimento data"
+msgstr ""
+
+#: models.py:104
+msgid "delibera trasferimento"
+msgstr ""
+
+#: models.py:105
+msgid "data delibera trasferimento"
+msgstr ""
+
+#: models.py:105
+msgid "data delibera"
+msgstr ""
+
+#: models.py:106
+msgid "motivazione trasferimento"
+msgstr ""
+
+#: models.py:106
+msgid "motivazione delibera"
+msgstr ""
+
+#: models.py:107
+msgid "regione trasferimento"
+msgstr ""
+
+#: models.py:108
+msgid "tassa di trasferimento"
+msgstr ""
+
+#: models.py:115
+msgid "trasferimento"
+msgstr ""
+
+#: models.py:116
+msgid "trasferimenti"
+msgstr ""
+
+#: models.py:124
+msgid "psicologia"
+msgstr ""
+
+#: models.py:125
+msgid "filosofia"
+msgstr ""
+
+#: models.py:126
+msgid "medicina"
+msgstr ""
+
+#: models.py:127
+msgid "altro"
+msgstr ""
+
+#: models.py:132
+msgid "titolo laurea"
+msgstr ""
+
+#: models.py:133
+msgid "data iscrizione all'albo"
+msgstr ""
+
+#: models.py:133 models.py:142
+msgid "data iscrizione albo"
+msgstr ""
+
+#: models.py:134
+msgid "presenza articolo 3"
+msgstr ""
+
+#: models.py:134
+msgid "articolo tre"
+msgstr ""
+
+#: models.py:135
+msgid "delibera art. 3"
+msgstr ""
+
+#: models.py:135
+msgid "articolo tre delibera"
+msgstr ""
+
+#: models.py:136
+msgid "data delibera art 3"
+msgstr ""
+
+#: models.py:136
+msgid "articolo tre data"
+msgstr ""
+
+#: models.py:137
+msgid "note per l'articolo 3"
+msgstr ""
+
+#: models.py:137
+msgid "articolo tre note"
+msgstr ""
+
+#: models.py:138
+msgid "avvenuta iscrizione"
+msgstr ""
+
+#: models.py:140
+msgid "laurea specializzazione"
+msgstr ""
+
+#: models.py:142
+msgid "Provide, if you are already a registered member"
+msgstr "Forniscila se sei già iscritto all'Albo"
+
+#: models.py:149
+msgid "titoli psicologo"
+msgstr ""
+
+#: models.py:150
+msgid "titoli psicologi"
+msgstr ""
+
+#~ msgid "user profile"
+#~ msgstr "profilo utente"
+
+#~ msgid "user profiles"
+#~ msgstr "profili utente"
