@@ -52,7 +52,7 @@ class SubscriptionPlan(models.Model):
         filtered_plans = []
 
         try:
-
+        
             profile = user.get_profile()
             assert isinstance(profile, UserProfile)
     
@@ -77,7 +77,7 @@ class SubscriptionPlan(models.Model):
                 if not dl or today <= dl:
                     filtered_plans.append(curr_plan)
 
-        except ObjectDoesNotExist, AttributeError: 
+        except (ObjectDoesNotExist, AttributeError): 
             pass
 
         return filtered_plans
