@@ -77,7 +77,7 @@ class SubscriptionPlan(models.Model):
                 if not dl or today <= dl:
                     filtered_plans.append(curr_plan)
 
-        except AttributeError: 
+        except ObjectDoesNotExist, AttributeError: 
             pass
 
         return filtered_plans

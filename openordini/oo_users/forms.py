@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm
@@ -42,3 +43,25 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     class Meta:
         exclude = [ "accertamento_casellario", "accertamento_universita", ]
+
+    def clean(self, *args, **kwargs):
+
+        data = super(UserRegistrationForm, self).clean(*args, **kwargs)
+
+        says_is_psicologo_lavoro = data["says_is_psicologo_lavoro"]
+        says_is_psicologo_clinico = data["says_is_psicologo_clinico"]
+        says_is_psicologo_forense = data["says_is_psicologo_forense"]
+
+        qualifica = (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense)
+    
+        data_iscrizione = data["register_subscription_date"]
+
+
+        if (data_iscrizione and not qualifica) or (not data_iscrizione and qualifica):
+
+            msg = _("If you specify the date when you subscribed the register, you must also provide what kind of psychologist you are, and vice-versa")
+
+            raise ValidationError(msg)
+
+
+        return data

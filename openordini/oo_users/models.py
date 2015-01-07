@@ -139,7 +139,7 @@ class PsicologoTitoli(models.Model):
                                         help_text=u"Indica se l'utente si è iscritto all'albo")
     laurea_specializzazione = models.BooleanField(_('laurea specializzazione'), default=False,
                                         help_text=u"Indica se è stata conseguita la specializzazione")
-    data_iscrizione_albo = models.DateField(_('data iscrizione albo'), help_text=_(u""))
+    data_iscrizione_albo = models.DateField(_('data iscrizione albo'), help_text=_(u"Provide, if you are already a registered member"))
     
     def __unicode__(self):
         return self.psicologo_registrato.person.first_name + ' - ' + self.psicologo_registrato.person.last_name 

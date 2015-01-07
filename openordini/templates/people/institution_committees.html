@@ -138,7 +138,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                   <ul>
                     {% for committee in committees %}                        
                         <li>
-                            {% ifnotequal committee.parent_id 1 %}
+                            {% if not committee.parent_id %}
                             
                                 <span><i class="icon-folder-open"></i> {{ committee.name }}:</span><a href="{{ committee.get_absolute_url }}"></a>
                                     <a href="{{ committee.get_absolute_url }}"><strong>{{ committee.description }}</strong></a>
@@ -152,7 +152,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                                         </li>
                                     </ul>
                                                                                           
-                            {% endifnotequal %}  
+                            {% endif %}  
                         
                     {% endfor %}
                         </ul>
