@@ -1,5 +1,8 @@
 from openordini.openordini.settings import *
 
+DEBUG = True
+TEMPLATE_DEBUG = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
