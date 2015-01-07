@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Sezioni dell'albo</h2>
+    <h2>Sezioni dell'albo:{% popover_info 'elenco-dei-membri-degli-iscritti-albo' %}</h2>
 
 <section id="payoff" class="container-fluid">
     <div class="row-fluid" >
@@ -161,64 +161,10 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block footer_js_includes %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
     <script type="text/javascript">
-
-
-        $(document).ready(function(){
-          function removenull(str) {          
-              var new_str = str;
-              if (str == '') {
-                  new_str = str.replace('', "N/A");
-              }
-              else if (str == null) {
-                  new_str = "N/A";
-              }
-
-              return new_str;
-          }
-          $('#search-politician').typeahead({
-              source: function(typeahead, query) {
-                  //alert("sto scrivendo");
-                  $.ajax({
-                      url: "{% url 'om_politician_search'  %}",
-                      dataType: "json",
-                      type: "GET",
-                      data: {
-                          max_rows: 10,
-                          key: query,
-                          ajax: 1
-                      },
-                      success: function(data) {
-                          var return_list = [], i = data.length;
-                          while (i--) {
-                              return_list[i] = {
-                                  slug: data[i].fields.slug,
-                                  image: data[i].fields.img,
-                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
-                          }
-                          typeahead.process(return_list);
-
-                      }
-                  });
-              },
-              onselect: function(obj) {
-                  window.location.href = "http://{{ current_site }}/people/" + obj.slug;
-              }
-          });
-          $('a.event_toggle_modal').each(function() {
-              var link = $(this);
-              link.click(function(e) {
-                  e.preventDefault();
-                  $(link.attr('href')).modal();
-              });
-          });
-
-           $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch') 
+    $(function(){
+        $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch') 
 
             var children_super = $('li.parent_li > ul > li').find(' > ul > li');
             children_super.hide('fast');
@@ -239,12 +185,75 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
             
             });
 
-      });
-
-
-
+       });
     </script>
 
+{% endblock %}
+
+{% block footer_js_includes %}
+  {{ block.super }}
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function(){
+          function removenull(str) {
+              var new_str = str;
+              if (str == '') {
+                  new_str = str.replace('', "N/A");
+              }
+              else if (str == null) {
+                  new_str = "N/A";
+              }
+
+              return new_str;
+          }
+          $('#search-politician').typeahead({
+              source: function(typeahead, query) {
+                  $.ajax({
+                      url: "{% url 'om_politician_search'  %}",
+                      dataType: "json",
+                      type: "GET",
+                      data: {
+                          max_rows: 10,
+                          key: query,
+                          ajax: 1
+                      },
+                      success: function(data) {
+                          var return_list = [], i = data.length;
+                          while (i--) {
+                              return_list[i] = {
+                                  slug: data[i].fields.slug,
+                                  image: data[i].fields.img,
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                          }
+                          typeahead.process(return_list);
+                      }
+                  });
+              },
+              onselect: function(obj) {
+                  window.location.href = "http://{{ current_site }}/people/" + obj.slug;
+              }
+          });
+          $('a.event_toggle_modal').each(function() {
+              var link = $(this);
+              link.click(function(e) {
+                  e.preventDefault();
+                  $(link.attr('href')).modal();
+              });
+          });
+      });
+
+      
+  </script>
+
+    {% if ALERT_POPUP|length > 0 %}
+      <script type="text/javascript">
+          $(document).ready(function(){
+              $('#home-alert').modal();
+          });
+      </script>
+  {% endif %}
 {% endblock %}
 
 {% block sidebar %}

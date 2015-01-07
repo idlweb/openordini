@@ -24,8 +24,9 @@
         {% else %}
             <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css" />
             <link rel="stylesheet" href="{{ STATIC_URL }}css/styles-responsive.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/openordini.css" />
         {% endif %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/openordini.css" />
+        
 
 
     {% endblock head_css_includes %}
@@ -42,8 +43,11 @@
     {% endblock head_js_includes %}
 
     <script type="text/javascript" charset="utf-8">
-    {% block extra_js %}{% endblock %}
-    </script>
+    {% block extra_js %}            
+   
+    {% endblock %}
+     </script>
+
 
     {% block extra_head %}{% endblock %}
 
@@ -269,13 +273,7 @@
  
     <script type="text/javascript">
          $(function(){
-            //alert("iniziamo");
-            //$("li:has(ul)")   
-
-            //if ($(this).hasAttr("wizard")) {}
-            //$('.tab-pane').on('click', function (e){
-                //alert("iniziamo");
-            //}
+           
             $('.btn1').on('click', function (e){
               //$("nav-tabs>li").filter("[active]");           
 
@@ -310,7 +308,9 @@
             
             //});
 
-       })
+       })            
+    
+
     </script>
 
 
