@@ -58,7 +58,9 @@ class FilterNewsByUser(object):
 
 #        print "person acts: %s" % my_acts
 
-        monitored_acts = Monitoring.objects.filter((~ Q (content_type=ct)) | Q(object_pk=my_acts))
+        monitored_acts = Monitoring.objects.filter((~ Q (content_type=ct)) | Q(object_pk__in=my_acts))
+
+#        print "monitored acts: %s" % monitored_acts
 
         m_ct = ContentType.objects.get_for_model(Monitoring)
     
