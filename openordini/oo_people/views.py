@@ -45,7 +45,7 @@ class OOCommitteeDetailView(CommitteeDetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)
-
+        
         members = self.object.sub_body_set.all()
 
         paginator = Paginator(members, 5) # Show 25 contacts per page
@@ -63,7 +63,7 @@ class OOCommitteeDetailView(CommitteeDetailView):
 
         ctx["sub_committees"] = self.object.sub_body_set.all()
 
-        ctx["members_for_pages"] = members_for_pages
+        #ctx["members_for_pages"] = members_for_pages
 
         return ctx
 
