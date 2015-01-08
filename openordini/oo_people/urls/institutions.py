@@ -8,10 +8,11 @@ from django.conf import settings
 
 from open_municipio.urls import *
 from open_municipio.om.views import HomeView
-from openordini.oo_people.views import OOCommitteeDetailView, OOCouncilListView
+from openordini.oo_people.views import OOCommitteeDetailView, OOCouncilListView, OOCommitteeListView
 
 # place app url patterns here
 urlpatterns = patterns('',
+	url(r'^committees/$', OOCommitteeListView.as_view(), name='om_institution_committees'),
 	url(r'^committees/(?P<slug>[-\w]+)/$', OOCommitteeDetailView.as_view(), name='om_institution_committee'),
     url(r'^council/$', OOCouncilListView.as_view(), name='om_institution_council'),
 )

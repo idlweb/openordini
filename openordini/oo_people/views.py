@@ -11,7 +11,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.views.generic import TemplateView, DetailView, ListView, RedirectView
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
-                                        CouncilListView
+                                        CouncilListView, CommitteeListView
 from open_municipio.people.models import Institution, InstitutionCharge
 from open_municipio.people.views import PoliticianSearchView
 from open_municipio.acts.models import Act
@@ -36,7 +36,7 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
         filtered_acts = self.filter_acts(all_acts, self.request.user)        
 
         ctx["presented_acts"] = filtered_acts
-        ctx["n_presented_acts"] = len(filtered_acts)
+        ctx["n_presented_acts"] = len(filtered_acts)        
 
         return ctx
 
@@ -44,8 +44,9 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 class OOCommitteeDetailView(CommitteeDetailView):
 
     def get_context_data(self, **kwargs):
-        ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)
-        
+        ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)                    
+        ctx["current_site"] = Site.objects.get(pk=settings.SITE_ID)
+        #ctx["members_for_pages"] = members_for_pages
         members = self.object.sub_body_set.all()
 
         paginator = Paginator(members, 5) # Show 25 contacts per page
@@ -63,7 +64,15 @@ class OOCommitteeDetailView(CommitteeDetailView):
 
         ctx["sub_committees"] = self.object.sub_body_set.all()
 
-        #ctx["members_for_pages"] = members_for_pages
+        return ctx
+
+
+class OOCommitteeListView(CommitteeListView):
+
+    def get_context_data(self, **kwargs):
+        ctx = super(OOCommitteeListView, self).get_context_data(**kwargs)
+        
+        ctx["current_site"] = Site.objects.get(pk=settings.SITE_ID)
 
         return ctx
 
