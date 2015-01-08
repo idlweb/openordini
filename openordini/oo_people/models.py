@@ -4,8 +4,6 @@ from open_municipio.people.models import Person
 
 # Create your models here.
 
-print "loading ..."
-
 def get_current_institution_charges(self, moment=None):
     """
     Used to override the Person method with same name (the original method
