@@ -277,36 +277,35 @@
             $('.btn1').on('click', function (e){
               //$("nav-tabs>li").filter("[active]");           
 
-              var wbt = $(this).attr('wizard'); 
-              //alert (tab1);
+                var wbt = $(this).attr('wizard'); 
+                //alert (tab1);
 
-              if ( wbt == 'passo1' ) {
-                // code to be executed if condition is true
-                $(".nav-tabs > li:nth-child(1)").attr('class','');
-                $(".nav-tabs > li:nth-child(2)").attr('class','active');
-                $(".tab-pane:nth-child(1)").attr('class','tab-pane');
-                $(".tab-pane:nth-child(2)").attr('class','tab-pane active');
-              }
-              if ( wbt == 'passo2' ) {
-                // code to be executed if condition is true
-                $(".nav-tabs > li:nth-child(2)").attr('class','');
-                $(".nav-tabs > li:nth-child(3)").attr('class','active');
-                $(".tab-pane:nth-child(2)").attr('class','tab-pane');
-                $(".tab-pane:nth-child(3)").attr('class','tab-pane active');
-              } 
-              if ( wbt == 'passo3' ) {
-                // code to be executed if condition is true
-                $(".nav-tabs > li:nth-child(3)").attr('class','');
-                $(".nav-tabs > li:nth-child(4)").attr('class','active');
-                $(".tab-pane:nth-child(3)").attr('class','tab-pane');
-                $(".tab-pane:nth-child(4)").attr('class','tab-pane active');
-              } 
-              
-              e.stopPropagation();
+                if ( wbt == 'passo1' ) {
+                  // code to be executed if condition is true
+                  $(".nav-tabs > li:nth-child(1)").attr('class','');
+                  $(".nav-tabs > li:nth-child(2)").attr('class','active');
+                  $(".tab-pane:nth-child(1)").attr('class','tab-pane');
+                  $(".tab-pane:nth-child(2)").attr('class','tab-pane active');
+                }
+                if ( wbt == 'passo2' ) {
+                  // code to be executed if condition is true
+                  $(".nav-tabs > li:nth-child(2)").attr('class','');
+                  $(".nav-tabs > li:nth-child(3)").attr('class','active');
+                  $(".tab-pane:nth-child(2)").attr('class','tab-pane');
+                  $(".tab-pane:nth-child(3)").attr('class','tab-pane active');
+                } 
+                if ( wbt == 'passo3' ) {
+                  // code to be executed if condition is true
+                  $(".nav-tabs > li:nth-child(3)").attr('class','');
+                  $(".nav-tabs > li:nth-child(4)").attr('class','active');
+                  $(".tab-pane:nth-child(3)").attr('class','tab-pane');
+                  $(".tab-pane:nth-child(4)").attr('class','tab-pane active');
+                } 
+                
+                e.stopPropagation();
                                        
+
             })
-          
-             
             
             //});
 

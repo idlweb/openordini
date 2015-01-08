@@ -8,9 +8,15 @@ from django.conf import settings
 
 from open_municipio.urls import *
 from open_municipio.om.views import HomeView
+from open_municipio.people.views import PoliticianDetailView, PoliticianListView, \
+                                            PoliticianSearchView
+
 from openordini.oo_people.views import *
 
-# place app url patterns here
+# I must include all the urlpatterns from OpenMunicipio, in order not to override
+# the search url with the OOPoliticianDetailView <slug>
 urlpatterns = patterns('',
+    url(r'^$', PoliticianListView.as_view(), name='om_politician_list'),
+    url(r'^search/$', PoliticianSearchView.as_view(), name='om_politician_search'),
 	url(r'^(?P<slug>[-\w]+)/$', OOPoliticianDetailView.as_view(), name='om_politician_detail'),
 )
