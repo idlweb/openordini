@@ -10,7 +10,7 @@ class OOHomeView(FilterActsByUser, FilterNewsByUser, HomeView):
         ctx = super(OOHomeView, self).get_context_data(**kwargs)
 
         last_presented_acts = Act.objects.filter(presentation_date__isnull=False).distinct()
-        filtered_presented_acts = self.filter_acts(last_presented_acts, self.request.user).order_by('-presentation_date')[0:3]
+        filtered_presented_acts = self.filter_acts(last_presented_acts, self.request.user).distinct().order_by('-presentation_date')[0:3]
         ctx["last_presented_acts"] = filtered_presented_acts
 
         # filter community news about private acts

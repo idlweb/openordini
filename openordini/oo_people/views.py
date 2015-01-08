@@ -33,7 +33,7 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         all_acts = Act.objects.filter(Q(actsupport__charge__pk__in=self.object.all_institution_charges) | Q(recipient_set__in=self.object.all_institution_charges))
 
-        filtered_acts = self.filter_acts(all_acts, self.request.user)        
+        filtered_acts = self.filter_acts(all_acts, self.request.user).distinct()
 
         ctx["presented_acts"] = filtered_acts
         ctx["n_presented_acts"] = len(filtered_acts)        
@@ -87,7 +87,7 @@ class OOCouncilListView(FilterActsByUser, CouncilListView):
             emitting_institution__institution_type=Institution.COUNCIL
             ) #.order_by('-presentation_date')
 
-        latest_acts = self.filter_acts(all_acts, self.request.user).order_by('-presentation_date')[0:3]
+        latest_acts = self.filter_acts(all_acts, self.request.user).distinct().order_by('-presentation_date')[0:3]
         
         ctx["latest_acts"] = latest_acts
 
