@@ -196,7 +196,8 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
   <script type="text/javascript">
-      $(document).ready(function(){
+      //$(document).ready(function(){
+      
           function removenull(str) {
               var new_str = str;
               if (str == '') {
@@ -208,6 +209,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
 
               return new_str;
           }
+      
           $('#search-politician').typeahead({
               source: function(typeahead, query) {
                   $.ajax({
@@ -235,6 +237,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                   window.location.href = "http://{{ current_site }}/people/" + obj.slug;
               }
           });
+      
           $('a.event_toggle_modal').each(function() {
               var link = $(this);
               link.click(function(e) {
@@ -242,7 +245,8 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                   $(link.attr('href')).modal();
               });
           });
-      });
+      
+      //});
 
       
   </script>

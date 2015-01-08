@@ -19,6 +19,7 @@ from django.core import serializers
 from sorl.thumbnail import get_thumbnail
 
 from ..commons.mixins import FilterActsByUser
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
@@ -31,7 +32,7 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         all_acts = Act.objects.filter(Q(actsupport__charge__pk__in=self.object.all_institution_charges) | Q(recipient_set__in=self.object.all_institution_charges))
 
-        filtered_acts = self.filter_acts(all_acts, self.request.user)
+        filtered_acts = self.filter_acts(all_acts, self.request.user)        
 
         ctx["presented_acts"] = filtered_acts
         ctx["n_presented_acts"] = len(filtered_acts)
@@ -44,7 +45,24 @@ class OOCommitteeDetailView(CommitteeDetailView):
     def get_context_data(self, **kwargs):
         ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)
 
+        members = self.object.sub_body_set.all()
+
+        paginator = Paginator(members, 5) # Show 25 contacts per page
+
+        page = self.request.GET.get('page')
+
+        try:
+            members_for_pages = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            members_for_pages = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            members_for_pages = paginator.page(paginator.num_pages)
+
         ctx["sub_committees"] = self.object.sub_body_set.all()
+
+        ctx["members_for_pages"] = members_for_pages
 
         return ctx
 
