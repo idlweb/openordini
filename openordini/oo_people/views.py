@@ -12,7 +12,8 @@ from django.views.generic import TemplateView, DetailView, ListView, RedirectVie
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
                                         CouncilListView
-from open_municipio.people.models import Institution
+from open_municipio.people.models import Institution, InstitutionCharge
+from open_municipio.people.views import PoliticianSearchView
 from open_municipio.acts.models import Act
 from django.core import serializers
 
@@ -82,4 +83,36 @@ class OOCouncilListView(FilterActsByUser, CouncilListView):
         ctx["latest_acts"] = latest_acts
 
         return ctx
+
+
+class OOPoliticianSearchView(PoliticianSearchView):
+
+    def get(self, request, *args, **kwargs):
+
+        key = request.GET.get('key', '')
+        ajax = request.GET.get('ajax', 0)
+        max_rows = request.GET.get('max_rows', 10)
+
+
+        current_site = Site.objects.get(pk=settings.SITE_ID)
+
+        charges = InstitutionCharge.objects.\
+            filter(Q(person__first_name__icontains=key) | Q(person__last_name__icontains=key))[0:max_rows]
+
+        # build persons array,substituting the img with a 50x50 thumbnail
+        # and returning the absolute url of the thumbnail
+        persons = []
+        for c in charges:
+            if c.person not in persons:
+                person = c.person
+                try:
+                    img = get_thumbnail("http://%s/media/%s" % (current_site, person.img), "50x50", crop="center", quality=99)
+                    person.img = img.url
+                except BaseException as e:
+                    person.img = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
+       
+                persons.append(person)
+
+        json_data = serializers.serialize('json', persons)
+        return HttpResponse(json_data, mimetype='text/json')
 
