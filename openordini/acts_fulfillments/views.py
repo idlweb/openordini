@@ -1,5 +1,6 @@
 # Create your views here.
-
+from datetime import datetime
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -8,7 +9,10 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from open_municipio.acts.views import ActDetailView
+from haystack.query import SearchQuerySet
+
+from open_municipio.om_search.forms import RangeFacetedSearchForm
+from open_municipio.acts.views import ActDetailView, ActSearchView
 from .models import Fascicolo
 
 class FascicoloDetailView(ActDetailView):
@@ -58,3 +62,30 @@ class FascicoloDetailView(ActDetailView):
             base_url = reverse("auth_login")
             full_url = "%s?next=%s" % (base_url, request.path)
             return HttpResponseRedirect(full_url)
+
+
+class OOActSearchView(ActSearchView):
+
+    def __init__(self, *args, **kwargs):
+        # dynamically compute date ranges for faceted search
+        curr_year = datetime.today().year
+        for curr_year in xrange(settings.OM_START_YEAR, curr_year + 1):
+            date_range = self._build_date_range(curr_year)
+            self.DATE_INTERVALS_RANGES[curr_year] = date_range
+
+        sqs = SearchQuerySet().filter(django_ct='acts.act').\
+            exclude(act_type='fascicolo').\
+            facet('act_type').facet('is_key').facet('is_proposal').\
+            facet('initiative').facet('organ').facet('month')
+
+        for (year, range) in self.DATE_INTERVALS_RANGES.items():
+            sqs = sqs.query_facet('pub_date', range['qrange'])
+        sqs = sqs.order_by('-pub_date').highlight()
+        kwargs['searchqueryset'] = sqs
+
+        # Needed to switch out the default form class.
+        if kwargs.get('form_class') is None:
+            kwargs['form_class'] = RangeFacetedSearchForm
+
+        super(ActSearchView, self).__init__(*args, **kwargs)
+
