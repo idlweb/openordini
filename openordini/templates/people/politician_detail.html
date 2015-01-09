@@ -13,7 +13,7 @@
 {% block title %}Dettaglio {{ person }}{% endblock %}
 {% block content_header %}Psicologo{% endblock %}
 {% block content_header_city_logo %}
-    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png"
+    <img src="/static/img/ORDINE-PSICOLOGI.png" 
          xmlns:br="http://www.w3.org/1999/html"
          alt="Comune di {{ main_city }}">
 {% endblock %}
@@ -101,7 +101,7 @@
           {% endif %}
       {% endif %}
 
-      {% if current_committee_charges %}
+      <!--{% if current_committee_charges %}
           <ul class="list-plain">
             {% for c in current_committee_charges %}
               <li>{{ c.institution }}:
@@ -115,7 +115,7 @@
               </li>
             {% endfor %}
           </ul>
-      {% endif %}
+      {% endif %}-->
 
       {% if resources.FINANCIAL %}
         <p>

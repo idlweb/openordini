@@ -91,7 +91,6 @@ class OOUserProfileListView(FilterNewsByUser, UserProfileListView):
     def get_context_data(self, **kwargs):
 
 
-
 #        print "in custom view ..."
 
         ctx = super(OOUserProfileListView, self).get_context_data(**kwargs)

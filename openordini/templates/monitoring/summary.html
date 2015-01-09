@@ -1,0 +1,77 @@
+{% load om_utils %}
+{% load url from future %}
+<table id="monitoring-table">
+  <tr>
+    <td>
+      {{ object.monitoring_users_count|default:'0'|circled }}
+    </td>
+    <td>
+      {% if not user.get_profile.person %}
+        {% if is_user_monitoring %}
+          <!--h4>Cittadini che monitorano {{ object_type }}, <br/> incluso te</h4-->
+          <h4>Cittadini che monitorano gli psicologi, <br/> incluso te</h4>
+          <form action="{% url 'om_monitoring_stop' %}" method="post">{% csrf_token %}
+            {{ monitoring_form }}
+            <button type="submit" class="btn btn-info btn-mini">Non monitorare più</button>
+          </form>
+        {% else %}
+          <!--h4>Cittadini che monitorano {{ object_type }}</h4-->
+          <h4>Cittadini che monitorano gli psicologi</h4>
+          <i class="icon-plus-sign"></i>
+            {% if user.is_authenticated %}
+                <form action="{% url 'om_monitoring_start' %}" method="post">{% csrf_token %}
+                    {{ monitoring_form }}
+                    <button type="submit" class="btn btn-info btn-mini">Monitora</button>
+                </form>
+            {% else %}
+                <a href="{{ login_url_with_redirect }}">accedi</a> per monitorare
+            {% endif %}
+        {% endif %}
+      {% else %}
+        <!--h4>Cittadini che monitorano {{ object_type }}</h4-->
+        <h4>Cittadini che monitorano gli psicologi</h4>
+      {% endif %}
+    </td>
+  </tr>
+  {% if show_politicians %}
+    <tr>
+      <td>
+        {{ object.monitoring_politicians|length|circled }}
+      </td>
+      <td>
+        {% if user.get_profile.person %}
+          {% if is_user_monitoring %}
+            <!--h4>Psicologi che monitorano {{ object_type }}, <br/> incluso te</h4-->
+            <h4>Psicologi che monitorano gli Psicologi, <br/> incluso te</h4>
+            <form action="{% url 'om_monitoring_stop' %}" method="post">{% csrf_token %}
+              {{ monitoring_form }}
+              <button type="submit" class="btn btn-info btn-mini">Non monitorare più</button>
+            </form>
+          {% else %}
+            <!--h4>Psicologi che monitorano {{ object_type }}</h4-->
+            <h4>Psicologi che monitorano gli psicologi</h4>
+            <i class="icon-plus-sign"></i>
+            {% if user.is_authenticated %}
+                <form action="{% url 'om_monitoring_start' %}" method="post">{% csrf_token %}
+                    {{ monitoring_form }}
+                    <button type="submit" class="btn btn-info btn-mini">Monitora</button>
+                </form>
+            {% else %}
+                <a href="{{ login_url_with_redirect }}">accedi</a> per monitorare
+            {% endif %}
+          {% endif %}
+        {% else %}
+          <!--h4>Psicologi che monitorano {{ object_type }}</h4-->
+          <h4>Psicologi che monitorano gli psicologi</h4>
+        {% endif %}
+      </td>
+    </tr>
+  {% endif %}
+</table>
+
+  {% comment %}Send Monitoring form with anchor link{% endcomment %}
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#monitoring-table form').submitLink();
+    });
+  </script>

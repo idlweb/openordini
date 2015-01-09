@@ -49,7 +49,7 @@ class OOCommitteeDetailView(CommitteeDetailView):
         #ctx["members_for_pages"] = members_for_pages
         members = self.object.sub_body_set.all()
 
-        paginator = Paginator(members, 5) # Show 25 contacts per page
+        paginator = Paginator(members, 2) # Show 50 members for page
 
         page = self.request.GET.get('page')
 
@@ -61,8 +61,13 @@ class OOCommitteeDetailView(CommitteeDetailView):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             members_for_pages = paginator.page(paginator.num_pages)
+            
+        ctx["paginator"] = paginator
+
+        ctx["page_obj"] = members_for_pages
 
         ctx["sub_committees"] = self.object.sub_body_set.all()
+
 
         return ctx
 

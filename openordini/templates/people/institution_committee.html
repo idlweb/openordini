@@ -1,6 +1,7 @@
 {% extends 'base_two_columns.html' %}
 {% load registration_tags %}
 {% load popover_info %}
+{% load digg_paginator %}
 
 {% block head_js_includes %}
         <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -13,7 +14,7 @@
 {% block title %}Organi politici | {{ committee.name }}{% endblock title %}
 {% block content_header %}{{ committee.name }}{% endblock %}
 {% block content_header_city_logo %}
-    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png"
+    <img src="/static/img/ORDINE-PSICOLOGI.png" 
          xmlns:br="http://www.w3.org/1999/html"
          alt="Comune di {{ main_city }}">
 {% endblock %}
@@ -71,29 +72,8 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
     </br>
   </section>
 
-{% for member in members_for_pages %}
-    {#  #}
-    <p>v</p>
-  {% endfor %}
 
-<div class="pagination">
-    <span class="step-links">
-       <p>test impaginazione</p>
-        {% if member.has_previous %}
-            <a href="?page={{ member.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ member.number }} of {{ member.paginator.num_pages }}.
-        </span>
-
-        {% if member.has_next %}
-            <a href="?page={{ member.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
-
-  {%  if sub_committees %}
+{%  if sub_committees %}
         <hr class="big">
         <h2>Dettaglio sezioni dell'Albo:{% popover_info 'elenco-dei-membri-degli-iscritti-albo' %}</h2>
         <hr/>
