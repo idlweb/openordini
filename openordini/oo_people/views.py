@@ -49,25 +49,20 @@ class OOCommitteeDetailView(CommitteeDetailView):
         #ctx["members_for_pages"] = members_for_pages
         members = self.object.sub_body_set.all()
 
-        paginator = Paginator(members, 2) # Show 50 members for page
-
-        page = self.request.GET.get('page')
-
+        paginator = Paginator(members, 4)
+        page = self.request.GET.get('page', 1)
         try:
-            members_for_pages = paginator.page(page)
+            page_obj = paginator.page(page)
         except PageNotAnInteger:
             # If page is not an integer, deliver first page.
-            members_for_pages = paginator.page(1)
+            page_obj = paginator.page(1)
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
-            members_for_pages = paginator.page(paginator.num_pages)
-            
-        ctx["paginator"] = paginator
+            page_obj = paginator.page(paginator.num_pages)
 
-        ctx["page_obj"] = members_for_pages
-
+        ctx['paginator'] = paginator        
+        ctx['page_obj'] = page_obj
         ctx["sub_committees"] = self.object.sub_body_set.all()
-
 
         return ctx
 
