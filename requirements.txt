@@ -28,3 +28,4 @@ django-awesome-bootstrap==3.2.0
 django-grappelli==2.4.10
 django-suit==0.2.12
 sorl-thumbnail==12.2
+django-endless-pagination==2.0
