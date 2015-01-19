@@ -50,7 +50,6 @@
                   <ul class="nav nav-tabs">
                       <li class="active {% if form|fieldset_error:"basic" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Dati per l'iscrizione</a></li>
                       <li {% if form|fieldset_error:"contacts" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Recapiti</a></li>
-                      <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-3" data-toggle="tab">Richieste e Dichiarazioni</a></li>
                   </ul>
                   <div class="tab-content">
                         <div class="tab-pane active" id="tab-1">
@@ -69,15 +68,7 @@
                 {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
 {% endcomment %}
 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-info">Invia</button>
-                    {% comment %}
-                        <a href="/accounts/login/?next=/" class="btn">Annulla</a>
-                    {% endcomment %}
-                </div>
                     </div>
-                </div>
-                  <div class="tab-content">
                         <div class="tab-pane" id="tab-2">
                         <legend>Residenza</legend>
                 {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
@@ -90,18 +81,15 @@
                 {% include "registration/form_element.html" with element=form.citta_domicilio %}
                 {% include "registration/form_element.html" with element=form.cap_domicilio %}
                 {% include "registration/form_element.html" with element=form.provincia_domicilio %}
-                        </div>
                   </div>
-                  <div class="tab-content">
-                        <div class="tab-pane" id="tab-3">
-                        </div>
-                  </div>
-                  <div class="tab-content">
-                        <div class="tab-pane active" id="tab-4">
-                        </div>
-                  </div>
+                </div>
 
-
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-info">Invia</button>
+                    {% comment %}
+                        <a href="/accounts/login/?next=/" class="btn">Annulla</a>
+                    {% endcomment %}
+                </div>
 
             </form>
 

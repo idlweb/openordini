@@ -154,7 +154,7 @@ class OOUserProfileEditView(FormView):
     form_class = UserProfileForm
 
     def get_success_url(self, *args, **kwargs):
-        return reverse("profile_profile_detail")
+        return reverse_lazy("profiles_profile_detail")
 
     def get_initial(self):
         initial = super(OOUserProfileEditView, self).get_initial()
@@ -163,7 +163,7 @@ class OOUserProfileEditView(FormView):
 
         profile = user.get_profile()
 
-        print "profile: %s" % profile
+#        print "profile: %s" % profile
 
         initial["location"] = profile.location
         initial["description"] = profile.description
@@ -182,3 +182,38 @@ class OOUserProfileEditView(FormView):
 
 
         return initial
+
+
+    def form_valid(self, form):
+
+        print "form valid ..."
+
+        print "data: %s" % form.cleaned_data
+
+        # save data
+        
+        user = self.request.user
+
+        profile = user.get_profile()
+
+        profile.location = form.cleaned_data["location"]
+        profile.description = form.cleaned_data["description"]
+        profile.image = form.cleaned_data["image"]
+        profile.uses_nickname = form.cleaned_data["uses_nickname"]
+
+        profile.save()
+
+        profile.extrapeople.indirizzo_residenza = form.cleaned_data["indirizzo_residenza"]
+        profile.extrapeople.citta_residenza = form.cleaned_data["citta_residenza"]
+        profile.extrapeople.cap_residenza = form.cleaned_data["cap_residenza"]
+        profile.extrapeople.provincia_residenza = form.cleaned_data["provincia_residenza"]
+
+        profile.extrapeople.indirizzo_domicilio = form.cleaned_data["indirizzo_domicilio"]
+        profile.extrapeople.citta_domicilio = form.cleaned_data["citta_domicilio"]
+        profile.extrapeople.cap_domicilio = form.cleaned_data["cap_domicilio"]
+        profile.extrapeople.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
+
+        profile.extrapeople.save()
+
+        return super(OOUserProfileEditView, self).form_valid(form)
+        

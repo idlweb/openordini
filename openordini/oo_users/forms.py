@@ -73,14 +73,12 @@ class UserRegistrationForm(OMUserRegistrationForm):
         return data
 
 
-attrs_dict = {'class': 'required'}
-
 class UserProfileForm(forms.Form):
 
     location = forms.ModelChoiceField(required=False, queryset=Location.objects.order_by("name"), label=_('Location, if applicable'),
                         help_text=u"Se compare nella lista, scegli la zona della città in cui risiedi")
         
-    uses_nickname = forms.BooleanField(widget=forms.CheckboxInput(attrs_dict), label=_(u'I want only my nickname to be publicly shown'),                                        help_text=u"Indica se preferisci che nel sito venga mostrato esclusivamente il tuo nome utente")
+    uses_nickname = forms.BooleanField(label=_(u'I want only my nickname to be publicly shown'),                                        help_text=u"Indica se preferisci che nel sito venga mostrato esclusivamente il tuo nome utente", required=False)
 
     description = forms.CharField(required=False, label=_('Description'), widget=forms.Textarea(),
                                   help_text=u"Una breve descrizione di te, che apparirà nel tuo profilo")
