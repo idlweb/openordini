@@ -2,6 +2,8 @@ from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.http import Http404
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic.edit import FormView
 from open_municipio.users.models import User
 from open_municipio.users.views import UserProfileDetailView, UserProfileListView, \
                                         extract_top_monitored_objects
@@ -13,6 +15,7 @@ from ..oo_payments.forms import PaymentForm
 from ..oo_payments.models import SubscriptionPlan, SubscriptionOrder
 from ..acts_fulfillments.models import Fascicolo
 from .models import UserProfile
+from .forms import UserProfileForm
 
 from ..commons.mixins import FilterNewsByUser
 
@@ -145,3 +148,37 @@ class OOUserProfileListView(FilterNewsByUser, UserProfileListView):
         return filtered_acts
 
 
+class OOUserProfileEditView(FormView):
+
+    template_name = 'profiles/edit_profile.html'
+    form_class = UserProfileForm
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse("profile_profile_detail")
+
+    def get_initial(self):
+        initial = super(OOUserProfileEditView, self).get_initial()
+
+        user = self.request.user
+
+        profile = user.get_profile()
+
+        print "profile: %s" % profile
+
+        initial["location"] = profile.location
+        initial["description"] = profile.description
+        initial["image"] = profile.image
+        initial["uses_nickname"] = profile.uses_nickname
+
+        initial["indirizzo_residenza"] = profile.extrapeople.indirizzo_residenza
+        initial["citta_residenza"] = profile.extrapeople.citta_residenza
+        initial["cap_residenza"] = profile.extrapeople.cap_residenza
+        initial["provincia_residenza"] = profile.extrapeople.provincia_residenza
+
+        initial["indirizzo_domicilio"] = profile.extrapeople.indirizzo_domicilio
+        initial["citta_domicilio"] = profile.extrapeople.citta_domicilio
+        initial["cap_domicilio"] = profile.extrapeople.cap_domicilio
+        initial["provincia_domicilio"] = profile.extrapeople.provincia_domicilio
+
+
+        return initial

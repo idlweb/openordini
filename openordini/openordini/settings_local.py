@@ -6,7 +6,7 @@ TEMPLATE_DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'openordini',
+        'NAME': 'openordini_antonio',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm
+from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm, UserProfileForm as OMUserProfileForm
 from open_municipio.people.models import Person
+from open_municipio.locations.models import Location
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
@@ -69,3 +71,32 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
 
         return data
+
+
+attrs_dict = {'class': 'required'}
+
+class UserProfileForm(forms.Form):
+
+    location = forms.ModelChoiceField(required=False, queryset=Location.objects.order_by("name"), label=_('Location, if applicable'),
+                        help_text=u"Se compare nella lista, scegli la zona della città in cui risiedi")
+        
+    uses_nickname = forms.BooleanField(widget=forms.CheckboxInput(attrs_dict), label=_(u'I want only my nickname to be publicly shown'),                                        help_text=u"Indica se preferisci che nel sito venga mostrato esclusivamente il tuo nome utente")
+
+    description = forms.CharField(required=False, label=_('Description'), widget=forms.Textarea(),
+                                  help_text=u"Una breve descrizione di te, che apparirà nel tuo profilo")
+    image = forms.ImageField(required=False, label=_('Your image'),
+                             help_text="L'immagine che scegli verrà ridimensionata nelle dimensioni di 100x100 pixel")
+
+    indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
+    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+    cap_residenza = forms.CharField(required=True, label=_('CAP'))
+    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+
+    indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
+
+    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    cap_domicilio = forms.CharField(required=True, label=_('CAP'))
+    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+
+
+

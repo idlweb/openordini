@@ -1,5 +1,6 @@
 {% extends "base_one_column.html" %}
 {% load url from future %}
+{% load registration_tags %}
 
 {% block title %}Modifica impostazioni utente{% endblock %}
 {% block content_header %}Modifica impostazioni utente{% endblock %}
@@ -40,11 +41,21 @@
             <form enctype="multipart/form-data" action="" method="post" class="form-horizontal" accept-charset="utf-8">
 
                 {% csrf_token %}
+
+
                 <div class="alert-error">
                     {{ form.non_field_errors }}
                 </div>
 
-                <legend>Modifica qui le tue impostazioni utente</legend>
+                  <ul class="nav nav-tabs">
+                      <li class="active {% if form|fieldset_error:"basic" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Dati per l'iscrizione</a></li>
+                      <li {% if form|fieldset_error:"contacts" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Recapiti</a></li>
+                      <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-3" data-toggle="tab">Richieste e Dichiarazioni</a></li>
+                  </ul>
+                  <div class="tab-content">
+                        <div class="tab-pane active" id="tab-1">
+
+                <legend>Modifica qui i tuoi dati</legend>
                 {% include "registration/form_element.html" with element=form.location %}
                 {% if UI_ALLOW_NICKNAMES %}
 	                {% include "registration/form_element.html" with element=form.uses_nickname checkbox=1 %}
@@ -64,6 +75,34 @@
                         <a href="/accounts/login/?next=/" class="btn">Annulla</a>
                     {% endcomment %}
                 </div>
+                    </div>
+                </div>
+                  <div class="tab-content">
+                        <div class="tab-pane" id="tab-2">
+                        <legend>Residenza</legend>
+                {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
+                {% include "registration/form_element.html" with element=form.citta_residenza %}
+                {% include "registration/form_element.html" with element=form.cap_residenza %}
+                {% include "registration/form_element.html" with element=form.provincia_residenza %}
+                        <legend>Domicilio</legend>
+
+                {% include "registration/form_element.html" with element=form.indirizzo_domicilio %}
+                {% include "registration/form_element.html" with element=form.citta_domicilio %}
+                {% include "registration/form_element.html" with element=form.cap_domicilio %}
+                {% include "registration/form_element.html" with element=form.provincia_domicilio %}
+                        </div>
+                  </div>
+                  <div class="tab-content">
+                        <div class="tab-pane" id="tab-3">
+                        </div>
+                  </div>
+                  <div class="tab-content">
+                        <div class="tab-pane active" id="tab-4">
+                        </div>
+                  </div>
+
+
+
             </form>
 
         </div>
