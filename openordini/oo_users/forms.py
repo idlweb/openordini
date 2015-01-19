@@ -11,7 +11,7 @@ class UserRegistrationForm(OMUserRegistrationForm):
     fieldsets = {
         "access" : ["username", "password", "password1", ],
         "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
-        "contacts": ["indirizzo_residenza", "citta_residenza", "indirizzo_domicilio", "citta_domicilio", "cap", "provincia_domicilio", "codice_fiscale", ],
+        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "codice_fiscale", ],
         "extra" : ["ritiro_agenda", "invio_tesserino"],
     }
 
@@ -28,12 +28,16 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
-    indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo residenza'))
-    citta_residenza = forms.CharField(required=True, label=_(u'Città residenza'))
-    indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo domicilio'))
-    citta_domicilio = forms.CharField(required=True, label=_(u'Città domicilio'))
-    cap = forms.CharField(required=True, label=_('CAP'))
-    provincia_domicilio = forms.CharField(required=True, label=_('Provincia domicilio'))
+    indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
+    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+    cap_residenza = forms.CharField(required=True, label=_('CAP'))
+    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+
+    indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
+
+    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    cap_domicilio = forms.CharField(required=True, label=_('CAP'))
+    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
     codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
     accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))

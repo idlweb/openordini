@@ -17,7 +17,7 @@
                       <li class="active {% if form|fieldset_error:"access" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Credenziali</a></li>
                       <li {% if form|fieldset_error:"basic" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Dati per l'iscrizione</a></li>
                       <li {% if form|fieldset_error:"contacts" %}class="error"{% endif %}><a href="#tab-3" data-toggle="tab">Recapiti</a></li>
-                      <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-4" data-toggle="tab">Richieste</a></li>
+                      <li {% if form|fieldset_error:"extra" %}class="error"{% endif %}><a href="#tab-4" data-toggle="tab">Richieste e Dichiarazioni</a></li>
                   </ul>
                   <div class="tab-content">
                         <div class="tab-pane active" id="tab-1">
@@ -68,23 +68,23 @@
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
         {% endcomment %}
 
-                            <div id="legal" class="alert">
-                                {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
-                                {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
-                            </div>
                             <div class="form-actions passw">
                                <button type="button" class="btn btn-info btn1" wizard="passo2">Passo 2</button>
                             </div>   
                         </div>
                         <div class="tab-pane" id="tab-3">
                         
-                          <legend>Riferimenti e contatti</legend>                        
+                          <legend>Residenza</legend>                        
                              {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
                              {% include "registration/form_element.html" with element=form.citta_residenza %}
+                             {% include "registration/form_element.html" with element=form.cap_residenza %}
+                             {% include "registration/form_element.html" with element=form.provincia_residenza %}
+                          <legend>Domicilio</legend>
                              {% include "registration/form_element.html" with element=form.indirizzo_domicilio %}
                              {% include "registration/form_element.html" with element=form.citta_domicilio %}
-                             {% include "registration/form_element.html" with element=form.cap %}
+                             {% include "registration/form_element.html" with element=form.cap_domicilio %}
                              {% include "registration/form_element.html" with element=form.provincia_domicilio %}
+                          <legend>Altro</legend>
                              {% include "registration/form_element.html" with element=form.codice_fiscale %}
                              <div class="form-actions passw">
                                  <button type="button" class="btn btn-info btn1" wizard="passo3">Passo 3</button>
@@ -92,8 +92,13 @@
                         </div>
                         <div class="tab-pane" id="tab-4">
                           <legend>Opzioni e servizi</legend>
-                          {% include "registration/form_element.html" with element=form.ritiro_agenda %}
-                          {% include "registration/form_element.html" with element=form.invio_tesserino %}
+                          {% include "registration/form_element.html" with element=form.ritiro_agenda checkbox=1 %}
+                          {% include "registration/form_element.html" with element=form.invio_tesserino checkbox=1 %}
+                            <div id="legal" class="alert">
+                                {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
+                                {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
+                            </div>
+
                           <div class="form-actions">
                                 <button type="submit" class="btn btn-info">Invia iscrizione</button>
                           </div>

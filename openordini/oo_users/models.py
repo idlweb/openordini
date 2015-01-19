@@ -52,10 +52,14 @@ class ExtraPeople(models.Model):
     anagrafica_extra = models.OneToOneField(UserProfile)
     indirizzo_residenza = models.CharField(_('indirizzo di resicdenza'), help_text=_(u"inserire l'indirizzo di residenza") , max_length=128)
     citta_residenza = models.CharField(_('città di residenza'), help_text=_(u"inserire la città di residenza") , max_length=128)
+    cap_residenza = models.CharField(_('CAP'), help_text=_(u"inserire il CAP di residenza") , max_length=5)
+    provincia_residenza = models.CharField(_('provincia del domicilio'), help_text=_(u"inserire la provincia di residenza") , max_length=128)
+
     indirizzo_domicilio = models.CharField(_('indirizzo del domicilio'), help_text=_(u"inserire l'indirizzo del domicilio") , max_length=128)
     citta_domicilio = models.CharField(_('città di domicilio'), help_text=_(u"inserire la città di domicilio") , max_length=128)
-    cap = models.CharField(_('CAP'), help_text=_(u"inserire il CAP") , max_length=5)
+    cap_domicilio = models.CharField(_('CAP'), help_text=_(u"inserire il CAP di domicilio") , max_length=5)
     provincia_domicilio = models.CharField(_('provincia del domicilio'), help_text=_(u"inserire la provincia del domicilio") , max_length=128)
+
     codice_fiscale = models.CharField(_('codice fiscale'), help_text=_(u"inserire il codice fiscale") , max_length=16)
     accertamento_casellario = models.BooleanField(_('verifica casellario giudiziario'), help_text=_(u"accertamento casellario"))
     accertamento_universita = models.BooleanField(_('verifica conseguimento titolo accademico'), help_text=_(u"accertamento universita"))
