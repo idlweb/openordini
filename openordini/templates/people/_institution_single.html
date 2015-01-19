@@ -14,8 +14,8 @@
     }
   </style>       
   {% load digg_paginator %}
-  {% if level == 1 %}<h1>{{ committee.name }}</h1>{% else %}<h2>{{ committee.name }}</h2>{% endif %}
-  <p>{{ committee.description }}</p>
+  {% if level == 1 %}<h1>{{ cur_committee.name }}</h1>{% else %}<h2>{{ cur_committee.name }}</h2>{% endif %}
+  <p>{{ cur_committee.description }}</p>
 
   {% if level == 1 %}<hr>{% endif %}
 
@@ -77,8 +77,8 @@
 
       <div class="span6 endless_page_template">
         <ul class="unstyled">
-      {% paginate 3,3 members %}
-      {% for member in members %}
+      {% paginate 3,3 cur_members %}
+      {% for member in cur_members %}
           {# your code to show the entry #}
           <li><a href="{{ member.person.get_absolute_url }}"><strong>{{ member.person.full_name }}</strong>
               {% if member.group %}
