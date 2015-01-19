@@ -88,10 +88,9 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
             {% for sub_comm in sub_committees %}
                             
                       <div class="{% cycle 1 2 3 4 5 as k %} tab-pane{% if k == 1 %} active {% endif %}" id="{{k}}">                
-                          {% include "people/_institution_single.html" with committee=sub_comm members=sub_comm.members level=2 %}
+                          {% include "people/_institution_single.html" with cur_committee=sub_comm cur_members=sub_comm.members level=2 %}
                       </div>                        
-          
-           {% endfor %}
+            {% endfor %}
            
           </div>
         </div>
@@ -99,7 +98,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
 
   <div class="tree well" style="">
     <p>sezione test</p>
-    {% include "people/_institution_single.html" with committee=committee members=members level=1 %}
+    {% include "people/_institution_single.html" with cur_committee=committee cur_members=committee.members level=1 %}
   </div>  
  
 {% endblock %}
