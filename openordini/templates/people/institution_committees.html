@@ -133,7 +133,14 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
         border:1px solid #94a0b4;
         color:#000
     }
-
+    .endless_page_link{
+        float: left;
+        padding: 0 14px;
+        line-height: 32px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        border-left-width: 0;
+    }
   </style>       
                   <ul>
                     {% for committee in committees %}                        
@@ -195,6 +202,9 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+  <script>$.endlessPaginate();</script>
   <script type="text/javascript">
       //$(document).ready(function(){
       
