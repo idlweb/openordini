@@ -4,7 +4,9 @@ register = template.Library()
 
 @register.filter
 def fieldset_error(form, fieldset_name):
-    
+ 
+#    print "form errors: %s" % form.errors
+   
     if not hasattr(form, "fieldsets") or fieldset_name not in form.fieldsets:
         return False
 

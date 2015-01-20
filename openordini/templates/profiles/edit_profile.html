@@ -45,11 +45,17 @@
 
                 <div class="alert-error">
                     {{ form.non_field_errors }}
+                    {% if form.errors %}
+                    <p>
+                    Ci sono errori nei dati inseriti. Controllare sotto.
+                    </p>
+                    {% endif %}
                 </div>
 
                   <ul class="nav nav-tabs">
                       <li class="active {% if form|fieldset_error:"basic" %}error{% endif %}"><a href="#tab-1" data-toggle="tab">Dati per l'iscrizione</a></li>
                       <li {% if form|fieldset_error:"contacts" %}class="error"{% endif %}><a href="#tab-2" data-toggle="tab">Recapiti</a></li>
+                      <li {% if form|fieldset_error:"contacts2" %}class="error"{% endif %}><a href="#tab-3" data-toggle="tab">Contatti</a></li>
                   </ul>
                   <div class="tab-content">
                         <div class="tab-pane active" id="tab-1">
@@ -82,6 +88,18 @@
                 {% include "registration/form_element.html" with element=form.cap_domicilio %}
                 {% include "registration/form_element.html" with element=form.provincia_domicilio %}
                   </div>
+                  <div class="tab-pane" id="tab-3">
+                    <legend>Contatti</legend>
+	                {% include "registration/form_element.html" with element=form.tel_residenza %}
+	                {% include "registration/form_element.html" with element=form.tel_domicilio %}
+	                {% include "registration/form_element.html" with element=form.tel_ufficio %}
+	                {% include "registration/form_element.html" with element=form.tel_cellulare %}
+	                {% include "registration/form_element.html" with element=form.indirizzo_email %}
+	                {% include "registration/form_element.html" with element=form.indirizzo_pec %}
+
+
+                  </div>
+
                 </div>
 
                 <div class="form-actions">

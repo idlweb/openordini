@@ -75,6 +75,14 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
 class UserProfileForm(forms.Form):
 
+    fieldsets = {
+        "basic" : [ "uses_nickname", "description", "image", ],
+        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", ],
+        "contacts2": [ "tel_residenza", "tel_domicilio", "tel_ufficio", "tel_cellulare", "indirizzo_email", "indirizzo_pec", ]
+    }
+
+
+
     location = forms.ModelChoiceField(required=False, queryset=Location.objects.order_by("name"), label=_('Location, if applicable'),
                         help_text=u"Se compare nella lista, scegli la zona della città in cui risiedi")
         
@@ -95,6 +103,15 @@ class UserProfileForm(forms.Form):
     citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
     cap_domicilio = forms.CharField(required=True, label=_('CAP'))
     provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+
+    tel_residenza = forms.CharField(required=False, label=_(u'Telefono residenza'))
+    tel_domicilio = forms.CharField(required=False, label=_(u'Telefono domicilio'))
+    tel_ufficio = forms.CharField(required=False, label=_(u'Telefono ufficio'))
+    tel_cellulare = forms.CharField(required=False, label=_(u'Telefono cellulare'))
+    tel_residenza = forms.CharField(required=False, label=_(u'Telefono residenza'))
+    indirizzo_email = forms.CharField(required=True, label=_(u'Email'))
+    indirizzo_pec = forms.CharField(required=True, label=_(u'Email PEC'))
+
 
 
 

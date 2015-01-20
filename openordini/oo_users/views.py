@@ -16,7 +16,7 @@ from open_municipio.acts.models import Deliberation, Interpellation, Interrogati
 from ..oo_payments.forms import PaymentForm
 from ..oo_payments.models import SubscriptionPlan, SubscriptionOrder
 from ..acts_fulfillments.models import Fascicolo
-from .models import UserProfile
+from .models import UserProfile, ExtraPeople, Recapito
 from .forms import UserProfileForm
 
 from ..commons.mixins import FilterNewsByUser
@@ -152,8 +152,9 @@ class OOUserProfileListView(FilterNewsByUser, UserProfileListView):
 
 class OOUserProfileEditView(FormView):
 
-    template_name = 'profiles/edit_profile.html'
     form_class = UserProfileForm
+
+    template_name = 'profiles/edit_profile.html'
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy("profiles_profile_detail")
@@ -172,15 +173,30 @@ class OOUserProfileEditView(FormView):
         initial["image"] = profile.image
         initial["uses_nickname"] = profile.uses_nickname
 
-        initial["indirizzo_residenza"] = profile.extrapeople.indirizzo_residenza
-        initial["citta_residenza"] = profile.extrapeople.citta_residenza
-        initial["cap_residenza"] = profile.extrapeople.cap_residenza
-        initial["provincia_residenza"] = profile.extrapeople.provincia_residenza
+        try:
+    
+            initial["indirizzo_residenza"] = profile.anagrafica.indirizzo_residenza
+            initial["citta_residenza"] = profile.anagrafica.citta_residenza
+            initial["cap_residenza"] = profile.anagrafica.cap_residenza
+            initial["provincia_residenza"] = profile.anagrafica.provincia_residenza
 
-        initial["indirizzo_domicilio"] = profile.extrapeople.indirizzo_domicilio
-        initial["citta_domicilio"] = profile.extrapeople.citta_domicilio
-        initial["cap_domicilio"] = profile.extrapeople.cap_domicilio
-        initial["provincia_domicilio"] = profile.extrapeople.provincia_domicilio
+            initial["indirizzo_domicilio"] = profile.anagrafica.indirizzo_domicilio
+            initial["citta_domicilio"] = profile.anagrafica.citta_domicilio
+            initial["cap_domicilio"] = profile.anagrafica.cap_domicilio
+            initial["provincia_domicilio"] = profile.anagrafica.provincia_domicilio
+
+        except ObjectDoesNotExist:
+            pass
+
+        try:
+            initial["tel_residenza"] = profile.recapiti.tel_residenza
+            initial["tel_domicilio"] = profile.recapiti.tel_domicilio
+            initial["tel_ufficio"] = profile.recapiti.tel_ufficio
+            initial["tel_cellulare"] = profile.recapiti.tel_cellulare
+            initial["indirizzo_email"] = profile.recapiti.indirizzo_email or profile.user.email
+            initial["indirizzo_pec"] = profile.recapiti.indirizzo_pec
+        except ObjectDoesNotExist:
+            initial["indirizzo_email"] = profile.user.email
 
 
         return initial
@@ -188,9 +204,9 @@ class OOUserProfileEditView(FormView):
 
     def form_valid(self, form):
 
-        print "form valid ..."
+#        print "form valid ..."
 
-        print "data: %s" % form.cleaned_data
+#        print "data: %s" % form.cleaned_data
 
         # save data
         
@@ -205,17 +221,34 @@ class OOUserProfileEditView(FormView):
 
         profile.save()
 
-        profile.extrapeople.indirizzo_residenza = form.cleaned_data["indirizzo_residenza"]
-        profile.extrapeople.citta_residenza = form.cleaned_data["citta_residenza"]
-        profile.extrapeople.cap_residenza = form.cleaned_data["cap_residenza"]
-        profile.extrapeople.provincia_residenza = form.cleaned_data["provincia_residenza"]
+        anagrafica, created = ExtraPeople.objects.get_or_create(anagrafica_extra=profile)
 
-        profile.extrapeople.indirizzo_domicilio = form.cleaned_data["indirizzo_domicilio"]
-        profile.extrapeople.citta_domicilio = form.cleaned_data["citta_domicilio"]
-        profile.extrapeople.cap_domicilio = form.cleaned_data["cap_domicilio"]
-        profile.extrapeople.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
+        anagrafica.indirizzo_residenza = form.cleaned_data["indirizzo_residenza"]
+        anagrafica.citta_residenza = form.cleaned_data["citta_residenza"]
+        anagrafica.cap_residenza = form.cleaned_data["cap_residenza"]
+        anagrafica.provincia_residenza = form.cleaned_data["provincia_residenza"]
 
-        profile.extrapeople.save()
+        anagrafica.indirizzo_domicilio = form.cleaned_data["indirizzo_domicilio"]
+        anagrafica.citta_domicilio = form.cleaned_data["citta_domicilio"]
+        anagrafica.cap_domicilio = form.cleaned_data["cap_domicilio"]
+        anagrafica.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
+
+        anagrafica.save()
+
+        recapiti, created = Recapito.objects.get_or_create(recapiti_psicologo=profile)
+
+        recapiti.tel_residenza = form.cleaned_data["tel_residenza"]
+        recapiti.tel_domicilio = form.cleaned_data["tel_domicilio"]
+        recapiti.tel_ufficio = form.cleaned_data["tel_ufficio"]
+        recapiti.tel_cellulare = form.cleaned_data["tel_cellulare"]
+        recapiti.indirizzo_email = form.cleaned_data["indirizzo_email"]
+        recapiti.indirizzo_pec = form.cleaned_data["indirizzo_pec"]
+
+        recapiti.save()
+
+        if user.email != recapiti.indirizzo_email:
+            user.email = recapiti.indirizzo_email
+            user.save()
 
         return super(OOUserProfileEditView, self).form_valid(form)
         
