@@ -1,13 +1,15 @@
+import os
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView
+from django.views.generic import View
 from open_municipio.users.models import User
 from open_municipio.users.views import UserProfileDetailView, UserProfileListView, \
                                         extract_top_monitored_objects
-from open_municipio.people.models import municipality
+from open_municipio.people.models import municipality, Person
 from open_municipio.newscache.models import News
 from open_municipio.acts.models import Deliberation, Interpellation, Interrogation, Agenda, Motion, Amendment
 
@@ -217,3 +219,132 @@ class OOUserProfileEditView(FormView):
 
         return super(OOUserProfileEditView, self).form_valid(form)
         
+
+class DocumentGenerator(View):
+
+    # populate these attributes when extending the class
+    template_file = None  
+    content_type = None
+    download_filename = None
+
+
+    def get_template_file(self, request):
+        return self.template_file
+
+
+    def get_context(self, request):
+        return {}
+
+
+    def replace(self, content, var_name, var_value):
+
+        var_raw_name = "\{\{ %s \}\}" % var_name
+
+        return content.replace(var_raw_name, var_value)
+
+
+
+    def generate_document(self, request):
+    
+        template = self.get_template_file(request)
+
+        if not os.path.exists(template):
+            raise ValueError("The specified file '%s' does not exist" % template)
+
+        ctx = self.get_context(request)
+
+        t = open(template, 'r')
+
+        if t:
+            content = t.read()
+
+            t.close()
+
+            for var_name, var_value in ctx.items():
+                content = self.replace(content, var_name, "%s" % var_value)
+
+
+            return content
+
+    def get_download_filename(self, request):
+    
+        template_file = self.get_template_file(request)
+
+        default_name = "document"
+    
+        if template_file:
+            default_name = os.path.basename(template_file)
+
+        return self.download_filename or default_name
+
+    def get(self, request, *args, **kwargs):
+
+        response = HttpResponse(content_type=self.content_type)
+
+        filename = self.get_download_filename(request)
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+
+        content = self.generate_document(request)
+
+        response.write(content)
+
+        return response
+
+class GenerateModuleSezA(DocumentGenerator):
+
+    template_file_man = settings.MODULES["sez_a_uomo"]
+    template_file_woman = settings.MODULES["sez_a_donna"]
+
+    def get_template_file(self, request):
+        
+        person = request.user.get_profile().person
+
+        rel_filename = self.template_file_man
+
+        if person.sex == Person.FEMALE_SEX:
+            rel_filename = self.template_file_woman
+
+        return os.path.join(settings.STATIC_ROOT, rel_filename)
+
+    def get_context(self, request):
+
+        profile = request.user.get_profile()
+
+        ctx = {}
+        ctx["FIRST_NAME"] = profile.person.first_name
+        ctx["LAST_NAME"] = profile.person.last_name
+        ctx["BIRTH_LOCATION"] = profile.person.birth_location
+        ctx["BIRTH_DATE"] = profile.person.birth_date
+
+
+        # fields not on DB
+        ctx["BIRTH_PROVINCE"] = "_____"
+        ctx["CITIZEN"] = "_____"
+
+        try:
+            ctx["CF"] = profile.anagrafica.codice_fiscale
+            ctx["RESIDENCE_CITY"] = profile.anagrafica.citta_residenza
+            ctx["RESIDENCE_PROVINCE"] = profile.anagrafica.provincia_residenza
+            ctx["RESIDENCE_ADDRESS"] = profile.anagrafica.indirizzo_residenza
+            ctx["RESIDENCE_POSTAL_CODE"] = profile.anagrafica.cap_residenza
+        except ObjectDoesNotExist:
+            ctx["CF"] = "_____"
+            ctx["RESIDENCE_CITY"] = "_____" 
+            ctx["RESIDENCE_PROVINCE"] = "______" 
+            ctx["RESIDENCE_ADDRESS"] = "_____" 
+            ctx["RESIDENCE_POSTAL_CODE"] = "_____"
+
+        try:
+            ctx["TELEPHONE"] = profile.recapiti.tel_residenza or profile.recapiti.tel_domicilio
+            ctx["MOBILE_PHONE"] = profile.recapiti.tel_cellulare
+            ctx["EMAIL"] = profile.recapiti.indirizzo_email or profile.recapiti.indirizzo_pec
+        except ObjectDoesNotExist:
+            ctx["TELEPHONE"] = "_____"
+            ctx["MOBILE_PHONE"] = "_____"
+            ctx["EMAIL"] = "_____"
+
+        return ctx
+
+    def get_download_filename(self, request):
+
+        return "modulo_iscrizione_sez_a.rtf"

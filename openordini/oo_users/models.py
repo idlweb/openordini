@@ -50,7 +50,7 @@ class UserProfile(OMUserProfile):
 
 class ExtraPeople(models.Model):
 
-    anagrafica_extra = models.OneToOneField(UserProfile)
+    anagrafica_extra = models.OneToOneField(UserProfile, related_name="anagrafica")
     indirizzo_residenza = models.CharField(_('indirizzo residenza'), help_text=_(u"inserire l'indirizzo residenza") , max_length=128)
     citta_residenza = models.CharField(_(u'città residenza'), help_text=_(u"inserire la città residenza") , max_length=128)
     cap_residenza = models.CharField(_('CAP residenza'), help_text=_(u"inserire il CAP residenza") , max_length=5)
@@ -74,7 +74,7 @@ class ExtraPeople(models.Model):
 
 
 class Recapito(models.Model):
-    recapiti_psicologo = models.OneToOneField(UserProfile)
+    recapiti_psicologo = models.OneToOneField(UserProfile, related_name="recapiti")
     tel_residenza = models.CharField(_('telefono residenza'), help_text=_(u"inserire il telefono della residenza") , max_length=10)
     tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
     tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
@@ -91,7 +91,7 @@ class Recapito(models.Model):
         verbose_name_plural = _("recapiti")
 
 class Caratteristiche_gestione(models.Model):
-    gestione_psicologo = models.OneToOneField(UserProfile)	
+    gestione_psicologo = models.OneToOneField(UserProfile, related_name="gestione")	
     ritiro_agenda = models.BooleanField(_('ritiro agenda'), help_text=_(u"ritiro agenda"))
     invio_tesserino = models.BooleanField(_('invio tesserino'), help_text=_(u"invio tesserino"))
     numero_faldone = models.IntegerField(_('numero_faldone'), help_text=_(u"numero faldone"))
@@ -104,7 +104,7 @@ class Caratteristiche_gestione(models.Model):
         verbose_name_plural = _("caratteristiche di gestione")
 
 class Trasferimento(models.Model):
-    trasferimenti_psicologo = models.OneToOneField(UserProfile)
+    trasferimenti_psicologo = models.OneToOneField(UserProfile, related_name="trasferimenti")
     trasferimento_data = models.DateField(_('data di trasferimento albo'), help_text=_(u"trasferimento data") , max_length=25)
     delibera_trasferiemnto =  models.IntegerField(_('delibera trasferimento'), help_text=_(u"delibera trasferimento"))
     data_delibera_trasferiemnto = models.DateField(_('data delibera trasferimento'), help_text=_(u"data delibera") )
@@ -133,7 +133,7 @@ class PsicologoTitoli(models.Model):
     )
 
     # This field is required.
-    psicologo_registrato = models.OneToOneField(UserProfile)
+    psicologo_registrato = models.OneToOneField(UserProfile, related_name="titoli")
     titolo_laurea = models.CharField(_('titolo laurea'), choices=TIPI_FACOLTA, help_text=_(u"titolo laurea") , max_length=50)
     data_iscrizione_albo = models.DateField(_("data iscrizione all'albo"), help_text=_(u"data iscrizione albo") )
     articolo_tre = models.BooleanField(_('presenza articolo 3'), help_text=_(u"articolo tre"))

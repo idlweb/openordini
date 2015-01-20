@@ -188,3 +188,10 @@ SUIT_CONFIG = {
 PAYMENT_DEADLINES = {
     "rinnovo-iscrizione": "%s-02-15",
 }
+
+MODULES_ROOT = "rtf"
+
+MODULES = {
+    "sez_a_uomo": os.path.join(MODULES_ROOT, "domanda_sez_a_u.rtf"), 
+    "sez_a_donna": os.path.join(MODULES_ROOT, "domanda_sez_a_d.rtf"), 
+}
