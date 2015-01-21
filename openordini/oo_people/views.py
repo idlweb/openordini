@@ -14,7 +14,10 @@ from open_municipio.people.views import PoliticianDetailView, CommitteeDetailVie
                                         CouncilListView, CommitteeListView
 from open_municipio.people.models import Institution, InstitutionCharge
 from open_municipio.people.views import PoliticianSearchView
+
 from open_municipio.acts.models import Act
+from open_municipio.users.models import UserProfile as UP
+
 from django.core import serializers
 
 from sorl.thumbnail import get_thumbnail
@@ -36,8 +39,9 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
         filtered_acts = self.filter_acts(all_acts, self.request.user).distinct()
 
         ctx["presented_acts"] = filtered_acts
-        ctx["n_presented_acts"] = len(filtered_acts)        
-
+        ctx["n_presented_acts"] = len(filtered_acts) 
+        # per ricavare il campo descrizione da userprofile        
+        ctx["biografia"]  =  self.request.user
         return ctx
 
 
@@ -48,7 +52,6 @@ class OOCommitteeDetailView(CommitteeDetailView):
         ctx["current_site"] = Site.objects.get(pk=settings.SITE_ID)
         #ctx["members_for_pages"] = members_for_pages
         members = self.object.sub_body_set.all()
-
         paginator = Paginator(members, 4)
         page = self.request.GET.get('page', 1)
         try:

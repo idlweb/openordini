@@ -38,7 +38,6 @@
 
 
 {% block content %}
-
   <div class="row-fluid">
     <div class="span8">
 
@@ -154,7 +153,8 @@
   </div>
 
   <hr class="big">
-
+  {{  person.userprofile.description }} 
+  
   {% if is_counselor %}
     <section>
       <h2>Presenze ({{ n_total_votations }} votazion{{ n_total_votations|pluralize:"e,i" }})</h2>
