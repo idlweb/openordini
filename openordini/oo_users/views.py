@@ -54,7 +54,7 @@ class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
             curr_person = self.object.person
 
 #            print "person: %s" % curr_person
-            ctx["acts_fascicoli"]  = Fascicolo.objects.filter(recipient_set__person=curr_person) 
+            ctx["acts_fascicoli"]  = Fascicolo.objects.filter(recipient_set__person=curr_person).distinct()
 
             curr_year = datetime.today().year
 
