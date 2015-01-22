@@ -134,12 +134,14 @@ SYSTEM_GROUP_NAMES = {
     "psicologo_lavoro": "psicologi del lavoro",
     "psicologo_clinico": "psicologi clinici",
     "psicologo_forense": "psicologi forensi",
+    "dottore_tecniche_psicologiche": "dottori tecniche psicologiche",
 }
 
 COMMITTEE_SLUGS = {
-    "psicologo_lavoro": "psicologi-del-lavoro",
-    "psicologo_clinico": "psicologi-clinici",
-    "psicologo_forense": "psicologi-forensi",
+    "psicologo_lavoro": "sezione-a",
+    "psicologo_clinico": "sezione-a",
+    "psicologo_forense": "sezione-a",
+    "dottore_tecniche_psicologiche": "sezione-b",
 }
 
 SITE_INFO = {

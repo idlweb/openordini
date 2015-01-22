@@ -20,6 +20,9 @@ class UserRegistrationForm(OMUserRegistrationForm):
     says_is_psicologo_lavoro = forms.BooleanField(required=False, label=_('I am a "psicologo del lavoro"'))
     says_is_psicologo_clinico = forms.BooleanField(required=False, label=_('I am a "psicologo clinico"'))
     says_is_psicologo_forense = forms.BooleanField(required=False, label=_('I am a "psicologo forense"'))
+    says_is_dottore_tecniche_psicologiche = forms.BooleanField(required=False, label=_('I am a "dottore in tecniche psicologiche"'))
+
+    wants_commercial_newsletter = forms.BooleanField(required=False, label=_("Wants commercial newsletter"))
 
     sex = forms.ChoiceField(choices=Person.SEX, required=True, label=_("Sex"))
 
@@ -57,8 +60,9 @@ class UserRegistrationForm(OMUserRegistrationForm):
         says_is_psicologo_lavoro = data["says_is_psicologo_lavoro"]
         says_is_psicologo_clinico = data["says_is_psicologo_clinico"]
         says_is_psicologo_forense = data["says_is_psicologo_forense"]
+        says_is_dottore_tecniche_psicologiche = data["says_is_dottore_tecniche_psicologiche"]
 
-        qualifica = (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense)
+        qualifica = (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense or says_is_dottore_tecniche_psicologiche)
     
         data_iscrizione = data["register_subscription_date"]
 

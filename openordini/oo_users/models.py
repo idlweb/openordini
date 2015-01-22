@@ -21,9 +21,12 @@ class UserProfile(OMUserProfile):
     says_is_psicologo_clinico = models.BooleanField(default=False, verbose_name=_("psicologo clinico"), help_text=_(u"notifica l'amministratore che è uno psicologo clinico"))
     says_is_psicologo_lavoro = models.BooleanField(default=False, verbose_name=_("psicologo del lavoro"), help_text=_(u"notifica l'amministratore che è uno psicologo del lavoro'"))
     says_is_psicologo_forense = models.BooleanField(default=False, verbose_name=_("psicologo forense"), help_text=_(u"notifica l'amministratore che è uno psicologo forense"))
+    says_is_dottore_tecniche_psicologiche = models.BooleanField(default=False, verbose_name=_("dottore in tecniche psicologiche"), help_text=_(u"notifica l'amministratore che ha il titolo di dottore in tecniche psicologiche"))
     says_is_asl_employee = models.BooleanField(default=False, verbose_name=_("ASL employee"), help_text=_(u"notifica l'amministratore che è un dipendente ASL"))
     says_is_self_employed = models.BooleanField(default=False, verbose_name=_("psicologo clinico"), help_text=_(u"notifica l'amministratore che è un libero professionista"))
     register_subscription_date = models.DateField(default=None, blank=True, null=True, verbose_name=_(u"register subscription date"), help_text=_(u"la data in cui si è registrato all'albo"))
+    wants_commercial_newsletter = models.BooleanField(default=False, verbose_name=_("wants commercial newsletter"))
+    
 
     @property
     def committee_charges(self):

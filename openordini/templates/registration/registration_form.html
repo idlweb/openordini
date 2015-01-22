@@ -57,16 +57,17 @@
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_clinico checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_lavoro checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_forense checkbox=1 %}
+                            {% include "registration/form_element.html" with element=form.says_is_dottore_tecniche_psicologiche checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.is_asl_employee checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.is_self_employed checkbox=1 %}
 
                             {% include "registration/form_element.html" with element=form.register_subscription_date %}
 
-
-
         {% comment %}
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
         {% endcomment %}
+                            {% include "registration/form_element.html" with element=form.wants_commercial_newsletter checkbox=1 %}
+
 
                             <div class="form-actions passw">
                                <button type="button" class="btn btn-info btn1" wizard="passo2">Passo 2</button>

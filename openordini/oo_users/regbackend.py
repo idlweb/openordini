@@ -61,6 +61,7 @@ def user_created(sender, user, request, **kwargs):
     says_is_psicologo_clinico = form.cleaned_data.get('says_is_psicologo_clinico', False)
     says_is_psicologo_lavoro = form.cleaned_data.get('says_is_psicologo_lavoro', False)
     says_is_psicologo_forense = form.cleaned_data.get('says_is_psicologo_forense', False)
+    says_is_dottore_tecniche_psicologiche = form.cleaned_data.get('says_is_dottore_tecniche_psicologiche', False)
 
     register_subscription_date = form.cleaned_data.get('register_subscription_date', False)
 
@@ -69,6 +70,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.says_is_psicologo_clinico = says_is_psicologo_clinico
     extra_data.says_is_psicologo_lavoro = says_is_psicologo_lavoro
     extra_data.says_is_psicologo_forense = says_is_psicologo_forense
+    extra_data.says_is_dottore_tecniche_psicologiche = says_is_dottore_tecniche_psicologiche
     extra_data.is_asl_employee = form.cleaned_data.get('is_asl_employee', False)
     extra_data.is_self_employed = form.cleaned_data.get('is_self_employed', False)
     extra_data.uses_nickname = form.cleaned_data.get('uses_nickname', False)
@@ -90,7 +92,7 @@ def user_created(sender, user, request, **kwargs):
 
     if settings.REGISTRATION_AUTO_ADD_GROUP:
 
-        is_registered = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense ) 
+        is_registered = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense or says_is_dottore_tecniche_psicologiche) 
 
         if says_is_psicologo_lavoro:
 
@@ -123,6 +125,19 @@ def user_created(sender, user, request, **kwargs):
     
             if is_registered: 
                 i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_forense"])
+                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
+                member_charge.save()
+
+
+        if says_is_dottore_tecniche_psicologiche:
+
+            g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
+            g.user_set.add(user)
+
+            if is_registered:
+#                print "Utente registrato ..."
+                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
+#                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
                 member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
                 member_charge.save()
 
