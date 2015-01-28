@@ -16,7 +16,9 @@ from open_municipio.people.models import Institution, InstitutionCharge
 from open_municipio.people.views import PoliticianSearchView
 
 from open_municipio.acts.models import Act
-from open_municipio.users.models import UserProfile as UP
+from open_municipio.users.models import UserProfile as UOM
+from openordini.oo_users.models import UserProfile as UOO
+from openordini.oo_users.models import Recapito
 
 from django.core import serializers
 
@@ -24,6 +26,8 @@ from sorl.thumbnail import get_thumbnail
 
 from ..commons.mixins import FilterActsByUser
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+import inspect  
 
 class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
@@ -40,8 +44,31 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         ctx["presented_acts"] = filtered_acts
         ctx["n_presented_acts"] = len(filtered_acts) 
-        # per ricavare il campo descrizione da userprofile        
-        ctx["biografia"]  =  self.request.user
+        # per ricavare il campo descrizione da userprofile 
+
+        #Slug = self.request.GET.get('slug')
+        #print type(kwargs)
+        #print type(kwargs).__dict__.items()
+        #print kwargs.values()
+        #print kwargs["person"]
+        #print type(self.request)
+        #print type(self.request).__dict__.items()
+        for key, value in kwargs.items():
+            print(key, value)
+        print  kwargs["object"].slug        
+ 
+        try:
+            sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
+            uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)
+            #print (uRecapito)
+            ctx["biografia"]  =  sUOO.description
+            ctx["sito_internet"] = uRecapito.sito_internet
+            ctx["indirizzo_email"] =  uRecapito.indirizzo_email
+            ctx["indirizzo_pec"] = uRecapito.indirizzo_pec
+
+        except:
+            pass
+                
         return ctx
 
 

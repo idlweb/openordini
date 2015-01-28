@@ -77,6 +77,7 @@ def user_created(sender, user, request, **kwargs):
     extra_data.wants_newsletter = form.data.get('wants_newsletter', False)
     extra_data.location = Location.objects.get(pk=form.data['location']) if ("location" in form.data) and (form.data['location'] != '') else None
     extra_data.description = form.cleaned_data['description']
+    extra_data.codice_fiscale  = form.cleaned_data.get('codice_fiscale',False)
     extra_data.image =  person.img
     extra_data.person = person
     extra_data.register_subscription_date = register_subscription_date
@@ -85,6 +86,13 @@ def user_created(sender, user, request, **kwargs):
     # aggiungi recapiti
     extra_data_recapiti = ExtraPeople(anagrafica_extra=extra_data)
     extra_data_recapiti.indirizzo_residenza = form.cleaned_data.get('indirizzo_residenza',False)
+    extra_data_recapiti.citta_residenza  = form.cleaned_data.get('citta_residenza',False)
+    extra_data_recapiti.cap_residenza  = form.cleaned_data.get('cap_residenza',False)
+    extra_data_recapiti.provincia_residenza  = form.cleaned_data.get('provincia_residenza',False)
+    extra_data_recapiti.indirizzo_domicilio = form.cleaned_data.get('indirizzo_domicilio',False)
+    extra_data_recapiti.citta_domicilio  = form.cleaned_data.get('citta_domicilio',False)
+    extra_data_recapiti.cap_domicilio  = form.cleaned_data.get('cap_domicilio',False)
+    extra_data_recapiti.provincia_domicilio  = form.cleaned_data.get('provincia_domicilio',False)
     extra_data_recapiti.save()
 
 

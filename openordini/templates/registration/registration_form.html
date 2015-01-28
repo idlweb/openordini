@@ -63,10 +63,15 @@
 
                             {% include "registration/form_element.html" with element=form.register_subscription_date %}
 
-        {% comment %}
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
-        {% endcomment %}
-                            {% include "registration/form_element.html" with element=form.wants_commercial_newsletter checkbox=1 %}
+                            
+                            <div id="legal" class="alert">
+                                 <legend>Invio lecito di posta elettronica</legend>   
+                                 {% include "registration/form_element.html" with element=form.wants_commercial_newsletter checkbox=1 %}
+                                 <p>
+                                   Gli indirizzi e-mail sono da considerarsi dati personali: quindi attivate la spunta se  ci è consentito utilizzarli, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (legge n. 675 del 13 dicembre 1996, sostituita dal più recente D.Lgs. 196 del 2003)
+                                  </p>
+                            </div>
 
 
                             <div class="form-actions passw">

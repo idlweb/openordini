@@ -30,7 +30,7 @@
     <div class="row-fluid">
       <div class="span12">
         {% if person %}
-          {% thumbnail profile.person.image "100x100" crop="center" as im %}
+          {% thumbnail profile.person.image "200x200" crop="center" as im %}
             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left">
           {% endthumbnail %}
         {%  else %}
@@ -68,7 +68,7 @@
               </li>
           {% endif %}
         </ul>
-
+        <hr class="big">
         <p>
           {{ profile.description }}
         </p>
@@ -103,7 +103,8 @@
   <i>Nessun link</i>
   {% endfor %}
   <hr class="big">
-  <h2>Iscrizioni albo e pagamenti</h2>
+  <h2><span class="brad-icon "><i class="fa-money fa-1x"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;Iscrizioni albo e pagamenti</h2>
+  <!--h2>Iscrizioni albo e pagamenti</h2-->
   <p>
   Stato iscrizione anno corrente: <strong>{% if curr_subscription %}rinnovata - scadenza: {{ curr_subscription.date_end|date:"d/m/y" }} (<a href="{% url "oo_payment_receipt" pk=curr_subscription.id %}">vedi ricevuta</a>){% else %}non rinnovata{% endif %}</strong>
   </p>
@@ -125,10 +126,16 @@
   {% endif %}
   </p>
   <p>
-  <h3>Moduli</h3>
 
-  <ul>  
-    <li>Iscrizione sez. A: <a href="{% url "profiles_module_subscribe_a" %}">scarica</a></li>
+  <hr>
+  <h2><span class="brad-icon "><i class="fa-book fa-1x"></i></span>&nbsp;&nbsp;&nbsp;&nbsp;Moduli</h2>
+
+  <ul> 
+    <div id="legal" class="alert">
+       <large><strong>
+        <li>Iscrizione sez. A: <a href="{% url "profiles_module_subscribe_a" %}">scarica</a></li>
+       </strong> </large>
+    </div>
   </ul>
   </p>
 {% endblock %}

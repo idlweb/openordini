@@ -15,6 +15,7 @@ class UserRegistrationForm(OMUserRegistrationForm):
         "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
         "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "codice_fiscale", ],
         "extra" : ["ritiro_agenda", "invio_tesserino"],
+        "note" : ["note_legali"],
     }
 
     says_is_psicologo_lavoro = forms.BooleanField(required=False, label=_('I am a "psicologo del lavoro"'))
@@ -82,7 +83,7 @@ class UserProfileForm(forms.Form):
     fieldsets = {
         "basic" : [ "uses_nickname", "description", "image", ],
         "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", ],
-        "contacts2": [ "tel_residenza", "tel_domicilio", "tel_ufficio", "tel_cellulare", "indirizzo_email", "indirizzo_pec", ]
+        "contacts2": [ "tel_residenza", "tel_domicilio", "tel_ufficio", "tel_cellulare", "indirizzo_email", "indirizzo_pec", "sito_internet"]
     }
 
 
@@ -90,7 +91,7 @@ class UserProfileForm(forms.Form):
     location = forms.ModelChoiceField(required=False, queryset=Location.objects.order_by("name"), label=_('Location, if applicable'),
                         help_text=u"Se compare nella lista, scegli la zona della città in cui risiedi")
         
-    uses_nickname = forms.BooleanField(label=_(u'I want only my nickname to be publicly shown'),                                        help_text=u"Indica se preferisci che nel sito venga mostrato esclusivamente il tuo nome utente", required=False)
+    uses_nickname = forms.BooleanField(label=_(u'I want only my nickname to be publicly shown'), help_text=u"Indica se preferisci che nel sito venga mostrato esclusivamente il tuo nome utente", required=False)
 
     description = forms.CharField(required=False, label=_('Description'), widget=forms.Textarea(),
                                   help_text=u"Una breve descrizione di te, che apparirà nel tuo profilo")
@@ -115,6 +116,7 @@ class UserProfileForm(forms.Form):
     tel_residenza = forms.CharField(required=False, label=_(u'Telefono residenza'))
     indirizzo_email = forms.CharField(required=True, label=_(u'Email'))
     indirizzo_pec = forms.CharField(required=True, label=_(u'Email PEC'))
+    sito_internet = forms.URLField(required=True, label=_(u'Sito internet'))
 
 
 

@@ -195,6 +195,7 @@ class OOUserProfileEditView(FormView):
             initial["tel_cellulare"] = profile.recapiti.tel_cellulare
             initial["indirizzo_email"] = profile.recapiti.indirizzo_email or profile.user.email
             initial["indirizzo_pec"] = profile.recapiti.indirizzo_pec
+            initial["sito_internett"] = profile.recapiti.sito_internet
         except ObjectDoesNotExist:
             initial["indirizzo_email"] = profile.user.email
 

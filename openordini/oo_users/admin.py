@@ -15,9 +15,30 @@ from suit.widgets import SuitDateWidget, SuitTimeWidget, SuitSplitDateTimeWidget
 
 
 
+
+""" 
+Query personalizzata Verifiche
+"""
+class emailBusinessListFilter(admin.SimpleListFilter):
+    title = _('consenso email')
+    parameter_name = 'verifica consenso'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('consenso', _('consneso da verificare')),
+            #('titolo', _('consenso non espresso')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'consenso':
+            return queryset.filter(wants_commercial_newsletter=False)
+
+
 class UserProfileAdmin(admin.ModelAdmin):    
     exclude = ("says_is_politician", )
     search_fields = ["person__last_name", "person__first_name"]
+    list_display = ('person','wants_commercial_newsletter',)
+    list_filter =(emailBusinessListFilter,)
     
 
 
@@ -36,13 +57,14 @@ upper_case_name.short_description = 'riferimento recapito'
 #@admin.register(Recapito)
 class RecapitoAdmin(admin.ModelAdmin):
     #fields = (('tel_cellulare', 'indirizzo_email'), 'indirizzo_pec')
-    list_display = ('tel_cellulare', 'indirizzo_email', 'indirizzo_pec')
+    list_display = ('recapiti_psicologo','tel_cellulare', 'indirizzo_email', 'indirizzo_pec', )
     list_filter = ('recapiti_psicologo__person__last_name','recapiti_psicologo__person__first_name')
     #list_display = (upper_case_name,) #A3
     #inlines = [
     #    UserInline
     #]
     pass
+
 
 
 """ 
@@ -69,6 +91,7 @@ class VerificheListFilter(admin.SimpleListFilter):
 
 
 class ExtraPeopleAdmin(admin.ModelAdmin):
+    list_display = ('anagrafica_extra','accertamento_casellario','accertamento_universita')
     list_filter = (VerificheListFilter,)
     search_fields = ["anagrafica_extra__person__last_name", ]        
     
