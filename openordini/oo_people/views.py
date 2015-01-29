@@ -53,10 +53,12 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
         #print kwargs["person"]
         #print type(self.request)
         #print type(self.request).__dict__.items()
+        """
         for key, value in kwargs.items():
             print(key, value)
         print  kwargs["object"].slug        
- 
+        """
+        #print settings.COMMITTEE_SLUGS["psicologo_lavoro"]
         try:
             sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
             uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)

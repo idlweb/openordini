@@ -100,49 +100,32 @@ def user_created(sender, user, request, **kwargs):
 
     if settings.REGISTRATION_AUTO_ADD_GROUP:
 
-        is_registered = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense or says_is_dottore_tecniche_psicologiche) 
+        is_registered_a = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense) 
+        
+        if is_registered_a:
+                i = Institution.objects.get(slug="sezione-a")
+                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
+                member_charge.save()        
 
         if says_is_psicologo_lavoro:
-
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
             g.user_set.add(user)
 
-            if is_registered:
-#                print "Utente registrato ..."
-                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_lavoro"])
-#                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["psicologo_lavoro"])
-                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
-                member_charge.save()
- 
         if says_is_psicologo_clinico:
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
             g.user_set.add(user)
-
-            if is_registered: 
-                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_clinico"])
-
-                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
-                member_charge.save()
-
-
     
         if says_is_psicologo_forense:
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
-
             g.user_set.add(user)
-    
-            if is_registered: 
-                i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["psicologo_forense"])
-                member_charge = InstitutionCharge(person=person, institution=i, start_date=register_subscription_date)
-                member_charge.save()
 
+        is_registered_b = (register_subscription_date != None) and (says_is_dottore_tecniche_psicologiche) 
 
         if says_is_dottore_tecniche_psicologiche:
-
             g,created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
             g.user_set.add(user)
 
-            if is_registered:
+            if is_registered_b:
 #                print "Utente registrato ..."
                 i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
 #                print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])

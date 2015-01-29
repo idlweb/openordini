@@ -103,20 +103,20 @@ class UserProfileForm(forms.Form):
     cap_residenza = forms.CharField(required=True, label=_('CAP'))
     provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
 
-    indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
+    indirizzo_domicilio = forms.CharField(required=False, label=_('Indirizzo'))
 
-    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
-    cap_domicilio = forms.CharField(required=True, label=_('CAP'))
-    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+    citta_domicilio = forms.CharField(required=False, label=_(u'Città'))
+    cap_domicilio = forms.CharField(required=False, label=_('CAP'))
+    provincia_domicilio = forms.CharField(required=False, label=_('Provincia'))
 
     tel_residenza = forms.CharField(required=False, label=_(u'Telefono residenza'))
     tel_domicilio = forms.CharField(required=False, label=_(u'Telefono domicilio'))
     tel_ufficio = forms.CharField(required=False, label=_(u'Telefono ufficio'))
     tel_cellulare = forms.CharField(required=False, label=_(u'Telefono cellulare'))
     tel_residenza = forms.CharField(required=False, label=_(u'Telefono residenza'))
-    indirizzo_email = forms.CharField(required=True, label=_(u'Email'))
-    indirizzo_pec = forms.CharField(required=True, label=_(u'Email PEC'))
-    sito_internet = forms.URLField(required=True, label=_(u'Sito internet'))
+    indirizzo_email = forms.EmailField(required=False, label=_(u'Email'))
+    indirizzo_pec = forms.CharField(required=False, label=_(u'Email PEC'))
+    sito_internet = forms.URLField(required=False, label=_(u'Sito internet'))
 
 
 

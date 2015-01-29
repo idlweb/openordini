@@ -195,7 +195,7 @@ class OOUserProfileEditView(FormView):
             initial["tel_cellulare"] = profile.recapiti.tel_cellulare
             initial["indirizzo_email"] = profile.recapiti.indirizzo_email or profile.user.email
             initial["indirizzo_pec"] = profile.recapiti.indirizzo_pec
-            initial["sito_internett"] = profile.recapiti.sito_internet
+            initial["sito_internet"] = profile.recapiti.sito_internet
         except ObjectDoesNotExist:
             initial["indirizzo_email"] = profile.user.email
 
@@ -244,7 +244,7 @@ class OOUserProfileEditView(FormView):
         recapiti.tel_cellulare = form.cleaned_data["tel_cellulare"]
         recapiti.indirizzo_email = form.cleaned_data["indirizzo_email"]
         recapiti.indirizzo_pec = form.cleaned_data["indirizzo_pec"]
-
+        recapiti.sito_internet = form.cleaned_data["sito_internet"]
         recapiti.save()
 
         if user.email != recapiti.indirizzo_email:

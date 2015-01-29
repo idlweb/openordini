@@ -94,10 +94,9 @@
 	                {% include "registration/form_element.html" with element=form.tel_domicilio %}
 	                {% include "registration/form_element.html" with element=form.tel_ufficio %}
 	                {% include "registration/form_element.html" with element=form.tel_cellulare %}
-	                {% include "registration/form_element.html" with element=form.indirizzo_email %}
+	                {% include "registration/form_element.html" with element=form.indirizzo_email prepend="esempio@gestore.tld" %}
 	                {% include "registration/form_element.html" with element=form.indirizzo_pec %}
-                    {% include "registration/form_element.html" with element=form.sito_internet %}
-
+                    {% include "registration/form_element.html" with element=form.sito_internet prepend="http://www.esempio.tld"  %}
 
                   </div>
 

@@ -73,14 +73,25 @@
           {% endfor %}
         </p>
       </header>
-
+    {%comment%}
       {% if current_charges %}
         <ul class="list-plain">
             {% for c in current_charges %}
-                <li><strong>{{ c.denomination }}</strong> dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</li>
+                <li><span style="font-size: 13px; margin-top:-2px" class="label label-success"><strong>{{ c.denomination }}:</strong></span>&nbsp;&nbsp;<span class="label label-default">dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</li></span>
             {% endfor %}
         </ul>
       {% endif %}
+      {%endcomment%}
+      {% if current_charges %}
+        <ul class="list-plain">
+            {% for c in current_charges %}
+                <li><button class="btn btn-success" type="button">{{ c.denomination }}:
+                <span class="badge">dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</span>
+                </li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+    
 
       {% if current_groupcharge %}
           Gruppo <a href="{% url 'om_institution_group' slug=current_groupcharge.group.slug %}"><strong>{{ current_groupcharge.group }}</strong></a>
@@ -141,20 +152,24 @@
             <tr><td><i class="res res-twitter"></i></td><td><a class="twitter" href="{{ resource.value }}">Profilo Twitter</a></td></tr>
 	      {% endfor %}
 	      {% if person.openpolis_link %}
-            <tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.openpolis_link }}">Pagina su OpenOrdini</a></td></tr>
+            <!--tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.openpolis_link }}">Pagina su OpenOrdini</a></td></tr-->
 	      {% endif %}
           {% if person.userprofile %}
-            <tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">&nbsp;&nbsp;&nbsp;Profilo su Open Ordini</a></td></tr>
+            <!--tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">&nbsp;&nbsp;&nbsp;Profilo su Open Ordini</a></td></tr-->
         {% endif %}
-          <tr><td><i class="fa-sitemap fa-1x"></i></td><td><a class="openpolis" href="">&nbsp;&nbsp;&nbsp;Sito web: <strong>{{  sito_internet }}</strong></a></td></tr>
-          <tr><td><i class="fa-envelope fa-1x"></i></td><td><a class="openpolis" href="">&nbsp;&nbsp;&nbsp;Indirizzo email: <strong>{{  indirizzo_email }}</strong></a></td></tr>
-          <tr><td><i class="fa-envelope fa-1x"></i></td><td><a class="openpolis" href="">&nbsp;&nbsp;&nbsp;Indirizzo PEC: {{  ndirizzo_pec }}</a></td></tr>                            
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Sito web: <strong>{{  sito_internet }}</strong></a></td></tr>
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;email: <strong>{{  indirizzo_email }}</strong></a></td></tr>
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;PEC: <strong>{{  indirizzo_pec }}</strong></a></td></tr>                            
            
       </table>
 
     </div>
 
   </div>
+
+
+
+
 
   <hr class="big">
   {{  person.userprofile.description }} 

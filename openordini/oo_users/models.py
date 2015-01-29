@@ -82,9 +82,9 @@ class Recapito(models.Model):
     tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
     tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
     tel_cellulare = models.CharField(_('numero cellulare'), help_text=_(u"inserire il numero del cellulare") , max_length=10)
-    indirizzo_email = models.CharField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=20)
+    indirizzo_email = models.CharField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=200)
     indirizzo_pec = models.CharField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=20)
-    sito_internet = models.URLField(_('indirizzo sito'), help_text=_(u"inserire sito internet"),  max_length=200)
+    sito_internet = models.URLField(_('indirizzo sito'), help_text=_(u"inserire sito internet"), )
     
     def __unicode__(self):
         return self.recapiti_psicologo.person.first_name + ' - ' +self.recapiti_psicologo.person.last_name #self.codice_fiscale
