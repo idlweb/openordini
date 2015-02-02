@@ -84,6 +84,13 @@ class ExtraPeople(models.Model):
         verbose_name = _("anagrafica aggiuntiva")
         verbose_name_plural = _("anagrafiche aggiuntive")
 
+    @property
+    def studio(self):
+        studio = "%s %s %s %s" % (self.denominazione_studio, self.indirizzo_studio, self.citta_studio, self.cap_studio)
+
+        print "studio: %s" % studio
+
+        return studio
 
 class Recapito(models.Model):
 
