@@ -166,11 +166,16 @@ class OOPoliticianSearchView(PoliticianSearchView):
                     "fields": { 
                         "first_name": person.first_name,
                         "last_name": person.last_name,
-                        "extra_data": person.userprofile.userprofile.anagrafica.studio,
                         "slug": person.slug,
                         "img": img_url,
+                        "extra_data": "",
                     }
                 }      
+
+                if person.userprofile and person.userprofile.userprofile and \
+                        person.userprofile.userprofile.anagrafica:
+                    p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio,
+
 
                 persons.append(p_data)
 
