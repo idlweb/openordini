@@ -2,7 +2,7 @@ from django.contrib import admin
 from django import forms
 from django.forms import ModelForm
 from django.db import models
-from .models import Fascicolo, InstitutionCharge
+from .models import Fascicolo, InstitutionCharge, Act
 from ..commons.widgets import AdvancedFilteredSelectMultiple
 
 
@@ -24,3 +24,4 @@ class FascicoloAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Fascicolo, FascicoloAdmin)
+admin.site.unregister(Act)
