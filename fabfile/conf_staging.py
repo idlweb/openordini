@@ -1,7 +1,8 @@
 import os
 
 # IP/domain name of the staging server
-SERVER_MACHINE = '185.22.84.13'
+#SERVER_MACHINE = '185.22.84.13'
+SERVER_MACHINE = '151.80.117.164'
 # Python interpreter executable to use on virtualenv creation
 PYTHON_BIN = 'python' #pyhton 2.7
 PYTHON_PREFIX = '' # e.g. ``/usr``, ``/usr/local``; leave empty for default.

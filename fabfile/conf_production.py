@@ -1,7 +1,8 @@
 import os
 
 # IP/domain name of the production server
-SERVER_MACHINE = 'oo.psicologipuglia.it' ## CHANGEME!
+#SERVER_MACHINE = 'oo.psicologipuglia.it' ## CHANGEME!
+SERVER_MACHINE = '37.187.81.49' # prendo in prestito un server ovh ...
 # Python interpreter executable to use on virtualenv creation
 PYTHON_BIN = 'python' #pyhton 2.7
 PYTHON_PREFIX = '' # e.g. ``/usr``, ``/usr/local``; leave empty for default.

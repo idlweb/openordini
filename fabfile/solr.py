@@ -110,8 +110,8 @@ def update_data_schema():
             provided_by=('staging', 'production'))
     with hide('commands'):
         fastprint("Updating Solr data schema... ", show_prefix=True)
-        run_venv('django-admin.py  build_solr_schema--settings=%(settings)s > %(domain_root)s/private/solr/conf/schema.xml' % env)
-        sudo('chmod -R %(web_user)s:www-data %(domain_root)s/private/solr')
+        run_venv('django-admin.py  build_solr_schema --settings=%(settings)s > %(domain_root)s/private/solr/conf/schema.xml' % env)
+        sudo('chown -R %(web_user)s:www-data %(domain_root)s/private/solr' % env)
         execute(restart_tomcat)
         fastprint(" done." % env, end='\n')
 

@@ -301,7 +301,7 @@ def setup_postgres():
     install_package('postgresql')
     # upload conf files
     with hide('commands'):       
-        with lcd(os.path.join(env.local_repo_root, 'postgres')):
+        with lcd(os.path.join(env.local_repo_root, 'system', 'postgres')):
             with cd(os.path.join(env.postgres_conf_dir)):
                 fastprint("Updating `postgresql.conf'...", show_prefix=True)
                 put('postgresql.conf', 'postgresql.conf' , mode=0644, use_sudo=True)
