@@ -189,6 +189,9 @@ class OOUserProfileEditView(FormView):
             initial["citta_studio"] = profile.anagrafica.citta_studio
             initial["cap_studio"] = profile.anagrafica.cap_studio
             initial["provincia_studio"] = profile.anagrafica.provincia_studio
+            initial["denominazione_studio"] = profile.anagrafica.denominazione_studio
+            initial["coord_lat"] = profile.anagrafica.coord_lat
+            initial["coord_long"] = profile.anagrafica.coord_long
 
         except ObjectDoesNotExist:
             pass
@@ -243,7 +246,9 @@ class OOUserProfileEditView(FormView):
         anagrafica.citta_studio = form.cleaned_data["citta_studio"]
         anagrafica.cap_studio = form.cleaned_data["cap_studio"]
         anagrafica.provincia_studio = form.cleaned_data["provincia_studio"]
-
+        anagrafica.denominazione_studio = form.cleaned_data["denominazione_studio"]
+        anagrafica.coord_lat = form.cleaned_data["coord_lat"]
+        anagrafica.coord_long = form.cleaned_data["coord_long"]
         anagrafica.save()
 
         recapiti, created = Recapito.objects.get_or_create(recapiti_psicologo=profile)
