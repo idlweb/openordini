@@ -70,8 +70,8 @@ class ExtraPeople(models.Model):
     cap_studio = models.CharField(_('CAP studio'), help_text=_(u"inserire il CAP dello studio") , max_length=5)
     provincia_studio = models.CharField(_('provincia studio'), help_text=_(u"inserire la provincia dello studio") , max_length=128)
     denominazione_studio = models.CharField(_('denominazione studio'), help_text=_(u"inserire la denominazione dello studio") , max_length=128)
-    coord_lat = models.FloatField(_('latitudine studio'),null=True)
-    coord_long = models.FloatField(_('longitudine studio'),null=True)
+    coord_lat = models.FloatField(_('latitudine studio'), null=True)
+    coord_long = models.FloatField(_('longitudine studio'), null=True)
 
     codice_fiscale = models.CharField(_('codice fiscale'), help_text=_(u"inserire il codice fiscale") , max_length=16)
     accertamento_casellario = models.BooleanField(_('verifica casellario giudiziario'), help_text=_(u"accertamento casellario"))
