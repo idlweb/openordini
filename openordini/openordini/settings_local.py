@@ -23,3 +23,11 @@ PAYMENT_BASE_URL = 'http://localhost:8000/'
 PAYMENT_VARIANTS = {
     'default': ('payments.dummy.DummyProvider', {})}
 
+LEAFLET_CONFIG = {
+    #'SPATIAL_EXTENT': (5.0, 45.0, 7.5, 46)
+    'DEFAULT_CENTER': (50.5, 30.5),
+    'DEFAULT_ZOOM': 16,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 8,
+}
+

@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'awesome_bootstrap',
     'endless_pagination',
     'openordini.utility',
+    'leaflet',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'

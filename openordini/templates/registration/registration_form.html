@@ -34,6 +34,11 @@
                         <div class="tab-pane" id="tab-2">
                          
                           <legend>Dati personali</legend>
+
+                             <div id="legal" class="alert">
+                                 <span>Le seguenti informazioni sono quelle necessarie all'iscrizione, altre (ad esempio di natura professionale) potranno essere inserite nel proprio profilo (accessibile dopo l'attivazione)</span>                                  
+                            </div>
+
                             {% include "registration/form_element.html" with element=form.email prepend="@" %}
         {% comment %}
                             {% include "registration/form_element.html" with element=form.location %}
@@ -52,24 +57,39 @@
                             {% include "registration/form_element.html" with element=form.says_is_politician checkbox=1 %}
         {% endcomment %}
                             {% include "registration/form_element.html" with element=form.description %}
+                            <legend></legend> 
                             {% include "registration/form_element.html" with element=form.image %}
-
+                            <legend>Tipologia:</legend> 
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_clinico checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_lavoro checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_forense checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_dottore_tecniche_psicologiche checkbox=1 %}
-                            {% include "registration/form_element.html" with element=form.is_asl_employee checkbox=1 %}
-                            {% include "registration/form_element.html" with element=form.is_self_employed checkbox=1 %}
 
+                            <div id="legal" class="alert">
+                                 {% include "registration/form_element.html" with element=form.is_asl_employee checkbox=1 %}
+                                 {% include "registration/form_element.html" with element=form.is_self_employed checkbox=1 %}
+                            </div>
+                           
+                            <legend>Iscrizione:</legend> 
                             {% include "registration/form_element.html" with element=form.register_subscription_date %}
 
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
                             
+                            <legend>Disclaimer:</legend> 
+
                             <div id="legal" class="alert">
                                  <legend>Invio lecito di posta elettronica</legend>   
                                  {% include "registration/form_element.html" with element=form.wants_commercial_newsletter checkbox=1 %}
                                  <p>
                                    Gli indirizzi e-mail sono da considerarsi dati personali: quindi attivate la spunta se  ci è consentito utilizzarli, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (legge n. 675 del 13 dicembre 1996, sostituita dal più recente D.Lgs. 196 del 2003)
+                                  </p>
+                            </div>
+
+                            <div id="legal" class="alert">
+                                 <legend>Utilizzo lecito del numero cellulare</legend>   
+                                  {% include "registration/form_element.html" with element=form.wants_commercial_mobile checkbox=1 %}
+                                 <p>
+                                   Il numero cellulare è da considerarsi dato personale: quindi attivate la spunta se ci è consentito utilizzarlo, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (legge n. 675 del 13 dicembre 1996, sostituita dal più recente D.Lgs. 196 del 2003)
                                   </p>
                             </div>
 
@@ -90,6 +110,22 @@
                              {% include "registration/form_element.html" with element=form.citta_domicilio %}
                              {% include "registration/form_element.html" with element=form.cap_domicilio %}
                              {% include "registration/form_element.html" with element=form.provincia_domicilio %}
+                          <legend>Studio professionale</legend>                            
+                             {% include "registration/form_element.html" with element=form.indirizzo_studio %}
+                             {% include "registration/form_element.html" with element=form.citta_studio %}
+                             {% include "registration/form_element.html" with element=form.cap_studio %}
+                             {% include "registration/form_element.html" with element=form.provincia_studio %}   
+
+                            <legend></legend>                        
+                             <div id="legal" class="alert">
+                                 <legend>Invio lecito di corrispondenza</legend>                          
+                                 <p>
+                                   Decido di ricevere la corrispondenza da parte dell'Ordine alla seguente opzione indicata:
+                                  </p></br>
+                                  {% include "registration/form_element.html" with element=form.consegna_corrispondenza %}
+                            </div>
+                            
+                             
                           <legend>Altro</legend>
                              {% include "registration/form_element.html" with element=form.codice_fiscale %}
                              <div class="form-actions passw">

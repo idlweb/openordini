@@ -63,6 +63,7 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
             sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
             uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)
             #print (uRecapito)
+            ctx["iscrizione"] = sUOO.numero_iscrizione
             ctx["biografia"]  =  sUOO.description
             ctx["sito_internet"] = uRecapito.sito_internet
             ctx["indirizzo_email"] =  uRecapito.indirizzo_email

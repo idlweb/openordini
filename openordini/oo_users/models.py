@@ -26,7 +26,8 @@ class UserProfile(OMUserProfile):
     says_is_self_employed = models.BooleanField(default=False, verbose_name=_("psicologo clinico"), help_text=_(u"notifica l'amministratore che è un libero professionista"))
     register_subscription_date = models.DateField(default=None, blank=True, null=True, verbose_name=_(u"register subscription date"), help_text=_(u"la data in cui si è registrato all'albo"))
     wants_commercial_newsletter = models.BooleanField(default=False, verbose_name=_("wants commercial newsletter"))
-    
+    wants_commercial_mobile = models.BooleanField(default=False, verbose_name=_("wants commercial to mobile"))   
+    numero_iscrizione = models.IntegerField(default=False, verbose_name=_('numero iscrizione'), help_text=_(u"numero iscrizione albo"))
 
     @property
     def committee_charges(self):
@@ -51,7 +52,7 @@ class UserProfile(OMUserProfile):
         verbose_name_plural = _("schede psicologi")
 
 
-class ExtraPeople(models.Model):
+class ExtraPeople(models.Model):   
 
     anagrafica_extra = models.OneToOneField(UserProfile, related_name="anagrafica")
     indirizzo_residenza = models.CharField(_('indirizzo residenza'), help_text=_(u"inserire l'indirizzo residenza") , max_length=128)
@@ -63,6 +64,14 @@ class ExtraPeople(models.Model):
     citta_domicilio = models.CharField(_(u'città domicilio'), help_text=_(u"inserire la città domicilio") , max_length=128)
     cap_domicilio = models.CharField(_('CAP domicilio'), help_text=_(u"inserire il CAP domicilio") , max_length=5)
     provincia_domicilio = models.CharField(_('provincia domicilio'), help_text=_(u"inserire la provincia domicilio") , max_length=128)
+    
+    indirizzo_studio = models.CharField(_('indirizzo studio'), help_text=_(u"inserire l'indirizzo dello studio") , max_length=128)
+    citta_studio = models.CharField(_(u'città studio'), help_text=_(u"inserire la città dello studio") , max_length=128)
+    cap_studio = models.CharField(_('CAP studio'), help_text=_(u"inserire il CAP dello studio") , max_length=5)
+    provincia_studio = models.CharField(_('provincia studio'), help_text=_(u"inserire la provincia dello studio") , max_length=128)
+    denominazione_studio = models.CharField(_('denominazione studio'), help_text=_(u"inserire la denominazione dello studio") , max_length=128)
+    coord_lat = models.FloatField(_('latitudine studio'),null=True)
+    coord_long = models.FloatField(_('longitudine studio'),null=True)
 
     codice_fiscale = models.CharField(_('codice fiscale'), help_text=_(u"inserire il codice fiscale") , max_length=16)
     accertamento_casellario = models.BooleanField(_('verifica casellario giudiziario'), help_text=_(u"accertamento casellario"))
@@ -77,14 +86,21 @@ class ExtraPeople(models.Model):
 
 
 class Recapito(models.Model):
+
+    TIPI_CORRISPONDENZA = Choices(
+        ('residenza', 'residenza', _('residenza')),
+        ('domicilio', 'domicilio', _('domicilio')),
+        ('studio', 'studio', _('studio')),     
+    )    
     recapiti_psicologo = models.OneToOneField(UserProfile, related_name="recapiti")
     tel_residenza = models.CharField(_('telefono residenza'), help_text=_(u"inserire il telefono della residenza") , max_length=10)
     tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
     tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
     tel_cellulare = models.CharField(_('numero cellulare'), help_text=_(u"inserire il numero del cellulare") , max_length=10)
-    indirizzo_email = models.CharField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=200)
-    indirizzo_pec = models.CharField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=20)
+    indirizzo_email = models.EmailField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=200)
+    indirizzo_pec = models.EmailField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=20)
     sito_internet = models.URLField(_('indirizzo sito'), help_text=_(u"inserire sito internet"), )
+    consegna_corrispondenza = models.CharField(_('consegna corrispondenza'), choices=TIPI_CORRISPONDENZA, help_text=_(u"consegna corrispondenza") , max_length=50)
     
     def __unicode__(self):
         return self.recapiti_psicologo.person.first_name + ' - ' +self.recapiti_psicologo.person.last_name #self.codice_fiscale

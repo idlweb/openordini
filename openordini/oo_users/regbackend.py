@@ -29,7 +29,7 @@ def user_created(sender, user, request, **kwargs):
     supposed to be found in POST data.
     """
 
-#    print "salva utente: %s (user = %s)..." % (user_registered, user)
+    # print "salva utente: %s (user = %s)..." % (user_registered, user)
     # deletes the user profiles created by OM ... it's not
     # very efficient (INSERT + DELETE) but makes the two systems
     # more decoupled
@@ -92,7 +92,11 @@ def user_created(sender, user, request, **kwargs):
     extra_data_recapiti.indirizzo_domicilio = form.cleaned_data.get('indirizzo_domicilio',False)
     extra_data_recapiti.citta_domicilio  = form.cleaned_data.get('citta_domicilio',False)
     extra_data_recapiti.cap_domicilio  = form.cleaned_data.get('cap_domicilio',False)
-    extra_data_recapiti.provincia_domicilio  = form.cleaned_data.get('provincia_domicilio',False)
+    extra_data_recapiti.provincia_domicilio  = form.cleaned_data.get('provincia_domicilio',False)    
+    extra_data_recapiti.indirizzo_studio = form.cleaned_data.get('indirizzo_studio',False)
+    extra_data_recapiti.citta_studio  = form.cleaned_data.get('citta_studio',False)
+    extra_data_recapiti.cap_studio  = form.cleaned_data.get('cap_studio',False)
+    extra_data_recapiti.provincia_studio  = form.cleaned_data.get('provincia_studio',False)    
     extra_data_recapiti.save()
 
 

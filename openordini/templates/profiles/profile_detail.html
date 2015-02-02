@@ -3,6 +3,17 @@
 {% load newscache_tags %}
 {% load url from future %}
 {% load cas_integration %}
+{% load leaflet_tags %}
+
+{% block head_css_includes %}
+    {{ block.super }}
+    {% leaflet_css %}
+{% endblock head_css_includes %}
+
+{% block head_js_includes %}
+  {{ block.super }}
+  {% leaflet_js %}
+{% endblock head_js_includes %}
 
 {% block title %}Profilo utente{% endblock %}
 {% block content_header %}Profilo di {{ profile }}{% endblock %}
@@ -71,6 +82,18 @@
         <hr class="big">
         <p>
           {{ profile.description }}
+          <hr class="big">
+ 
+          <script type="text/javascript">
+              window.addEventListener("map:init", function (e) {
+                  var detail = e.detail;
+       
+                  L.marker([50.5, 30.5]).addTo(detail.map);
+        
+            }, false);
+          </script>
+
+        {% leaflet_map "yourmap" callback="window.map_init_basic" %}
         </p>
 
         {% if not profile.user.is_active %}

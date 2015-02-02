@@ -46,8 +46,8 @@
 {% endcomment %}
             <div class="span4">
                 <h2>Entra con username e password</h2>
-                <p>Usa il tuo username e la tua password per accedere al sito o
-                    <a href="{% url 'registration_register' %}"><large><strong>registrati a NPOP</strong></large></a> per ricevere le tue credenziali di accesso.</p>
+                <p style="line-height: 1.7em; font-size: 20px;">Usa il tuo username e la tua password per accedere al sito o
+                    <a href="{% url 'registration_register' %}" class="btn btn-primary"><large><strong>registrati a NPOP</strong></large></a> per ricevere le tue credenziali di accesso.</p>
                 <form method="post" class="form-horizontal">
                     {% csrf_token %}
                     

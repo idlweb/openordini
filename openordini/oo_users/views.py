@@ -185,6 +185,11 @@ class OOUserProfileEditView(FormView):
             initial["cap_domicilio"] = profile.anagrafica.cap_domicilio
             initial["provincia_domicilio"] = profile.anagrafica.provincia_domicilio
 
+            initial["indirizzo_studio"] = profile.anagrafica.indirizzo_studio
+            initial["citta_studio"] = profile.anagrafica.citta_studio
+            initial["cap_studio"] = profile.anagrafica.cap_studio
+            initial["provincia_studio"] = profile.anagrafica.provincia_studio
+
         except ObjectDoesNotExist:
             pass
 
@@ -233,6 +238,11 @@ class OOUserProfileEditView(FormView):
         anagrafica.citta_domicilio = form.cleaned_data["citta_domicilio"]
         anagrafica.cap_domicilio = form.cleaned_data["cap_domicilio"]
         anagrafica.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
+
+        anagrafica.indirizzo_studio = form.cleaned_data["indirizzo_studio"]
+        anagrafica.citta_studio = form.cleaned_data["citta_studio"]
+        anagrafica.cap_studio = form.cleaned_data["cap_studio"]
+        anagrafica.provincia_studio = form.cleaned_data["provincia_studio"]
 
         anagrafica.save()
 

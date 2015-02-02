@@ -112,13 +112,13 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
         {% include 'commons/calendar.html' with events=events %}
     </section>
 
-    <h2>Sezioni dell'albo</h2>
+    <h2 style="color: #CCC">Sezioni dell'albo</h2>
     <ul class="list-plain">
         {% for c in committees %}
             {% if c.id == committee.id %}
-                <li><strong>{{ c.name }}</strong>: {{ c.description|truncatewords:3 }}</li>
+                <li class="per_sez"><strong>{{ c.name }}</strong>: {{ c.description|truncatewords:3 }}</li>
             {%  else %}
-                <li><a href="{{ c.get_absolute_url }}"><strong>{{ c.name }}</strong>: {{ c.description|truncatewords:6 }}</a></li>
+                <li class="per_sez"><a href="{{ c.get_absolute_url }}"><strong>{{ c.name }}</strong>: {{ c.description|truncatewords:6 }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>

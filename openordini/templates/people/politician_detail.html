@@ -9,6 +9,7 @@
 {% load popover_info %}
 {% load url from future %}
 
+{% load leaflet_tags %}
 
 {% block title %}Dettaglio {{ person }}{% endblock %}
 {% block content_header %}Psicologo{% endblock %}
@@ -24,12 +25,14 @@
 {% block head_css_includes %}
     {{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/meter-bar.css" />
+    {% leaflet_css %}
 {% endblock head_css_includes %}
 
 {% block head_js_includes %}
   {{ block.super }}
   <script src="{{ STATIC_URL }}js/ajax_csrf.js" type="text/javascript" charset="utf-8"></script>
   <script src="{{ STATIC_URL }}js/jquery.submitlink.js" stype="text/javascript"></script>
+  {% leaflet_js %}
 {% endblock head_js_includes %}
 
 {% block sub_nav %}
@@ -38,6 +41,7 @@
 
 
 {% block content %}
+
   <div class="row-fluid">
     <div class="span7">
 
@@ -140,8 +144,9 @@
 
     </div>
 
-    <div class="span5">
+    <div class="span5">      
       <table>
+          <tr class="gius"><td><i class=""></i></td><td><h2>Informazioni professionali:</h2></td></tr>
           {% for resource in resources.URL %}
             <tr><td><i class="res res-feed"></i></td><td><a class="website" href="{{ resource.value }}">Sito web</a></td></tr>
 	      {% endfor %}
@@ -157,13 +162,16 @@
           {% if person.userprofile %}
             <!--tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">&nbsp;&nbsp;&nbsp;Profilo su Open Ordini</a></td></tr-->
         {% endif %}
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Iscrizione: <h2>{{ iscrizione }}</h2></a></td></tr> 
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Studio: <strong>{{  sito_internet }}</strong></a></td></tr> 
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Sito web: <strong>{{  sito_internet }}</strong></a></td></tr>
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;email: <strong>{{  indirizzo_email }}</strong></a></td></tr>
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;PEC: <strong>{{  indirizzo_pec }}</strong></a></td></tr>                            
-           
+
       </table>
 
     </div>
+
 
   </div>
 
@@ -172,7 +180,21 @@
 
 
   <hr class="big">
+  
   {{  person.userprofile.description }} 
+
+  <hr class="big">
+ 
+  <script type="text/javascript">
+    window.addEventListener("map:init", function (e) {
+        var detail = e.detail;
+       
+        L.marker([50.5, 30.5]).addTo(detail.map);
+        
+    }, false);
+  </script>
+
+  {% leaflet_map "yourmap" callback="window.map_init_basic" %}
   
   {% if is_counselor %}
     <section>

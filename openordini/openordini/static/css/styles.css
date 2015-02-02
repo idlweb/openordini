@@ -5769,3 +5769,11 @@ font-weight: 200;
 tr.gius{
   text-align: right;
 }
+
+.per_sez{
+font-size: 19px;
+line-height: 22px;
+margin-left: 14px;
+padding-left: 10px;
+font-weight: 200;
+}
