@@ -48,3 +48,15 @@ PAYMENT_VARIANTS = {
     })}
 
 UI_ALLOW_NICKNAMES = False
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+#        'URL': 'http://127.0.0.1:8983/solr',
+        'URL': 'http://127.0.0.1:8080/solr/om-senigallia',
+        'TIMEOUT': 300, # 5 minutes
+        'BATCH_SIZE': 100,
+        'SEARCH_RESULTS_PER_PAGE': 10,
+    }
+}
+
