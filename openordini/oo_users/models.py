@@ -88,7 +88,7 @@ class ExtraPeople(models.Model):
     def studio(self):
         studio = "%s %s %s %s" % (self.denominazione_studio, self.indirizzo_studio, self.citta_studio, self.cap_studio)
 
-        print "studio: %s" % studio
+#        print "studio: %s" % studio
 
         return studio
 
