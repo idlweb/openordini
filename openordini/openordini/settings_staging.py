@@ -47,3 +47,4 @@ PAYMENT_VARIANTS = {
         'capture': False,
     })}
 
+UI_ALLOW_NICKNAMES = False

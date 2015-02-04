@@ -31,3 +31,4 @@ LEAFLET_CONFIG = {
     'MAX_ZOOM': 8,
 }
 
+UI_ALLOW_NICKNAMES = False
