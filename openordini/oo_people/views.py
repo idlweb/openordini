@@ -155,7 +155,8 @@ class OOPoliticianSearchView(PoliticianSearchView):
                 person = c.person
 
                 try:
-                    img = get_thumbnail("http://%s/media/%s" % (current_site, person.img), "50x50", crop="center", quality=99)
+#                    img = get_thumbnail("http://%s/media/%s" % (current_site, person.img), "50x50", crop="center", quality=99)
+                    img = get_thumbnail(person.img, "50x50", crop="center", quality=99)
 #                    person.img = img.url   
                     img_url = img.url
                 except BaseException as e:
