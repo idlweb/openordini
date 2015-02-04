@@ -159,21 +159,21 @@ class OOPoliticianSearchView(PoliticianSearchView):
                 img_url = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
 
  
-                # manually build a dictionary to have more control on extra
-                # data to show (i.e. data not from model Person)
-                p_data = {
-                    "fields": { 
-                        "first_name": person.first_name,
-                        "last_name": person.last_name,
-                        "slug": person.slug,
-                        "img": img_url,
-                        "extra_data": "",
-                    }
-                }      
+            # manually build a dictionary to have more control on extra
+            # data to show (i.e. data not from model Person)
+            p_data = {
+                "fields": { 
+                    "first_name": person.first_name,
+                    "last_name": person.last_name,
+                    "slug": person.slug,
+                    "img": img_url,
+                    "extra_data": "",
+                }
+            }      
 
-                if person.userprofile and person.userprofile.userprofile and \
-                        person.userprofile.userprofile.anagrafica:
-                    p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio,
+            if person.userprofile and person.userprofile.userprofile and \
+                    person.userprofile.userprofile.anagrafica:
+                p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio
 
 
             results.append(p_data)
