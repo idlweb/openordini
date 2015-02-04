@@ -69,7 +69,7 @@ class ExtraPeople(models.Model):
     citta_studio = models.CharField(_(u'città studio'), help_text=_(u"inserire la città dello studio") , max_length=128)
     cap_studio = models.CharField(_('CAP studio'), help_text=_(u"inserire il CAP dello studio") , max_length=5)
     provincia_studio = models.CharField(_('provincia studio'), help_text=_(u"inserire la provincia dello studio") , max_length=128)
-    denominazione_studio = models.CharField(_('denominazione studio'), help_text=_(u"inserire la denominazione dello studio") , max_length=128)
+    denominazione_studio = models.TextField(_('denominazione studio'), blank=True, help_text=_(u"inserire la denominazione dello studio") , max_length=128)
     coord_lat = models.FloatField(_('latitudine studio'), null=True)
     coord_long = models.FloatField(_('longitudine studio'), null=True)
 
@@ -104,8 +104,8 @@ class Recapito(models.Model):
     tel_domicilio = models.CharField(_('telefono domicilio'), help_text=_(u"inserire il telefono del domicilio") , max_length=10)
     tel_ufficio = models.CharField(_('telefono ufficio'), help_text=_(u"inserire il telefono ufficio") , max_length=10)
     tel_cellulare = models.CharField(_('numero cellulare'), help_text=_(u"inserire il numero del cellulare") , max_length=10)
-    indirizzo_email = models.EmailField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=200)
-    indirizzo_pec = models.EmailField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=200)
+    indirizzo_email = models.EmailField(_('indirizzo email'), help_text=_(u"inserire l'indirizzo email") , max_length=255)
+    indirizzo_pec = models.EmailField(_('indirizzo pec'), help_text=_(u"inserire l'indirizzo pec") , max_length=255)
     sito_internet = models.URLField(_('indirizzo sito'), help_text=_(u"inserire sito internet"), )
     consegna_corrispondenza = models.CharField(_('consegna corrispondenza'), choices=TIPI_CORRISPONDENZA, help_text=_(u"consegna corrispondenza") , max_length=50)
     

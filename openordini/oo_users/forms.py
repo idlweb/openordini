@@ -137,6 +137,22 @@ class UserProfileForm(forms.Form):
     indirizzo_pec = forms.CharField(required=False, label=_(u'Email PEC'))
     sito_internet = forms.URLField(required=False, label=_(u'Sito internet'))
 
+    def clean(self, *args, **kwargs):
+
+        data = super(UserProfileForm, self).clean(*args, **kwargs)
+        test_email = data["indirizzo_email"]
+        test_pec = data["indirizzo_pec"] 
+
+        if (len(test_email) > 254):
+            msg = _("verificare la email troppo lunga")
+            raise ValidationError(msg)
+
+        if (len(test_pec) > 254):
+            msg = _("verificare la PEC troppo lunga")
+            raise ValidationError(msg)
+
+        return data
+
 
 
 

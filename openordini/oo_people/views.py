@@ -21,6 +21,7 @@ from open_municipio.acts.models import Act
 from open_municipio.users.models import UserProfile as UOM
 from openordini.oo_users.models import UserProfile as UOO
 from openordini.oo_users.models import Recapito
+from openordini.oo_users.models import ExtraPeople 
 
 from django.core import serializers
 
@@ -64,9 +65,11 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
         try:
             sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
             uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)
-            #print (uRecapito)
+            uExtraPeople = ExtraPeople.objects.get(anagrafica_extra = sUOO.pk)
+            print (uExtraPeople)
             ctx["iscrizione"] = sUOO.numero_iscrizione
             ctx["biografia"]  =  sUOO.description
+            ctx["studio"]  =  uExtraPeople.denominazione_studio
             ctx["sito_internet"] = uRecapito.sito_internet
             ctx["indirizzo_email"] =  uRecapito.indirizzo_email
             ctx["indirizzo_pec"] = uRecapito.indirizzo_pec

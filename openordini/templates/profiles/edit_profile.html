@@ -96,7 +96,7 @@
                 {% include "registration/form_element.html" with element=form.cap_studio %}
                 {% include "registration/form_element.html" with element=form.provincia_studio %}
 
-                {% include "registration/form_element.html" with element=form.coord_lat %}
+                {% include "registration/form_element.html" with element=form.coord_lat prepend="utilizzare il . e non la , per i decimali" %}
                 {% include "registration/form_element.html" with element=form.coord_long %}
 
                   </div>

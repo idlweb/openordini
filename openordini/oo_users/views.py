@@ -206,7 +206,7 @@ class OOUserProfileEditView(FormView):
             initial["sito_internet"] = profile.recapiti.sito_internet
         except ObjectDoesNotExist:
             initial["indirizzo_email"] = profile.user.email
-
+            initial["indirizzo_pec"] = "email@troppolunga.err"
 
         return initial
 
