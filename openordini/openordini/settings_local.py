@@ -3,6 +3,10 @@ from openordini.openordini.settings import *
 DEBUG = True
 TEMPLATE_DEBUG = True
 
+MANAGERS = (
+    ('Francesco Spegni', 'francesco.spegni@gmail.com'),
+)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

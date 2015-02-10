@@ -80,6 +80,10 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         },
+        'mail_registration_managers': {
+            'level': 'INFO',
+            'class': 'openordini.commons.utils.ManagerEmailHandler',
+        },
         'webapp': {
             'level':'DEBUG',
             'class':'logging.FileHandler',
@@ -103,6 +107,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
             }, 
+        'registration': {
+            'handlers': ['mail_registration_managers', ],
+            'level': 'INFO',
+            'propagate': False,
+        },
         'mama_cas.forms': {
             'handlers': ['console', ],
             'level': 'DEBUG',
