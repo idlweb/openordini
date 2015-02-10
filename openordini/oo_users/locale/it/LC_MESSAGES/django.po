@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-10 17:53+0100\n"
+"POT-Creation-Date: 2015-02-10 22:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -641,32 +641,46 @@ msgstr ""
 msgid "titoli psicologi"
 msgstr ""
 
-#: regbackend.py:53
+#: regbackend.py:65
 #, python-format
 msgid "A new user registered on the website: %(user)s"
 msgstr "Un nuovo utente si è registrato al sito: %(user)s"
 
-#: regbackend.py:55 regbackend.py:90
+#: regbackend.py:68 regbackend.py:109
+#, python-format
+msgid "It was not possible to register user: %(user)s"
+msgstr "Non è stato possibile registrare l'utente: %(user)s"
+
+#: regbackend.py:70 regbackend.py:111 regbackend.py:140
 #, python-format
 msgid ""
-"It was not possible to register user: %(user)s. Details: %(error)s. Provided "
-"data: %(form)s"
+"%(subject)s.\n"
+"\n"
+"Details: %(error)s\n"
+"\n"
+"Provided data:\n"
+"\n"
+"%(data)s"
 msgstr ""
-"Non è stato possibile registrare l'utente: %(user)s. Dettagli: %(error)s. "
-"Dati forniti: %(form)s"
+"%(subject)s.\n"
+"\n"
+"Dettagli: %(error)s\n"
+"\n"
+"Dati inseriti:\n"
+"\n"
+"%(data)s"
 
-#: regbackend.py:112
+#: regbackend.py:138
 #, python-format
-msgid ""
-"It was not possible to save the personal data of user: %(user)s. Details: "
-"%(error)s. Provided data: %(form)s"
-msgstr ""
-"Non è stato possibile salvare i dati personali dell'utente: %(user)s. "
-"Dettagli: %(error)s. Dati forniti: %(form)s"
+msgid "It was not possible to save the personal data of user: %(user)s"
+msgstr "Non è stato possibile salvare i dati personali dell'utente: %(user)s"
 
-#~ msgid "It was not possible to register user: %(user)s. Details: %(error)s"
+#~ msgid ""
+#~ "It was not possible to register user: %(user)s. Details: %(error)s. "
+#~ "Provided data: %(form)s"
 #~ msgstr ""
-#~ "Non è stato possibile registrare l'utente: %(user)s. Dettagli: %(error)s"
+#~ "Non è stato possibile registrare l'utente: %(user)s. Dettagli: %(error)s. "
+#~ "Dati forniti: %(form)s"
 
 #~ msgid "user profile"
 #~ msgstr "profilo utente"

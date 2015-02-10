@@ -4,6 +4,11 @@ ROOT_URLCONF = 'openordini.openordini.urls_staging'
 
 ALLOWED_HOSTS = [ 'oo.psicologipuglia.it', ]
 
+MANAGERS = (
+    ('Antonio Vangi', 'antonio.vangi.av@gmail.com'),
+    ('Francesco Spegni', 'francesco.spegni@gmail.com'),
+)
+
 INSTALLED_APPS = INSTALLED_APPS + (
     'mama_cas',
     'django_cas_ng',

@@ -27,6 +27,12 @@ registration workflow.
 
 logger = logging.getLogger("registration")
 
+def format_data(data):
+    log_data = "\n    ".join(map(lambda k: "%s : %s" % (k, data[k]) if "password" not in k else ("%s : xxx" % k), data.keys()))
+
+    return "    %s" % log_data
+
+
 @transaction.commit_on_success
 @receiver(user_registered)
 def user_created(sender, user, request, **kwargs):
@@ -51,13 +57,21 @@ def user_created(sender, user, request, **kwargs):
     user.first_name = form.cleaned_data['first_name']
     user.last_name = form.cleaned_data['last_name']
 
+    # format data for error message (if needed)
+    log_data = format_data(form.data)
+
     try:
         user.save()
         msg = _(u"A new user registered on the website: %(user)s") % { "user":smart_text(user) }
         logger.info(msg)
     except Exception, e:
-        msg = _(u"It was not possible to register user: %(user)s. Details: %(error)s. Provided data: %(form)s") % { "user":smart_text(user), "error":smart_text(e), "form":smart_text(form.data) }
-        logger.warning(msg)
+        subject = _(u"It was not possible to register user: %(user)s") % { "user":smart_text(user) }
+
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+        logger.warning(msg, extra=d)
 
         # do not continue with registration, in this case
         return
@@ -92,9 +106,14 @@ def user_created(sender, user, request, **kwargs):
     try:
         extra_data.save()
     except Exception, e:
-        msg =_(u"It was not possible to register user: %(user)s. Details: %(error)s. Provided data: %(form)s") % { "user":unicode(user).decode("utf8"), "error": unicode(e).decode("utf8"), "form": unicode(form.data).decode("utf8") } 
+        subject =_(u"It was not possible to register user: %(user)s") % { "user":smart_text(user) }
 
-        logger.warning(msg)
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+
+        logger.warning(msg, extra=d)
         # continue even in case of error
 
     # create the person
@@ -116,8 +135,13 @@ def user_created(sender, user, request, **kwargs):
         extra_data.save()
 
     except Exception, e:
-        msg = _(u"It was not possible to save the personal data of user: %(user)s. Details: %(error)s. Provided data: %(form)s") % { "user": smart_text(user), "error": smart_text(e), "form": smart_text(form.data) }
-        logger.warning(msg)
+        subject = _(u"It was not possible to save the personal data of user: %(user)s") % { "user": smart_text(user) }
+
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+        logger.warning(msg, extra=d)
 
         # do not continue, in case the person was not saved
         return 
