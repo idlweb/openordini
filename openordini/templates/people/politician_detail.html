@@ -14,7 +14,7 @@
 {% block title %}Dettaglio {{ person }}{% endblock %}
 {% block content_header %}Psicologo{% endblock %}
 {% block content_header_city_logo %}
-    <img src="/static/img/ORDINE-PSICOLOGI.png" 
+    <img style="margin: -5%;" src="/static/img/ORDINE-PSICOLOGI.png" 
          xmlns:br="http://www.w3.org/1999/html"
          alt="Comune di {{ main_city }}">
 {% endblock %}
@@ -164,6 +164,7 @@
         {% endif %}
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Iscrizione: <h2>{{ iscrizione }}</h2></a></td></tr> 
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Studio: <strong>{{  studio }}</strong></a></td></tr> 
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Tel. studio: <strong>{{ telefono_studio }}</strong></a></td></tr>
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Sito web: <strong>{{  sito_internet }}</strong></a></td></tr>
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;email: <strong>{{  indirizzo_email }}</strong></a></td></tr>
           <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;PEC: <strong>{{  indirizzo_pec }}</strong></a></td></tr>                            
@@ -189,8 +190,8 @@
     window.addEventListener("map:init", function (e) {
         var detail = e.detail;
        
-        L.marker([50.5, 30.5]).addTo(detail.map);
-        
+        L.marker([{{m_lat}}, {{m_long}}]).addTo(detail.map);
+
     }, false);
   </script>
 

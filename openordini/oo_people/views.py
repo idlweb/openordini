@@ -66,13 +66,16 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
             sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
             uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)
             uExtraPeople = ExtraPeople.objects.get(anagrafica_extra = sUOO.pk)
-            print (uExtraPeople)
+            #print (uExtraPeople)
             ctx["iscrizione"] = sUOO.numero_iscrizione
             ctx["biografia"]  =  sUOO.description
             ctx["studio"]  =  uExtraPeople.denominazione_studio
+            ctx["m_lat"] = uExtraPeople.coord_lat 
+            ctx["m_long"] = uExtraPeople.coord_long 
             ctx["sito_internet"] = uRecapito.sito_internet
             ctx["indirizzo_email"] =  uRecapito.indirizzo_email
             ctx["indirizzo_pec"] = uRecapito.indirizzo_pec
+            ctx["telefono_studio"] = uRecapito.tel_ufficio
 
         except:
             pass

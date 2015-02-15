@@ -130,14 +130,14 @@
   <header>
 
     <!-- AREA-TITLE -->
-    <hgroup class="container-fluid" style="background-image: url({{ STATIC_URL }}img/img_sezione_titolo.jpg) !important; background-position: 0 -638px; height: 280px;">
+    <hgroup class="container-fluid" style="background-image: url({{ STATIC_URL }}img/img_sezione_head.jpg) !important; background-position: 0; background-size: 100% auto; height: 280px;">
       <div class="row-fluid">
         <h1 class="span11" id="area-title">
           {% block content_header_container %}<a href="/" style="">{{ main_city }}</a> <small>{% block content_header %}{% endblock %}</small>{% endblock %}
         </h1>
-        <p class="span1" id="city-logo" style="margin-left: -170px;" class="text-right pull-right">
+        <p class="span11" id="city-logo" style="" class="text-right pull-right">
             {% block content_header_city_logo %}
-                <img src="{{ STATIC_URL }}img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
+                <img style="margin: -5%;" src="{{ STATIC_URL }}img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
             {% endblock %}
         </p>
       </div>
@@ -197,7 +197,7 @@
                           delle istituzioni. Ora sei sul sito dell'Albo degli psicologi
                           della: {{ main_city }}.
                       </p>
-                      <ul><li><a href="http://www.openmunicipio.it">Il progetto</a></li>
+                      <ul><li><a href="#">Il progetto</a></li>
                           <li><a href="{% url "om_regolamento" %}">Regolamento</a></li>
                           <li><a href="{% url "om_condizioni" %}">Condizioni d'uso</a></li>
                           <li><a href="{% url "om_privacy" %}">Informativa sui dati personali</a></li>

@@ -69,7 +69,7 @@ class ExtraPeople(models.Model):
     citta_studio = models.CharField(_(u'città studio'), help_text=_(u"inserire la città dello studio") , max_length=128)
     cap_studio = models.CharField(_('CAP studio'), help_text=_(u"inserire il CAP dello studio") , max_length=5)
     provincia_studio = models.CharField(_('provincia studio'), help_text=_(u"inserire la provincia dello studio") , max_length=128)
-    denominazione_studio = models.TextField(_('denominazione studio'), blank=True, help_text=_(u"inserire la denominazione dello studio") , max_length=128)
+    denominazione_studio = models.TextField(_('denominazione studio'), blank=True, help_text=_(u"inserire la denominazione dello studio"))
     coord_lat = models.FloatField(_('latitudine studio'), null=True)
     coord_long = models.FloatField(_('longitudine studio'), null=True)
 

@@ -2,6 +2,18 @@
 {% load i18n %}
 {% load registration_tags %}
 
+{% block head_css_includes %}
+    {{ block.super }}
+     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+{% endblock head_css_includes %}
+
+{% block head_js_includes %}
+  {{ block.super }}
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+{% endblock head_js_includes %}
+
+
 {% block title %}Registrazione al sito{% endblock %}
 {% block content_header %}Registrazione al sito{% endblock %}
 
