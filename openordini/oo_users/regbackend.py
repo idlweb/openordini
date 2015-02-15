@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
+import logging
+
 from django.conf import settings
 from django.db import transaction
 from django.contrib.auth import login, get_backends
 from django.contrib.auth.models import Group
+from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_text
 from open_municipio.locations.models import Location
 
 #from open_municipio.users.forms import UserRegistrationForm
@@ -14,10 +19,18 @@ from registration.signals import user_registered
 from registration.signals import user_activated
 from django.dispatch import receiver
 
+
 """
 Functions listed below act as receivers and are used along the
 registration workflow.
 """
+
+logger = logging.getLogger("registration")
+
+def format_data(data):
+    log_data = "\n    ".join(map(lambda k: "%s : %s" % (k, data[k]) if "password" not in k else ("%s : xxx" % k), data.keys()))
+
+    return "    %s" % log_data
 
 
 @transaction.commit_on_success
@@ -43,19 +56,27 @@ def user_created(sender, user, request, **kwargs):
     # create the user
     user.first_name = form.cleaned_data['first_name']
     user.last_name = form.cleaned_data['last_name']
-    user.save()
 
-    # create the person
+    # format data for error message (if needed)
+    log_data = format_data(form.data)
 
-    person = Person()
-    person.first_name = user.first_name
-    person.last_name = user.last_name
-    person.birth_date = form.cleaned_data["birth_date"]
-    person.birth_location = form.cleaned_data.get("birth_location", None)
-    person.sex = form.cleaned_data["sex"]
-    person.img = request.FILES.get('image', None)
-    person.save()
+    try:
+        user.save()
+        msg = _(u"A new user registered on the website: %(user)s") % { "user":smart_text(user) }
+        logger.info(msg)
+    except Exception, e:
+        subject = _(u"It was not possible to register user: %(user)s") % { "user":smart_text(user) }
 
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+        logger.warning(msg, extra=d)
+
+        # do not continue with registration, in this case
+        return
+
+        
     # create the userprofile
 
     says_is_psicologo_clinico = form.cleaned_data.get('says_is_psicologo_clinico', False)
@@ -78,10 +99,53 @@ def user_created(sender, user, request, **kwargs):
     extra_data.location = Location.objects.get(pk=form.data['location']) if ("location" in form.data) and (form.data['location'] != '') else None
     extra_data.description = form.cleaned_data['description']
     extra_data.codice_fiscale  = form.cleaned_data.get('codice_fiscale',False)
-    extra_data.image =  person.img
-    extra_data.person = person
+#    extra_data.image =  person.img
+#    extra_data.person = person
     extra_data.register_subscription_date = register_subscription_date
-    extra_data.save()
+
+    try:
+        extra_data.save()
+    except Exception, e:
+        subject =_(u"It was not possible to register user: %(user)s") % { "user":smart_text(user) }
+
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+
+        logger.warning(msg, extra=d)
+        # continue even in case of error
+
+    # create the person
+
+    person = Person()
+    person.first_name = user.first_name
+    person.last_name = user.last_name
+    person.birth_date = form.cleaned_data["birth_date"]
+    person.birth_location = form.cleaned_data.get("birth_location", None)
+    person.sex = form.cleaned_data["sex"]
+    person.img = request.FILES.get('image', None)
+
+    try:
+        person.save()
+
+        # link the extra_data object to the person
+        extra_data.person = person
+        extra_data.image = person.img
+        extra_data.save()
+
+    except Exception, e:
+        subject = _(u"It was not possible to save the personal data of user: %(user)s") % { "user": smart_text(user) }
+
+        msg = _("%(subject)s.\n\nDetails: %(error)s\n\nProvided data:\n\n%(data)s") % { "subject": subject, "error": smart_text(e), "data": smart_text(log_data) }
+
+        d = { "subject": subject }
+
+        logger.warning(msg, extra=d)
+
+        # do not continue, in case the person was not saved
+        return 
+
 
     # aggiungi recapiti
     extra_data_recapiti = ExtraPeople(anagrafica_extra=extra_data)

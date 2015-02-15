@@ -167,7 +167,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                               return_list[i] = {
                                   slug: data[i].fields.slug,
                                   image: data[i].fields.img,
-                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name) + removenull(data[i].fields.extra_data)};
                           }
                           typeahead.process(return_list);
                       }

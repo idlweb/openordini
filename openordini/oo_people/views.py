@@ -14,7 +14,7 @@ from django.views.generic import TemplateView, DetailView, ListView, RedirectVie
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
                                         CouncilListView, CommitteeListView
-from open_municipio.people.models import Institution, InstitutionCharge
+from open_municipio.people.models import Institution, InstitutionCharge, Person
 from open_municipio.people.views import PoliticianSearchView
 
 from open_municipio.acts.models import Act
@@ -146,48 +146,43 @@ class OOPoliticianSearchView(PoliticianSearchView):
 
         current_site = Site.objects.get(pk=settings.SITE_ID)
 
-        charges = InstitutionCharge.objects.\
-            filter(Q(person__first_name__icontains=key) | Q(person__last_name__icontains=key) | Q(person__userprofile__userprofile__anagrafica__indirizzo_studio__contains=key) | Q(person__userprofile__userprofile__anagrafica__citta_studio__contains=key) | Q(person__userprofile__userprofile__anagrafica__cap_studio__contains=key) | Q(person__userprofile__userprofile__anagrafica__denominazione_studio__contains=key))[0:max_rows]
+        persons = Person.objects.\
+            filter(Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)).distinct()[0:max_rows]
 
         # build persons array,substituting the img with a 50x50 thumbnail
         # and returning the absolute url of the thumbnail
-        persons = []
-        for c in charges:
-            if c.person not in persons:
-#                person = "%s - %s" % (c.person, c.person.userprofile.userprofile.anagrafica.studio)
-                person = c.person
+    
+        results = []
+        for person in persons:
 
-                try:
-                    img = get_thumbnail("http://%s/media/%s" % (current_site, person.img), "50x50", crop="center", quality=99)
-#                    person.img = img.url   
-                    img_url = img.url
-                except BaseException as e:
-#                    person.img = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
-                    img_url = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
+            try:
+                img = get_thumbnail(person.img, "50x50", crop="center", quality=99)
+                img_url = img.url
+            except BaseException as e:
+                img_url = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
 
  
-                # manually build a dictionary to have more control on extra
-                # data to show (i.e. data not from model Person)
-                p_data = {
-                    "fields": { 
-                        "first_name": person.first_name,
-                        "last_name": person.last_name,
-                        "slug": person.slug,
-                        "img": img_url,
-                        "extra_data": "",
-                    }
-                }      
+            # manually build a dictionary to have more control on extra
+            # data to show (i.e. data not from model Person)
+            p_data = {
+                "fields": { 
+                    "first_name": person.first_name,
+                    "last_name": person.last_name,
+                    "slug": person.slug,
+                    "img": img_url,
+                    "extra_data": "",
+                }
+            }      
 
-                if person.userprofile and person.userprofile.userprofile and \
-                        person.userprofile.userprofile.anagrafica:
-                    p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio,
+            if person.userprofile and person.userprofile.userprofile and \
+                    person.userprofile.userprofile.anagrafica:
+                p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio
 
 
-                persons.append(p_data)
+            results.append(p_data)
 
-        json_data = json.dumps(persons)
+        json_data = json.dumps(results)
 
-        print "json data: %s" % json_data
 
         return HttpResponse(json_data, mimetype='text/json')
 

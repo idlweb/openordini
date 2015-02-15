@@ -1,0 +1,2 @@
+- enable ssh
+- solve issue with server.crt missing certificate
