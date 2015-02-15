@@ -1,0 +1,68 @@
+{% load monitoring_tags %}
+{% load thumbnail %}
+{% load people_tags %}
+
+<div class="row-fluid">
+
+    <section class="span6">
+        {% if supporter_title %}<h2>{{ supporter_title }}</h2>{% endif %}
+        <ul class="people-list">
+          {% for supporter in act_supporters %}
+          <li>
+              <a href="{{ supporter.person.get_absolute_url }}">
+              {% if supporter.person.img %}
+                  {% thumbnail supporter.person.img "50x50" crop="center" as im %}
+                      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left politician-picture">
+                  {% endthumbnail %}
+              {% else %}
+                  <img src="{{ STATIC_URL }}img/placehold/face_50.png" width="50" height="50" class="thumb-left politician-picture">
+              {% endif %}
+            </a>
+
+            <div>
+              <a href="{{ supporter.get_absolute_url }}"><strong>{{ supporter.person.full_name }}</strong></a>
+
+              <br>
+              {{ supporter.denomination }}
+              <br>
+              {% with curr_group=supporter|get_current_group:act.presentation_date %}
+              {{ curr_group.acronym }} {% if supporter.person.get_current_group and supporter.person.get_current_group != curr_group %}(oggi {{ supporter.person.get_current_group.acronym }}){% endif %}
+              {% endwith %}
+              <br/>
+
+              {% object_inline_monitoring supporter.person %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+
+    </section>
+
+    <section class="span6">
+        {% if act_cosupporters %}
+        {% if cosupporter_title %}<h2>{{ cosupporter_title }}</h2>{% endif %}
+        <ul class="people-list">
+          {% for supporter in act_cosupporters %}
+            <li>
+              <a href="{{ supporter.get_absolute_url }}">
+                  {% thumbnail supporter.person.img "50x50" crop="center" as im %}
+                      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                  {% endthumbnail %}
+              </a>
+
+              <div>
+                <strong><a href="{{ supporter.get_absolute_url }}">{{ supporter.person.full_name }}</a></strong>
+                <br>
+                {{ supporter.denomination }}
+                <br>
+
+                {% object_inline_monitoring supporter.person %}
+
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+    </section>
+</div>
