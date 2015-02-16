@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'openordini.utility',
     'leaflet',
-    'mvdb'
+    'mvdb',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
