@@ -89,7 +89,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
                 <div  style="margin-bottom:0; border-bottom: 1px solid #ebe8e0;">
                       <div style="text-align: center;" id="feature_boxes_2124216310" class="row-fluid style2 background-shadow-no background-radius-yes feature_boxes box-style3 enable-hr-no element-vpadding- hr-type-tiny hr-color-default hr-style-style1 ex-large-size element-inner-vertical-padding-medium element-inner-horizental-padding-medium icon-side-left  iconbox-style1  align-content-center-yes align-icon-center-yes columns-3 crease-background-no element-padding-large  ">
 
-                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns">
+                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns a1-mobile">
                                   <div align="center" class="inner-content " style="">
                                         <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%;"><span class="brad-icon " ><i class="fa-mobile fa-4x"></i></span>
                                             <div class="heading">
@@ -103,7 +103,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
                                         </div>
                                   </div>
                             </div>  
-                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns">
+                            <div style="width: 30%; border-right: 1px solid #ebe8e0;" class="span not-bottom-columns top-columns not-right-columns a2-mobile">
                                   <div align="center" class="inner-content " style="">
                                         <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%; margin-left: -10%;"><span class="brad-icon " ><i class="fa-comments fa-4x"></i></span>
                                             <div class="heading">
@@ -117,7 +117,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
                                         </div>
                                   </div>
                             </div>
-                            <div style="width: 30%;" class="span not-bottom-columns top-columns right-columns">
+                            <div style="width: 30%;" class="span not-bottom-columns top-columns right-columns a3-mobile">
                                 <div align="center" class="inner-content " style="">
                                       <div class="feature_box " style="position: relative !important;margin-top: 17% !important; margin-bottom: 17%;"><span class="brad-icon " ><i class="fa-cogs fa-4x"></i></span>
                                             <div class="heading">
@@ -349,7 +349,7 @@ padding: 4px 0px 0px 45px;" type="text" class="input-large" id="search-politicia
                               return_list[i] = {
                                   slug: data[i].fields.slug,
                                   image: data[i].fields.img,
-                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name) + " " + removenull(data[i].fields.extra_data)};
                           }
                           typeahead.process(return_list);
                       }

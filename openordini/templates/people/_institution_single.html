@@ -1,3 +1,4 @@
+  {% load thumbnail %}
   <style type="text/css">
     .endless_page_link, .endless_page_current{
         float: left;
@@ -34,7 +35,6 @@
             </a><br/>
             {{ president.get_charge_type_display }}
           {% else %}
-            Presidente non definito
           {% endif %}
         </p>
 
@@ -77,10 +77,17 @@
 
       <div class="span6 endless_page_template">
         <ul class="unstyled">
-      {% paginate 3,3 cur_members %}
+      {% paginate 50,80 cur_members %}
       {% for member in cur_members %}
           {# your code to show the entry #}
-          <li><a href="{{ member.person.get_absolute_url }}"><strong>{{ member.person.full_name }}</strong>
+          <li style="line-height: 45px;" role="presentation" class="active">
+            {% if member.person.img %}
+                 {% thumbnail member.person.img "30x30" crop="center" as im %}
+                       <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="thumb-left politician-picture">
+                 {% endthumbnail %}
+            {% else %}
+                  <img src="{{ STATIC_URL }}img/placehold/face_100.png" width="25" height="25" class="thumb-left politician-picture">
+            {% endif %}<a href="{{ member.person.get_absolute_url }}"><strong>{{ member.person.full_name }}</strong>
               {% if member.group %}
                 ({{ member.group.acronym }})
               {% endif %}</a></li>

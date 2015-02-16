@@ -21,9 +21,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     #'wpadmin',
     'suit',
-    #'grappelli',
     ) + INSTALLED_APPS + (
-#INSTALLED_APPS += (
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -32,9 +30,11 @@ INSTALLED_APPS = (
     'openordini.oo_people',
     'openordini.oo_users',
     'openordini.openordini',
+    'openordini.mvdb',
     'awesome_bootstrap',
     'endless_pagination',
     'openordini.utility',
+    'leaflet',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -79,6 +79,10 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         },
+        'mail_registration_managers': {
+            'level': 'INFO',
+            'class': 'openordini.commons.utils.ManagerEmailHandler',
+        },
         'webapp': {
             'level':'DEBUG',
             'class':'logging.FileHandler',
@@ -102,6 +106,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
             }, 
+        'registration': {
+            'handlers': ['mail_registration_managers', ],
+            'level': 'INFO',
+            'propagate': False,
+        },
         'mama_cas.forms': {
             'handlers': ['console', ],
             'level': 'DEBUG',
@@ -134,12 +143,14 @@ SYSTEM_GROUP_NAMES = {
     "psicologo_lavoro": "psicologi del lavoro",
     "psicologo_clinico": "psicologi clinici",
     "psicologo_forense": "psicologi forensi",
+    "dottore_tecniche_psicologiche": "dottori tecniche psicologiche",
 }
 
 COMMITTEE_SLUGS = {
-    "psicologo_lavoro": "psicologi-del-lavoro",
-    "psicologo_clinico": "psicologi-clinici",
-    "psicologo_forense": "psicologi-forensi",
+    "psicologo_lavoro": "sezione-a",
+    "psicologo_clinico": "sezione-a",
+    "psicologo_forense": "sezione-a",
+    "dottore_tecniche_psicologiche": "sezione-b",
 }
 
 SITE_INFO = {

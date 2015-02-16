@@ -3,6 +3,8 @@ from datetime import datetime
 
 import logging
 
+import json
+
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
@@ -12,11 +14,14 @@ from django.views.generic import TemplateView, DetailView, ListView, RedirectVie
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
                                         CouncilListView, CommitteeListView
-from open_municipio.people.models import Institution, InstitutionCharge
+from open_municipio.people.models import Institution, InstitutionCharge, Person
 from open_municipio.people.views import PoliticianSearchView
 
 from open_municipio.acts.models import Act
-from open_municipio.users.models import UserProfile as UP
+from open_municipio.users.models import UserProfile as UOM
+from openordini.oo_users.models import UserProfile as UOO
+from openordini.oo_users.models import Recapito
+from openordini.oo_users.models import ExtraPeople 
 
 from django.core import serializers
 
@@ -24,6 +29,8 @@ from sorl.thumbnail import get_thumbnail
 
 from ..commons.mixins import FilterActsByUser
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+import inspect  
 
 class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
@@ -40,8 +47,39 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 
         ctx["presented_acts"] = filtered_acts
         ctx["n_presented_acts"] = len(filtered_acts) 
-        # per ricavare il campo descrizione da userprofile        
-        ctx["biografia"]  =  self.request.user
+        # per ricavare il campo descrizione da userprofile 
+
+        #Slug = self.request.GET.get('slug')
+        #print type(kwargs)
+        #print type(kwargs).__dict__.items()
+        #print kwargs.values()
+        #print kwargs["person"]
+        #print type(self.request)
+        #print type(self.request).__dict__.items()
+        """
+        for key, value in kwargs.items():
+            print(key, value)
+        print  kwargs["object"].slug        
+        """
+        #print settings.COMMITTEE_SLUGS["psicologo_lavoro"]
+        try:
+            sUOO = UOO.objects.get(person__slug=kwargs["object"].slug)
+            uRecapito = Recapito.objects.get(recapiti_psicologo = sUOO.pk)
+            uExtraPeople = ExtraPeople.objects.get(anagrafica_extra = sUOO.pk)
+            #print (uExtraPeople)
+            ctx["iscrizione"] = sUOO.numero_iscrizione
+            ctx["biografia"]  =  sUOO.description
+            ctx["studio"]  =  uExtraPeople.denominazione_studio
+            ctx["m_lat"] = uExtraPeople.coord_lat 
+            ctx["m_long"] = uExtraPeople.coord_long 
+            ctx["sito_internet"] = uRecapito.sito_internet
+            ctx["indirizzo_email"] =  uRecapito.indirizzo_email
+            ctx["indirizzo_pec"] = uRecapito.indirizzo_pec
+            ctx["telefono_studio"] = uRecapito.tel_ufficio
+
+        except:
+            pass
+                
         return ctx
 
 
@@ -108,23 +146,43 @@ class OOPoliticianSearchView(PoliticianSearchView):
 
         current_site = Site.objects.get(pk=settings.SITE_ID)
 
-        charges = InstitutionCharge.objects.\
-            filter(Q(person__first_name__icontains=key) | Q(person__last_name__icontains=key))[0:max_rows]
+        persons = Person.objects.\
+            filter(Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)).distinct()[0:max_rows]
 
         # build persons array,substituting the img with a 50x50 thumbnail
         # and returning the absolute url of the thumbnail
-        persons = []
-        for c in charges:
-            if c.person not in persons:
-                person = c.person
-                try:
-                    img = get_thumbnail("http://%s/media/%s" % (current_site, person.img), "50x50", crop="center", quality=99)
-                    person.img = img.url
-                except BaseException as e:
-                    person.img = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
-       
-                persons.append(person)
+    
+        results = []
+        for person in persons:
 
-        json_data = serializers.serialize('json', persons)
+            try:
+                img = get_thumbnail(person.img, "50x50", crop="center", quality=99)
+                img_url = img.url
+            except BaseException as e:
+                img_url = "http://%s/static/img/placehold/face_50.png#%s" % (current_site, e)
+
+ 
+            # manually build a dictionary to have more control on extra
+            # data to show (i.e. data not from model Person)
+            p_data = {
+                "fields": { 
+                    "first_name": person.first_name,
+                    "last_name": person.last_name,
+                    "slug": person.slug,
+                    "img": img_url,
+                    "extra_data": "",
+                }
+            }      
+
+            if person.userprofile and person.userprofile.userprofile and \
+                    person.userprofile.userprofile.anagrafica:
+                p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio
+
+
+            results.append(p_data)
+
+        json_data = json.dumps(results)
+
+
         return HttpResponse(json_data, mimetype='text/json')
 

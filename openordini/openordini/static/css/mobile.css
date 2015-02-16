@@ -1,0 +1,30 @@
+@media only screen and (min-width: 320px) and (max-width: 770px) {
+    
+    .a1-mobile, .a2-mobile, .a3-mobile{
+    	width: 100% !important;
+
+    }  
+
+
+    #feature_boxes_2124216310 > div.span.not-bottom-columns.top-columns.not-right-columns.a1-mobile > div > div{
+		 margin: 0 auto !important; 	
+    }
+
+    
+    #feature_boxes_2124216310 > div.span.not-bottom-columns.top-columns.not-right-columns.a2-mobile > div > div{
+		 margin: 0 auto !important; 	
+    }
+
+    #city-logo{
+    	display: none !important;
+    }
+
+   #city-logo > img{
+
+   	   margin-left: -4% !important;
+       margin-top: -9% !important;
+   }
+
+
+
+}

@@ -54,7 +54,7 @@ class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
             curr_person = self.object.person
 
 #            print "person: %s" % curr_person
-            ctx["acts_fascicoli"]  = Fascicolo.objects.filter(recipient_set__person=curr_person) 
+            ctx["acts_fascicoli"]  = Fascicolo.objects.filter(recipient_set__person=curr_person).distinct()
 
             curr_year = datetime.today().year
 
@@ -185,6 +185,14 @@ class OOUserProfileEditView(FormView):
             initial["cap_domicilio"] = profile.anagrafica.cap_domicilio
             initial["provincia_domicilio"] = profile.anagrafica.provincia_domicilio
 
+            initial["indirizzo_studio"] = profile.anagrafica.indirizzo_studio
+            initial["citta_studio"] = profile.anagrafica.citta_studio
+            initial["cap_studio"] = profile.anagrafica.cap_studio
+            initial["provincia_studio"] = profile.anagrafica.provincia_studio
+            initial["denominazione_studio"] = profile.anagrafica.denominazione_studio
+            initial["coord_lat"] = profile.anagrafica.coord_lat
+            initial["coord_long"] = profile.anagrafica.coord_long
+
         except ObjectDoesNotExist:
             pass
 
@@ -195,9 +203,10 @@ class OOUserProfileEditView(FormView):
             initial["tel_cellulare"] = profile.recapiti.tel_cellulare
             initial["indirizzo_email"] = profile.recapiti.indirizzo_email or profile.user.email
             initial["indirizzo_pec"] = profile.recapiti.indirizzo_pec
+            initial["sito_internet"] = profile.recapiti.sito_internet
         except ObjectDoesNotExist:
             initial["indirizzo_email"] = profile.user.email
-
+            initial["indirizzo_pec"] = "email@troppolunga.err"
 
         return initial
 
@@ -233,6 +242,13 @@ class OOUserProfileEditView(FormView):
         anagrafica.cap_domicilio = form.cleaned_data["cap_domicilio"]
         anagrafica.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
 
+        anagrafica.indirizzo_studio = form.cleaned_data["indirizzo_studio"]
+        anagrafica.citta_studio = form.cleaned_data["citta_studio"]
+        anagrafica.cap_studio = form.cleaned_data["cap_studio"]
+        anagrafica.provincia_studio = form.cleaned_data["provincia_studio"]
+        anagrafica.denominazione_studio = form.cleaned_data["denominazione_studio"]
+        anagrafica.coord_lat = form.cleaned_data["coord_lat"]
+        anagrafica.coord_long = form.cleaned_data["coord_long"]
         anagrafica.save()
 
         recapiti, created = Recapito.objects.get_or_create(recapiti_psicologo=profile)
@@ -243,7 +259,7 @@ class OOUserProfileEditView(FormView):
         recapiti.tel_cellulare = form.cleaned_data["tel_cellulare"]
         recapiti.indirizzo_email = form.cleaned_data["indirizzo_email"]
         recapiti.indirizzo_pec = form.cleaned_data["indirizzo_pec"]
-
+        recapiti.sito_internet = form.cleaned_data["sito_internet"]
         recapiti.save()
 
         if user.email != recapiti.indirizzo_email:

@@ -4,6 +4,11 @@ ROOT_URLCONF = 'openordini.openordini.urls_staging'
 
 ALLOWED_HOSTS = [ 'oo.psicologipuglia.it', ]
 
+MANAGERS = (
+    ('Antonio Vangi', 'antonio.vangi.av@gmail.com'),
+    ('Francesco Spegni', 'francesco.spegni@gmail.com'),
+)
+
 INSTALLED_APPS = INSTALLED_APPS + (
     'mama_cas',
     'django_cas_ng',
@@ -46,4 +51,17 @@ PAYMENT_VARIANTS = {
         'endpoint': 'https://api.sandbox.paypal.com',
         'capture': False,
     })}
+
+UI_ALLOW_NICKNAMES = False
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+#        'URL': 'http://127.0.0.1:8983/solr',
+        'URL': 'http://127.0.0.1:8080/solr/oo',
+        'TIMEOUT': 300, # 5 minutes
+        'BATCH_SIZE': 100,
+        'SEARCH_RESULTS_PER_PAGE': 10,
+    }
+}
 

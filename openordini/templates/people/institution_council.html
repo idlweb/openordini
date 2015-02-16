@@ -11,7 +11,7 @@
 {% block body_class %}politician{% endblock %}
 
 {% block content_header_city_logo %}
-    <img src="{{ STATIC_URL }}img/{{ main_city|lower }}-logo/politician.png" alt="Comune di {{ main_city }}">
+    <img style="margin: -5%;" src="/static/img/ORDINE-PSICOLOGI.png" alt="Comune di {{ main_city }}">
 {% endblock %}
 
 {% block sub_nav %}
@@ -69,7 +69,7 @@
   <h2>Sezioni pubbliche dell'Ordine</h2>
   <ul class="list-plain">
       {% for committee in committees %}
-      <li><a href="{{ committee.get_absolute_url }}"><strong>{{ committee.name }}</strong>: {{ committee.description|truncatewords:3 }}</a></li>
+      <li class="per_sez"><a href="{{ committee.get_absolute_url }}"><strong>{{ committee.name }}</strong>: {{ committee.description|truncatewords:3 }}</a></li>
       {% endfor %}
   </ul>
 
@@ -89,7 +89,7 @@
     <h2>Ultimi 3 atti del Consiglio che la riguardano</h2>
   <ul class="list-plain">
     {% for act in latest_acts %}
-    <li><strong><a href="{{ act.get_absolute_url }}">{% if act.adj_title %}{{ act.adj_title }}{% else %}{{ act.title }}{% endif %}</a></strong>
+    <li class="per_sez"><strong><a href="{{ act.get_absolute_url }}">{% if act.adj_title %}{{ act.adj_title }}{% else %}{{ act.title }}{% endif %}</a></strong>
 
       {% object_inline_monitoring act.downcast %}
 

@@ -10,12 +10,13 @@
 {% block body_class %}politician{% endblock %}
 
 {% block content_header_city_logo %}
-    <img src="/static/img/ORDINE-PSICOLOGI.png"  alt="Comune di {{ main_city }}">
+    <img style="margin: -5%;" src="/static/img/ORDINE-PSICOLOGI.png"  alt="Comune di {{ main_city }}">
 {% endblock %}
 
 {% block sub_nav %}
     {%  include 'commons/subnav.html' with active='Commissioni' %}
 {% endblock %}
+
 
 {% block content %}
     <h2>Sezioni dell'albo:{% popover_info 'elenco-dei-membri-degli-iscritti-albo' %}</h2>
@@ -199,14 +200,17 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
 
 {% block footer_js_includes %}
   {{ block.super }}
+
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.submitlink.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-modal.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-typeahead.2.0.0.modified.js"></script>
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
   <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+
   <script>$.endlessPaginate();</script>
+
+
   <script type="text/javascript">
-      //$(document).ready(function(){
+      $(document).ready(function(){
       
           function removenull(str) {
               var new_str = str;
@@ -237,7 +241,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
                               return_list[i] = {
                                   slug: data[i].fields.slug,
                                   image: data[i].fields.img,
-                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name)};
+                                  value: removenull(data[i].fields.first_name) + " " + removenull(data[i].fields.last_name) + " " + removenull(data[i].fields.extra_data)};
                           }
                           typeahead.process(return_list);
                       }
@@ -256,7 +260,7 @@ margin-top: 10px;" type="text" class="input-large" id="search-politician"
               });
           });
       
-      //});
+      });
 
       
   </script>

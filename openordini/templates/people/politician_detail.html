@@ -9,11 +9,12 @@
 {% load popover_info %}
 {% load url from future %}
 
+{% load leaflet_tags %}
 
 {% block title %}Dettaglio {{ person }}{% endblock %}
 {% block content_header %}Psicologo{% endblock %}
 {% block content_header_city_logo %}
-    <img src="/static/img/ORDINE-PSICOLOGI.png" 
+    <img style="margin: -5%;" src="/static/img/ORDINE-PSICOLOGI.png" 
          xmlns:br="http://www.w3.org/1999/html"
          alt="Comune di {{ main_city }}">
 {% endblock %}
@@ -24,12 +25,14 @@
 {% block head_css_includes %}
     {{ block.super }}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/meter-bar.css" />
+    {% leaflet_css %}
 {% endblock head_css_includes %}
 
 {% block head_js_includes %}
   {{ block.super }}
   <script src="{{ STATIC_URL }}js/ajax_csrf.js" type="text/javascript" charset="utf-8"></script>
   <script src="{{ STATIC_URL }}js/jquery.submitlink.js" stype="text/javascript"></script>
+  {% leaflet_js %}
 {% endblock head_js_includes %}
 
 {% block sub_nav %}
@@ -38,8 +41,9 @@
 
 
 {% block content %}
+
   <div class="row-fluid">
-    <div class="span8">
+    <div class="span7">
 
       <header class="clearfix">
         {% if person.img %}
@@ -73,14 +77,25 @@
           {% endfor %}
         </p>
       </header>
-
+    {%comment%}
       {% if current_charges %}
         <ul class="list-plain">
             {% for c in current_charges %}
-                <li><strong>{{ c.denomination }}</strong> dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</li>
+                <li><span style="font-size: 13px; margin-top:-2px" class="label label-success"><strong>{{ c.denomination }}:</strong></span>&nbsp;&nbsp;<span class="label label-default">dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</li></span>
             {% endfor %}
         </ul>
       {% endif %}
+      {%endcomment%}
+      {% if current_charges %}
+        <ul class="list-plain">
+            {% for c in current_charges %}
+                <li><button class="btn btn-success" type="button">{{ c.denomination }}:
+                <span class="badge">dal {{ c.start_date|date:"d.m.Y" }}{% if c.end_date %} al {{ c.end_date|date:"d.m.Y" }}{% endif %}</span>
+                </li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+    
 
       {% if current_groupcharge %}
           Gruppo <a href="{% url 'om_institution_group' slug=current_groupcharge.group.slug %}"><strong>{{ current_groupcharge.group }}</strong></a>
@@ -129,8 +144,9 @@
 
     </div>
 
-    <div class="span4">
+    <div class="span5">      
       <table>
+          <tr class="gius"><td><i class=""></i></td><td><h2>Informazioni professionali:</h2></td></tr>
           {% for resource in resources.URL %}
             <tr><td><i class="res res-feed"></i></td><td><a class="website" href="{{ resource.value }}">Sito web</a></td></tr>
 	      {% endfor %}
@@ -141,19 +157,45 @@
             <tr><td><i class="res res-twitter"></i></td><td><a class="twitter" href="{{ resource.value }}">Profilo Twitter</a></td></tr>
 	      {% endfor %}
 	      {% if person.openpolis_link %}
-            <tr><td><i class="res res-openpolis"></i></td><td><a class="openpolis" href="{{ person.openpolis_link }}">Pagina su Openpolis</a></td></tr>
+            <!--tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.openpolis_link }}">Pagina su OpenOrdini</a></td></tr-->
 	      {% endif %}
           {% if person.userprofile %}
-            <tr><td><i class="res res-openmunicipio"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">Profilo su Open Ordini</a></td></tr>
-          {% endif %}
+            <!--tr><td><i class="fa-book fa-1x"></i></td><td><a class="openpolis" href="{{ person.userprofile.get_absolute_url }}">&nbsp;&nbsp;&nbsp;Profilo su Open Ordini</a></td></tr-->
+        {% endif %}
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Iscrizione: <h2>{{ iscrizione }}</h2></a></td></tr> 
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Studio: <strong>{{  studio }}</strong></a></td></tr> 
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Tel. studio: <strong>{{ telefono_studio }}</strong></a></td></tr>
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;Sito web: <strong>{{  sito_internet }}</strong></a></td></tr>
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;email: <strong>{{  indirizzo_email }}</strong></a></td></tr>
+          <tr class="gius"><td><i class=""></i></td><td><a class="btn btn-default btn-lg" href="">&nbsp;&nbsp;&nbsp;PEC: <strong>{{  indirizzo_pec }}</strong></a></td></tr>                            
+
       </table>
 
     </div>
 
+
   </div>
 
+
+
+
+
   <hr class="big">
+  
   {{  person.userprofile.description }} 
+
+  <hr class="big">
+ 
+  <script type="text/javascript">
+    window.addEventListener("map:init", function (e) {
+        var detail = e.detail;
+       
+        L.marker([{{m_lat}}, {{m_long}}]).addTo(detail.map);
+
+    }, false);
+  </script>
+
+  {% leaflet_map "yourmap" callback="window.map_init_basic" %}
   
   {% if is_counselor %}
     <section>
