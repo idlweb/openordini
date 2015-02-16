@@ -1,4 +1,8 @@
-from django.contrib.admin.widgets import FilteredSelectMultiple, Select
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms.widgets import Select
+from django.utils.encoding import force_text
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 
 class AdvancedFilteredSelectMultiple(FilteredSelectMultiple):
@@ -24,9 +28,15 @@ class ChainedSelect(Select):
     (e.g. through a jquery plugin named chainselect)
     """
     
-    def __init__(self, chained_field=None, *args, **kwargs):
-
-        self.chained_field = chained_field
+    def __init__(self, chained_values=None, *args, **kwargs):
+        """
+        chained_values must be a dictionary:
+        { "value" : "chained value" }
+        where "value" is a value of the current select, and "chained value" is
+        a value (or a list of values) on the chained select
+        """
+        
+        self.chained_values = chained_values
     
         super(ChainedSelect, self).__init__(*args, **kwargs)
 
@@ -40,8 +50,15 @@ class ChainedSelect(Select):
                 selected_choices.remove(option_value)
         else:
             selected_html = ''
-        return format_html('<option value="{0}"{1}>{2}</option>',
+
+        parent_values = self.chained_values.get(option_value, None)
+
+        if parent_values:
+            parent_values = (" class='%s'" % " ".join(parent_values))
+
+        return format_html('<option value="{0}"{1}{2}>{3}</option>',
                            option_value,
+                           mark_safe(parent_values),
                            selected_html,
                            force_text(option_label))
 

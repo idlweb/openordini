@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm, UserProfileForm as OMUserProfileForm
 from open_municipio.people.models import Person
 from open_municipio.locations.models import Location
+
+from openordini.commons.widgets import ChainedSelect
 from openordini.oo_users.models import Recapito
 
 class UserRegistrationForm(OMUserRegistrationForm):
@@ -37,9 +39,12 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
     indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
-    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+#    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+#    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+    provincia_residenza = forms.ChoiceField(choices=[("a","a"),("b","b"),("c","c")], required=False,label=_('Provincia'))
+    citta_residenza = forms.ChoiceField(choices=[("x","x"),("y","y"),("z","z")], widget=ChainedSelect(chained_values={"x":"a","y":"a","z":"c"}))
     cap_residenza = forms.CharField(required=True, label=_('CAP'))
-    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+
 
     indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
     citta_domicilio = forms.CharField(required=True, label=_(u'Città'))

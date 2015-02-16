@@ -1,6 +1,7 @@
 {% extends "registration/base_user.html" %}
 {% load i18n %}
 {% load registration_tags %}
+{% load staticfiles %}
 
 {% block head_css_includes %}
     {{ block.super }}
@@ -11,6 +12,8 @@
 {% block head_js_includes %}
   {{ block.super }}
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="{% static "js/jquery.chained.js" %}"></script>
+  
 {% endblock head_js_includes %}
 
 
@@ -173,7 +176,9 @@
         </div>
     </div>
 
-    
+    <script lang="text/javascript">
+    $("#id_citta_residenza").chainedTo("#id_provincia_residenza");
+    </script>   
 {% endblock %}
 
  
