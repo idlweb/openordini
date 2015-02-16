@@ -8,6 +8,9 @@ from open_municipio.users.forms import UserRegistrationForm as OMUserRegistratio
 from open_municipio.people.models import Person
 from open_municipio.locations.models import Location
 from openordini.oo_users.models import Recapito
+from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
+
+#from localflavor.fr.forms import FRPhoneNumberField
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
@@ -34,7 +37,10 @@ class UserRegistrationForm(OMUserRegistrationForm):
                                     'class':'datepicker'
                                 }), help_text=u"Usa il formato gg/mm/aaaa")
     birth_location = forms.CharField(max_length=100, required=False, label=_("Birth location"))
-    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per coloro i quali sono già iscritti all'Albo degli Psicologi. Usa il formato gg/mm/aaaa", widget=forms.widgets.DateInput(format="%d/%m/%Y"))
+    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per coloro i quali sono già iscritti all'Albo degli Psicologi. Usa il formato gg/mm/aaaa", widget=forms.widgets.DateInput(format="%d/%m/%Y", attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
 
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
@@ -56,7 +62,10 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     consegna_corrispondenza = forms.ChoiceField(choices=Recapito.TIPI_CORRISPONDENZA , required=True, label=_('consegna corrispondenza'))
 
-    codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
+    #codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
+
+    codice_fiscale = ITSocialSecurityNumberField(required=True, label=_('Codice Fiscale'))
+
     accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))
 

@@ -5777,3 +5777,5 @@ margin-left: 14px;
 padding-left: 10px;
 font-weight: 200;
 }
+
+.icon-obbligatorio:before {content: "\f05d";  color: #CCC;}

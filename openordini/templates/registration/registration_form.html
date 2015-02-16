@@ -1,6 +1,7 @@
 {% extends "registration/base_user.html" %}
 {% load i18n %}
 {% load registration_tags %}
+{% load popover_info %}
 
 {% block head_css_includes %}
     {{ block.super }}
@@ -11,6 +12,7 @@
 {% block head_js_includes %}
   {{ block.super }}
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/jquery-ui-i18n.min.js"></script>
 {% endblock head_js_includes %}
 
 
@@ -21,7 +23,7 @@
     <div class="registration container">
         <div class="row-fluid">
             <div class="span8">
-                <p>Per accedere al gestionale bisogna essere registrati al sito.</p>
+                <p>Per accedere al gestionale bisogna essere registrati al sito. 
                
                 
                 <form enctype="multipart/form-data" action="" method="post" class="form-horizontal" accept-charset="utf-8">
@@ -35,7 +37,8 @@
                         <div class="tab-pane active" id="tab-1">
                         
                          <legend>Dati per accedere al sito</legend>
-                            {% include "registration/form_element.html" with element=form.username %}
+                         <span class="add-on" style="color: #CCC;"><i class="icon-obbligatorio"> evidenzia i campi obbligatori</i></span></p></br>
+                            {% include "registration/form_element.html" with element=form.username prepend="Non sono ammessi spazi" %}
                             {% include "registration/form_element.html" with element=form.password1 %}
                             {% include "registration/form_element.html" with element=form.password2 %}
                             <div class="form-actions passw">
@@ -46,7 +49,7 @@
                         <div class="tab-pane" id="tab-2">
                          
                           <legend>Dati personali</legend>
-
+                          <span class="add-on" style="color: #CCC;"><i class="icon-obbligatorio"> evidenzia i campi obbligatori</i></span></p></br>
                              <div id="legal" class="alert">
                                  <span>Le seguenti informazioni sono quelle necessarie all'iscrizione, altre (ad esempio di natura professionale) potranno essere inserite nel proprio profilo (accessibile dopo l'attivazione)</span>                                  
                             </div>
@@ -83,6 +86,7 @@
                             </div>
                            
                             <legend>Iscrizione:</legend> 
+
                             {% include "registration/form_element.html" with element=form.register_subscription_date %}
 
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
@@ -112,7 +116,8 @@
                         </div>
                         <div class="tab-pane" id="tab-3">
                         
-                          <legend>Residenza</legend>                        
+                          <legend>Residenza</legend> 
+                          <span class="add-on" style="color: #CCC;"><i class="icon-obbligatorio"> evidenzia i campi obbligatori</i></span></p></br>                       
                              {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
                              {% include "registration/form_element.html" with element=form.citta_residenza %}
                              {% include "registration/form_element.html" with element=form.cap_residenza %}
@@ -146,6 +151,7 @@
                         </div>
                         <div class="tab-pane" id="tab-4">
                           <legend>Opzioni e servizi</legend>
+                          <span class="add-on" style="color: #CCC;"><i class="icon-obbligatorio"> evidenzia i campi obbligatori</i></span></p></br>
                           {% include "registration/form_element.html" with element=form.ritiro_agenda checkbox=1 %}
                           {% include "registration/form_element.html" with element=form.invio_tesserino checkbox=1 %}
                             <div id="legal" class="alert">
@@ -174,7 +180,14 @@
     </div>
     <script type="text/javascript">
       $(document).ready(function(){
-      
+         
+         $.datepicker.setDefaults(
+            $.extend(
+              {'dateFormat':'dd-mm-yy'},
+              $.datepicker.regional['it']
+            )
+          );
+
          $( ".datepicker" ).datepicker({
             changeMonth: true,
             changeYear: true,
