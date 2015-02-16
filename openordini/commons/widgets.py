@@ -25,7 +25,10 @@ class AdvancedFilteredSelectMultiple(FilteredSelectMultiple):
 class ChainedSelect(Select):
     """
     This select renders a select whose options are linked to a previous one
-    (e.g. through a jquery plugin named chainselect)
+    (e.g. through a jquery plugin named chainselect).
+
+    See: http://www.appelsiini.net/projects/chained
+    for a tutorial on how to use chained select and this widget
     """
     
     def __init__(self, chained_values=None, *args, **kwargs):
