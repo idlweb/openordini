@@ -21,9 +21,7 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     #'wpadmin',
     'suit',
-    #'grappelli',
     ) + INSTALLED_APPS + (
-#INSTALLED_APPS += (
     'payments',   
     'open_municipio',
     'openordini.oo_payments',
@@ -32,11 +30,11 @@ INSTALLED_APPS = (
     'openordini.oo_people',
     'openordini.oo_users',
     'openordini.openordini',
+    'openordini.mvdb',
     'awesome_bootstrap',
     'endless_pagination',
     'openordini.utility',
     'leaflet',
-    'mvdb',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
