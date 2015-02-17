@@ -1,8 +1,9 @@
+{% load popover_info %}
 <div class="control-group{% if element.errors %} error{% endif %}" >
     {% if checkbox %}
         <div class="controls">
             <label for="id_{{ element.html_name }}" class="checkbox">{{ element.label|safe }}
-                {% if prepend %}<div class="input-prepend"><span class="add-on">{{ prepend }}</span>{% endif %}{{ element }}{% if prepend %}</div>{% endif %}{% if element.field.required %} <span class="add-on">*</span>{% endif %}
+                {% if prepend %}<div class="input-prepend"><span class="add-on">{{ prepend }}</span>{% endif %}{{ element }}{% if prepend %}</div>{% endif %}{% if element.field.required %} <i class="icon-obbligatorio"></i><span class="add-on"></span>{% endif %}
             </label>
             {% if element.errors %}
                 {% for error in element.errors %}
@@ -14,7 +15,8 @@
     {% else %}
         <label for="id_{{ element.html_name }}" class="control-label">{{ element.label|safe }}</label>
         <div class="controls">
-            {% if prepend %}<div class="input-prepend"><span class="add-on">{{ prepend }}</span>{% endif %}{{ element }}{% if prepend %}</div>{% endif %}{% if element.field.required %} <span class="add-on">*</span>{% endif %}
+
+            {% if prepend %}<div class="input-prepend"><span class="add-on">{{ prepend }}</span>{% endif %}{{ element }}{% if prepend %}</div>{% endif %}{% if element.field.required %} <i class="icon-obbligatorio"></i><span class="add-on"></span>{% endif %}
             {% if element.errors %}
                 {% for error in element.errors %}
                     <span class="help-inline">{{ error }}</span>

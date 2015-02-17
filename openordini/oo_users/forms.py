@@ -10,13 +10,25 @@ from open_municipio.locations.models import Location
 
 from openordini.commons.widgets import ChainedSelect
 from openordini.oo_users.models import Recapito
+from openordini.mvdb.models import Regioni, Provincie, Comuni
+from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
+
+#from localflavor.fr.forms import FRPhoneNumberField
+
+regioni = Regioni.objects.all()
+provincie = Provincie.objects.all()
+comuni = Comuni.objects.all()
+
+CHOICES_REGIONI = map(lambda r: (r.id, r.name), regioni)
+CHOICES_PROVINCIE = map(lambda p: (p.id, p.name), provincie)
+CHOICES_COMUNI = map(lambda c: (c.id, c.name), comuni)
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
     fieldsets = {
         "access" : ["username", "password", "password1", ],
         "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
-        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "indirizzo_studioo", "citta_studio", "cap_studio", "provincia_studio", "codice_fiscale", ],
+        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "regione_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "regione_domicilio", "provincia_domicilio", "indirizzo_studioo", "citta_studio", "cap_studio", "regione_studio", "provincia_studio", "codice_fiscale", ],
         "extra" : ["ritiro_agenda", "invio_tesserino"],
         "note" : ["note_legali"],
     }
@@ -31,9 +43,15 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     sex = forms.ChoiceField(choices=Person.SEX, required=True, label=_("Sex"))
 
-    birth_date = forms.DateField(required=True, label=_("Birth date"), widget=forms.widgets.DateInput(format="%d/%m/%Y"), help_text=u"Usa il formato gg/mm/aaaa")
+    birth_date = forms.DateField(required=True, label=_("Birth date"), widget=forms.widgets.DateInput(format="%d/%m/%Y", attrs=
+                                {
+                                    'class':'datepicker'
+                                }), help_text=u"Usa il formato gg/mm/aaaa")
     birth_location = forms.CharField(max_length=100, required=False, label=_("Birth location"))
-    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per coloro i quali sono già iscritti all'Albo degli Psicologi. Usa il formato gg/mm/aaaa", widget=forms.widgets.DateInput(format="%d/%m/%Y"))
+    register_subscription_date = forms.DateField(required=False, label=_("Register subscription date"), help_text=u"Solo per coloro i quali sono già iscritti all'Albo degli Psicologi. Usa il formato gg/mm/aaaa", widget=forms.widgets.DateInput(format="%d/%m/%Y", attrs=
+                                {
+                                    'class':'datepicker'
+                                }))
 
     is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
@@ -41,24 +59,32 @@ class UserRegistrationForm(OMUserRegistrationForm):
     indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
 #    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
 #    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+    regione_residenza = forms.ChoiceField(choices=CHOICES_REGIONI, required=False, label=_('Regione'))
     provincia_residenza = forms.ChoiceField(choices=[("a","a"),("b","b"),("c","c")], required=False,label=_('Provincia'))
     citta_residenza = forms.ChoiceField(choices=[("x","x"),("y","y"),("z","z")], widget=ChainedSelect(chained_values={"x":"a","y":"a","z":"c"}))
     cap_residenza = forms.CharField(required=True, label=_('CAP'))
 
 
     indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
+    regione_domicilio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'))
+    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
     citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
     cap_domicilio = forms.CharField(required=True, label=_('CAP'))
-    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+
     
     indirizzo_studio = forms.CharField(required=True, label=_('Indirizzo'))
+    regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'))
+    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
     citta_studio = forms.CharField(required=True, label=_(u'Città'))
     cap_studio = forms.CharField(required=True, label=_('CAP'))
-    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
+
 
     consegna_corrispondenza = forms.ChoiceField(choices=Recapito.TIPI_CORRISPONDENZA , required=True, label=_('consegna corrispondenza'))
 
-    codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
+    #codice_fiscale = forms.CharField(required=True, label=_('Codice Fiscale'))
+
+    codice_fiscale = ITSocialSecurityNumberField(required=True, label=_('Codice Fiscale'))
+
     accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))
 

@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'openordini.utility',
     'leaflet',
+    'localflavor',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
