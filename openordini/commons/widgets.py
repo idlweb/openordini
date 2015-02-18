@@ -3,6 +3,8 @@ from django.forms.widgets import Select
 from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.utils.encoding import smart_text
+
 
 
 class AdvancedFilteredSelectMultiple(FilteredSelectMultiple):
@@ -45,7 +47,8 @@ class ChainedSelect(Select):
 
 
     def render_option(self, selected_choices, option_value, option_label):
-        option_value = force_text(option_value)
+
+        option_value = force_text(smart_text(option_value))
         if option_value in selected_choices:
             selected_html = mark_safe(' selected="selected"')
             if not self.allow_multiple_selected:
@@ -54,14 +57,18 @@ class ChainedSelect(Select):
         else:
             selected_html = ''
 
-        parent_values = self.chained_values.get(option_value, None)
+        parent_values = self.chained_values.get(option_value, [])
+        if isinstance(parent_values, basestring):
+            parent_values = [ parent_values ]
+        elif isinstance(parent_values, int):  
+            parent_values = [ str(parent_values) ]
 
         if parent_values:
-            parent_values = (" class='%s'" % " ".join(parent_values))
+            parent_values = (" class=\"%s\"" % " ".join(parent_values))
 
-        return format_html('<option value="{0}"{1}{2}>{3}</option>',
+        return format_html(u'<option value="{0}"{1}{2}>{3}</option>',
                            option_value,
                            mark_safe(parent_values),
                            selected_html,
-                           force_text(option_label))
+                           force_text(smart_text(option_label)))
 

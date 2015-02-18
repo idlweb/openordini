@@ -190,7 +190,17 @@
     </div>
 
     <script lang="text/javascript">
+
+      $(document).ready(function(){
+    $("#id_provincia_residenza").chainedTo("#id_regione_residenza");
+    $("#id_provincia_domicilio").chainedTo("#id_regione_domicilio");
+    $("#id_provincia_studio").chainedTo("#id_regione_studio");
+
     $("#id_citta_residenza").chainedTo("#id_provincia_residenza");
+    $("#id_citta_domicilio").chainedTo("#id_provincia_domicilio");
+    $("#id_citta_studio").chainedTo("#id_provincia_studio");
+        });
+
     </script>   
 
 <!-- comment 

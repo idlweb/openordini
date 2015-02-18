@@ -15,13 +15,46 @@ from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSe
 
 #from localflavor.fr.forms import FRPhoneNumberField
 
-regioni = Regioni.objects.all()
-provincie = Provincie.objects.all()
-comuni = Comuni.objects.all()
+regioni = Regioni.objects.all().order_by("name")
+provincie = Provincie.objects.all().order_by("name")
+comuni = Comuni.objects.all().order_by("name")
 
-CHOICES_REGIONI = map(lambda r: (r.id, r.name), regioni)
-CHOICES_PROVINCIE = map(lambda p: (p.id, p.name), provincie)
-CHOICES_COMUNI = map(lambda c: (c.id, c.name), comuni)
+CHOICES_REGIONI = map(lambda r: (r.name, r.name), regioni)
+CHOICES_PROVINCIE = map(lambda p: (p.name, p.name), provincie)
+CHOICES_COMUNI = map(lambda c: (c.name, c.name), comuni)
+
+#CHOICES_PROVINCIE = [ ("---","---"),("a","a"),("b","b")]
+print "provincie: %s" % CHOICES_PROVINCIE
+
+dict_regioni = {}
+for r in regioni:
+    dict_regioni[r.codice_regione_istat] = r.name
+
+dict_provincie = {}
+provincie_regioni = {}
+for p in provincie:
+    id_regione = dict_regioni.get(p.codice_regione_istat, None)
+    dict_provincie[p.codice_provincia_istat] = p.name
+
+    if id_regione:
+        provincie_regioni[p.name] = id_regione
+    else:
+        print "regione not found: %s" % p.codice_regione_istat
+
+comuni_provincie = {}
+for c in comuni:
+    id_provincia = dict_provincie[c.codice_provincia_istat]
+    
+    if id_provincia:
+        comuni_provincie[c.name] = id_provincia
+    else:
+        print "provincia not found: %s" % c.codice_provincia_istat
+
+print "collegamento: %s" % provincie_regioni
+    
+
+#print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
+#print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
@@ -59,23 +92,28 @@ class UserRegistrationForm(OMUserRegistrationForm):
     indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
 #    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
 #    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
-    regione_residenza = forms.ChoiceField(choices=CHOICES_REGIONI, required=False, label=_('Regione'))
-    provincia_residenza = forms.ChoiceField(choices=[("a","a"),("b","b"),("c","c")], required=False,label=_('Provincia'))
-    citta_residenza = forms.ChoiceField(choices=[("x","x"),("y","y"),("z","z")], widget=ChainedSelect(chained_values={"x":"a","y":"a","z":"c"}))
+    regione_residenza = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial="Puglia")
+    provincia_residenza = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_residenza = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, widget=ChainedSelect(chained_values=comuni_provincie), label=_(u'Città'))
     cap_residenza = forms.CharField(required=True, label=_('CAP'))
 
 
     indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
-    regione_domicilio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'))
-    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
-    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    regione_domicilio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial="Puglia")
+#    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+#    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    provincia_domicilio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_domicilio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
     cap_domicilio = forms.CharField(required=True, label=_('CAP'))
 
     
     indirizzo_studio = forms.CharField(required=True, label=_('Indirizzo'))
-    regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'))
-    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
-    citta_studio = forms.CharField(required=True, label=_(u'Città'))
+    regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial="Puglia")
+#    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
+#    citta_studio = forms.CharField(required=True, label=_(u'Città'))
+    provincia_studio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_studio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
+
     cap_studio = forms.CharField(required=True, label=_('CAP'))
 
 
