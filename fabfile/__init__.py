@@ -82,7 +82,51 @@ def production():
     Deploy OpenOrdini to the production server(s).
     """
     env.environment = 'production'
-    abort('Production deployment not yet implemented.')
+    # import staging's conf module
+    import conf_production as conf
+    ## set up Fabric global environment dictionary
+    env.environment = 'staging'
+    env.server = conf.SERVER_MACHINE    
+    env.project = conf.PROJECT_NAME
+    env.app_domain = conf.APP_DOMAIN
+    env.local_repo_root = conf.LOCAL_REPO_ROOT
+    env.local_project_root = conf.LOCAL_PROJECT_ROOT
+    env.rsync_exclude = conf.RSYNC_EXCLUDE
+    env.python = conf.PYTHON_FULL_PATH   
+    env.web_user = conf.WEB_USER
+    env.web_user_hostkey = conf.WEB_USER_HOSTKEY
+    env.om_user = conf.OM_USER
+    env.om_user_hostkey = conf.OM_USER_HOSTKEY
+    env.web_root = conf.WEB_ROOT
+    env.domain_root = conf.DOMAIN_ROOT
+    env.virtualenv_root = conf.VIRTUALENV_ROOT
+    env.project_root = conf.PROJECT_ROOT
+    env.settings = conf.DJANGO_SETTINGS_MODULE
+    env.static_root = conf.STATIC_ROOT
+    env.provision_packages = conf.PROVISION_PACKAGES
+    # Tomcat
+    env.tomcat_user = conf.TOMCAT_USER
+    env.tomcat_controller = conf.TOMCAT_CONTROLLER
+    env.catalina_home = conf.CATALINA_HOME
+    # Solr
+    env.solr_user_hostkey = conf.SOLR_USER_HOSTKEY
+    env.solr_download_link = conf.SOLR_DOWNLOAD_LINK
+    env.solr_install_dir = conf.SOLR_INSTALL_DIR
+    env.solr_home = conf.SOLR_HOME
+    # PostgreSQL
+    env.postgres_conf_dir = conf.POSTGRES_CONF_DIR
+    env.postgres_controller = conf.POSTGRES_CONTROLLER
+    env.db_user = conf.DB_USER 
+    env.db_name = conf.DB_NAME
+    # role definitions
+    env.roledefs = {                   
+    'admin': ['root@%(server)s' % env],
+    'web': ['%(web_user)s@%(server)s' % env],
+    'db': ['root@%(server)s' % env],
+    'solr': ['solr@%(server)s' % env],
+    'om': ['%(om_user)s@%(server)s' % env],
+    }
+
 
 
 ## Macro-tasks
