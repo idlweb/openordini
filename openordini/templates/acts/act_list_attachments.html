@@ -13,7 +13,9 @@
         {{ attach.title }}
         -
         {% if attach.text|length > 0 %}
+{% comment %}
             <a data-toggle="modal" href="#mod-{{ forloop.counter }}" title="visualizza un'anteprima del testo" >anteprima</a> -
+{% endcomment %}
 
             <div class="modal hide fade" style="display: none;" id="mod-{{ forloop.counter }}">
                 <div class="modal-header">
