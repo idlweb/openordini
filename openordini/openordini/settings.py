@@ -147,6 +147,8 @@ SYSTEM_GROUP_NAMES = {
     "dottore_tecniche_psicologiche": "dottori tecniche psicologiche",
 }
 
+REGISTRATION_DEFAULT_REGIONE = "Puglia"
+
 COMMITTEE_SLUGS = {
     "psicologo_lavoro": "sezione-a",
     "psicologo_clinico": "sezione-a",

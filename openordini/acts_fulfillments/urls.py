@@ -14,4 +14,5 @@ from .views import FascicoloDetailView, OOActSearchView
 urlpatterns = patterns('',
     url(r'^$', OOActSearchView(template='acts/act_search.html'), name='om_act_search'),
 	url(r'^fascicolo/(?P<slug>[-\w]+)/$', FascicoloDetailView.as_view(), name='oo_fascicolo_detail'),
+    url(r'^fascicolo/(?P<slug>[-\w]+)/(?P<tab>documents)/$', FascicoloDetailView.as_view(), name='om_fascicolo_detail_documents'),
 )

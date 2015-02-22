@@ -15,12 +15,16 @@ class Comuni(models.Model):
     codice_alfanumerico_istat = models.CharField(max_length=255)
     capoluogo_provincia = models.IntegerField()
     capoluogo_regione = models.IntegerField()
+
     class Meta:
         db_table = 'comuni'
-        verbose_name = _('comune')
-        verbose_name_plural = _('comuni')
+        verbose_name = 'comune'
+        verbose_name_plural = 'comuni'
+
     def __unicode__(self):
-        return "%s ->(%s) -> (%s)" % (self.name, self.capoluogo_provincia, self.capoluogo_regione)
+        return "%s [%s]" % (self.name, self.codice_comune_istat)
+
+>>>>>>> 87958c1416879fa2e19f472076d8ad13be552fa3
 
 class Provincie(models.Model):
     id = models.BigIntegerField(primary_key=True, db_column='ID') # Field name made lowercase.
@@ -29,15 +33,28 @@ class Provincie(models.Model):
     abbr = models.CharField(max_length=21)
     codice_provincia_istat = models.CharField(max_length=255)
     codice_regione_istat = models.CharField(max_length=255)
+
     class Meta:
         db_table = 'provincie'
+        verbose_name = 'provincia'
+        verbose_name_plural = 'provincie'
+
+    def __unicode__(self):
+        return "%s [%s]" % (self.name, self.codice_provincia_istat)
+
 
 class Regioni(models.Model):
     id = models.IntegerField(primary_key=True, db_column='ID') # Field name made lowercase.
     name = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
     codice_regione_istat = models.CharField(max_length=255, unique=True)
+
     class Meta:
         db_table = 'regioni'
+        verbose_name = 'regione'
+        verbose_name_plural = 'regioni'
+
+    def __unicode__(self):
+        return "%s [%s]" % (self.name, self.codice_regione_istat)
 
 # Create your models here.

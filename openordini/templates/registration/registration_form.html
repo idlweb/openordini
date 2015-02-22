@@ -1,18 +1,26 @@
 {% extends "registration/base_user.html" %}
 {% load i18n %}
 {% load registration_tags %}
+{% load staticfiles %}
 {% load popover_info %}
 
 {% block head_css_includes %}
     {{ block.super }}
-     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<!--     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+     <link rel="stylesheet" href="{% static "css/jquery-ui.css" %}" />
 
 {% endblock head_css_includes %}
 
 {% block head_js_includes %}
   {{ block.super }}
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/jquery-ui-i18n.min.js"></script>
+<!--    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/jquery-ui-i18n.min.js"></script> -->
+
+    <script src="{% static "js/jquery-ui.min.js" %}"</script>
+    <script src="{% static "js/jquery-ui-i18n.min.js" %}>"</script>
+
+
+    <script src="{% static "js/jquery.chained.js" %}"></script>
 {% endblock head_js_includes %}
 
 
@@ -123,19 +131,25 @@ Le ricordiamo che ai sensi dell’articolo 7 del d.lgs 196/2003 Lei può opporsi
                           <legend>Residenza</legend> 
                           <span class="add-on" style="color: #CCC;"><i class="icon-obbligatorio"> evidenzia i campi obbligatori</i></span></p></br>                       
                              {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
+                             {% include "registration/form_element.html" with element=form.regione_residenza %}
+                             {% include "registration/form_element.html" with element=form.provincia_residenza %}
                              {% include "registration/form_element.html" with element=form.citta_residenza %}
                              {% include "registration/form_element.html" with element=form.cap_residenza %}
-                             {% include "registration/form_element.html" with element=form.provincia_residenza %}
+
                           <legend>Domicilio</legend>
                              {% include "registration/form_element.html" with element=form.indirizzo_domicilio %}
+                             {% include "registration/form_element.html" with element=form.regione_domicilio %}
+                             {% include "registration/form_element.html" with element=form.provincia_domicilio %}
                              {% include "registration/form_element.html" with element=form.citta_domicilio %}
                              {% include "registration/form_element.html" with element=form.cap_domicilio %}
-                             {% include "registration/form_element.html" with element=form.provincia_domicilio %}
+
                           <legend>Studio professionale</legend>                            
                              {% include "registration/form_element.html" with element=form.indirizzo_studio %}
+                             {% include "registration/form_element.html" with element=form.regione_studio %}
+                             {% include "registration/form_element.html" with element=form.provincia_studio %}   
                              {% include "registration/form_element.html" with element=form.citta_studio %}
                              {% include "registration/form_element.html" with element=form.cap_studio %}
-                             {% include "registration/form_element.html" with element=form.provincia_studio %}   
+
 
                             <legend></legend>                        
                              <div id="legal" class="alert">
@@ -182,6 +196,21 @@ Le ricordiamo che ai sensi dell’articolo 7 del d.lgs 196/2003 Lei può opporsi
             </div>
         </div>
     </div>
+
+    <script lang="text/javascript">
+
+      $(document).ready(function(){
+    $("#id_provincia_residenza").chainedTo("#id_regione_residenza");
+    $("#id_provincia_domicilio").chainedTo("#id_regione_domicilio");
+    $("#id_provincia_studio").chainedTo("#id_regione_studio");
+
+    $("#id_citta_residenza").chainedTo("#id_provincia_residenza");
+    $("#id_citta_domicilio").chainedTo("#id_provincia_domicilio");
+    $("#id_citta_studio").chainedTo("#id_provincia_studio");
+        });
+
+    </script>   
+
     <script type="text/javascript">
       $(document).ready(function(){
          
@@ -203,7 +232,6 @@ Le ricordiamo che ai sensi dell’articolo 7 del d.lgs 196/2003 Lei può opporsi
 
       
   </script>
-    
 {% endblock %}
 
  

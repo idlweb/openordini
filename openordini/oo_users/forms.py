@@ -7,18 +7,70 @@ from django.utils.translation import ugettext_lazy as _
 from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm, UserProfileForm as OMUserProfileForm
 from open_municipio.people.models import Person
 from open_municipio.locations.models import Location
+
+from openordini.commons.widgets import ChainedSelect
 from openordini.oo_users.models import Recapito
+from openordini.mvdb.models import Regioni, Provincie, Comuni
 from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
 from openordini.mvdb.models import Comuni
 
 #from localflavor.fr.forms import FRPhoneNumberField
+
+regioni = Regioni.objects.all().order_by("name")
+provincie = Provincie.objects.all().order_by("name")
+comuni = Comuni.objects.all().order_by("name")
+
+CHOICES_REGIONI = [ ("","---") ]
+if regioni.count() > 0:
+    CHOICES_REGIONI += map(lambda r: (r.name, r.name), regioni)
+
+CHOICES_PROVINCIE = [ ("","---") ]
+if provincie.count() > 0:
+    CHOICES_PROVINCIE += map(lambda p: (p.name, p.name), provincie)
+
+CHOICES_COMUNI = [ ("","---") ]
+if comuni.count() > 0:
+    CHOICES_COMUNI += map(lambda c: (c.name, c.name), comuni)
+
+#CHOICES_PROVINCIE = [ ("---","---"),("a","a"),("b","b")]
+#print "provincie: %s" % CHOICES_PROVINCIE
+
+dict_regioni = {}
+for r in regioni:
+    dict_regioni[r.codice_regione_istat] = r.name
+
+dict_provincie = {}
+provincie_regioni = {}
+for p in provincie:
+    id_regione = dict_regioni.get(p.codice_regione_istat, None)
+    dict_provincie[p.codice_provincia_istat] = p.name
+
+    if id_regione:
+        provincie_regioni[p.name] = id_regione
+    else:
+        print "regione not found: %s" % p.codice_regione_istat
+
+comuni_provincie = {}
+for c in comuni:
+    id_provincia = dict_provincie[c.codice_provincia_istat]
+    
+    if id_provincia:
+        comuni_provincie[c.name] = id_provincia
+    else:
+        print "provincia not found: %s" % c.codice_provincia_istat
+
+#print "collegamento: %s" % provincie_regioni
+    
+
+#print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
+#print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
     fieldsets = {
         "access" : ["username", "password", "password1", ],
         "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
-        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "indirizzo_studioo", "citta_studio", "cap_studio", "provincia_studio", "codice_fiscale", ],
+        "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "regione_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "regione_domicilio", "provincia_domicilio", "indirizzo_studioo", "citta_studio", "cap_studio", "regione_studio", "provincia_studio", "codice_fiscale", ],
         "extra" : ["ritiro_agenda", "invio_tesserino"],
         "note" : ["note_legali"],
     }
@@ -47,19 +99,32 @@ class UserRegistrationForm(OMUserRegistrationForm):
     is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
 
     indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
-    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+#    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+#    citta_residenza = forms.CharField(required=True, label=_(u'Città'))
+    regione_residenza = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial=settings.REGISTRATION_DEFAULT_REGIONE)
+    provincia_residenza = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_residenza = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, widget=ChainedSelect(chained_values=comuni_provincie), label=_(u'Città'))
     cap_residenza = forms.CharField(required=True, label=_('CAP'))
-    provincia_residenza = forms.CharField(required=True, label=_('Provincia'))
+
 
     indirizzo_domicilio = forms.CharField(required=True, label=_('Indirizzo'))
-    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    regione_domicilio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial=settings.REGISTRATION_DEFAULT_REGIONE)
+#    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+#    citta_domicilio = forms.CharField(required=True, label=_(u'Città'))
+    provincia_domicilio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_domicilio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
     cap_domicilio = forms.CharField(required=True, label=_('CAP'))
-    provincia_domicilio = forms.CharField(required=True, label=_('Provincia'))
+
     
     indirizzo_studio = forms.CharField(required=True, label=_('Indirizzo'))
-    citta_studio = forms.CharField(required=True, label=_(u'Città'))
+    regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial=settings.REGISTRATION_DEFAULT_REGIONE)
+#    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
+#    citta_studio = forms.CharField(required=True, label=_(u'Città'))
+    provincia_studio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
+    citta_studio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
+
     cap_studio = forms.CharField(required=True, label=_('CAP'))
-    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
+
 
     consegna_corrispondenza = forms.ChoiceField(choices=Recapito.TIPI_CORRISPONDENZA , required=True, label=_('consegna corrispondenza'))
 
