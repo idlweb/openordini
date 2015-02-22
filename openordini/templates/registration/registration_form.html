@@ -90,22 +90,26 @@
                             {% include "registration/form_element.html" with element=form.register_subscription_date %}
 
                             {% include "registration/form_element.html" with element=form.wants_newsletter checkbox=1 %}
-                            
-                            <legend>Disclaimer:</legend> 
-
+                            </br></br>
+                            <h1><legend>Privacy Informativa:</legend> </h1>
+                             <h4>
+                                   Informativa relativa al trattamento dati personali ex articolo 13 d.lgs 196/2003 (Codice in materia di Protezione dei Dati Personali) ai sensi del Provvedimento del Garante per la protezione dei dati personali «Consenso al trattamento dei dati personali per finalità di “marketing diretto” attraverso strumenti tradizionali e automatizzati di contatto» del 15 maggio 2013 (Gazzetta Ufficiale n. 174 del 26 luglio 2013)
+                            </h4>
+                            </br>
                             <div id="legal" class="alert">
-                                 <legend>Invio lecito di posta elettronica</legend>   
+                                 <legend>Consenso al trattamento della casella di posta elettronica {% popover_info 'posta-elettronica' %}</legend>   
                                  {% include "registration/form_element.html" with element=form.wants_commercial_newsletter checkbox=1 %}
-                                 <p>
-                                   Gli indirizzi e-mail sono da considerarsi dati personali: quindi attivate la spunta se  ci è consentito utilizzarli, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (legge n. 675 del 13 dicembre 1996, sostituita dal più recente D.Lgs. 196 del 2003)
-                                  </p>
+                                
+                                <p>L’Ordine degli Psicologi della Regione Puglia, in qualità di Titolare del trattamento, La informa che il trattamento del dato personale riferito alla casella di posta elettronica indicata, per l’invio di comunicazioni, informazioni, newsletter, studi e ricerche e materiale pubblicitario anche personalizzati riguardante le attività organizzate dall’Ordine e per il compimento di ricerche di mercato anche personalizzati, riguardante materiali e servizi di terzi, quali <strong>(Università, Enti di ricerca e statistica, ASL, Consiglio Nazionale Dell’Ordine degli Psicologi, MIUR, Scuole di specializzazione)</strong> qualora Lei abbia rilasciato il Suo consenso, potrà essere effettuato sia con modalità di contatto automatizzate (posta elettronica, fax) che con modalità tradizionali (posta cartacea, chiamate tramite operatore).
+Le ricordiamo che ai sensi dell’articolo 7 del d.lgs 196/2003 Lei può opporsi gratuitamente, in tutto o in parte al trattamento dei dati personali che La riguardano
+</p>
                             </div>
 
                             <div id="legal" class="alert">
-                                 <legend>Utilizzo lecito del numero cellulare</legend>   
+                                 <legend>Consenso al trattamento del numero cellulare {% popover_info 'numero-cellulare' %}</legend>   
                                   {% include "registration/form_element.html" with element=form.wants_commercial_mobile checkbox=1 %}
                                  <p>
-                                   Il numero cellulare è da considerarsi dato personale: quindi attivate la spunta se ci è consentito utilizzarlo, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (legge n. 675 del 13 dicembre 1996, sostituita dal più recente D.Lgs. 196 del 2003)
+                                   Il numero cellulare è da considerarsi dato personale: quindi attivate la spunta se ci è consentito utilizzarlo, dobbiamo rispettare la normativa vigente sul trattamento dei dati personali (D.lgs 196/2003)
                                   </p>
                             </div>
 

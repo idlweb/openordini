@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from django.utils.translation import ugettext as _
+
 class Comuni(models.Model):
     id = models.BigIntegerField(primary_key=True, db_column='ID') # Field name made lowercase.
     name = models.TextField()
@@ -15,6 +17,10 @@ class Comuni(models.Model):
     capoluogo_regione = models.IntegerField()
     class Meta:
         db_table = 'comuni'
+        verbose_name = _('comune')
+        verbose_name_plural = _('comuni')
+    def __unicode__(self):
+        return "%s ->(%s) -> (%s)" % (self.name, self.capoluogo_provincia, self.capoluogo_regione)
 
 class Provincie(models.Model):
     id = models.BigIntegerField(primary_key=True, db_column='ID') # Field name made lowercase.
