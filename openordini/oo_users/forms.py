@@ -25,7 +25,7 @@ CHOICES_PROVINCIE = []
 CHOICES_COMUNI = []
 
 provincie_regioni = {}
-provincie_comuni = {}
+comuni_provincie = {}
 
 def populate_geo_cache(*args, **kwargs):
     """
@@ -33,8 +33,9 @@ def populate_geo_cache(*args, **kwargs):
     loaded before the syncdb can happen (causing exceptions at deploy time
     on new installations)
     """
+    global _cached_values
 
-    if _cached_values:
+    if _cached_values == True:
         return
 
     regioni = Regioni.objects.all().order_by("name")
