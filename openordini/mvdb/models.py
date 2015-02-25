@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from django.utils.translation import ugettext as _
+
 class Comuni(models.Model):
     id = models.BigIntegerField(primary_key=True, db_column='ID') # Field name made lowercase.
     name = models.TextField()

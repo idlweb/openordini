@@ -12,6 +12,7 @@ from openordini.commons.widgets import ChainedSelect
 from openordini.oo_users.models import Recapito
 from openordini.mvdb.models import Regioni, Provincie, Comuni
 from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
+from openordini.mvdb.models import Comuni
 
 _cached_values = False
 
@@ -102,7 +103,7 @@ class UserRegistrationForm(OMUserRegistrationForm):
     says_is_psicologo_forense = forms.BooleanField(required=False, label=_('I am a "psicologo forense"'))
     says_is_dottore_tecniche_psicologiche = forms.BooleanField(required=False, label=_('I am a "dottore in tecniche psicologiche"'))
 
-    wants_commercial_newsletter = forms.BooleanField(required=False, label=_("Wants commercial newsletter"))
+    wants_commercial_newsletter = forms.BooleanField(required=False, label=_("Autorizzo l'uso della mia casella di posta elettronica"))
     wants_commercial_mobile = forms.BooleanField(required=False, label=_("Consento utilizzo numero cellulare"))
 
     sex = forms.ChoiceField(choices=Person.SEX, required=True, label=_("Sex"))
@@ -218,7 +219,10 @@ class UserProfileForm(forms.Form):
     provincia_domicilio = forms.CharField(required=False, label=_('Provincia'))
 
     indirizzo_studio = forms.CharField(required=False, label=_('Indirizzo'))
-    citta_studio = forms.CharField(required=False, label=_(u'Città'))
+    
+    #citta_studio = forms.CharField(required=False, label=_(u'Città'))
+    citta_studio = forms.ModelChoiceField(required=False, label=_(u'Città'), queryset = Comuni.objects.all())
+
     cap_studio = forms.CharField(required=False, label=_('CAP'))
     provincia_studio = forms.CharField(required=False, label=_('Provincia'))
 
