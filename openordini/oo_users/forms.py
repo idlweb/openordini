@@ -85,9 +85,6 @@ def populate_geo_cache(*args, **kwargs):
 
     _cached_values = True
 
-if not _cached_values:
-    # populate the cache of Regioni, Provincie and Comuni, the first time
-    populate_geo_cache()
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
@@ -142,8 +139,6 @@ class UserRegistrationForm(OMUserRegistrationForm):
     
     indirizzo_studio = forms.CharField(required=True, label=_('Indirizzo'))
     regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial=settings.REGISTRATION_DEFAULT_REGIONE)
-#    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
-#    citta_studio = forms.CharField(required=True, label=_(u'Città'))
     provincia_studio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
     citta_studio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
 
@@ -164,6 +159,40 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     class Meta:
         exclude = [ "accertamento_casellario", "accertamento_universita", ]
+
+
+    def __init__(self, *args, **kwargs):
+
+        populate_geo_cache()
+
+        super().__init(*args, **kwargs)
+
+        # residenza
+        self.fields["regione_residenza"].choices =CHOICES_REGIONI
+        self.fields["provincia_residenza"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_residenza"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_residenza"].choices = CHOICES_COMUNI
+        self.fields["citta_residenza"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+        # domicilio
+        self.fields["regione_domicilio"].choices =CHOICES_REGIONI
+        self.fields["provincia_domicilio"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_domicilio"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_domicilio"].choices = CHOICES_COMUNI
+        self.fields["citta_domicilio"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+        # studio
+        self.fields["regione_studio"].choices =CHOICES_REGIONI
+        self.fields["provincia_studio"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_studio"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_studio"].choices = CHOICES_COMUNI
+        self.fields["citta_studio"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+
+
 
     def clean(self, *args, **kwargs):
 
