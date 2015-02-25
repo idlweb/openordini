@@ -13,56 +13,79 @@ from openordini.oo_users.models import Recapito
 from openordini.mvdb.models import Regioni, Provincie, Comuni
 from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
 
-#from localflavor.fr.forms import FRPhoneNumberField
+_cached_values = False
 
-regioni = Regioni.objects.all().order_by("name")
-provincie = Provincie.objects.all().order_by("name")
-comuni = Comuni.objects.all().order_by("name")
+regioni = None
+provincie = None
+comuni = None
 
-CHOICES_REGIONI = [ ("","---") ]
-if regioni.count() > 0:
-    CHOICES_REGIONI += map(lambda r: (r.name, r.name), regioni)
+CHOICES_REGIONI = []
+CHOICES_PROVINCIE = []
+CHOICES_COMUNI = []
 
-CHOICES_PROVINCIE = [ ("","---") ]
-if provincie.count() > 0:
-    CHOICES_PROVINCIE += map(lambda p: (p.name, p.name), provincie)
-
-CHOICES_COMUNI = [ ("","---") ]
-if comuni.count() > 0:
-    CHOICES_COMUNI += map(lambda c: (c.name, c.name), comuni)
-
-#CHOICES_PROVINCIE = [ ("---","---"),("a","a"),("b","b")]
-#print "provincie: %s" % CHOICES_PROVINCIE
-
-dict_regioni = {}
-for r in regioni:
-    dict_regioni[r.codice_regione_istat] = r.name
-
-dict_provincie = {}
 provincie_regioni = {}
-for p in provincie:
-    id_regione = dict_regioni.get(p.codice_regione_istat, None)
-    dict_provincie[p.codice_provincia_istat] = p.name
+provincie_comuni = {}
 
-    if id_regione:
-        provincie_regioni[p.name] = id_regione
-    else:
-        print "regione not found: %s" % p.codice_regione_istat
+def populate_geo_cache(*args, **kwargs):
+    """
+    Encapsulate geo queries in this method. In this way, geo-models are not
+    loaded before the syncdb can happen (causing exceptions at deploy time
+    on new installations)
+    """
 
-comuni_provincie = {}
-for c in comuni:
-    id_provincia = dict_provincie[c.codice_provincia_istat]
+    if _cached_values:
+        return
+
+    regioni = Regioni.objects.all().order_by("name")
+    provincie = Provincie.objects.all().order_by("name")
+    comuni = Comuni.objects.all().order_by("name")
+
+    CHOICES_REGIONI = [ ("","---") ]
+    if regioni.count() > 0:
+        CHOICES_REGIONI += map(lambda r: (r.name, r.name), regioni)
+
+    CHOICES_PROVINCIE = [ ("","---") ]
+    if provincie.count() > 0:
+        CHOICES_PROVINCIE += map(lambda p: (p.name, p.name), provincie)
+
+    CHOICES_COMUNI = [ ("","---") ]
+    if comuni.count() > 0:
+        CHOICES_COMUNI += map(lambda c: (c.name, c.name), comuni)
+
+
+    dict_regioni = {}
+    for r in regioni:
+        dict_regioni[r.codice_regione_istat] = r.name
+
+    dict_provincie = {}
+    provincie_regioni = {}
+    for p in provincie:
+        id_regione = dict_regioni.get(p.codice_regione_istat, None)
+        dict_provincie[p.codice_provincia_istat] = p.name
+
+        if id_regione:
+            provincie_regioni[p.name] = id_regione
+        else:
+            print "regione not found: %s" % p.codice_regione_istat
+
+    comuni_provincie = {}
+    for c in comuni:
+        id_provincia = dict_provincie[c.codice_provincia_istat]
     
-    if id_provincia:
-        comuni_provincie[c.name] = id_provincia
-    else:
-        print "provincia not found: %s" % c.codice_provincia_istat
+        if id_provincia:
+            comuni_provincie[c.name] = id_provincia
+        else:
+            print "provincia not found: %s" % c.codice_provincia_istat
 
-#print "collegamento: %s" % provincie_regioni
-    
+    #print "collegamento: %s" % provincie_regioni
+    #print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
+    #print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
 
-#print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
-#print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
+    _cached_values = True
+
+if not _cached_values:
+    # populate the cache of Regioni, Provincie and Comuni, the first time
+    populate_geo_cache()
 
 class UserRegistrationForm(OMUserRegistrationForm):
 

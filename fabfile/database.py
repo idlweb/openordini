@@ -46,7 +46,9 @@ def sync_db():
     require('settings', provided_by=('staging', 'production'))
     fastprint("Running `syncdb'...", show_prefix=True)
     with hide('commands'):
+        # execute syncdb --all followed by a migrate --fake
         run_venv('django-admin.py syncdb --all --noinput --settings=%(settings)s' % env)
+        run_venv('django-admin.py migrate --fake --settings=%(settings)s' % env)
     fastprint(" done." % env, end='\n')
     
 

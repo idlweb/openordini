@@ -19,6 +19,7 @@ respectively).
 """
 from fabric.utils import abort
 from fabric.api import cd, env, execute, hide, lcd, put, require, roles, run, settings, sudo, task
+from fabric.contrib import files
 
 import code, database as db, venv, static, webserver, solr, provision, nginx
 
@@ -178,11 +179,14 @@ def deploy():
     """
     require('environment', 'local_repo_root', 'domain_root',
             provided_by=('staging', 'production'))
+
     with hide('commands'):       
         ## one-time initialization steps go here  
         if env.get('initial_deploy'):
+
             # setup a passwordless account for ``OM_USER``
             execute(provision.setup_instance_user)
+
             # create the initial filesystem layout
             execute(code.make_website_skeleton)
             # upload helper scripts
