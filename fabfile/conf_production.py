@@ -86,5 +86,8 @@ PROVISION_PACKAGES = ['mercurial',
                       'python-virtualenv',   
                       'git',
                       'nginx',
+                      'memcached',
+                      'libmemcached-dev',
+                      'python-pylibmc',
                      ]
 
