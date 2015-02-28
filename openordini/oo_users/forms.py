@@ -13,6 +13,7 @@ from openordini.oo_users.models import Recapito
 from openordini.mvdb.models import Regioni, Provincie, Comuni
 from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
 from openordini.mvdb.models import Comuni
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 
 #from localflavor.fr.forms import FRPhoneNumberField
 
@@ -165,15 +166,20 @@ class UserRegistrationForm(OMUserRegistrationForm):
         return data
 
 
-class UserProfileForm(forms.Form):
+class UserProfileForm(OMUserRegistrationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+   
 
     fieldsets = {
-        "basic" : [ "uses_nickname", "description", "image", ],
+        "access" : ["username", "password", "password1", ],
+        "basic" : [ "uses_nickname", "description", "image",],
         "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "indirizzo_studio", "citta_studio", "cap_studio", "provincia_studio",],
         "contacts2": [ "tel_residenza", "tel_domicilio", "tel_ufficio", "tel_cellulare", "indirizzo_email", "indirizzo_pec", "sito_internet"]
     }
 
-
+    
 
     location = forms.ModelChoiceField(required=False, queryset=Location.objects.order_by("name"), label=_('Location, if applicable'),
                         help_text=u"Se compare nella lista, scegli la zona della città in cui risiedi")
@@ -198,7 +204,7 @@ class UserProfileForm(forms.Form):
     indirizzo_studio = forms.CharField(required=False, label=_('Indirizzo'))
     
     #citta_studio = forms.CharField(required=False, label=_(u'Città'))
-    citta_studio = forms.ModelChoiceField(required=False, label=_(u'Città'), queryset = Comuni.objects.all())
+    citta_studio = forms.CharField(required=False, label=_(u'Città'))
 
     cap_studio = forms.CharField(required=False, label=_('CAP'))
     provincia_studio = forms.CharField(required=False, label=_('Provincia'))
@@ -233,7 +239,4 @@ class UserProfileForm(forms.Form):
             raise ValidationError(msg)
 
         return data
-
-
-
 

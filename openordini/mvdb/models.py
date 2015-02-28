@@ -24,7 +24,6 @@ class Comuni(models.Model):
     def __unicode__(self):
         return "%s [%s]" % (self.name, self.codice_comune_istat)
 
->>>>>>> 87958c1416879fa2e19f472076d8ad13be552fa3
 
 class Provincie(models.Model):
     id = models.BigIntegerField(primary_key=True, db_column='ID') # Field name made lowercase.

@@ -19,6 +19,8 @@ from ..acts_fulfillments.models import Fascicolo
 from .models import UserProfile, ExtraPeople, Recapito
 from .forms import UserProfileForm
 
+
+
 from ..commons.mixins import FilterNewsByUser
 
 class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
@@ -166,7 +168,6 @@ class OOUserProfileEditView(FormView):
 
         profile = user.get_profile()
 
-#        print "profile: %s" % profile
 
         initial["location"] = profile.location
         initial["description"] = profile.description
@@ -222,6 +223,8 @@ class OOUserProfileEditView(FormView):
         user = self.request.user
 
         profile = user.get_profile()
+
+        print form.cleaned_data["password1"]
 
         profile.location = form.cleaned_data["location"]
         profile.description = form.cleaned_data["description"]
