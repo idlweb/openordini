@@ -19,8 +19,10 @@ respectively).
 """
 from fabric.utils import abort
 from fabric.api import cd, env, execute, hide, lcd, put, require, roles, run, settings, sudo, task
+from fabric.contrib import files
 
-import code, database as db, venv, static, webserver, solr, provision, nginx
+import code, database as db, venv, static, webserver, solr, provision, \
+    nginx, memcached
 
 import os
 
@@ -178,11 +180,14 @@ def deploy():
     """
     require('environment', 'local_repo_root', 'domain_root',
             provided_by=('staging', 'production'))
+
     with hide('commands'):       
         ## one-time initialization steps go here  
         if env.get('initial_deploy'):
+
             # setup a passwordless account for ``OM_USER``
             execute(provision.setup_instance_user)
+
             # create the initial filesystem layout
             execute(code.make_website_skeleton)
             # upload helper scripts
@@ -192,12 +197,20 @@ def deploy():
                     src = 'load_venv_%(environment)s.sh' % env
                     dest = 'load_venv.sh'
                     put(src, dest, mode=0644)
+
             # add a new core for this OpenOrdini instance
             execute(solr.add_new_core)
-            # drop any existing application DB
-            execute(db.drop_db)
+
+            execute(memcached.stop)
+            execute(memcached.upload_conf)
+            execute(memcached.start)
+
+#            # drop any existing application DB # FS why do we have this drop?
+#            execute(db.drop_db)
+
             # create a new database user -- who will own the application DB 
             execute(db.create_user)
+
         ## tasks to be performed each time the application is deployed on the server
         # sanity check
         with hide('everything'):

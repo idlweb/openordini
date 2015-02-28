@@ -15,56 +15,77 @@ from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSe
 from openordini.mvdb.models import Comuni
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 
-#from localflavor.fr.forms import FRPhoneNumberField
+_cached_values = False
 
-regioni = Regioni.objects.all().order_by("name")
-provincie = Provincie.objects.all().order_by("name")
-comuni = Comuni.objects.all().order_by("name")
+regioni = None
+provincie = None
+comuni = None
 
-CHOICES_REGIONI = [ ("","---") ]
-if regioni.count() > 0:
-    CHOICES_REGIONI += map(lambda r: (r.name, r.name), regioni)
+CHOICES_REGIONI = []
+CHOICES_PROVINCIE = []
+CHOICES_COMUNI = []
 
-CHOICES_PROVINCIE = [ ("","---") ]
-if provincie.count() > 0:
-    CHOICES_PROVINCIE += map(lambda p: (p.name, p.name), provincie)
-
-CHOICES_COMUNI = [ ("","---") ]
-if comuni.count() > 0:
-    CHOICES_COMUNI += map(lambda c: (c.name, c.name), comuni)
-
-#CHOICES_PROVINCIE = [ ("---","---"),("a","a"),("b","b")]
-#print "provincie: %s" % CHOICES_PROVINCIE
-
-dict_regioni = {}
-for r in regioni:
-    dict_regioni[r.codice_regione_istat] = r.name
-
-dict_provincie = {}
 provincie_regioni = {}
-for p in provincie:
-    id_regione = dict_regioni.get(p.codice_regione_istat, None)
-    dict_provincie[p.codice_provincia_istat] = p.name
-
-    if id_regione:
-        provincie_regioni[p.name] = id_regione
-    else:
-        print "regione not found: %s" % p.codice_regione_istat
-
 comuni_provincie = {}
-for c in comuni:
-    id_provincia = dict_provincie[c.codice_provincia_istat]
-    
-    if id_provincia:
-        comuni_provincie[c.name] = id_provincia
-    else:
-        print "provincia not found: %s" % c.codice_provincia_istat
 
-#print "collegamento: %s" % provincie_regioni
-    
+def populate_geo_cache(*args, **kwargs):
+    """
+    Encapsulate geo queries in this method. In this way, geo-models are not
+    loaded before the syncdb can happen (causing exceptions at deploy time
+    on new installations)
+    """
+    global _cached_values
 
-#print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
-#print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
+    if _cached_values == True:
+        return
+
+    regioni = Regioni.objects.all().order_by("name")
+    provincie = Provincie.objects.all().order_by("name")
+    comuni = Comuni.objects.all().order_by("name")
+
+    CHOICES_REGIONI = [ ("","---") ]
+    if regioni.count() > 0:
+        CHOICES_REGIONI += map(lambda r: (r.name, r.name), regioni)
+
+    CHOICES_PROVINCIE = [ ("","---") ]
+    if provincie.count() > 0:
+        CHOICES_PROVINCIE += map(lambda p: (p.name, p.name), provincie)
+
+    CHOICES_COMUNI = [ ("","---") ]
+    if comuni.count() > 0:
+        CHOICES_COMUNI += map(lambda c: (c.name, c.name), comuni)
+
+
+    dict_regioni = {}
+    for r in regioni:
+        dict_regioni[r.codice_regione_istat] = r.name
+
+    dict_provincie = {}
+    provincie_regioni = {}
+    for p in provincie:
+        id_regione = dict_regioni.get(p.codice_regione_istat, None)
+        dict_provincie[p.codice_provincia_istat] = p.name
+
+        if id_regione:
+            provincie_regioni[p.name] = id_regione
+        else:
+            print "regione not found: %s" % p.codice_regione_istat
+
+    comuni_provincie = {}
+    for c in comuni:
+        id_provincia = dict_provincie[c.codice_provincia_istat]
+    
+        if id_provincia:
+            comuni_provincie[c.name] = id_provincia
+        else:
+            print "provincia not found: %s" % c.codice_provincia_istat
+
+    #print "collegamento: %s" % provincie_regioni
+    #print "comuni: %s; choices: %s" % (comuni, CHOICES_COMUNI)
+    #print "regioni = %s, choices = %s" % (regioni, CHOICES_REGIONI)
+
+    _cached_values = True
+
 
 class UserRegistrationForm(OMUserRegistrationForm):
 
@@ -119,8 +140,6 @@ class UserRegistrationForm(OMUserRegistrationForm):
     
     indirizzo_studio = forms.CharField(required=True, label=_('Indirizzo'))
     regione_studio = forms.ChoiceField(choices=CHOICES_REGIONI, required=True, label=_('Regione'), initial=settings.REGISTRATION_DEFAULT_REGIONE)
-#    provincia_studio = forms.CharField(required=True, label=_('Provincia'))
-#    citta_studio = forms.CharField(required=True, label=_(u'Città'))
     provincia_studio = forms.ChoiceField(choices=CHOICES_PROVINCIE, required=True, label=_('Provincia'), widget=ChainedSelect(chained_values=provincie_regioni))
     citta_studio = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, label=_(u'Città'), widget=ChainedSelect(chained_values=comuni_provincie))
 
@@ -141,6 +160,40 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
     class Meta:
         exclude = [ "accertamento_casellario", "accertamento_universita", ]
+
+
+    def __init__(self, *args, **kwargs):
+
+        populate_geo_cache()
+
+        super().__init(*args, **kwargs)
+
+        # residenza
+        self.fields["regione_residenza"].choices =CHOICES_REGIONI
+        self.fields["provincia_residenza"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_residenza"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_residenza"].choices = CHOICES_COMUNI
+        self.fields["citta_residenza"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+        # domicilio
+        self.fields["regione_domicilio"].choices =CHOICES_REGIONI
+        self.fields["provincia_domicilio"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_domicilio"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_domicilio"].choices = CHOICES_COMUNI
+        self.fields["citta_domicilio"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+        # studio
+        self.fields["regione_studio"].choices =CHOICES_REGIONI
+        self.fields["provincia_studio"].choices=CHOICES_PROVINCIE
+        self.fields["provincia_studio"].widget = ChainedSelect(chained_values=provincie_regioni)
+
+        self.fields["citta_studio"].choices = CHOICES_COMUNI
+        self.fields["citta_studio"].widget = ChainedSelect(chained_values=comuni_provincie)
+
+
+
 
     def clean(self, *args, **kwargs):
 

@@ -22,14 +22,16 @@ def make_website_skeleton():
     puts("Setting up initial filesystem layout for this OpenOrdini instance..." % env)
     with hide('commands'):
         with cd(env.web_root):
-            if files.exists(env.app_domain):
-                confirmation_msg = "Directory `%(app_domain)s' already exists on the remote machine: do you want to delete it ?" % env                                  
-                if not console.confirm(confirmation_msg):
-                    abort("Deployment aborted.")
-                else:
-                    sudo('rm -rf %(app_domain)s' % env)
-                    # re-create a SSH account for ``OM_USER``
-                    execute(setup_instance_user)                   
+            if not files.exists(env.app_domain):
+                abort("Missing directory '%(app_domain)s'. Invoke 'code.make_website_skeleton' after 'provision.setup_instance_user'" % env)
+
+##                confirmation_msg = "Directory `%(app_domain)s' already exists on the remote machine, but we need to recreate it: do you want to delete the old copy ?" % env                                  
+##                if not console.confirm(confirmation_msg):
+##                    abort("Deployment aborted by the user.")
+##                else:
+##                    sudo('rm -rf %(app_domain)s' % env)
+##                    # re-create a SSH account for ``OM_USER``
+##                    execute(setup_instance_user) # don't do it, it's already done in the initial deploy
             ## create filesystem skeleton
             sudo('chmod 2750 %(app_domain)s' % env)
             sudo('mkdir -p %(app_domain)s/backup' % env)
