@@ -42,11 +42,20 @@ class ChainedSelect(Select):
         """
         
         self.chained_values = chained_values
+
+#        print "select args: %s + %s" % (args, kwargs)
     
         super(ChainedSelect, self).__init__(*args, **kwargs)
 
+    def render(self, *args, **kwargs):
+
+#        print "rendering select args: %s + %s..." % (args, kwargs)
+        return super(ChainedSelect, self).render(*args, **kwargs)
+
 
     def render_option(self, selected_choices, option_value, option_label):
+
+#        print "rendering chained select ..."
 
         option_value = force_text(smart_text(option_value))
         if option_value in selected_choices:
