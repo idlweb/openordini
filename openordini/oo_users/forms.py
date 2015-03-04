@@ -34,10 +34,16 @@ def populate_geo_cache(*args, **kwargs):
     loaded before the syncdb can happen (causing exceptions at deploy time
     on new installations)
     """
-    global _cached_values
+    global _cached_values, regioni, provincie, comuni
+    global CHOICES_REGIONI, CHOICES_PROVINCIE, CHOICES_COMUNI
+    global provincie_regioni, comuni_provincie
+
+    print "in populate ..."
 
     if _cached_values == True:
         return
+
+    print "continue ..."
 
     regioni = Regioni.objects.all().order_by("name")
     provincie = Provincie.objects.all().order_by("name")
@@ -166,7 +172,9 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
         populate_geo_cache()
 
-        super().__init(*args, **kwargs)
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+
+        print provincie_regioni
 
         # residenza
         self.fields["regione_residenza"].choices =CHOICES_REGIONI
