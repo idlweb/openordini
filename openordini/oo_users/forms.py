@@ -219,7 +219,7 @@ class UserRegistrationForm(OMUserRegistrationForm):
         return data
 
 
-class UserProfileForm(OMUserRegistrationForm):
+class UserProfileForm(UserRegistrationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
