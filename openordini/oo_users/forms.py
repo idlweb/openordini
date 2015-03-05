@@ -38,12 +38,12 @@ def populate_geo_cache(*args, **kwargs):
     global CHOICES_REGIONI, CHOICES_PROVINCIE, CHOICES_COMUNI
     global provincie_regioni, comuni_provincie
 
-    print "in populate ..."
+#    print "in populate ..."
 
     if _cached_values == True:
         return
 
-    print "continue ..."
+#    print "continue ..."
 
     regioni = Regioni.objects.all().order_by("name")
     provincie = Provincie.objects.all().order_by("name")
