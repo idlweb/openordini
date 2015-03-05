@@ -145,6 +145,8 @@ SYSTEM_GROUP_NAMES = {
     "psicologo_clinico": "psicologi clinici",
     "psicologo_forense": "psicologi forensi",
     "dottore_tecniche_psicologiche": "dottori tecniche psicologiche",
+    "sezione_a": "sezione a",
+    "sezione_b": "sezione b",
 }
 
 REGISTRATION_DEFAULT_REGIONE = "Puglia"
