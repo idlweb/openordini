@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'openordini.utility',
     'leaflet',
     'localflavor',
+    'ajax_changelist',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'

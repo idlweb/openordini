@@ -31,4 +31,5 @@ sorl-thumbnail==12.2
 django-endless-pagination==2.0
 django-leaflet==0.15.2
 django-localflavor==1.1
+django-ajax-changelist==0.1.3
 

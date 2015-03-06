@@ -13,6 +13,8 @@ from django.core import serializers
 from django.contrib.contenttypes.models import ContentType
 from suit.widgets import SuitDateWidget, SuitTimeWidget, SuitSplitDateTimeWidget
 
+from ajax_changelist.admin import AjaxModelAdmin
+
 
 
 
@@ -34,7 +36,8 @@ class emailBusinessListFilter(admin.SimpleListFilter):
             return queryset.filter(wants_commercial_newsletter=False)
 
 
-class UserProfileAdmin(admin.ModelAdmin):    
+class UserProfileAdmin(AjaxModelAdmin):
+    ajax_list_display = ('numero_iscrizione',)    
     exclude = ("says_is_politician", )
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter',)
