@@ -222,8 +222,39 @@ class UserRegistrationForm(OMUserRegistrationForm):
 class UserProfileForm(UserRegistrationForm):
 
     def __init__(self, *args, **kwargs):
+
         super(UserProfileForm, self).__init__(*args, **kwargs)
-   
+
+        self.fields["pri"].required = False
+        self.fields["tos"].required = False
+        self.fields["username"].required = False
+        self.fields["password1"].required = False
+        self.fields["password2"].required = False
+        self.fields["first_name"].required = False
+        self.fields["last_name"].required = False
+        self.fields["codice_fiscale"].required = False
+        
+        self.fields["regione_residenza"].required = False
+        self.fields["provincia_residenza"].required = False
+        self.fields["citta_residenza"].required = False
+        self.fields["indirizzo_residenza"].required = False
+        self.fields["cap_residenza"].required = False
+
+        self.fields["regione_domicilio"].required = False
+        self.fields["provincia_domicilio"].required = False
+        self.fields["citta_domicilio"].required = False
+        self.fields["indirizzo_domicilio"].required = False
+        self.fields["cap_domicilio"].required = False
+
+        self.fields["regione_studio"].required = False
+        self.fields["provincia_studio"].required = False
+        self.fields["citta_studio"].required = False
+        self.fields["indirizzo_studio"].required = False
+        self.fields["cap_studio"].required = False
+
+        self.fields["sex"].required = False
+        self.fields["birth_date"].required = False
+        self.fields["email"].required = False
 
     fieldsets = {
         "access" : ["username", "password", "password1", ],

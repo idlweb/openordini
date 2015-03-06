@@ -18,6 +18,7 @@ from ..oo_payments.models import SubscriptionPlan, SubscriptionOrder
 from ..acts_fulfillments.models import Fascicolo
 from .models import UserProfile, ExtraPeople, Recapito
 from .forms import UserProfileForm
+from openordini.mvdb.models import Regioni, Provincie, Comuni
 
 
 
@@ -159,7 +160,8 @@ class OOUserProfileEditView(FormView):
     template_name = 'profiles/edit_profile.html'
 
     def get_success_url(self, *args, **kwargs):
-        return reverse_lazy("profiles_profile_detail")
+        return reverse_lazy("profiles_profile_detail")    
+
 
     def get_initial(self):
         initial = super(OOUserProfileEditView, self).get_initial()
@@ -173,19 +175,29 @@ class OOUserProfileEditView(FormView):
         initial["description"] = profile.description
         initial["image"] = profile.image
         initial["uses_nickname"] = profile.uses_nickname
+        #initial["username"] = user.username 
+        
+        def regione_from_provincia(provincia="Bari"):
+            provincia_istat = Provincie.objects.get(name=provincia).codice_provincia_istat
+            #provincia_istat = tuple(Provincie.objects.filter(name=provincia).values_list())
+            #regione = tuple(Regioni.objects.filter(codice_regione_istat=provincia_istat[0][5]).values_list())                 
+            regione = Regioni.objects.get(codice_regione_istat=provincia_istat).name
+            return regione.name#[0][1]
 
-        try:
-    
+        try:            
+            initial["regione_residenza"] =  regione_from_provincia(profile.anagrafica.provincia_residenza)
             initial["indirizzo_residenza"] = profile.anagrafica.indirizzo_residenza
             initial["citta_residenza"] = profile.anagrafica.citta_residenza
             initial["cap_residenza"] = profile.anagrafica.cap_residenza
             initial["provincia_residenza"] = profile.anagrafica.provincia_residenza
 
+            initial["regione_domicilio"] =  region_from_provincia(profile.anagrafica.provincia_domicilio)            
             initial["indirizzo_domicilio"] = profile.anagrafica.indirizzo_domicilio
             initial["citta_domicilio"] = profile.anagrafica.citta_domicilio
             initial["cap_domicilio"] = profile.anagrafica.cap_domicilio
             initial["provincia_domicilio"] = profile.anagrafica.provincia_domicilio
 
+            initial["regione_studio"] =  region_from_provincia(profile.anagrafica.provincia_studio)
             initial["indirizzo_studio"] = profile.anagrafica.indirizzo_studio
             initial["citta_studio"] = profile.anagrafica.citta_studio
             initial["cap_studio"] = profile.anagrafica.cap_studio
@@ -210,6 +222,10 @@ class OOUserProfileEditView(FormView):
             initial["indirizzo_pec"] = "email@troppolunga.err"
 
         return initial
+    
+    def form_invalid(self, form):
+        print "form errors: %s" % form.errors
+        return super(OOUserProfileEditView, self).form_invalid(form)
 
 
     def form_valid(self, form):

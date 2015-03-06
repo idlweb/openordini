@@ -86,24 +86,27 @@
                     <div class="tab-pane" id="tab-2">
 
                         <legend>Residenza</legend>
-                {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
+                {% include "registration/form_element.html" with element=form.regione_residenza %}
+                {% include "registration/form_element.html" with element=form.provincia_residenza %}
                 {% include "registration/form_element.html" with element=form.citta_residenza %}
                 {% include "registration/form_element.html" with element=form.cap_residenza %}
-                {% include "registration/form_element.html" with element=form.provincia_residenza %}
-
+                {% include "registration/form_element.html" with element=form.indirizzo_residenza %}
+                
                         <legend>Domicilio</legend>
-                {% include "registration/form_element.html" with element=form.indirizzo_domicilio %}
+                {% include "registration/form_element.html" with element=form.regione_domicilio %}
+                {% include "registration/form_element.html" with element=form.provincia_domicilio %}
                 {% include "registration/form_element.html" with element=form.citta_domicilio %}
                 {% include "registration/form_element.html" with element=form.cap_domicilio %}
-                {% include "registration/form_element.html" with element=form.provincia_domicilio %}
+                {% include "registration/form_element.html" with element=form.indirizzo_domicilio %}
+                
 
                         <legend>Luogo in cui si svolge l'attività professionale</legend>
                 {% include "registration/form_element.html" with element=form.denominazione_studio %}
-                {% include "registration/form_element.html" with element=form.indirizzo_studio %}
-                {% include "registration/form_element.html" with element=form.citta_studio %}
-                {% include "registration/form_element.html" with element=form.cap_studio %}
+                {% include "registration/form_element.html" with element=form.regione_studio %}
                 {% include "registration/form_element.html" with element=form.provincia_studio %}
-
+                {% include "registration/form_element.html" with element=form.citta_studio %}
+                {% include "registration/form_element.html" with element=form.indirizzo_studio %}
+                {% include "registration/form_element.html" with element=form.cap_studio %}                
                 {% include "registration/form_element.html" with element=form.coord_lat prepend="utilizzare il . e non la , per i decimali" %}
                 {% include "registration/form_element.html" with element=form.coord_long %}
 
