@@ -56,8 +56,8 @@ MAP_CSV_FIELDS_TO_MODELS = {
 
     "birth_date": "people.person",
     "birth_location": "people.person",
+    "sex": "people.person",
 
-    "sex": "oo_users.userprofile",
     "is_psicologo_clinico": ("oo_users.userprofile", "says_is_psicologo_clinico"),
     "is_psicologo_lavoro": ("oo_users.userprofile", "says_is_psicologo_lavoro"),
     "is_psicologo_forense": ("oo_users.userprofile", "says_is_psicologo_forense"),
@@ -188,12 +188,17 @@ class Command(BaseCommand):
         assert user != None
 
         logger.debug("Save user profile ...")
-        profile = self.save_user_profile(curr_data, u=user)
+        profile = self.save_user_profile(curr_data, u=user, p=person)
+
+        logger.debug("Save extra profile ...")
         extra = self.save_extra(curr_data, up=profile)
+
+        logger.debug("Save contacts ...")
         recapito = self.save_recapito(curr_data, up=profile)
 
         # TODO salvataggio titoli, trasferimento, gestione ?
 
+        logger.debug("Save charges ...")
         self.save_charges(curr_data, p=person, u=user, up=profile, e=extra)
  
 
@@ -305,13 +310,17 @@ class Command(BaseCommand):
 
         return user
 
-    def save_user_profile(self, curr_data, u):
+    def save_user_profile(self, curr_data, u, p):
 
         assert isinstance(u, User)
+        assert isinstance(p, Person)
 
         f = curr_data["oo_users.userprofile"]        
     
         f["user"] = u
+        f["person"] = p
+
+        logger.debug("User profile data: %s" % (f,))
 
         up, created = update_or_create(UserProfile, user=u, defaults=f)
 
@@ -391,77 +400,97 @@ class Command(BaseCommand):
         return charges
         
 
-        def save_institution_charge(self, p, date, institution_slug, charge_list):
-            i = self.institution_cache[institution_slug]
-            member_charge = InstitutionCharge.objects.create(person=p, institution=i, start_date=date)
+    def save_institution_charge(self, p, date, institution_slug, charges):
+        i = self.institution_cache[institution_slug]
+        member_charge = InstitutionCharge.objects.create(person=p, institution=i, start_date=date)
 
-            charge_list.append(member_charge)
+        charges.append(member_charge)
    
 
-        def save_user_group(self, u, group_name):
+    def save_user_group(self, u, group_name):
 
-            assert isinstance(u, User)
+        assert isinstance(u, User)
 
-            g = self.group_cache[group_name]
-            assert isinstance(g, Group)
-            
-            g.user_set.add(u)
+        g = self.group_cache[group_name]
+        assert isinstance(g, Group)
+        
+        g.user_set.add(u)
+
+
+class LimitCharField(CharField):
+
+    def __init__(self, limit=50, *args, **kwargs):
+    
+        if limit:
+            kwargs["transform"] = lambda val: val[:limit]
+
+        super(LimitCharField, self).__init__(*args, **kwargs)
+
+
+class CustomBooleanField(BooleanField):
+
+    def __init__(self, *args, **kwargs):
+        is_true = (lambda val: (val == "1"))
+
+        kwargs["is_true"] = is_true
+
+        super(CustomBooleanField, self).__init__(*args, **kwargs)
 
 class UserCsvModel(CsvModel):
-    email = CharField(null=True)
-    username = CharField(null=True)
-    first_name = CharField()
-    last_name = CharField()
+    email = LimitCharField(null=True)
+    username = LimitCharField(null=True)
+    first_name = LimitCharField()
+    last_name = LimitCharField()
     birth_date = DateField(format=settings.IMPORT_DATE_FORMAT)
-    birth_location = CharField(null=True,default="")
-    sex = BooleanField()
-    is_psicologo_clinico = BooleanField(null=True,default=False)
-    is_psicologo_lavoro = BooleanField(null=True,default=False)
-    is_psicologo_forense = BooleanField(null=True,default=False)
-    is_dottore_tecniche_psicologiche = BooleanField(null=True,default=False)
-    is_asl_employee = BooleanField(null=True,default=False)
-    is_self_employed = BooleanField(null=True,default=False)
+    birth_location = LimitCharField(null=True,default="")
+    sex = CustomBooleanField()
+    is_psicologo_clinico = CustomBooleanField(null=True,default=False)
+    is_psicologo_lavoro = CustomBooleanField(null=True,default=False)
+    is_psicologo_forense = CustomBooleanField(null=True,default=False)
+    is_dottore_tecniche_psicologiche = CustomBooleanField(null=True,default=False)
+    is_asl_employee = CustomBooleanField(null=True,default=False)
+    is_self_employed = CustomBooleanField(null=True,default=False)
     register_subscription_date = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
     numero_iscrizione = IntegerField(null=True, default=0)
-    indirizzo_residenza = CharField(null=True,default="")
-    citta_residenza = CharField(null=True,default="")
-    cap_residenza = CharField(null=True,default="")
-    provincia_residenza = CharField(null=True,default="")
-    indirizzo_domicilio = CharField(null=True,default="")
-    citta_domicilio = CharField(null=True,default="")
-    cap_domicilio = CharField(null=True,default="")
-    provincia_domicilio = CharField(null=True,default="")
-    indirizzo_studio = CharField(null=True,default="")
-    citta_studio = CharField(null=True,default="")
-    cap_studio = CharField(null=True,default="")
-    provincia_studio = CharField(null=True,default="")
-    denominazione_studio = CharField(null=True,default="")
+    indirizzo_residenza = LimitCharField(null=True,default="")
+    citta_residenza = LimitCharField(null=True,default="")
+    cap_residenza = LimitCharField(null=True,default="",limit=5)
+    provincia_residenza = LimitCharField(null=True,default="")
+    indirizzo_domicilio = LimitCharField(null=True,default="")
+    citta_domicilio = LimitCharField(null=True,default="")
+    cap_domicilio = LimitCharField(null=True,default="",limit=5)
+    provincia_domicilio = LimitCharField(null=True,default="")
+    indirizzo_studio = LimitCharField(null=True,default="")
+    citta_studio = LimitCharField(null=True,default="")
+    cap_studio = LimitCharField(null=True,default="",limit=5)
+    provincia_studio = LimitCharField(null=True,default="")
+    denominazione_studio = LimitCharField(null=True,default="")
     coord_lat = FloatField(null=True)
     coord_long = FloatField(null=True)
-    codice_fiscale = CharField(null=True,default="")
-    accertamento_casellario = BooleanField(null=True,default=False)
-    accertamento_universita = BooleanField(null=True,default=False)
-    tel_residenza = CharField(null=True,default="")
-    tel_domicilio = CharField(null=True,default="")
-    tel_ufficio = CharField(null=True,default="")
-    tel_cellulare = CharField(null=True,default="")
-    indirizzo_pec = CharField(null=True,default="")
-    sito_internet = CharField(null=True,default="")
-    consegna_corrispondenza = CharField(null=True,default="") #{ residenza, domicilio, studio }
-    ritiro_agenda = BooleanField(null=True,default=False)
-    invio_tesserino = BooleanField(null=True,default=False)
-    numero_faldone = CharField(null=True,default="")
+    codice_fiscale = LimitCharField(null=True,default="")
+    accertamento_casellario = CustomBooleanField(null=True,default=False)
+    accertamento_universita = CustomBooleanField(null=True,default=False)
+    tel_residenza = LimitCharField(null=True,default="")
+    tel_domicilio = LimitCharField(null=True,default="")
+    tel_ufficio = LimitCharField(null=True,default="")
+    tel_cellulare = LimitCharField(null=True,default="")
+    indirizzo_pec = LimitCharField(null=True,default="")
+    sito_internet = LimitCharField(null=True,default="")
+    consegna_corrispondenza = LimitCharField(null=True,default="") #{ residenza, domicilio, studio }
+    ritiro_agenda = CustomBooleanField(null=True,default=False)
+    invio_tesserino = CustomBooleanField(null=True,default=False)
+    numero_faldone = LimitCharField(null=True,default="")
     trasferimento_data = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    delibera_trasferimento = CharField(null=True,default="")
-    motivazione_trasferimento = CharField(null=True,default="")
-    regione_trasferimento = CharField(null=True,default="")
+    delibera_trasferimento = LimitCharField(null=True,default="")
+    motivazione_trasferimento = LimitCharField(null=True,default="")
+    regione_trasferimento = LimitCharField(null=True,default="")
     tassa_trasferimento = FloatField(null=True)
-    titolo_laurea = CharField(null=True,default="")
-    articolo_tre = BooleanField(null=True,default=False)
-    articolo_tre_delibera = CharField(null=True,default="")
+    titolo_laurea = LimitCharField(null=True,default="")
+    articolo_tre = CustomBooleanField(null=True,default=False)
+    articolo_tre_delibera = LimitCharField(null=True,default="")
     articolo_tre_data = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    articolo_tre_note = CharField(null=True,default="")
-    laurea_specializzazione = BooleanField(null=True,default=False)
+    articolo_tre_note = LimitCharField(null=True,default="")
+    laurea_specializzazione = CustomBooleanField(null=True,default=False)
 
     class Meta:
         has_header = True
