@@ -8,8 +8,9 @@ from django.db import transaction
 from registration.models import RegistrationProfile
 
 from adaptor.model import CsvModel
-from adaptor.fields import CharField, FloatField, BooleanField, DateField, \
-                            IntegerField
+from adaptor.fields import IntegerField
+from .fields import OOCsvCharField, OOCsvBooleanField, OOCsvDateField, \
+                    OOCsvFloatField
 
 from open_municipio.people.models import Person, Institution, InstitutionCharge
 from openordini.oo_users.models import UserProfile, ExtraPeople, Recapito
@@ -417,80 +418,62 @@ class Command(BaseCommand):
         g.user_set.add(u)
 
 
-class LimitCharField(CharField):
-
-    def __init__(self, limit=50, *args, **kwargs):
-    
-        if limit:
-            kwargs["transform"] = lambda val: val[:limit]
-
-        super(LimitCharField, self).__init__(*args, **kwargs)
-
-
-class CustomBooleanField(BooleanField):
-
-    def __init__(self, *args, **kwargs):
-        is_true = (lambda val: (val == "1"))
-
-        kwargs["is_true"] = is_true
-
-        super(CustomBooleanField, self).__init__(*args, **kwargs)
 
 class UserCsvModel(CsvModel):
-    email = LimitCharField(null=True)
-    username = LimitCharField(null=True)
-    first_name = LimitCharField()
-    last_name = LimitCharField()
-    birth_date = DateField(format=settings.IMPORT_DATE_FORMAT)
-    birth_location = LimitCharField(null=True,default="")
-    sex = CustomBooleanField()
-    is_psicologo_clinico = CustomBooleanField(null=True,default=False)
-    is_psicologo_lavoro = CustomBooleanField(null=True,default=False)
-    is_psicologo_forense = CustomBooleanField(null=True,default=False)
-    is_dottore_tecniche_psicologiche = CustomBooleanField(null=True,default=False)
-    is_asl_employee = CustomBooleanField(null=True,default=False)
-    is_self_employed = CustomBooleanField(null=True,default=False)
-    register_subscription_date = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
+    email = OOCsvCharField(null=True)
+    username = OOCsvCharField(null=True)
+    first_name = OOCsvCharField()
+    last_name = OOCsvCharField()
+    birth_date = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT)
+    birth_location = OOCsvCharField(null=True,default="")
+    sex = OOCsvBooleanField()
+    is_psicologo_clinico = OOCsvBooleanField(null=True,default=False)
+    is_psicologo_lavoro = OOCsvBooleanField(null=True,default=False)
+    is_psicologo_forense = OOCsvBooleanField(null=True,default=False)
+    is_dottore_tecniche_psicologiche = OOCsvBooleanField(null=True,default=False)
+    is_asl_employee = OOCsvBooleanField(null=True,default=False)
+    is_self_employed = OOCsvBooleanField(null=True,default=False)
+    register_subscription_date = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
     numero_iscrizione = IntegerField(null=True, default=0)
-    indirizzo_residenza = LimitCharField(null=True,default="")
-    citta_residenza = LimitCharField(null=True,default="")
-    cap_residenza = LimitCharField(null=True,default="",limit=5)
-    provincia_residenza = LimitCharField(null=True,default="")
-    indirizzo_domicilio = LimitCharField(null=True,default="")
-    citta_domicilio = LimitCharField(null=True,default="")
-    cap_domicilio = LimitCharField(null=True,default="",limit=5)
-    provincia_domicilio = LimitCharField(null=True,default="")
-    indirizzo_studio = LimitCharField(null=True,default="")
-    citta_studio = LimitCharField(null=True,default="")
-    cap_studio = LimitCharField(null=True,default="",limit=5)
-    provincia_studio = LimitCharField(null=True,default="")
-    denominazione_studio = LimitCharField(null=True,default="")
-    coord_lat = FloatField(null=True)
-    coord_long = FloatField(null=True)
-    codice_fiscale = LimitCharField(null=True,default="")
-    accertamento_casellario = CustomBooleanField(null=True,default=False)
-    accertamento_universita = CustomBooleanField(null=True,default=False)
-    tel_residenza = LimitCharField(null=True,default="")
-    tel_domicilio = LimitCharField(null=True,default="")
-    tel_ufficio = LimitCharField(null=True,default="")
-    tel_cellulare = LimitCharField(null=True,default="")
-    indirizzo_pec = LimitCharField(null=True,default="")
-    sito_internet = LimitCharField(null=True,default="")
-    consegna_corrispondenza = LimitCharField(null=True,default="") #{ residenza, domicilio, studio }
-    ritiro_agenda = CustomBooleanField(null=True,default=False)
-    invio_tesserino = CustomBooleanField(null=True,default=False)
-    numero_faldone = LimitCharField(null=True,default="")
-    trasferimento_data = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    delibera_trasferimento = LimitCharField(null=True,default="")
-    motivazione_trasferimento = LimitCharField(null=True,default="")
-    regione_trasferimento = LimitCharField(null=True,default="")
-    tassa_trasferimento = FloatField(null=True)
-    titolo_laurea = LimitCharField(null=True,default="")
-    articolo_tre = CustomBooleanField(null=True,default=False)
-    articolo_tre_delibera = LimitCharField(null=True,default="")
-    articolo_tre_data = DateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    articolo_tre_note = LimitCharField(null=True,default="")
-    laurea_specializzazione = CustomBooleanField(null=True,default=False)
+    indirizzo_residenza = OOCsvCharField(null=True,default="")
+    citta_residenza = OOCsvCharField(null=True,default="")
+    cap_residenza = OOCsvCharField(null=True,default="",limit=5)
+    provincia_residenza = OOCsvCharField(null=True,default="")
+    indirizzo_domicilio = OOCsvCharField(null=True,default="")
+    citta_domicilio = OOCsvCharField(null=True,default="")
+    cap_domicilio = OOCsvCharField(null=True,default="",limit=5)
+    provincia_domicilio = OOCsvCharField(null=True,default="")
+    indirizzo_studio = OOCsvCharField(null=True,default="")
+    citta_studio = OOCsvCharField(null=True,default="")
+    cap_studio = OOCsvCharField(null=True,default="",limit=5)
+    provincia_studio = OOCsvCharField(null=True,default="")
+    denominazione_studio = OOCsvCharField(null=True,default="")
+    coord_lat = OOCsvFloatField(null=True)
+    coord_long = OOCsvFloatField(null=True)
+    codice_fiscale = OOCsvCharField(null=True,default="")
+    accertamento_casellario = OOCsvBooleanField(null=True,default=False)
+    accertamento_universita = OOCsvBooleanField(null=True,default=False)
+    tel_residenza = OOCsvCharField(null=True,default="")
+    tel_domicilio = OOCsvCharField(null=True,default="")
+    tel_ufficio = OOCsvCharField(null=True,default="")
+    tel_cellulare = OOCsvCharField(null=True,default="")
+    indirizzo_pec = OOCsvCharField(null=True,default="")
+    sito_internet = OOCsvCharField(null=True,default="")
+    consegna_corrispondenza = OOCsvCharField(null=True,default="") #{ residenza, domicilio, studio }
+    ritiro_agenda = OOCsvBooleanField(null=True,default=False)
+    invio_tesserino = OOCsvBooleanField(null=True,default=False)
+    numero_faldone = OOCsvCharField(null=True,default="")
+    trasferimento_data = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
+    delibera_trasferimento = OOCsvCharField(null=True,default="")
+    motivazione_trasferimento = OOCsvCharField(null=True,default="")
+    regione_trasferimento = OOCsvCharField(null=True,default="")
+    tassa_trasferimento = OOCsvFloatField(null=True)
+    titolo_laurea = OOCsvCharField(null=True,default="")
+    articolo_tre = OOCsvBooleanField(null=True,default=False)
+    articolo_tre_delibera = OOCsvCharField(null=True,default="")
+    articolo_tre_data = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
+    articolo_tre_note = OOCsvCharField(null=True,default="")
+    laurea_specializzazione = OOCsvBooleanField(null=True,default=False)
 
     class Meta:
         has_header = True
