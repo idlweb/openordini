@@ -45,7 +45,7 @@ class UserProfile(OMUserProfile):
         return comm
 
     def __unicode__(self):
-        return self.person.first_name + ' - ' + self.person.last_name 
+        return self.user.first_name + ' - ' + self.user.last_name 
 
     class Meta:
         verbose_name = _("scheda psicologo")

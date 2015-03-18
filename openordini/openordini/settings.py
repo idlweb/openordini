@@ -212,3 +212,5 @@ MODULES = {
     "sez_a_uomo": os.path.join(MODULES_ROOT, "domanda_sez_a_u.rtf"), 
     "sez_a_donna": os.path.join(MODULES_ROOT, "domanda_sez_a_d.rtf"), 
 }
+
+IMPORT_DATE_FORMAT = "%d-%m-%Y"
