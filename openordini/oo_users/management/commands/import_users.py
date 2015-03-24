@@ -1,3 +1,5 @@
+import csv
+
 from django.conf import settings
 
 from django.core.management.base import BaseCommand, CommandError
@@ -7,8 +9,8 @@ from django.db import transaction
 
 from registration.models import RegistrationProfile
 
-from adaptor.model import CsvModel
-from adaptor.fields import IntegerField
+from adaptor.model import CsvModel, CsvImporter, CsvDataException
+from adaptor.fields import IntegerField, IgnoredField
 from .fields import OOCsvCharField, OOCsvBooleanField, OOCsvDateField, \
                     OOCsvFloatField
 
@@ -50,8 +52,8 @@ def update_or_create(model, **kwargs):
 #   csv field contribute to multiple field in one or multiple models
 
 MAP_CSV_FIELDS_TO_MODELS = {
-    "email": "auth.user",
-    "username": "auth.user",
+    "email": [ ("auth.user", "email"), ("auth.user", "username") ],
+#    "username": "auth.user",
     "first_name": [ "auth.user", "people.person" ],
     "last_name": [ "auth.user", "people.person" ],
 
@@ -64,7 +66,7 @@ MAP_CSV_FIELDS_TO_MODELS = {
     "is_psicologo_forense": ("oo_users.userprofile", "says_is_psicologo_forense"),
     "is_dottore_tecniche_psicologiche": ("oo_users.userprofile", "says_is_dottore_tecniche_psicologiche"),
     "is_asl_employee": ("oo_users.userprofile", "says_is_asl_employee"),
-    "is_self_employed": ("oo_users.userprofile", "says_is_self_employed"),
+#    "is_self_employed": ("oo_users.userprofile", "says_is_self_employed"),
     "register_subscription_date": "oo_users.userprofile",
     "numero_iscrizione": "oo_users.userprofile",
 
@@ -90,7 +92,7 @@ MAP_CSV_FIELDS_TO_MODELS = {
     "tel_residenza": "oo_users.recapito",
     "tel_domicilio": "oo_users.recapito",
     "tel_ufficio": "oo_users.recapito",
-    "tel_cellulare": "oo_users.recapito",
+#    "tel_cellulare": "oo_users.recapito",
     "indirizzo_pec": "oo_users.recapito",
     "sito_internet": "oo_users.recapito",
     "consegna_corrispondenza": "oo_users.recapito",
@@ -418,10 +420,30 @@ class Command(BaseCommand):
         g.user_set.add(u)
 
 
+class OOCsvImporter(CsvImporter):
+
+    # override base import_data method in order to continue if a row is not
+    # correct
+    def import_data(self, data):
+        lines = []
+        self.get_class_delimiter()
+        real_line_number = 0
+        line_number = 0
+        for line in csv.reader(data, delimiter=self.delimiter):
+            try:
+                real_line_number += 1
+                self.process_line(data, line, lines, line_number, self.csvModel)
+            except CsvDataException, e:
+                logger.warning("Error in data (real line: %s): %s" % (real_line_number, e))
+                continue
+
+            line_number += 1
+        return lines
+
 
 class UserCsvModel(CsvModel):
     email = OOCsvCharField(null=True)
-    username = OOCsvCharField(null=True)
+#    username = OOCsvCharField(null=True)
     first_name = OOCsvCharField()
     last_name = OOCsvCharField()
     birth_date = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT)
@@ -432,49 +454,57 @@ class UserCsvModel(CsvModel):
     is_psicologo_forense = OOCsvBooleanField(null=True,default=False)
     is_dottore_tecniche_psicologiche = OOCsvBooleanField(null=True,default=False)
     is_asl_employee = OOCsvBooleanField(null=True,default=False)
-    is_self_employed = OOCsvBooleanField(null=True,default=False)
+#    is_self_employed = OOCsvBooleanField(null=True,default=False)
     register_subscription_date = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
     numero_iscrizione = IntegerField(null=True, default=0)
-    indirizzo_residenza = OOCsvCharField(null=True,default="")
-    citta_residenza = OOCsvCharField(null=True,default="")
+    indirizzo_residenza = OOCsvCharField(null=True,default="",limit=128)
+    citta_residenza = OOCsvCharField(null=True,default="",limit=128)
     cap_residenza = OOCsvCharField(null=True,default="",limit=5)
-    provincia_residenza = OOCsvCharField(null=True,default="")
-    indirizzo_domicilio = OOCsvCharField(null=True,default="")
-    citta_domicilio = OOCsvCharField(null=True,default="")
+    provincia_residenza = OOCsvCharField(null=True,default="",limit=128)
+    indirizzo_domicilio = OOCsvCharField(null=True,default="",limit=128)
+    citta_domicilio = OOCsvCharField(null=True,default="",limit=128)
     cap_domicilio = OOCsvCharField(null=True,default="",limit=5)
-    provincia_domicilio = OOCsvCharField(null=True,default="")
-    indirizzo_studio = OOCsvCharField(null=True,default="")
-    citta_studio = OOCsvCharField(null=True,default="")
+    provincia_domicilio = OOCsvCharField(null=True,default="",limit=128)
+    indirizzo_studio = OOCsvCharField(null=True,default="",limit=128)
+    citta_studio = OOCsvCharField(null=True,default="",limit=128)
     cap_studio = OOCsvCharField(null=True,default="",limit=5)
-    provincia_studio = OOCsvCharField(null=True,default="")
+    provincia_studio = OOCsvCharField(null=True,default="",limit=128)
     denominazione_studio = OOCsvCharField(null=True,default="")
+    skip1 = IgnoredField()
     coord_lat = OOCsvFloatField(null=True)
     coord_long = OOCsvFloatField(null=True)
-    codice_fiscale = OOCsvCharField(null=True,default="")
+    codice_fiscale = OOCsvCharField(null=True,default="",limit=16)
     accertamento_casellario = OOCsvBooleanField(null=True,default=False)
     accertamento_universita = OOCsvBooleanField(null=True,default=False)
-    tel_residenza = OOCsvCharField(null=True,default="")
-    tel_domicilio = OOCsvCharField(null=True,default="")
-    tel_ufficio = OOCsvCharField(null=True,default="")
-    tel_cellulare = OOCsvCharField(null=True,default="")
-    indirizzo_pec = OOCsvCharField(null=True,default="")
-    sito_internet = OOCsvCharField(null=True,default="")
-    consegna_corrispondenza = OOCsvCharField(null=True,default="") #{ residenza, domicilio, studio }
+    tel_residenza = OOCsvCharField(null=True,default="",limit=10)
+    tel_domicilio = OOCsvCharField(null=True,default="",limit=10)
+    tel_ufficio = OOCsvCharField(null=True,default="",limit=10)
+#    tel_cellulare = OOCsvCharField(null=True,default="",limit=10)
+    indirizzo_pec = OOCsvCharField(null=True,default="",limit=255)
+    sito_internet = OOCsvCharField(null=True,default="",limit=200)
+    consegna_corrispondenza = OOCsvCharField(null=True,default="",limit=50) #{ residenza, domicilio, studio }
     ritiro_agenda = OOCsvBooleanField(null=True,default=False)
     invio_tesserino = OOCsvBooleanField(null=True,default=False)
-    numero_faldone = OOCsvCharField(null=True,default="")
+    numero_faldone = IntegerField(null=True,default="")
     trasferimento_data = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    delibera_trasferimento = OOCsvCharField(null=True,default="")
-    motivazione_trasferimento = OOCsvCharField(null=True,default="")
-    regione_trasferimento = OOCsvCharField(null=True,default="")
+    delibera_trasferimento = IntegerField(null=True,default="")
+    motivazione_trasferimento = OOCsvCharField(null=True,default="",limit=255)
+    regione_trasferimento = OOCsvCharField(null=True,default="",limit=50)
     tassa_trasferimento = OOCsvFloatField(null=True)
-    titolo_laurea = OOCsvCharField(null=True,default="")
+    titolo_laurea = OOCsvCharField(null=True,default="",limit=50)
     articolo_tre = OOCsvBooleanField(null=True,default=False)
-    articolo_tre_delibera = OOCsvCharField(null=True,default="")
+    articolo_tre_delibera = IntegerField(null=True,default="")
     articolo_tre_data = OOCsvDateField(format=settings.IMPORT_DATE_FORMAT, null=True)
-    articolo_tre_note = OOCsvCharField(null=True,default="")
+    articolo_tre_note = OOCsvCharField(null=True,default="",limit=128)
     laurea_specializzazione = OOCsvBooleanField(null=True,default=False)
+    skip2 = IgnoredField()
+    skip3 = IgnoredField()
+    skip4 = IgnoredField()
 
     class Meta:
         has_header = True
         delimiter = ","
+
+    @classmethod
+    def get_importer(cls, extra_fields=[]):
+        return OOCsvImporter(csvModel=cls, extra_fields=extra_fields)
