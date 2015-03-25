@@ -4,6 +4,7 @@ from optparse import make_option
 from django.conf import settings
 
 from django.core.management.base import BaseCommand, CommandError
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User, Group
 from django.db import transaction
@@ -158,7 +159,7 @@ class Command(BaseCommand):
         for i in institutions:
             self.institution_cache[i.slug] = i
 
-    def setup_logger(self, verbose=None, **kwargs):
+    def setup_logger(self, verbose=2, **kwargs):
         
         # set verbose level for logger
 
@@ -325,11 +326,14 @@ class Command(BaseCommand):
         created = False
         user = None
 
-        if p.userprofile and p.userprofile.user:
+        try:
             # first look for a user linked to the person, through the userprofile ...
             user = p.userprofile.user
-            created = False
-        else:
+
+        except ObjectDoesNotExist, e:
+            pass
+
+        if not user:
             # create a new user or look for an existing one, based on the username...
             username = f.get("username", None)
     
@@ -441,7 +445,12 @@ class Command(BaseCommand):
         # HACK: if it does not belong to Sezione B, force to belong to Sezione A
         # the idea is that by default a member with no data, belongs to Sezione A
         if not is_registered_b:
-            is_registered_a = True
+            if register_subscription_date:
+                logger.info("Person is automatically added to Sezione A: %s" % p)
+                is_registered_a = True
+            else:
+                logger.warning("Person is not added to Sezione A nor Sezione B: %s. Missing registration date." % p)
+                return charges
 
         if is_registered_a:
             self.save_institution_charge(p=p, institution_slug=settings.COMMITTEE_SLUGS["sezione_a"], date=register_subscription_date, charges=charges)
