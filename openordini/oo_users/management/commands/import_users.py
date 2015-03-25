@@ -31,6 +31,9 @@ def update_or_create(model, **kwargs):
 
     logger.debug("Get or create: %s, %s" % (kwargs, defaults))
 
+    obj = None
+    created = False
+
     try:
         obj, created = model.objects.get_or_create(defaults=defaults, **kwargs)
 
@@ -41,8 +44,12 @@ def update_or_create(model, **kwargs):
             obj.save()
     except Exception, e:    
         from django.db.models import sql
+
+        sql_query = sql.InsertQuery(obj) if obj else ""
+        
         logger.exception(e)
-        logger.error("Error executing SQL: %s" % (sql.InsertQuery(obj)))
+        if sql_query:
+            logger.error("Error executing SQL: %s" % (sql.InsertQuery(obj)))
 
     return (obj, created)
 
@@ -129,7 +136,7 @@ class Command(BaseCommand):
     help = 'Import user information from the passed file'
 
     option_list = BaseCommand.option_list + (
-#        make_option('-v', '--verbose',dest='verbose',default='I',help='Define the verbosity level: D(ebug), I(nfo), W(arning), E(rror)'),
+    #        make_option('-v', '--verbose',dest='verbose',default='I',help='Define the verbosity level: D(ebug), I(nfo), W(arning), E(rror)'),
         make_option('-t', '--trace', action='store_true', dest='trace', default=False, help='Log exception traces'),
     )
 
@@ -151,30 +158,24 @@ class Command(BaseCommand):
         for i in institutions:
             self.institution_cache[i.slug] = i
 
-##    def setup_logger(self, verbose=None, **kwargs):
-##        
-##        # set verbose level for logger
-##        logger.setLevel(verbose)
-##
-##        if verbose == 4:
-##            logger.setLevel(logging.DEBUG)
-##        elif verbose == 3:
-##            logger.setLevel(logging.INFO)
-##        elif verbose == 2:
-##            logger.setLevel(logging.WARNING)
-##        elif verbose == 1:
-##            logger.setLevel(logging.ERROR)
-##        elif verbose == 0:
-##            logger.setLevel()
-##            
+    def setup_logger(self, verbose=None, **kwargs):
+        
+        # set verbose level for logger
+
+        if verbose == 3:
+            logger.setLevel(logging.DEBUG)
+        elif verbose == 2:
+            logger.setLevel(logging.INFO)
+        elif verbose == 1:
+            logger.setLevel(logging.WARNING)
+        elif verbose == 0:
+            logger.setLevel(logging.ERROR)
+            
         
 
     def handle(self, *args, **options):
             
-#        self.setup_logger(**options)
-        verbose = options.get("verbose", 0)
-
-        logger.setLevel(verbose)
+        self.setup_logger(**options)
 
         logger.info("Start importing user data ...")
 
@@ -204,7 +205,7 @@ class Command(BaseCommand):
                 try:
     
                     self.save_row(curr_data)
-   
+       
                     num_write = num_write + 1
 
                 except Exception, e:
@@ -239,7 +240,7 @@ class Command(BaseCommand):
 
         logger.debug("Save charges ...")
         self.save_charges(curr_data, p=person, u=user, up=profile, e=extra)
- 
+     
 
     def parse(self, file):
         """
@@ -321,32 +322,41 @@ class Command(BaseCommand):
         f["is_staff"] = False
         f["is_superuser"] = False
 
-        username = f.get("username", None)
+        created = False
+        user = None
 
-        if not username:
-            while True:
-                # generate a random username and check it is unique
-                username = User.objects.make_random_password(length=8) # TODO generate a random one
-                if User.objects.filter(username=username).count() == 0:
-                    break
-
-        password = f.get("password", None)
-        if not password:
-            password = User.objects.make_random_password(length=10)
-
-        email = f["email"]
-
-
-        user,created = update_or_create(User, username=username,email=email,defaults=f)
-
-        if not created:
-            logger.info("User '%s' (email '%s') already exists. Update id ..." % (username, email))
-        
-
-        if self.send_user_activation_email:
-            # TODO send the customized email
-            pass
-
+        if p.userprofile and p.userprofile.user:
+            # first look for a user linked to the person, through the userprofile ...
+            user = p.userprofile.user
+            created = False
+        else:
+            # create a new user or look for an existing one, based on the username...
+            username = f.get("username", None)
+    
+            if not username:
+                while True:
+                    # generate a random username and check it is unique
+                    username = User.objects.make_random_password(length=8) # TODO generate a random one
+                    if User.objects.filter(username=username).count() == 0:
+                        break
+    
+            password = f.get("password", None)
+            if not password:
+                password = User.objects.make_random_password(length=10)
+    
+            email = f["email"]
+    
+    
+            user,created = update_or_create(User, username=username,email=email,defaults=f)
+    
+            if not created:
+                logger.info("User '%s' (email '%s') already exists. Update id ..." % (username, email))
+            
+    
+            if self.send_user_activation_email:
+                # TODO send the customized email
+                pass
+    
         return user
 
     def save_user_profile(self, curr_data, u, p):
@@ -361,7 +371,7 @@ class Command(BaseCommand):
 
         logger.debug("User profile data: %s" % (f,))
 
-        up, created = update_or_create(UserProfile, user=u, defaults=f)
+        up, created = update_or_create(UserProfile, user=u, person=p, defaults=f)
 
         if not created:
             logger.info("User profile for user '%s' already exists. Update it ..." % u)
@@ -414,12 +424,27 @@ class Command(BaseCommand):
         says_is_dottore_tecniche_psicologiche = up.says_is_dottore_tecniche_psicologiche
         register_subscription_date = up.register_subscription_date
 
+        # check if it belongs to Sezione A
         is_registered_a = (register_subscription_date != None) and (says_is_psicologo_lavoro or says_is_psicologo_clinico or says_is_psicologo_forense)
 
         charges = []
 
+        # check if it belongs to Sezione B
+        is_registered_b = (register_subscription_date != None) and (says_is_dottore_tecniche_psicologiche)
+
+        if is_registered_b:
+            self.save_institution_charge(p=p, institution_slug=settings.COMMITTEE_SLUGS["sezione_b"], date=register_subscription_date, charges=charges)
+
+        if says_is_dottore_tecniche_psicologiche:
+            self.save_user_group(u=u, group_name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
+
+        # HACK: if it does not belong to Sezione B, force to belong to Sezione A
+        # the idea is that by default a member with no data, belongs to Sezione A
+        if not is_registered_b:
+            is_registered_a = True
+
         if is_registered_a:
-            self.save_institution_charge(p=p, institution_slug=settings.SYSTEM_GROUP_NAMES["sezione_a"], date=register_subscription_date, charges=charges)
+            self.save_institution_charge(p=p, institution_slug=settings.COMMITTEE_SLUGS["sezione_a"], date=register_subscription_date, charges=charges)
 
         if says_is_psicologo_lavoro:
             self.save_user_group(u=u, group_name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
@@ -430,19 +455,8 @@ class Command(BaseCommand):
         if says_is_psicologo_forense:
             self.save_user_group(u=u, group_name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
 
-        is_registered_b = (register_subscription_date != None) and (says_is_dottore_tecniche_psicologiche)
-
-        if is_registered_b:
-            self.save_institution_charge(p=p, institution_slug=settings.SYSTEM_GROUP["sezione_b"], date=register_subscription_date, charges=charges)
-
-        if says_is_dottore_tecniche_psicologiche:
-            self.save_user_group(u=u, group_name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
-
-        if not is_registered_b:
-            is_registered_a = True
-
         return charges
-        
+    
 
     def save_institution_charge(self, p, date, institution_slug, charges):
         i = self.institution_cache[institution_slug]

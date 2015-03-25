@@ -163,6 +163,8 @@ COMMITTEE_SLUGS = {
     "psicologo_clinico": "sezione-a",
     "psicologo_forense": "sezione-a",
     "dottore_tecniche_psicologiche": "sezione-b",
+    "sezione_a" : "sezione-a",
+    "sezione_b" : "sezione-b",
 }
 
 SITE_INFO = {
