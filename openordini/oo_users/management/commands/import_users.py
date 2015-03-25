@@ -28,13 +28,20 @@ def update_or_create(model, **kwargs):
 
     defaults = kwargs.pop("defaults", {})
 
-    obj, created = model.objects.get_or_create(defaults=defaults, **kwargs)
+    logger.debug("Get or create: %s, %s" % (kwargs, defaults))
 
-    if not created and defaults:
-        for key,value in defaults.iteritems():
-            setattr(obj, key, value)
+    try:
+        obj, created = model.objects.get_or_create(defaults=defaults, **kwargs)
+
+        if not created and defaults:
+            for key,value in defaults.iteritems():
+                setattr(obj, key, value)
       
-        obj.save()
+            obj.save()
+    except Exception, e:    
+        from django.db.models import sql
+        logger.exception(e)
+        logger.error("Error executing SQL: %s" % (sql.InsertQuery(obj)))
 
     return (obj, created)
 
@@ -354,6 +361,8 @@ class Command(BaseCommand):
 
         f = curr_data["oo_users.recapito"]
         f["recapiti_psicologo"] = up
+
+        logger.debug("Contacts data: %s" % (f,))
 
         r, created = update_or_create(Recapito, recapiti_psicologo=up, 
                         defaults=f)

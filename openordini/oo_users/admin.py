@@ -27,13 +27,19 @@ class emailBusinessListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return (
-            ('consenso', _('consneso da verificare')),
+            ('1', _('consenso dato')),
+            ('0', _('consenso non dato')),
             #('titolo', _('consenso non espresso')),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'consenso':
-            return queryset.filter(wants_commercial_newsletter=False)
+        
+        if self.value() == '1':
+            queryset = queryset.filter(wants_commercial_newsletter=True)
+        elif self.value() == '0':
+            queryset = queryset.filter(wants_commercial_newsletter=False)
+
+        return queryset
 
 
 class UserProfileAdmin(AjaxModelAdmin):
