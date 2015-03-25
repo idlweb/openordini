@@ -60,6 +60,11 @@ LOGGING = {
             'datefmt' : "%d/%b/%Y %H:%M:%S"
         },
         },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+    },
     'handlers': {
         'console':{
             'level':'DEBUG',
@@ -79,6 +84,7 @@ LOGGING = {
             },
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'mail_registration_managers': {

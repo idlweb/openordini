@@ -1,4 +1,5 @@
 import csv
+from optparse import make_option
 
 from django.conf import settings
 
@@ -59,7 +60,7 @@ def update_or_create(model, **kwargs):
 #   csv field contribute to multiple field in one or multiple models
 
 MAP_CSV_FIELDS_TO_MODELS = {
-    "email": [ ("auth.user", "email"), ("auth.user", "username") ],
+    "email": "auth.user",
 #    "username": "auth.user",
     "first_name": [ "auth.user", "people.person" ],
     "last_name": [ "auth.user", "people.person" ],
@@ -127,6 +128,11 @@ class Command(BaseCommand):
     args = '<file1 file2 ...>'
     help = 'Import user information from the passed file'
 
+    option_list = BaseCommand.option_list + (
+#        make_option('-v', '--verbose',dest='verbose',default='I',help='Define the verbosity level: D(ebug), I(nfo), W(arning), E(rror)'),
+        make_option('-t', '--trace', action='store_true', dest='trace', default=False, help='Log exception traces'),
+    )
+
     # TODO parameterize this (pass via command line, add a default value in the settings)
     send_user_activation_email = False
 
@@ -145,8 +151,31 @@ class Command(BaseCommand):
         for i in institutions:
             self.institution_cache[i.slug] = i
 
+##    def setup_logger(self, verbose=None, **kwargs):
+##        
+##        # set verbose level for logger
+##        logger.setLevel(verbose)
+##
+##        if verbose == 4:
+##            logger.setLevel(logging.DEBUG)
+##        elif verbose == 3:
+##            logger.setLevel(logging.INFO)
+##        elif verbose == 2:
+##            logger.setLevel(logging.WARNING)
+##        elif verbose == 1:
+##            logger.setLevel(logging.ERROR)
+##        elif verbose == 0:
+##            logger.setLevel()
+##            
+        
+
     def handle(self, *args, **options):
             
+#        self.setup_logger(**options)
+        verbose = options.get("verbose", 0)
+
+        logger.setLevel(verbose)
+
         logger.info("Start importing user data ...")
 
 
@@ -408,6 +437,9 @@ class Command(BaseCommand):
 
         if says_is_dottore_tecniche_psicologiche:
             self.save_user_group(u=u, group_name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
+
+        if not is_registered_b:
+            is_registered_a = True
 
         return charges
         
