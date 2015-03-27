@@ -216,9 +216,9 @@ def deploy():
         with hide('everything'):
             if run('test -d %(domain_root)s' % env).failed:
                 abort("It seems that the root dir for this OpenOrdini instance has not been created, yet.") 
-        with settings(warn_only=True):
+#        with settings(warn_only=True):
 #            execute(webserver.stop)
-            execute(nginx.stop)
+#            execute(nginx.stop)
         # update Django project's files
         execute(code.update_project)
         # update external dependencies
@@ -250,7 +250,7 @@ def deploy():
         execute(nginx.update_uwsgi_conf)
         execute(nginx.update_conf)
 #        execute(webserver.start)
-        execute(nginx.start)
+#        execute(nginx.start)
         # adjust filesystem permissions
         execute(adjust_permissions)
 

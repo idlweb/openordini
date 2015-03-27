@@ -194,7 +194,7 @@ def update_solr_context():
             provided_by=('staging', 'production'))
     fastprint("Uploading Solr context file...", show_prefix=True)
     with hide('commands'):
-        source = os.path.join(env.local_repo_root, 'solr', 'context_%(environment)s.xml' % env)
+        source = os.path.join(env.local_repo_root, 'system', 'solr', 'context_%(environment)s.xml' % env)
         dest = os.path.join(env.solr_home, 'context.xml')
         put(source, dest, mode=0644)
     fastprint(" done." % env, end='\n')
@@ -256,7 +256,7 @@ def setup_solr():
             sudo('chmod 2770 %s' % os.path.join(env.solr_home, 'data'))
             fastprint(" done." % env, end='\n')
             # upload a context file (needed by Tomcat)
-            with lcd(os.path.join(env.local_repo_root, 'solr')):
+            with lcd(os.path.join(env.local_repo_root, 'system', 'solr')):
                     execute(update_solr_context)
                     fastprint("Publishing Solr context to Tomcat...", show_prefix=True)
                     # publish application described in ``context.xml`` to Tomcat

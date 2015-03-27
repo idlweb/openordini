@@ -4,6 +4,9 @@ ROOT_URLCONF = 'openordini.openordini.urls_staging'
 
 ALLOWED_HOSTS = [ 'ordine.psicologipuglia.it', ]
 
+DEBUG = False
+TEMPLATE_DEBUG = False
+
 MANAGERS = (
     ('Antonio Vangi', 'antonio.vangi.av@gmail.com'),
     ('Francesco Spegni', 'francesco.spegni@gmail.com'),
