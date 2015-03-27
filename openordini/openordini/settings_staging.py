@@ -2,7 +2,7 @@ from openordini.openordini.settings import *
 
 ROOT_URLCONF = 'openordini.openordini.urls_staging'
 
-ALLOWED_HOSTS = [ 'oo.psicologipuglia.it', ]
+ALLOWED_HOSTS = [ 'ordine.psicologipuglia.it', ]
 
 MANAGERS = (
     ('Antonio Vangi', 'antonio.vangi.av@gmail.com'),

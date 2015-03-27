@@ -2,7 +2,7 @@
 
 # the upstream component nginx needs to connect to
 upstream oo {
-    server unix:///home/oo/oo.psicologipuglia.it/private/nginx/openordini.sock;
+    server unix:///home/oo/ordine.psicologipuglia.it/private/nginx/openordini.sock;
 }
 
 #upstream cms {
@@ -43,7 +43,7 @@ server {
     # the port your site will be served on
     listen      80;
     # the domain name it will serve for
-    server_name oo.psicologipuglia.it;
+    server_name ordine.psicologipuglia.it;
     charset     utf-8;
 
     # max upload size
@@ -51,17 +51,17 @@ server {
 
     # Django media
     location /media  {
-        alias /home/oo/oo.psicologipuglia.it/public/media;
+        alias /home/oo/ordine.psicologipuglia.it/public/media;
     }
 
     location /static {
-        alias /home/oo/oo.psicologipuglia.it/public/static;
+        alias /home/oo/ordine.psicologipuglia.it/public/static;
     }
 
     # Finally, send all non-media requests to the Django server.
     location / {
         uwsgi_pass  oo;
-        include     /home/oo/oo.psicologipuglia.it/private/nginx/uwsgi_params;
+        include     /home/oo/ordine.psicologipuglia.it/private/nginx/uwsgi_params;
     }
 
 }

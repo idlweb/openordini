@@ -83,11 +83,10 @@ def production():
     """
     Deploy OpenOrdini to the production server(s).
     """
-    env.environment = 'production'
     # import staging's conf module
     import conf_production as conf
     ## set up Fabric global environment dictionary
-    env.environment = 'staging'
+    env.environment = 'production'
     env.server = conf.SERVER_MACHINE    
     env.project = conf.PROJECT_NAME
     env.app_domain = conf.APP_DOMAIN
