@@ -326,3 +326,18 @@ def restart_postgres():
     with hide('commands'):
         sudo('%(postgres_controller)s restart' % env)
     fastprint(" done." % env, end='\n')
+
+@task
+@roles('admin')
+def setup_crons():
+    """
+    Copy cron file to server
+    """
+    source = os.path.join(env.local_repo_root, 'system', 'cron', 'hourly')
+    dest = '/etc/cron.hourly'
+    fastprint("Adding cron file...", show_prefix=True)
+    
+    with lcd(source):
+        with cd(dest):
+            put('oo-hourly.sh', 'oo-hourly.sh', mode=0640)
+

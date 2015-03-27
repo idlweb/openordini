@@ -14,7 +14,7 @@ if PROJECT_ROOT_PARENT not in sys.path:
    sys.path.insert(0, PROJECT_ROOT_PARENT)
 
 # required for Django to work !                                                                                                                             
-   os.environ['DJANGO_SETTINGS_MODULE'] = 'openordini.openordini.settings_production'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'openordini.openordini.settings_production'
 
 # create the WSGI application object                                                                                                                        
 import django.core.handlers.wsgi

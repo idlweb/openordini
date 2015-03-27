@@ -204,6 +204,7 @@ def deploy():
             execute(memcached.upload_conf)
             execute(memcached.start)
 
+
 #            # drop any existing application DB # FS why do we have this drop?
 #            execute(db.drop_db)
 
@@ -215,13 +216,17 @@ def deploy():
         with hide('everything'):
             if run('test -d %(domain_root)s' % env).failed:
                 abort("It seems that the root dir for this OpenOrdini instance has not been created, yet.") 
-#        with settings(warn_only=True):
+        with settings(warn_only=True):
 #            execute(webserver.stop)
-#            execute(nginx.stop)
+            execute(nginx.stop)
         # update Django project's files
         execute(code.update_project)
         # update external dependencies
-        execute(venv.update_requirements)
+        with settings(warn_only=True):
+            # use warn_only=True so if github/bitbucket are down
+            # and there is no need for new requirements, the deploy
+            # can continue
+            execute(venv.update_requirements)
         if env.get('initial_deploy'):
             # execute ``syncdb`` Django task
             execute(db.sync_db)
@@ -235,15 +240,17 @@ def deploy():
         execute(solr.update_index)
         # collect static files
         execute(static.collect_files)
+        # update cron jobs
+        execute(provision.setup_crons)
         # clear webserver's log when deploying to the staging server
 #        if env.environment == 'staging': execute(webserver.clear_logs)
 #        if env.environment == 'staging': execute(nginx.clear_logs)
         # update webserver configuration
 #        execute(webserver.update_conf)
         execute(nginx.update_uwsgi_conf)
-#        execute(nginx.update_conf)
+        execute(nginx.update_conf)
 #        execute(webserver.start)
-#        execute(nginx.start)
+        execute(nginx.start)
         # adjust filesystem permissions
         execute(adjust_permissions)
 
