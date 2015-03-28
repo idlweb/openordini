@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.auth.decorators import login_required
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -10,6 +11,8 @@ from open_municipio.urls import *
 
 from .views import OOHomeView
 from ..oo_users.forms import UserRegistrationForm
+
+admin.site.login = login_required(admin.site.login)
 
 urlpatterns = patterns('',
 
