@@ -3,11 +3,11 @@
 
 # Django-related settings
 # the base directory (full path)
-chdir           = /home/oo/oo.psicologipuglia.it/private/
+chdir           = /home/oo/ordine.psicologipuglia.it/private/
 # Django's wsgi file
-module          = openordini.openordini.wsgi_staging
+module          = openordini.openordini.wsgi_production
 # the virtualenv (full path)
-home            = /home/oo/oo.psicologipuglia.it/private/venv
+home            = /home/oo/ordine.psicologipuglia.it/private/venv
 
 
 # process-related settings
@@ -16,9 +16,9 @@ master          = true
 # maximum number of worker processes
 processes       = 3
 # the pid of the master process
-pidfile         = /home/oo/oo.psicologipuglia.it/private/nginx/openordini.pid
+pidfile         = /home/oo/ordine.psicologipuglia.it/private/nginx/openordini.pid
 # the socket (use the full path to be safe
-socket          = /home/oo/oo.psicologipuglia.it/private/nginx/openordini.sock
+socket          = /home/oo/ordine.psicologipuglia.it/private/nginx/openordini.sock
 # ... with appropriate permissions - may be needed
 chmod-socket    = 664
 # clear environment on exit

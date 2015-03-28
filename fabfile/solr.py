@@ -29,7 +29,7 @@ def update_core_conf():
     with hide('commands'):
         rsync_project(
             remote_dir=os.path.join(env.domain_root, 'private'),
-            local_dir=os.path.join(env.local_repo_root, 'solr'),
+            local_dir=os.path.join(env.local_repo_root, 'system', 'solr'),
             exclude=('.*', '*~','context_*.xml', 'solr.xml', 'solr.xml.remote'),
             delete=True,
             extra_opts=extra_opts,
@@ -70,7 +70,7 @@ def add_new_core():
         with cd(env.solr_home):
             # copy remote version of ``solr.xml`` to the local machine
             fastprint("Adding new core definition to `solr.xml'... ", show_prefix=True)
-            tmp_fname = os.path.join(env.local_repo_root, 'solr', 'solr.xml.remote')
+            tmp_fname = os.path.join(env.local_repo_root, 'system', 'solr', 'solr.xml.remote')
             get(remote_path=os.path.join('cores', 'solr.xml'), local_path=tmp_fname)
             # parse ``solr.xml`` into a tree of Python objects
             tree = objectify.parse(tmp_fname)

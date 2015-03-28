@@ -18,7 +18,7 @@ RSYNC_EXCLUDE = (
 PROJECT_NAME = 'openordini' ## CHANGEME!
 # a unique identifier for this web application instance
 # usually it's set to the primary domain from which the web application is accessed
-APP_DOMAIN = 'oo.psicologipuglia.it' ## CHANGEME!
+APP_DOMAIN = 'ordine.psicologipuglia.it' ## CHANGEME!
 # filesystem location of project's repository on the local machine
 LOCAL_REPO_ROOT =  os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
 # filesystem location of Django project's files on the local machine
@@ -43,8 +43,8 @@ DOMAIN_ROOT = os.path.join(WEB_ROOT, APP_DOMAIN)
 VIRTUALENV_ROOT = os.path.join(DOMAIN_ROOT, 'private', 'venv') 
 # the root directory for project-specific files (on the server machine)
 PROJECT_ROOT = os.path.join(DOMAIN_ROOT, 'private', PROJECT_NAME)
-# import path of Django settings module for the staging environment
-DJANGO_SETTINGS_MODULE = '%(project)s.%(project)s.settings_staging' % {'project': PROJECT_NAME}
+# import path of Django settings module for the production environment
+DJANGO_SETTINGS_MODULE = '%(project)s.%(project)s.settings_production' % {'project': PROJECT_NAME}
 # Directory where static files should be collected.  This MUST equal the value
 # of ``STATIC_ROOT`` attribute of the Django settings module used on the server.
 STATIC_ROOT =  os.path.join(DOMAIN_ROOT, 'public', 'static')

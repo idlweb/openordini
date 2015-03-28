@@ -83,11 +83,10 @@ def production():
     """
     Deploy OpenOrdini to the production server(s).
     """
-    env.environment = 'production'
     # import staging's conf module
     import conf_production as conf
     ## set up Fabric global environment dictionary
-    env.environment = 'staging'
+    env.environment = 'production'
     env.server = conf.SERVER_MACHINE    
     env.project = conf.PROJECT_NAME
     env.app_domain = conf.APP_DOMAIN
@@ -205,6 +204,7 @@ def deploy():
             execute(memcached.upload_conf)
             execute(memcached.start)
 
+
 #            # drop any existing application DB # FS why do we have this drop?
 #            execute(db.drop_db)
 
@@ -222,7 +222,11 @@ def deploy():
         # update Django project's files
         execute(code.update_project)
         # update external dependencies
-        execute(venv.update_requirements)
+        with settings(warn_only=True):
+            # use warn_only=True so if github/bitbucket are down
+            # and there is no need for new requirements, the deploy
+            # can continue
+            execute(venv.update_requirements)
         if env.get('initial_deploy'):
             # execute ``syncdb`` Django task
             execute(db.sync_db)
@@ -236,13 +240,15 @@ def deploy():
         execute(solr.update_index)
         # collect static files
         execute(static.collect_files)
+        # update cron jobs
+        execute(provision.setup_crons)
         # clear webserver's log when deploying to the staging server
 #        if env.environment == 'staging': execute(webserver.clear_logs)
 #        if env.environment == 'staging': execute(nginx.clear_logs)
         # update webserver configuration
 #        execute(webserver.update_conf)
         execute(nginx.update_uwsgi_conf)
-#        execute(nginx.update_conf)
+        execute(nginx.update_conf)
 #        execute(webserver.start)
 #        execute(nginx.start)
         # adjust filesystem permissions

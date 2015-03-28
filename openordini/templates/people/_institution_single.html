@@ -77,7 +77,7 @@
 
       <div class="span6 endless_page_template">
         <ul class="unstyled">
-      {% paginate 50,80 cur_members %}
+      {% paginate 25 cur_members %}
       {% for member in cur_members %}
           {# your code to show the entry #}
           <li style="line-height: 45px;" role="presentation" class="active">
@@ -92,7 +92,13 @@
                 ({{ member.group.acronym }})
               {% endif %}</a></li>
       {% endfor %}
-      {% get_pages %}
+         
+        </ul>
+      </div>
+
+    <div>
+
+    {% get_pages %}
       </br>
       
       {{ pages.first_as_arrow }}{% show_pages %}{{ pages.last_as_arrow }}
@@ -100,11 +106,8 @@
        Iscritti visualizzati, 
       da <strong>{{ pages.current_start_index }}</strong> a <strong>{{ pages.current_end_index }}</strong> di <strong>{{ pages.total_count }}</strong>
       - Numero pagine [<strong>{{ pages|length }}</strong>]
-       
-        </ul>
-      </div>
 
-  
+    </div>  
     </div>
   </div>
 

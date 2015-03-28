@@ -60,6 +60,11 @@ LOGGING = {
             'datefmt' : "%d/%b/%Y %H:%M:%S"
         },
         },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+    },
     'handlers': {
         'console':{
             'level':'DEBUG',
@@ -79,6 +84,7 @@ LOGGING = {
             },
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
         'mail_registration_managers': {
@@ -157,6 +163,8 @@ COMMITTEE_SLUGS = {
     "psicologo_clinico": "sezione-a",
     "psicologo_forense": "sezione-a",
     "dottore_tecniche_psicologiche": "sezione-b",
+    "sezione_a" : "sezione-a",
+    "sezione_b" : "sezione-b",
 }
 
 SITE_INFO = {
@@ -212,3 +220,5 @@ MODULES = {
     "sez_a_uomo": os.path.join(MODULES_ROOT, "domanda_sez_a_u.rtf"), 
     "sez_a_donna": os.path.join(MODULES_ROOT, "domanda_sez_a_d.rtf"), 
 }
+
+IMPORT_DATE_FORMAT = "%d-%m-%Y"

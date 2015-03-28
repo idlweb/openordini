@@ -45,7 +45,7 @@ class UserProfile(OMUserProfile):
         return comm
 
     def __unicode__(self):
-        return self.person.first_name + ' - ' + self.person.last_name 
+        return self.user.first_name + ' - ' + self.user.last_name 
 
     class Meta:
         verbose_name = _("scheda psicologo")
@@ -110,6 +110,9 @@ class Recapito(models.Model):
     consegna_corrispondenza = models.CharField(_('consegna corrispondenza'), choices=TIPI_CORRISPONDENZA, help_text=_(u"consegna corrispondenza") , max_length=50)
     
     def __unicode__(self):
+        if not self.recapiti_psicologo.person:
+            return "???"
+
         return self.recapiti_psicologo.person.first_name + ' - ' +self.recapiti_psicologo.person.last_name #self.codice_fiscale
 
 

@@ -14,8 +14,9 @@ from django.views.generic import TemplateView, DetailView, ListView, RedirectVie
 from django.core.exceptions import ObjectDoesNotExist
 from open_municipio.people.views import PoliticianDetailView, CommitteeDetailView, \
                                         CouncilListView, CommitteeListView
-from open_municipio.people.models import Institution, InstitutionCharge, Person
+from open_municipio.people.models import Institution, InstitutionCharge, Person, municipality
 from open_municipio.people.views import PoliticianSearchView
+from open_municipio.events.models import Event
 
 from open_municipio.acts.models import Act
 from open_municipio.users.models import UserProfile as UOM
@@ -86,23 +87,67 @@ class OOPoliticianDetailView(FilterActsByUser, PoliticianDetailView):
 class OOCommitteeDetailView(CommitteeDetailView):
 
     def get_context_data(self, **kwargs):
-        ctx = super(OOCommitteeDetailView, self).get_context_data(**kwargs)                    
+        # avoid calling super method, because it takes too long
+        print "call super ..."
+    
+        # note: we don't call CommitteeDetailView.get_context_data(...) but
+        # its super method; the code in CommitteeDetailView.get_context_data
+        # is very slow
+        ctx = super(CommitteeDetailView, self).get_context_data(**kwargs)
+
+        # Are we given a real Committee institution as input? If no,
+        # raise 404 exception.
+        if self.object.institution_type != Institution.COMMITTEE:
+            raise Http404
+
+        committee_list = municipality.committees.as_institution()
+
+        # fetch charges and add group
+        president = self.object.president
+        if president and president.charge.original_charge_id:
+            president.group = InstitutionCharge.objects.current().select_related().\
+                                  get(pk=president.charge.original_charge_id).council_group
+        vicepresidents = self.object.vicepresidents
+        for vp in vicepresidents:
+            if vp and vp.charge.original_charge_id:
+                vp.group = InstitutionCharge.objects.current().select_related().\
+                    get(pk=vp.charge.original_charge_id).council_group
+
+        members = self.object.members.order_by('person__last_name')
+
+
+        resources = dict(
+            (r['resource_type'], {'value': r['value'], 'description': r['description']})
+                for r in self.object.resources.values('resource_type', 'value', 'description')
+        )
+
+        events = Event.objects.filter(institution=self.object)
+
+        ctx["members"] = members
+        ctx["object"] = self.object
+        ctx["events"] = events
+        ctx["committees"] = committee_list
+        ctx["president"] = president
+        ctx["vice_presidents"] = vicepresidents
+        ctx["resources"] = resources
+
         ctx["current_site"] = Site.objects.get(pk=settings.SITE_ID)
         #ctx["members_for_pages"] = members_for_pages
-        members = self.object.sub_body_set.all()
-        paginator = Paginator(members, 4)
-        page = self.request.GET.get('page', 1)
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            page_obj = paginator.page(paginator.num_pages)
-
-        ctx['paginator'] = paginator        
-        ctx['page_obj'] = page_obj
+#        members = self.object.sub_body_set.all()
+#        print "members: %s" % members
+#        paginator = Paginator(members, 20)
+##        page = self.request.GET.get('page', 1)
+##        try:
+##            page_obj = paginator.page(page)
+##        except PageNotAnInteger:
+##            # If page is not an integer, deliver first page.
+##            page_obj = paginator.page(1)
+##        except EmptyPage:
+##            # If page is out of range (e.g. 9999), deliver last page of results.
+##            page_obj = paginator.page(paginator.num_pages)
+##
+##        ctx['paginator'] = paginator        
+##        ctx['page_obj'] = page_obj
         ctx["sub_committees"] = self.object.sub_body_set.all()
 
         return ctx

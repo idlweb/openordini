@@ -18,7 +18,7 @@ RSYNC_EXCLUDE = (
 PROJECT_NAME = 'openordini' ## CHANGEME!
 # a unique identifier for this web application instance
 # usually it's set to the primary domain from which the web application is accessed
-APP_DOMAIN = 'oo.psicologipuglia.it' ## CHANGEME!
+APP_DOMAIN = 'ordine.psicologipuglia.it' ## CHANGEME!
 # filesystem location of project's repository on the local machine
 LOCAL_REPO_ROOT =  os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
 # filesystem location of Django project's files on the local machine

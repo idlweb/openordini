@@ -61,7 +61,10 @@ class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
 
             curr_year = datetime.today().year
 
-            ctx["curr_subscription"] = SubscriptionOrder.get_for_person(curr_person, curr_year)
+            ctx["curr_subscription"] = None
+
+            if curr_person:
+                ctx["curr_subscription"] = SubscriptionOrder.get_for_person(curr_person, curr_year)
 
         except (ObjectDoesNotExist, AttributeError), err:
             print "error: %s" % err

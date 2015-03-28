@@ -96,7 +96,7 @@ def upload_conf():
     fastprint("Uploading vhost configuration for %(app_domain)s..." % env, show_prefix=True)
     with hide('stdout', 'running'):
         ## upload Virtual Host configuration
-        source = os.path.join(env.local_repo_root, 'nginx', 'vhost.conf.%(environment)s' % env)
+        source = os.path.join(env.local_repo_root, 'system', 'nginx', 'vhost.conf.%(environment)s' % env)
         with cd('/etc/nginx/sites-available'):
             dest = env.app_domain
             put(source, dest, use_sudo=True, mode=0644)
@@ -111,11 +111,11 @@ def update_uwsgi_conf():
     Update the uwsgi configuration and start it
     """
 
-    with lcd(os.path.join(env.local_repo_root, 'nginx')):
+    with lcd(os.path.join(env.local_repo_root, 'system', 'nginx')):
         nginx_dir = os.path.join(env.domain_root, 'private', 'nginx')
         run('mkdir -p %s' % nginx_dir)
         with cd(nginx_dir):
-            source = '%(project)s.uwsgi.ini' % env
+            source = '%(project)s.uwsgi.ini.%(environment)s' % env
             dest = '%(project)s.uwsgi.ini' % env
             put(source, dest, mode=0644)
 
@@ -235,7 +235,7 @@ def upload_conf_uwsgi():
     require('domain_root', provided_by=('staging', 'production'))
     require('app_domain', provided_by=('staging', 'production'))
 
-    source = os.path.join(env.local_repo_root, 'nginx', '%(project)s.uwsgi.ini' % env)
+    source = os.path.join(env.local_repo_root, 'system', 'nginx', '%(project)s.uwsgi.ini.%(environment)s' % env)
     with cd(os.path.join(env.domain_root, 'private', 'nginx')):
         dest = "%(project)s.uwsgi.ini" % env
         put(source, dest, use_sudo=False, mode=0644)
