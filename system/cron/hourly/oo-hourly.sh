@@ -2,8 +2,6 @@
 
 # tasks run hourly
 
-su oo
-
 OO_HOME=/home/oo/ordine.psicologipuglia.it
 
 pushd ${OO_HOME}
@@ -18,5 +16,3 @@ echo "Deactivate virtual env"
 deactivate
 
 popd
-
-exit

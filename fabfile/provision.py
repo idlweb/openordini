@@ -339,5 +339,5 @@ def setup_crons():
     
     with lcd(source):
         with cd(dest):
-            put('oo-hourly.sh', 'oo-hourly.sh', mode=0640)
+            put('oo-hourly.sh', 'oo-hourly.sh', mode=0755)
 

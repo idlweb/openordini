@@ -10,7 +10,15 @@ from django.conf import settings
 from openordini.openordini.urls import *
 
 urlpatterns += patterns('',
+
+    url(r'^accounts/login/$', 'django_cas_ng.views.login', name='auth_login'),
+    url(r'^accounts/logout/$', 'django_cas_ng.views.logout', name='logout'),
+    url(r'^cas/', include('mama_cas.urls')),
+
+
+
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-)
+) + urlpatterns
+
 

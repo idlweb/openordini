@@ -21,7 +21,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'openordini',
-        'USER': '',
+        'USER': 'oo',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '5432',

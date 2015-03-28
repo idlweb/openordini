@@ -36,3 +36,9 @@ LEAFLET_CONFIG = {
 }
 
 UI_ALLOW_NICKNAMES = False
+
+INSTALLED_APPS = INSTALLED_APPS + (
+    'mama_cas',
+    'django_cas_ng',
+)
+
