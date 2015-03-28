@@ -98,15 +98,15 @@ def populate_geo_cache(*args, **kwargs):
 class UserRegistrationForm(OMUserRegistrationForm):
 
     fieldsets = {
-        "access" : ["username", "password", "password1", ],
-        "basic" : ["email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
+        "access" : [],
+        "basic" : ["username", "password", "password1", "email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],
         "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "regione_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "regione_domicilio", "provincia_domicilio", "indirizzo_studioo", "citta_studio", "cap_studio", "regione_studio", "provincia_studio", "codice_fiscale", ],
         "extra" : ["ritiro_agenda", "invio_tesserino"],
         "note" : ["note_legali"],
     }
 
-    says_is_psicologo_lavoro = forms.BooleanField(required=False, label=_('I am a "psicologo del lavoro"'))
-    says_is_psicologo_clinico = forms.BooleanField(required=False, label=_('I am a "psicologo clinico"'))
+    says_is_psicologo_lavoro = forms.BooleanField(required=False, label=_('Sono uno psicologo'))
+    says_is_psicologo_clinico = forms.BooleanField(required=False, label=_('Sono uno psicologo psicoterapeuta'))
     says_is_psicologo_forense = forms.BooleanField(required=False, label=_('I am a "psicologo forense"'))
     says_is_dottore_tecniche_psicologiche = forms.BooleanField(required=False, label=_('I am a "dottore in tecniche psicologiche"'))
 
@@ -125,8 +125,8 @@ class UserRegistrationForm(OMUserRegistrationForm):
                                     'class':'datepicker'
                                 }))
 
-    is_asl_employee = forms.BooleanField(required=False, label=_('I am an ASL employee'))
-    is_self_employed = forms.BooleanField(required=False, label=_('I am self-employed'))
+    is_asl_employee = forms.BooleanField(required=False, label=_('Sono un dipendente'))
+    is_self_employed = forms.BooleanField(required=False, label=_('Sono un libero professionista'))
 
     indirizzo_residenza = forms.CharField(required=True, label=_('Indirizzo'))
 
@@ -160,8 +160,8 @@ class UserRegistrationForm(OMUserRegistrationForm):
     accertamento_casellario = forms.BooleanField(required=False, label=_('Accertamento casellario'))
     accertamento_universita = forms.BooleanField(required=False, label=_('accertamento universita'))
 
-    ritiro_agenda = forms.BooleanField(required=False, label=_('Ritito agenda'))
-    invio_tesserino = forms.BooleanField(required=False, label=_('Invio tesserino'))
+    ritiro_agenda = forms.BooleanField(required=False, label=_('Spedizione agenda'))
+    invio_tesserino = forms.BooleanField(required=False, label=_('Spedizione tesserino'))
 
     class Meta:
         exclude = [ "accertamento_casellario", "accertamento_universita", ]
@@ -257,8 +257,8 @@ class UserProfileForm(UserRegistrationForm):
         self.fields["email"].required = False
 
     fieldsets = {
-        "access" : ["username", "password", "password1", ],
-        "basic" : [ "uses_nickname", "description", "image",],
+        "access" : [ ],
+        "basic" : [ "username", "password", "password1", "uses_nickname", "description", "image",],
         "contacts": ["indirizzo_residenza", "citta_residenza", "cap_residenza", "provincia_residenza", "indirizzo_domicilio", "citta_domicilio", "cap_domicilio", "provincia_domicilio", "indirizzo_studio", "citta_studio", "cap_studio", "provincia_studio",],
         "contacts2": [ "tel_residenza", "tel_domicilio", "tel_ufficio", "tel_cellulare", "indirizzo_email", "indirizzo_pec", "sito_internet"]
     }

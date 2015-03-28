@@ -177,15 +177,15 @@ class OOUserProfileEditView(FormView):
         initial["uses_nickname"] = profile.uses_nickname
         #initial["username"] = user.username 
         
-        def regione_from_provincia(provincia="Bari"):
-            provincia_istat = Provincie.objects.get(name=provincia).codice_provincia_istat
+        def region_from_provincia(provincia="Bari"):
             #provincia_istat = tuple(Provincie.objects.filter(name=provincia).values_list())
-            #regione = tuple(Regioni.objects.filter(codice_regione_istat=provincia_istat[0][5]).values_list())                 
+            #regione = tuple(Regioni.objects.filter(codice_regione_istat=provincia_istat[0][5]).values_list())
+            provincia_istat = Provincie.objects.get(name=provincia).codice_regione_istat                            
             regione = Regioni.objects.get(codice_regione_istat=provincia_istat).name
-            return regione.name#[0][1]
+            return regione#.name#[0][1]
 
         try:            
-            initial["regione_residenza"] =  regione_from_provincia(profile.anagrafica.provincia_residenza)
+            initial["regione_residenza"] =  region_from_provincia(profile.anagrafica.provincia_residenza)
             initial["indirizzo_residenza"] = profile.anagrafica.indirizzo_residenza
             initial["citta_residenza"] = profile.anagrafica.citta_residenza
             initial["cap_residenza"] = profile.anagrafica.cap_residenza
