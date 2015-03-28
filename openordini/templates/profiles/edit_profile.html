@@ -1,7 +1,25 @@
 {% extends "base_one_column.html" %}
 {% load url from future %}
+{% load staticfiles %}
 {% load registration_tags %}
+{% block head_css_includes %}
+    {{ block.super }}
+<!--     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+     <link rel="stylesheet" href="{% static "css/jquery-ui.css" %}" />
 
+{% endblock head_css_includes %}
+
+{% block head_js_includes %}
+  {{ block.super }}
+<!--    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/i18n/jquery-ui-i18n.min.js"></script> -->
+
+    <script src="{% static "js/jquery-ui.min.js" %}"</script>
+    <script src="{% static "js/jquery-ui-i18n.min.js" %}>"</script>
+
+
+    <script src="{% static "js/jquery.chained.js" %}"></script>
+{% endblock head_js_includes %}
 {% block title %}Modifica impostazioni utente{% endblock %}
 {% block content_header %}Modifica impostazioni utente{% endblock %}
 
@@ -136,5 +154,19 @@
 
         </div>
     </div>
+
+     <script lang="text/javascript">
+
+      $(document).ready(function(){
+            $("#id_provincia_residenza").chainedTo("#id_regione_residenza");
+            $("#id_provincia_domicilio").chainedTo("#id_regione_domicilio");
+            $("#id_provincia_studio").chainedTo("#id_regione_studio");
+
+            $("#id_citta_residenza").chainedTo("#id_provincia_residenza");
+            $("#id_citta_domicilio").chainedTo("#id_provincia_domicilio");
+            $("#id_citta_studio").chainedTo("#id_provincia_studio");
+        });
+
+    </script>   
 
 {% endblock %}

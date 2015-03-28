@@ -83,9 +83,12 @@
                             <legend></legend> 
                             {% include "registration/form_element.html" with element=form.image %}
                             <legend>Tipologia:</legend> 
-                            {% include "registration/form_element.html" with element=form.says_is_psicologo_clinico checkbox=1 %}
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_lavoro checkbox=1 %}
+                            {% include "registration/form_element.html" with element=form.says_is_psicologo_clinico checkbox=1 %}
+                            
+        {% comment %}                    
                             {% include "registration/form_element.html" with element=form.says_is_psicologo_forense checkbox=1 %}
+        {% endcomment %}
                             {% include "registration/form_element.html" with element=form.says_is_dottore_tecniche_psicologiche checkbox=1 %}
 
                             <div id="legal" class="alert">
@@ -175,6 +178,10 @@ Le ricordiamo che ai sensi dell’articolo 7 del d.lgs 196/2003 Lei può opporsi
                             <div id="legal" class="alert">
                                 {% include "registration/form_element.html" with element=form.tos checkbox=1 %}
                                 {% include "registration/form_element.html" with element=form.pri checkbox=1 %}
+                            </div>                          
+
+                             <div id="legal" class="alert">
+                                 <legend>  * Le informazioni sopra riportate sono state fornite direttamente dall'interessato e, pertanto, rientrano nella sua esclusiva responsabilità</legend>                                 
                             </div>
 
                           <div class="form-actions">
