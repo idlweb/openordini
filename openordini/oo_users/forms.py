@@ -194,7 +194,6 @@ class UserRegistrationForm(OMUserRegistrationForm):
 
 
 
-
     def clean(self, *args, **kwargs):
 
         data = super(UserRegistrationForm, self).clean(*args, **kwargs)
@@ -308,6 +307,11 @@ class UserProfileForm(UserRegistrationForm):
     indirizzo_pec = forms.CharField(required=False, label=_(u'Email PEC'))
     sito_internet = forms.URLField(required=False, label=_(u'Sito internet'))
 
+##    def form_invalid(self, *args, **kwargs):
+##        print "form invalid ..."
+##
+##        print "error: %s" % self.errors
+##
     def clean(self, *args, **kwargs):
 
         data = super(UserProfileForm, self).clean(*args, **kwargs)

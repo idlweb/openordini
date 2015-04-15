@@ -167,6 +167,7 @@ class OOUserProfileEditView(FormView):
 
 
     def get_initial(self):
+        print "catched here ..."
         initial = super(OOUserProfileEditView, self).get_initial()
 
         user = self.request.user
@@ -233,9 +234,9 @@ class OOUserProfileEditView(FormView):
 
     def form_valid(self, form):
 
-#        print "form valid ..."
+        print "form valid ..."
 
-#        print "data: %s" % form.cleaned_data
+        print "data: %s" % form.cleaned_data
 
         # save data
         
