@@ -146,7 +146,7 @@ PAYMENT_VARIANTS = {
 REGISTRATION_AUTO_LOGIN = True
 AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
 
-REGISTRATION_AUTO_ADD_GROUP = True
+REGISTRATION_AUTO_ADD_GROUP = False
 SYSTEM_GROUP_NAMES = {
     "psicologo_lavoro": "psicologi del lavoro",
     "psicologo_clinico": "psicologi clinici",

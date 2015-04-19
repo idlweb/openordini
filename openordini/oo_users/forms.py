@@ -14,6 +14,7 @@ from openordini.mvdb.models import Regioni, Provincie, Comuni
 from localflavor.it.forms import ITSocialSecurityNumberField, ITRegionProvinceSelect
 from openordini.mvdb.models import Comuni
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
+from ajax_changelist.admin import AjaxModelFormView
 
 _cached_values = False
 
@@ -93,10 +94,28 @@ def populate_geo_cache(*args, **kwargs):
     _cached_values = True
 
 #populate_geo_cache()
+class CustomAjaxModelFormView(AjaxModelFormView):
+    """
+        Lorenzo-Pascucci
+        "post_callback" is a generic function that will be called
+        after the form has been processed. 
+        The goal of the "post_callback" function is to do some 
+        extra work with the instance processed by the form. 
+        Hence, "post_callback" MUST be defined to accept ONLY 2 args: 
+            - self
+            - the instance processed by the form 
+            (this arg's name doesn't matter)
+    """
+    post_callback = None
 
+    def __init__(self, model, valid_fields, **kwargs):
+        self.post_callback = kwargs.get('post_callback', None)
+
+    def post(self, request, object_id, *args, **kwargs):
+        if self.post_callback:
+            self.post_callback(instance)
 
 class UserRegistrationForm(OMUserRegistrationForm):
-
     fieldsets = {
         "access" : [],
         "basic" : ["username", "password", "password1", "email", "first_name", "last_name", "sex", "birth_date", "birth_location", "uses_nickname", "description", "image", "says_is_psicologo_lavoro", "says_is_psicologo_clinico", "says_is_psicologo_forense", "says_is_asl_employee", "says_is_self_employed", ],

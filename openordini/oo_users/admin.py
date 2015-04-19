@@ -15,6 +15,10 @@ from suit.widgets import SuitDateWidget, SuitTimeWidget, SuitSplitDateTimeWidget
 
 from ajax_changelist.admin import AjaxModelAdmin
 
+from .regbackend import finalize_registration
+from .forms import CustomAjaxModelFormView
+
+#from django.utils.html import escape
 
 
 
@@ -41,15 +45,33 @@ class emailBusinessListFilter(admin.SimpleListFilter):
 
         return queryset
 
+class CustomAjaxModelAdmin(AjaxModelAdmin):
 
-class UserProfileAdmin(AjaxModelAdmin):
-    ajax_list_display = ('numero_iscrizione',)    
+    def __init__(self, *args, **kwargs):
+        if not hasattr(self, 'post_callback'):
+            self.post_callback = None
+
+    def get_urls(self):
+
+        """ Add endpoint for saving a new field value. """
+        urls = super(CustomAjaxModelAdmin, self).get_urls()
+        list_urls = patterns('',  (r'^(?P<object_id>\d+)$',  CustomAjaxModelFormView.as_view(model=self.model,  valid_fields=self.ajax_list_display,  post_callback=self.post_callback)))
+        return list_urls + urls
+
+
+class UserProfileAdmin(CustomAjaxModelAdmin): 
+    ajax_list_display = ('numero_iscrizione',)
+    post_callback = finalize_registration    
     exclude = ("says_is_politician", )
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter',)
     list_filter =(emailBusinessListFilter,)
     
 
+    def save_model(self, request, obj, form, change):
+            finalize_registration(self, obj)
+            obj.save()
+          
 
 """ ERRORE richiesta id"""
 #class UserInline(admin.TabularInline):
