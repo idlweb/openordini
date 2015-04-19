@@ -42,3 +42,4 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'django_cas_ng',
 )
 
+MAMA_CAS_ENABLE_SINGLE_SIGN_OUT = True
