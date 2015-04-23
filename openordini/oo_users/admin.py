@@ -1,3 +1,4 @@
+from django.conf.urls import patterns
 from django.contrib import admin
 from django import forms
 
@@ -22,7 +23,7 @@ from .forms import CustomAjaxModelFormView
 
 
 
-""" 
+"""
 Query personalizzata Verifiche
 """
 class emailBusinessListFilter(admin.SimpleListFilter):
@@ -37,7 +38,7 @@ class emailBusinessListFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        
+
         if self.value() == '1':
             queryset = queryset.filter(wants_commercial_newsletter=True)
         elif self.value() == '0':
@@ -48,30 +49,43 @@ class emailBusinessListFilter(admin.SimpleListFilter):
 class CustomAjaxModelAdmin(AjaxModelAdmin):
 
     def __init__(self, *args, **kwargs):
+
+        # 'post_callback' (if it's used) must be defined as one of the options
+        # on the subclass of this class
         if not hasattr(self, 'post_callback'):
             self.post_callback = None
 
-    def get_urls(self):
+        super(CustomAjaxModelAdmin, self).__init__(*args, **kwargs)
 
-        """ Add endpoint for saving a new field value. """
-        urls = super(CustomAjaxModelAdmin, self).get_urls()
-        list_urls = patterns('',  (r'^(?P<object_id>\d+)$',  CustomAjaxModelFormView.as_view(model=self.model,  valid_fields=self.ajax_list_display,  post_callback=self.post_callback)))
+
+    def get_urls(self):
+        """Full overriding of the parent's method.
+
+        Avoid duplicating this url pattern by defining it ONLY here.
+        (the 'super()' called here actually skips one level of class hierarchy).
+        """
+        urls = super(AjaxModelAdmin, self).get_urls()
+        list_urls = patterns('',
+                (r'^(?P<object_id>\d+)$',
+                 CustomAjaxModelFormView.as_view(model=self.model,
+                                            valid_fields=self.ajax_list_display,
+                                            post_callback=self.post_callback)))
         return list_urls + urls
 
 
-class UserProfileAdmin(CustomAjaxModelAdmin): 
+class UserProfileAdmin(CustomAjaxModelAdmin):
     ajax_list_display = ('numero_iscrizione',)
-    post_callback = finalize_registration    
+    post_callback = finalize_registration
     exclude = ("says_is_politician", )
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter',)
     list_filter =(emailBusinessListFilter,)
-    
+
 
     def save_model(self, request, obj, form, change):
-            finalize_registration(self, obj)
-            obj.save()
-          
+        finalize_registration(self, obj)
+        obj.save()
+
 
 """ ERRORE richiesta id"""
 #class UserInline(admin.TabularInline):
@@ -80,7 +94,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
 
 """ blocco funzionante A3"""
 def upper_case_name(obj):
-    return ("%s, %s" % (obj.indirizzo_email, obj.indirizzo_pec)).upper() 
+    return ("%s, %s" % (obj.indirizzo_email, obj.indirizzo_pec)).upper()
 upper_case_name.short_description = 'riferimento recapito'
 
 
@@ -98,7 +112,7 @@ class RecapitoAdmin(admin.ModelAdmin):
 
 
 
-""" 
+"""
 Query personalizzata Verifiche
 """
 class VerificheListFilter(admin.SimpleListFilter):
@@ -115,7 +129,7 @@ class VerificheListFilter(admin.SimpleListFilter):
         if self.value() == 'casellario':
             return queryset.filter(accertamento_casellario=False)
         if self.value() == 'titolo':
-            return queryset.filter(accertamento_universita=False)     
+            return queryset.filter(accertamento_universita=False)
 
 
 
@@ -124,8 +138,8 @@ class VerificheListFilter(admin.SimpleListFilter):
 class ExtraPeopleAdmin(admin.ModelAdmin):
     list_display = ('anagrafica_extra','accertamento_casellario','accertamento_universita')
     list_filter = (VerificheListFilter,)
-    search_fields = ["anagrafica_extra__person__last_name", ]        
-    
+    search_fields = ["anagrafica_extra__person__last_name", ]
+
     actions = ['validazione_casellario','export_come_JSON','export_selected_objects']
 
     def validazione_casellario(self, request, queryset):
@@ -135,7 +149,7 @@ class ExtraPeopleAdmin(admin.ModelAdmin):
         else:
             message_bit = "%s schede sono state" % rows_updated
         self.message_user(request, "%s correttamente modificate." % message_bit)
-        
+
     validazione_casellario.short_description = "validazione del casellario"
 
     def export_come_JSON(self, request, queryset):
@@ -149,22 +163,22 @@ class ExtraPeopleAdmin(admin.ModelAdmin):
         return HttpResponseRedirect("/export/?ct=%s&ids=%s" % (ct.pk, ",".join(selected)))
 
 
-""" 
+"""
 Query personalizzata Specializzazioni
 """
 class SpecializzatiListFilter(admin.SimpleListFilter):
     title = _('specializzati')
     parameter_name = 'specializzati'
-    def lookups(self, request, model_admin):       
+    def lookups(self, request, model_admin):
         return (
             ('articolo 3', _('specializzati presenti')),
         )
     def queryset(self, request, queryset):
         if self.value() == 'articolo 3':
             return queryset.filter(articolo_tre=True)
- 
 
-""" 
+
+"""
 Query personalizzata filtrando il REQUEST
 """
 class AuthSpecializzatiListFilter(SpecializzatiListFilter):
@@ -176,7 +190,7 @@ class AuthSpecializzatiListFilter(SpecializzatiListFilter):
     def queryset(self, request, queryset):
         if request.user.is_superuser:
             return super(AuthSpecializzatiListFilter,
-                self).queryset(request, queryset)     
+                self).queryset(request, queryset)
 
 
 #Non funziona
@@ -184,7 +198,7 @@ class AuthSpecializzatiListFilter(SpecializzatiListFilter):
 #    class Meta:
 #        model = PsicologoTitoli
 #        widgets = {
-#            'data_iscrizione_albo': SuitSplitDateTimeWidget,            
+#            'data_iscrizione_albo': SuitSplitDateTimeWidget,
 #        }
 
 
@@ -206,7 +220,7 @@ class PsicologoTitoliAdmin(admin.ModelAdmin):
    change view of an entry.
 """
 class ButtonableModelAdmin(admin.ModelAdmin):
-  
+
    buttons=[]
 
    def change_view(self, request, object_id, extra_context={}):

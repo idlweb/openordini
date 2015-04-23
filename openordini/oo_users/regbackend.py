@@ -170,32 +170,32 @@ def finalize_registration(self, user):
     print("sono dentro FINALIZE_REGISTRATION, prima del check di 'numero_iscrizione'")
     if settings.REGISTRATION_AUTO_ADD_GROUP and user.numero_iscrizione: 
         is_registered_a = (user.register_subscription_date != None) and (user.says_is_psicologo_lavoro or user.says_is_psicologo_clinico or user.says_is_psicologo_forense)
-    if is_registered_a: 
-        i = Institution.objects.get(slug="sezione-a")
-        member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
-        member_charge.save() 
-    if user.says_is_psicologo_lavoro:
-        g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
-        g.user_set.add(user)
-    if user.says_is_psicologo_clinico:
-        g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
-        g.user_set.add(user)
-    if user.says_is_psicologo_forense:
-        g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
-        g.user_set.add(user)
-     
-    is_registered_b = (user.register_subscription_date != None) and (user.says_is_dottore_tecniche_psicologiche)
+        if is_registered_a:
+            i = Institution.objects.get(slug="sezione-a")
+            member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
+            member_charge.save()
+        if user.says_is_psicologo_lavoro:
+            g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
+            g.user_set.add(user)
+        if user.says_is_psicologo_clinico:
+            g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
+            g.user_set.add(user)
+        if user.says_is_psicologo_forense:
+            g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
+            g.user_set.add(user)
 
-    if user.says_is_dottore_tecniche_psicologiche:
-        g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
-        g.user_set.add(user)
-    if is_registered_b:
-        print "Utente registrato ..."
-        i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
-        print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
-        member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
-        member_charge.save()
-    print('registrazione avvenuta')
+        is_registered_b = (user.register_subscription_date != None) and (user.says_is_dottore_tecniche_psicologiche)
+
+        if user.says_is_dottore_tecniche_psicologiche:
+            g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
+            g.user_set.add(user)
+        if is_registered_b: # TODO: check the indentation for this IF
+            print "Utente registrato ..."
+            i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
+            print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
+            member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
+            member_charge.save()
+        print('registrazione avvenuta')
 
 @receiver(user_activated)
 def log_in_user(sender, user, request, **kwargs):

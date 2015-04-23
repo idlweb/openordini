@@ -2,6 +2,7 @@
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
 from open_municipio.users.forms import UserRegistrationForm as OMUserRegistrationForm, UserProfileForm as OMUserProfileForm
@@ -93,27 +94,30 @@ def populate_geo_cache(*args, **kwargs):
 
     _cached_values = True
 
-#populate_geo_cache()
+
 class CustomAjaxModelFormView(AjaxModelFormView):
     """
-        Lorenzo-Pascucci
-        "post_callback" is a generic function that will be called
-        after the form has been processed. 
-        The goal of the "post_callback" function is to do some 
-        extra work with the instance processed by the form. 
-        Hence, "post_callback" MUST be defined to accept ONLY 2 args: 
+        'post_callback' is a generic function that will be called
+        after the form has been processed.
+        The goal of the 'post_callback' function is to do some
+        extra work with the instance processed by the form.
+        Hence, 'post_callback' MUST be defined to accept ONLY 2 args:
+
             - self
-            - the instance processed by the form 
-            (this arg's name doesn't matter)
+            - the instance processed by the form
     """
     post_callback = None
 
     def __init__(self, model, valid_fields, **kwargs):
+        super(CustomAjaxModelFormView, self).__init__(model, valid_fields, **kwargs)
         self.post_callback = kwargs.get('post_callback', None)
 
     def post(self, request, object_id, *args, **kwargs):
+        http_response = super(CustomAjaxModelFormView, self).post(request, object_id, *args, **kwargs)
         if self.post_callback:
+            instance = get_object_or_404(self.model, pk=object_id)
             self.post_callback(instance)
+        return http_response
 
 class UserRegistrationForm(OMUserRegistrationForm):
     fieldsets = {
