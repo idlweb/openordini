@@ -167,7 +167,7 @@ COMMITTEE_SLUGS = {
     "sezione_b" : "sezione-b",
 }
 
-CONTACTS_EMAIL = "info@psicologipuglia.it"
+CONTACTS_EMAIL = "segreteria@psicologipuglia.it"
 
 SITE_INFO = {
     'main_city': u'NPOP',
