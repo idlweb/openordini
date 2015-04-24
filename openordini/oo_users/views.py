@@ -51,7 +51,7 @@ class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
         ctx = super(OOUserProfileDetailView, self).get_context_data(**kwargs)
 
         curr_person = None
-        ctx["acts_facicoli"] = None
+        ctx["acts_fascicoli"] = None
 
         try:
             curr_person = self.object.person
@@ -72,7 +72,7 @@ class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
 
         """ 
         map: data una funzione ed una sequenza 
-        applica quella funzione ad agni elemento 
+        applica quella funzione ad ogni elemento
         della sequenza 
         """
         plans = SubscriptionPlan.get_for_user(self.request.user)
