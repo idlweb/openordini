@@ -20,8 +20,6 @@ from .models import UserProfile, ExtraPeople, Recapito
 from .forms import UserProfileForm
 from openordini.mvdb.models import Regioni, Provincie, Comuni
 
-
-
 from ..commons.mixins import FilterNewsByUser
 
 class OOUserProfileDetailView(FilterNewsByUser, UserProfileDetailView):
@@ -236,16 +234,29 @@ class OOUserProfileEditView(FormView):
 
         print "form valid ..."
 
-        print "data: %s" % form.cleaned_data
-
-        # save data
-        
+        #print "data: %s" % form.cleaned_data
+        #save data
+        print "per capire il form %s" % (form.__dict__)
+        print "------------------------------"
+        #print "per capire %s" % (UserProfileForm.__name___) 
         user = self.request.user
+        print "l utente - %s" % (user)
+
+        pwd = form.cleaned_data["password1"]
+
+        print "questa e' la pwd %s" %(pwd)
+        try:
+            print "eseguo..."
+            user.set_password(pwd)
+            user.save()
+            print "pwd settata"
+            #pass
+        except Exception, e:
+            print "errore %s" % (e)
+            #raise
+        
 
         profile = user.get_profile()
-
-        print form.cleaned_data["password1"]
-
         profile.location = form.cleaned_data["location"]
         profile.description = form.cleaned_data["description"]
         profile.image = form.cleaned_data["image"]
