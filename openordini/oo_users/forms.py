@@ -216,7 +216,6 @@ class UserRegistrationForm(OMUserRegistrationForm):
         self.fields["citta_studio"] = forms.ChoiceField(choices=CHOICES_COMUNI, required=True, widget=ChainedSelect(chained_values=comuni_provincie), label=_(u'Città'))
 
 
-
     def clean(self, *args, **kwargs):
 
         data = super(UserRegistrationForm, self).clean(*args, **kwargs)
@@ -335,19 +334,9 @@ class UserProfileForm(UserRegistrationForm):
 ##
 ##        print "error: %s" % self.errors
 ##
-    def clean(self, *args, **kwargs):
+    def clean_username(self):
+        pass
 
-        data = super(UserProfileForm, self).clean(*args, **kwargs)
-        test_email = data["indirizzo_email"]
-        test_pec = data["indirizzo_pec"] 
 
-        if (len(test_email) > 254):
-            msg = _("verificare la email troppo lunga")
-            raise ValidationError(msg)
-
-        if (len(test_pec) > 254):
-            msg = _("verificare la PEC troppo lunga")
-            raise ValidationError(msg)
-
-        return data
-
+    def clean_email(self):
+        pass

@@ -177,7 +177,7 @@ class OOUserProfileEditView(FormView):
         initial["description"] = profile.description
         initial["image"] = profile.image
         initial["uses_nickname"] = profile.uses_nickname
-        #initial["username"] = user.username 
+        initial["username"] = user.username 
         
         def region_from_provincia(provincia="Bari"):
             #provincia_istat = tuple(Provincie.objects.filter(name=provincia).values_list())
@@ -211,45 +211,74 @@ class OOUserProfileEditView(FormView):
         except ObjectDoesNotExist:
             pass
 
+
+        try:
+            initial["first_name"] = user.first_name
+            initial["last_name"] = user.last_name
+            initial["email"] = user.email
+            initial["birth_date"] = user.get_profile().person.birth_date
+            initial["birth_location"] = user.get_profile().person.birth_location
+            initial["sex"] = user.get_profile().person.sex                
+        except ObjectDoesNotExist:
+            pass
+     
+
+        try:
+            initial["says_is_psicologo_lavoro"] = profile.says_is_psicologo_lavoro
+            initial["says_is_psicologo_clinico"] = profile.says_is_psicologo_clinico
+            initial["says_is_psicologo_forense"] = profile.says_is_psicologo_forense
+            initial["says_is_dottore_tecniche_psicologiche"] = profile.says_is_dottore_tecniche_psicologiche 
+            initial["is_asl_employee"] = profile.says_is_asl_employee
+            initial["is_self_employed"] = profile.says_is_self_employed
+            initial["register_subscription_date"] = profile.register_subscription_date
+            initial["wants_newsletter"] = profile.wants_newsletter
+            initial["wants_commercial_newsletter"] = profile.wants_commercial_newsletter
+            initial["wants_commercial_mobile"] = profile.wants_commercial_mobile            
+        except ObjectDoesNotExist:
+            pass
+      
+
         try:
             initial["tel_residenza"] = profile.recapiti.tel_residenza
             initial["tel_domicilio"] = profile.recapiti.tel_domicilio
             initial["tel_ufficio"] = profile.recapiti.tel_ufficio
             initial["tel_cellulare"] = profile.recapiti.tel_cellulare
-            initial["indirizzo_email"] = profile.recapiti.indirizzo_email or profile.user.email
+            initial["indirizzo_email"] = profile.recapiti.indirizzo_email #or profile.user.emaliil
             initial["indirizzo_pec"] = profile.recapiti.indirizzo_pec
             initial["sito_internet"] = profile.recapiti.sito_internet
+            initial["consegna_corrispondenza"] = profile.recapiti.consegna_corrispondenza
         except ObjectDoesNotExist:
-            initial["indirizzo_email"] = profile.user.email
-            initial["indirizzo_pec"] = "email@troppolunga.err"
+            pass
 
         return initial
     
     def form_invalid(self, form):
-        print "form errors: %s" % form.errors
+        print "form errors: %s" % form.errors        
         return super(OOUserProfileEditView, self).form_invalid(form)
 
 
     def form_valid(self, form):
 
-        print "form valid ..."
-
+        #print "form valid ..."
         #print "data: %s" % form.cleaned_data
         #save data
-        print "per capire il form %s" % (form.__dict__)
-        print "------------------------------"
+        #print "per capire il form %s" % (form.__dict__)        
         #print "per capire %s" % (UserProfileForm.__name___) 
         user = self.request.user
-        print "l utente - %s" % (user)
+        #print "l utente - %s" % (user)
 
         pwd = form.cleaned_data["password1"]
 
-        print "questa e' la pwd %s" %(pwd)
+        #print "questa e' la pwd %s" %(pwd)
         try:
-            print "eseguo..."
+            #print "eseguo..."
+            user.username = form.cleaned_data["username"] or user.username
+            user.first_name = form.cleaned_data["first_name"]
+            user.last_name = form.cleaned_data["last_name"]
+            user.email = form.cleaned_data["email"] or "info@info.it"
             user.set_password(pwd)
             user.save()
-            print "pwd settata"
+            #print "pwd settata"
             #pass
         except Exception, e:
             print "errore %s" % (e)
@@ -261,21 +290,35 @@ class OOUserProfileEditView(FormView):
         profile.description = form.cleaned_data["description"]
         profile.image = form.cleaned_data["image"]
         profile.uses_nickname = form.cleaned_data["uses_nickname"]
+        profile.says_is_psicologo_lavoro = form.cleaned_data["says_is_psicologo_lavoro"]
+        profile.says_is_psicologo_clinico = form.cleaned_data["says_is_psicologo_clinico"]
+        profile.says_is_psicologo_forense = form.cleaned_data["says_is_psicologo_forense"]
+        profile.says_is_dottore_tecniche_psicologiche = form.cleaned_data["says_is_dottore_tecniche_psicologiche"]
 
+        #profile.says_is_asl_employee = form.cleaned_data["says_is_asl_employee"] or 0
+        #profile.says_is_self_employed = form.cleaned_data["says_is_self_employed"] or 0
+
+        profile.register_subscription_date = form.cleaned_data["register_subscription_date"]
+        profile.wants_newsletter = form.cleaned_data["wants_newsletter"]
+        profile.wants_commercial_newsletter = form.cleaned_data["wants_commercial_newsletter"]
+        profile.wants_commercial_mobile = form.cleaned_data["wants_commercial_mobile"]
         profile.save()
 
-        anagrafica, created = ExtraPeople.objects.get_or_create(anagrafica_extra=profile)
+        person = user.get_profile().person
+        person.birth_date = form.cleaned_data["birth_date"]
+        person.birth_location = form.cleaned_data["birth_location"]
+        person.sex = form.cleaned_data["sex"]
+        person.save()
 
+        anagrafica, created = ExtraPeople.objects.get_or_create(anagrafica_extra=profile)
         anagrafica.indirizzo_residenza = form.cleaned_data["indirizzo_residenza"]
         anagrafica.citta_residenza = form.cleaned_data["citta_residenza"]
         anagrafica.cap_residenza = form.cleaned_data["cap_residenza"]
         anagrafica.provincia_residenza = form.cleaned_data["provincia_residenza"]
-
         anagrafica.indirizzo_domicilio = form.cleaned_data["indirizzo_domicilio"]
         anagrafica.citta_domicilio = form.cleaned_data["citta_domicilio"]
         anagrafica.cap_domicilio = form.cleaned_data["cap_domicilio"]
         anagrafica.provincia_domicilio = form.cleaned_data["provincia_domicilio"]
-
         anagrafica.indirizzo_studio = form.cleaned_data["indirizzo_studio"]
         anagrafica.citta_studio = form.cleaned_data["citta_studio"]
         anagrafica.cap_studio = form.cleaned_data["cap_studio"]
@@ -286,7 +329,6 @@ class OOUserProfileEditView(FormView):
         anagrafica.save()
 
         recapiti, created = Recapito.objects.get_or_create(recapiti_psicologo=profile)
-
         recapiti.tel_residenza = form.cleaned_data["tel_residenza"]
         recapiti.tel_domicilio = form.cleaned_data["tel_domicilio"]
         recapiti.tel_ufficio = form.cleaned_data["tel_ufficio"]
@@ -294,6 +336,7 @@ class OOUserProfileEditView(FormView):
         recapiti.indirizzo_email = form.cleaned_data["indirizzo_email"]
         recapiti.indirizzo_pec = form.cleaned_data["indirizzo_pec"]
         recapiti.sito_internet = form.cleaned_data["sito_internet"]
+        recapiti.consegna_corrispondenza = form.cleaned_data["consegna_corrispondenza"]
         recapiti.save()
 
         if user.email != recapiti.indirizzo_email:
