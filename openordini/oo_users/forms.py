@@ -17,6 +17,8 @@ from openordini.mvdb.models import Comuni
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
 from ajax_changelist.admin import AjaxModelFormView
 
+from open_municipio.users.models import User
+
 _cached_values = False
 
 regioni = None
@@ -328,6 +330,8 @@ class UserProfileForm(UserRegistrationForm):
     indirizzo_email = forms.EmailField(required=False, label=_(u'Email'))
     indirizzo_pec = forms.CharField(required=False, label=_(u'Email PEC'))
     sito_internet = forms.URLField(required=False, label=_(u'Sito internet'))
+    says_is_asl_employee = forms.BooleanField(required=False, label=_('Sono uno dipendente'))
+    says_is_self_employed = forms.BooleanField(required=False, label=_('Sono uno libero professionista'))
 
 ##    def form_invalid(self, *args, **kwargs):
 ##        print "form invalid ..."
@@ -335,8 +339,20 @@ class UserProfileForm(UserRegistrationForm):
 ##        print "error: %s" % self.errors
 ##
     def clean_username(self):
-        pass
+        
+        #user = User.objects.get(username=self.cleaned_data['username'])
+        #print "test %s" % (user.username)
+        print  self.__dict__
+        return self.cleaned_data['username']
+
+        """
+        try:
+            if forms.initial["username"] != self.cleaned_data['username']:
+                raise forms.ValidationError(_("A user wil be changed."))
+        except:
+            return self.cleaned_data['username']
+        """       
 
 
     def clean_email(self):
-        pass
+        return self.cleaned_data['email']

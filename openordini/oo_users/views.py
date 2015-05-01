@@ -114,9 +114,10 @@ class OOUserProfileListView(FilterNewsByUser, UserProfileListView):
         # extract_top_monitored_objects does not return a QuerySet
 
         all_acts = extract_top_monitored_objects(Deliberation, Motion, 
-                        Interpellation, Agenda, Interrogation, Amendment, Fascicolo, qnt=5)
+                        Interpellation, Agenda, Interrogation, Amendment, Fascicolo, qnt=5)        
 
         ctx["top_monitored_acts"] = self.filter_monitored_acts(all_acts)
+        ctx["ordini_monitorati"] = self.filter_monitored_odg(all_acts)
 
         return ctx
 
@@ -154,6 +155,34 @@ class OOUserProfileListView(FilterNewsByUser, UserProfileListView):
         return filtered_acts
 
 
+    def filter_monitored_odg(self, all_acts):
+
+        person = None
+
+        try:
+            person = self.request.user.get_profile().person
+        except Exception:
+            pass
+
+        filtered_acts = []
+        for curr_row in all_acts:
+
+
+            if isinstance(curr_row["object"], Agenda):
+                if not person:
+                    # user has no associated person: don't show the Fascicolo
+                    continue
+
+                if person.get_current_institution_charges().slug is not "sezione-a":                
+                    # person not in Fascicolo recipients
+#                    print "person not found ..."
+                    continue    
+
+            filtered_acts.append(curr_row)
+
+        return filtered_acts
+
+
 class OOUserProfileEditView(FormView):
 
     form_class = UserProfileForm
@@ -165,7 +194,7 @@ class OOUserProfileEditView(FormView):
 
 
     def get_initial(self):
-        print "catched here ..."
+        #print "catched here ..."
         initial = super(OOUserProfileEditView, self).get_initial()
 
         user = self.request.user
@@ -178,6 +207,9 @@ class OOUserProfileEditView(FormView):
         initial["image"] = profile.image
         initial["uses_nickname"] = profile.uses_nickname
         initial["username"] = user.username 
+        #print user.password
+        #initial["password1"] = user.password
+        #initial["password2"] = user.password
         
         def region_from_provincia(provincia="Bari"):
             #provincia_istat = tuple(Provincie.objects.filter(name=provincia).values_list())
@@ -262,21 +294,27 @@ class OOUserProfileEditView(FormView):
         #print "form valid ..."
         #print "data: %s" % form.cleaned_data
         #save data
-        #print "per capire il form %s" % (form.__dict__)        
+        #print "per capire il form %s" % (form.cleaned_data)        
         #print "per capire %s" % (UserProfileForm.__name___) 
         user = self.request.user
         #print "l utente - %s" % (user)
 
         pwd = form.cleaned_data["password1"]
 
+        print "verifico l'utente %s, utente originale %s"  %  (form.cleaned_data["username"], user.username)    
+
         #print "questa e' la pwd %s" %(pwd)
         try:
             #print "eseguo..."
-            user.username = form.cleaned_data["username"] or user.username
+            user.username = form.cleaned_data["username"]           
             user.first_name = form.cleaned_data["first_name"]
             user.last_name = form.cleaned_data["last_name"]
             user.email = form.cleaned_data["email"] or "info@info.it"
+            """
+            e' sempre il caso di salvare la password?
+            """
             user.set_password(pwd)
+
             user.save()
             #print "pwd settata"
             #pass
@@ -295,8 +333,8 @@ class OOUserProfileEditView(FormView):
         profile.says_is_psicologo_forense = form.cleaned_data["says_is_psicologo_forense"]
         profile.says_is_dottore_tecniche_psicologiche = form.cleaned_data["says_is_dottore_tecniche_psicologiche"]
 
-        #profile.says_is_asl_employee = form.cleaned_data["says_is_asl_employee"] or 0
-        #profile.says_is_self_employed = form.cleaned_data["says_is_self_employed"] or 0
+        profile.says_is_asl_employee = form.cleaned_data["says_is_asl_employee"] 
+        profile.says_is_self_employed = form.cleaned_data["says_is_self_employed"] 
 
         profile.register_subscription_date = form.cleaned_data["register_subscription_date"]
         profile.wants_newsletter = form.cleaned_data["wants_newsletter"]
