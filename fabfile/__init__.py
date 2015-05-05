@@ -237,7 +237,7 @@ def deploy():
         # update Solr core's conf
         execute(solr.update_core_conf)
         # update Solr index
-        execute(solr.update_index)
+        # execute(solr.update_index)
         # collect static files
         execute(static.collect_files)
         # update cron jobs
