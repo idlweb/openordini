@@ -303,17 +303,17 @@ class OOUserProfileEditView(FormView):
 
         print "verifico l'utente %s, utente originale %s"  %  (form.cleaned_data["username"], user.username)    
 
-        #print "questa e' la pwd %s" %(pwd)
+#        print "questa e' la pwd %s" %(pwd)
         try:
             #print "eseguo..."
             user.username = form.cleaned_data["username"]           
             user.first_name = form.cleaned_data["first_name"]
             user.last_name = form.cleaned_data["last_name"]
             user.email = form.cleaned_data["email"] or "info@info.it"
-            """
-            e' sempre il caso di salvare la password?
-            """
-            user.set_password(pwd)
+
+            if pwd != "":
+                print "password cambiata..."
+                user.set_password(pwd)
 
             user.save()
             #print "pwd settata"
