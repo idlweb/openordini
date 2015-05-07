@@ -13,6 +13,10 @@ import os
 class Command(NoArgsCommand):
 
     help = 'Assign random password to all the users in the DB and send an email (with the uncrypted password) to each of them.'
+    option_list = NoArgsCommand.option_list + (
+        make_option('--dryrun', action='store_true', dest='dryrun', help='Deny email sending (print them in the console)'),
+        make_option('--limit', type='int', dest='users_limit', help='Limit the number of users activated (and emails sent)'),
+    )
 
 
     def handle_noargs(self, **options):
@@ -24,7 +28,9 @@ class Command(NoArgsCommand):
         email_txt_template_path = os.path.join(template_base_path, 'email.txt')
         email_html_template_path = os.path.join(template_base_path, 'email.html')
 
-        for u in User.objects.all()[1:2]: # CAP LIMIT: remove when ready !
+        users_counter = 0
+
+        for u in User.objects.all():
 
             if not u.is_active:
 
@@ -51,7 +57,7 @@ class Command(NoArgsCommand):
                 # build the email for the user
                 email = u.email
                 subject = 'Open Ordini - nuova password'
-                email_sender = 'prova@open-ordini.it'
+                email_sender = 'prova@open-ordini.it' # TODO: replace this address with a meaningful one !
             
                 msg_text = render_to_string(email_txt_template_path, email_context)
                 msg_html = render_to_string(email_html_template_path, email_context)
@@ -63,11 +69,21 @@ class Command(NoArgsCommand):
                 # add the email to the list of emails that will be sent
                 email_list.append(msg)
 
+                users_counter += 1
+
+            if options['users_limit']:
+                if users_counter >= options['users_limit']:
+                    break
+
         if email_list:
             self.stdout.write('Start sending emails to all the users ...')
 
-            # use default email connection
-            connection = mail.get_connection() 
+            if options['dryrun']:
+                # don't actually send any email
+                connection = mail.get_connection(backend='django.core.mail.backends.console.EmailBackend')
+            else:
+                # use default email connection
+                connection = mail.get_connection()
 
             # send all the emails in a single call, using a single connection
             connection.send_messages(email_list)
