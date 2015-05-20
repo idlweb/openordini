@@ -27,6 +27,12 @@ class Command(NoArgsCommand):
         email = 'antonio.vangi.av@gmail.com'
         subject = 'invio email di test'
         email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
+
+        email_context ={
+            'first_name': 'tonio',
+            'last_name': 'npop',
+            'password': 'test' # the "raw" password (not encrypted!)
+        }
             
         msg_text = render_to_string(email_txt_template_path, email_context)
         msg_html = render_to_string(email_html_template_path, email_context)
