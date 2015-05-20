@@ -41,8 +41,7 @@ class Command(NoArgsCommand):
 
         if email_list:
             self.stdout.write('Start sending emails to all the users ...')
-                # use default email connection
-                connection = mail.get_connection()
-
+            # use default email connection
+            connection = mail.get_connection()
             # send all the emails in a single call, using a single connection
             connection.send_messages(email_list)
