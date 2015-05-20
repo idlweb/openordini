@@ -18,7 +18,7 @@
         {% endfor %}
 {% endif %}
 
-        <div class="row-fluid offset4">
+        <div class="row-fluid offset0">
 {% comment %}
 
             <div class="span4 social">
@@ -44,10 +44,12 @@
                 </p>
             </div>
 {% endcomment %}
-            <div class="span6">
-                <h2>Entra con username e password</h2>
-                <p style="line-height: 1.7em; font-size: 20px;">Usa il tuo username e la tua password per accedere al sito o
-                    <a href="{% url 'registration_register' %}" class="btn btn-primary"><large><strong>registrati a NPOP</strong></large></a> per ricevere le tue credenziali di accesso.</p>
+            <div class="span12">
+                <h2>Accesso al profilo:</h2>
+                <p style="line-height: 1.7em; font-size: 20px;">Usa il tuo username e la tua password per accedere {% comment %}o
+                    <a href="{% url 'registration_register' %}" class="btn btn-primary"><large><strong>registrati a NPOP</strong></large></a> per ricevere le tue credenziali di accesso.</p>{% endcomment %}
+                    </br><strong style="line-height: 1.0em; font-size: 14px;">Gli psicologi non procedono autonomamente alla registrazione del proprio profilo ma vengono invitati ad accedervi per email successivamente all'approvazione della propria domanda inoltrata alla Segreteria dell'Ordine. </strong>
+
                 <form method="post" class="form-horizontal">
                     {% csrf_token %}
                     
@@ -78,6 +80,12 @@
                     </div>
                 </form>
             </div>
+           
+            <div id="legal" class="alert">
+                    <legend>Gli adempimenti non espressamente segnalati come telematici sono da effettuarsi tramite la Segreteria. Grazie per la collaborazione :-)</legend>
+                  
+            </div>
+            
         </div>
     </div>
 
