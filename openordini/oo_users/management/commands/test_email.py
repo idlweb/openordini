@@ -24,7 +24,7 @@ class Command(NoArgsCommand):
         users_counter = 0
 
         # build the email for the user
-        email = 'antonio.vangi.av@gmail.com'
+        recipients_list = ['antonio.vangi.av@gmail.com', 'francesco.spegni@gmail.com']
         subject = 'invio email di test'
         email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
 
@@ -37,7 +37,7 @@ class Command(NoArgsCommand):
         msg_text = render_to_string(email_txt_template_path, email_context)
         msg_html = render_to_string(email_html_template_path, email_context)
 
-        msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
+        msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, recipients_list)
 
         msg.attach_alternative(msg_html, 'text/html')
 
@@ -49,5 +49,6 @@ class Command(NoArgsCommand):
             self.stdout.write('Start sending emails to all the users ...')
             # use default email connection
             connection = mail.get_connection()
+            self.stdout.write("Connection: %s" % connection)
             # send all the emails in a single call, using a single connection
             connection.send_messages(email_list)
