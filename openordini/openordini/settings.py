@@ -226,5 +226,5 @@ MODULES = {
 IMPORT_DATE_FORMAT = "%d-%m-%Y"
 
 EMAIL_HOST_USER = "stafgnpop@psicologipuglia.it"
-EMAIL_HOST_PASSWORD = "****"
+EMAIL_HOST_PASSWORD = "P$901Q.e/idow"
 EMAIL_HOST = "mail.psicologipuglia.it"

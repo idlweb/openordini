@@ -9,6 +9,8 @@ module          = openordini.openordini.wsgi_staging
 # the virtualenv (full path)
 home            = /home/oo/ordine.psicologipuglia.it/private/venv
 
+logto           = /home/oo/ordine.psicologipuglia.it/private/log/logfile
+
 
 # process-related settings
 # master

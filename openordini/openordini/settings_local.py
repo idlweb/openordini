@@ -20,7 +20,8 @@ DATABASES = {
 
 ROOT_URLCONF = 'openordini.openordini.urls_local'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 PAYMENT_BASE_URL = 'http://localhost:8000/'
 
