@@ -4,7 +4,7 @@ import logging
 from django.conf import settings
 from django.db import transaction
 from django.contrib.auth import login, get_backends
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_text
 from open_municipio.locations.models import Location
@@ -18,6 +18,8 @@ from .models import UserProfile, Recapito, ExtraPeople
 from registration.signals import user_registered
 from registration.signals import user_activated
 from django.dispatch import receiver
+
+from django.db.models import Q
 
 
 """
@@ -41,7 +43,7 @@ def user_created(sender, user, request, **kwargs):
     ``UserProfile`` must be created too. Necessary information is
     supposed to be found in POST data.
     """
-
+    r = self.request
     # print "salva utente: %s (user = %s)..." % (user_registered, user)
     # deletes the user profiles created by OM ... it's not
     # very efficient (INSERT + DELETE) but makes the two systems
@@ -168,34 +170,60 @@ def user_created(sender, user, request, **kwargs):
 
 def finalize_registration(self, user): 
     print("sono dentro FINALIZE_REGISTRATION, prima del check di 'numero_iscrizione'")
+    print user.numero_iscrizione
     if settings.REGISTRATION_AUTO_ADD_GROUP and user.numero_iscrizione: 
-        is_registered_a = (user.register_subscription_date != None) and (user.says_is_psicologo_lavoro or user.says_is_psicologo_clinico or user.says_is_psicologo_forense)
+        is_registered_a = (user.register_subscription_date != None) and (user.says_is_psicologo_lavoro or user.says_is_psicologo_clinico or user.says_is_psicologo_forense or user.says_is_self_employed)
         if is_registered_a:
-            i = Institution.objects.get(slug="sezione-a")
-            member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
-            member_charge.save()
+        	print "test 1 - inserisco in albo -> is_registered_a"
+        	i = Institution.objects.get(slug="sezione-a")             	
+        	if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0:        		
+        	   	member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date) 
+   	   	       	member_charge.save()
+
         if user.says_is_psicologo_lavoro:
             g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
-            g.user_set.add(user)
+            g.user_set.add(user.user)
         if user.says_is_psicologo_clinico:
             g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_clinico"])
-            g.user_set.add(user)
+            g.user_set.add(user.user)
         if user.says_is_psicologo_forense:
             g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_forense"])
-            g.user_set.add(user)
+            g.user_set.add(user.user)
+        if user.says_is_self_employed:
+            g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo"])
+            l = user.user.groups.values_list('name',flat=True)
+            print "l'utente appartene ad un gruppo: %s" % (l)
+            #g.user_set.add(user.user)
+            check_group_user_exist(g,user)
+            
 
         is_registered_b = (user.register_subscription_date != None) and (user.says_is_dottore_tecniche_psicologiche)
+        if is_registered_b: # TODO: check the indentation for this IF
+            print "test 1 - inserisco in albo -> is_registered_b"
+            i = Institution.objects.get(slug="sezione-b")
+            print "denominazione istituzione" % (d)
+            if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0: 
+        	   	member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date) 
+        	   	member_charge.save() 
+
 
         if user.says_is_dottore_tecniche_psicologiche:
             g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["dottore_tecniche_psicologiche"])
-            g.user_set.add(user)
-        if is_registered_b: # TODO: check the indentation for this IF
-            print "Utente registrato ..."
-            i = Institution.objects.get(slug=settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
-            print "test verifica contenuto slug: %s ..." % (settings.COMMITTEE_SLUGS["dottore_tecniche_psicologiche"])
-            member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date)
-            member_charge.save()
+            g.user_set.add(user.user)
+       
+       	            
         print('registrazione avvenuta')
+
+def check_group_user_exist(g, u):
+   	print "test accesso alla funzione"
+   	if User.objects.filter(pk=u.user.id).exists():
+   		print "test esiste l'utente, in realtà check inutile perchè veniamo dalla modifica"
+   		if Group.objects.filter(pk=g.id):
+   			print "test esistenza del gruppo, qui il gruppo esiste sempre, perche o creato o selezionato"
+   			if not u.user.groups.exists(): # verifica inutile mi serve sapere il gruppo specifico
+   				print "ultima fase, quella necessaria, ossia, l utente ha gia' il suo gruppo"
+   				g.user_set.add(u.user)
+      
 
 @receiver(user_activated)
 def log_in_user(sender, user, request, **kwargs):

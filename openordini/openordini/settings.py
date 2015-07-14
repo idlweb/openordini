@@ -5,8 +5,15 @@ MAIN_APP_ROOT = os.path.join(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(os.path.dirname(MAIN_APP_ROOT))
 REPO_ROOT = os.path.abspath(os.path.dirname(PROJECT_ROOT))
 
+
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'openordini',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '5432',
     }
 }
 
@@ -146,11 +153,12 @@ PAYMENT_VARIANTS = {
 REGISTRATION_AUTO_LOGIN = True
 AUTH_PROFILE_MODULE = 'oo_users.UserProfile'
 
-REGISTRATION_AUTO_ADD_GROUP = False
+REGISTRATION_AUTO_ADD_GROUP = True
 SYSTEM_GROUP_NAMES = {
     "psicologo_lavoro": "psicologi del lavoro",
     "psicologo_clinico": "psicologi clinici",
     "psicologo_forense": "psicologi forensi",
+    "psicologo": "psicologi iscritto in albo",
     "dottore_tecniche_psicologiche": "dottori tecniche psicologiche",
     "sezione_a": "sezione a",
     "sezione_b": "sezione b",

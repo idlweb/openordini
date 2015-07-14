@@ -1,5 +1,6 @@
 from openordini.openordini.settings import *
 
+
 DEBUG = True
 TEMPLATE_DEBUG = True
 
@@ -7,16 +8,6 @@ MANAGERS = (
     ('Francesco Spegni', 'francesco.spegni@gmail.com'),
 )
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'openordini',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '5432',
-    }
-}
 
 ROOT_URLCONF = 'openordini.openordini.urls_local'
 
