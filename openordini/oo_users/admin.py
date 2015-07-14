@@ -17,7 +17,9 @@ from suit.widgets import SuitDateWidget, SuitTimeWidget, SuitSplitDateTimeWidget
 from ajax_changelist.admin import AjaxModelAdmin
 
 from .regbackend import finalize_registration
-from .forms import CustomAjaxModelFormView
+from .forms import CustomAjaxModelFormView 
+from django.contrib.auth.models import User, Group
+
 
 #from django.utils.html import escape
 
@@ -80,12 +82,23 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter',)
     list_filter =(emailBusinessListFilter,)
-
-
-    def save_model(self, request, obj, form, change):
-        finalize_registration(self, obj)
+    
+    def save_model(self, request, obj, form, change):            
+        up = self.model
+        u = up.objects.get(id = obj.id)
+        finalize_registration(self, u)  
+        #print u._meta
+        #print u._meta.fields
+        #print obj.user.id
+        #print obj.id
+        #upopts = up._meta
+        #print upopts.fields
+        #print up.objects.get(id = obj.id).numero_iscrizione
+        #print up
+        #print obj.user
+        #print self.model    
         obj.save()
-
+      
 
 """ ERRORE richiesta id"""
 #class UserInline(admin.TabularInline):
@@ -202,7 +215,7 @@ class AuthSpecializzatiListFilter(SpecializzatiListFilter):
 #        }
 
 
-class MyPsicologoTitoAdminForm(forms.ModelForm):
+class MyPsicologoTitoliAdminForm(forms.ModelForm):
     def clean_titolo(self):
         # do something that validates your data
         return self.cleaned_data["titolo_laurea"]
@@ -211,7 +224,7 @@ class MyPsicologoTitoAdminForm(forms.ModelForm):
 class PsicologoTitoliAdmin(admin.ModelAdmin):
     list_filter = (AuthSpecializzatiListFilter,)
     search_fields = ["titolo_laurea", ]
-    form = MyPsicologoTitoAdminForm
+    form = MyPsicologoTitoliAdminForm
     pass
 
 
