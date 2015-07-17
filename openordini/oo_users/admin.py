@@ -85,6 +85,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     
     def save_model(self, request, obj, form, change):            
         try:
+            print "ci sono"
             up = self.model
             u = up.objects.get(id = obj.id) 
             finalize_registration(self, u)
