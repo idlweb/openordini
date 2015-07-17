@@ -84,15 +84,9 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     list_filter =(emailBusinessListFilter,)
     
     def save_model(self, request, obj, form, change):            
-        try:
-            print "ci sono"
-            up = self.model
-            u = up.objects.get(id = obj.id) 
-            finalize_registration(self, u)
-            obj.save()
-        except:   
-            pass
-         
+        up = self.model
+        u = up.objects.get(id = obj.id)
+        finalize_registration(self, u)  
         #print u._meta
         #print u._meta.fields
         #print obj.user.id
@@ -103,7 +97,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         #print up
         #print obj.user
         #print self.model    
-       
+        obj.save()
       
 
 """ ERRORE richiesta id"""
