@@ -179,9 +179,9 @@ def finalize_registration(self, user):
         print "test 1 - inserisco in albo -> is_registered_a"
         i = Institution.objects.get(slug="sezione-a")             	
         print user.register_subscription_date
-        #if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0:        		
-        #member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date) 
-        #member_charge.save() 
+        if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0:        		
+        member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date) 
+        member_charge.save() 
 
         if user.says_is_psicologo_lavoro:
             g, created = Group.objects.get_or_create(name=settings.SYSTEM_GROUP_NAMES["psicologo_lavoro"])
