@@ -172,6 +172,7 @@ def finalize_registration(self, user):
     print("sono dentro FINALIZE_REGISTRATION, prima del check di 'numero_iscrizione'")
     print user.numero_iscrizione
     if settings.REGISTRATION_AUTO_ADD_GROUP and user.numero_iscrizione: 
+    	print user.says_is_self_employed
         is_registered_a = (user.register_subscription_date != None) and (user.says_is_psicologo_lavoro or user.says_is_psicologo_clinico or user.says_is_psicologo_forense or user.says_is_self_employed)
         print is_registered_a
         if is_registered_a:
