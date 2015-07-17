@@ -89,6 +89,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
             up = self.model
             u = up.objects.get(id = obj.id) 
             finalize_registration(self, u)
+            obj.save()
         except:   
             pass
          
@@ -102,7 +103,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         #print up
         #print obj.user
         #print self.model    
-        obj.save()
+       
       
 
 """ ERRORE richiesta id"""
