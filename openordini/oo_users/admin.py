@@ -88,7 +88,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         try:   
              u = up.objects.get(id = obj.id) 
              finalize_registration(self, u)
-        except u.DoesNotExist:   
+        except:   
             pass
          
         #print u._meta
