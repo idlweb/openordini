@@ -85,12 +85,16 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     
     def save_model(self, request, obj, form, change):            
         up = self.model
+        """
         try:   
              u = up.objects.get(id = obj.id) 
              finalize_registration(self, u)
         except:   
             pass
-         
+        """
+        u = up.objects.get(id = obj.id) 
+        finalize_registration(self, u)
+
         #print u._meta
         #print u._meta.fields
         #print obj.user.id
