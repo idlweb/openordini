@@ -85,8 +85,12 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     
     def save_model(self, request, obj, form, change):            
         up = self.model
-        u = up.objects.get(id = obj.id)
-        finalize_registration(self, u)  
+        try:   
+             u = up.objects.get(id = obj.id) 
+             finalize_registration(self, u)
+        except u.DoesNotExist:   
+            pass
+         
         #print u._meta
         #print u._meta.fields
         #print obj.user.id
