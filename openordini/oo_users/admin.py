@@ -83,10 +83,12 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     list_display = ('person','wants_commercial_newsletter',)
     list_filter =(emailBusinessListFilter,)
     
-    def save_model(self, request, obj, form, change):            
+    def save_model(self, request, obj, form, change):             
         up = self.model
-        u = up.objects.get(id = obj.id)
-        finalize_registration(self, u)  
+        if up.objects.get(id = obj.id).exists():
+           print "verificata l'esistenza del profilo personale"
+           u = up.objects.get(id = obj.id)
+           finalize_registration(self, u)  
         #print u._meta
         #print u._meta.fields
         #print obj.user.id
