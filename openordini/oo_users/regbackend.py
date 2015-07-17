@@ -179,7 +179,7 @@ def finalize_registration(self, user):
         print "test 1 - inserisco in albo -> is_registered_a"
         i = Institution.objects.get(slug="sezione-a")             	
         print user.register_subscription_date
-        if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0:        		
+        #if InstitutionCharge.objects.filter(person__pk=user.person.id).filter(institution=i).count()  == 0:        		
         member_charge = InstitutionCharge(person=user.person, institution=i, start_date=user.register_subscription_date) 
         member_charge.save() 
 
