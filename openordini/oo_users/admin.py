@@ -85,7 +85,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     
     def save_model(self, request, obj, form, change):             
         up = self.model
-        if up.objects.get(id = obj.id).exists():
+        if obj.id and up.objects.get(id = obj.id).exists():
            print "verificata l'esistenza del profilo personale"
            u = up.objects.get(id = obj.id)
            finalize_registration(self, u)  
