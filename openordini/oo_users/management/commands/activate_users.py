@@ -64,6 +64,9 @@ class Command(NoArgsCommand):
             
                 msg_text = render_to_string(email_txt_template_path, email_context)
                 msg_html = render_to_string(email_html_template_path, email_context)
+  
+                if not email:
+                    email = 'vuota@vuota.it' 
 
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
 
@@ -79,6 +82,7 @@ class Command(NoArgsCommand):
                     break
 
         if email_list:
+            print "numero email da inviare %s" % (email_list.count())
             self.stdout.write('Start sending emails to all the users ...')
 
             if options['dryrun']:
@@ -88,6 +92,6 @@ class Command(NoArgsCommand):
                 # use default email connection
                 connection = mail.get_connection()
             print "-------------------------------- invio emails"
-            #vars(email_list)
+            # vars(email_list)
             # send all the emails in a single call, using a single connection
             connection.send_messages(email_list)
