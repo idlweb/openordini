@@ -59,7 +59,7 @@ class Command(NoArgsCommand):
                 print "Quale email usiamo %s" % (u.email)
                 email = u.email
                 subject = 'Open Ordini - nuova password'
-                email_sender = 'prova@open-ordini.it' # TODO: replace this address with a meaningful one !
+                email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
                 msg_text = render_to_string(email_txt_template_path, email_context)
                 msg_html = render_to_string(email_html_template_path, email_context)
