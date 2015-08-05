@@ -56,7 +56,7 @@ class Command(NoArgsCommand):
                 }
 
                 # build the email for the user
-                print "Quale email usiamo %s" % (u.email)
+                print "Quale email usiamo %s, nome %s, cognome %s" % (u.email, u.first_name, u.last_name)
                 email = u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
