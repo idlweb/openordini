@@ -31,9 +31,10 @@ class Command(NoArgsCommand):
         users_counter = 0
 
         for u in User.objects.all():
-
-            if not u.is_active:
-
+            print "-------------------------------- test utenti"
+            #print vars(u)
+            #if not u.is_active:
+            if u.is_active or not u.is_active:
                 # create a random string as password
                 raw_password = User.objects.make_random_password(length=10)
 
@@ -55,6 +56,7 @@ class Command(NoArgsCommand):
                 }
 
                 # build the email for the user
+                print "Quale email usiamo %s" % (u.email)
                 email = u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'prova@open-ordini.it' # TODO: replace this address with a meaningful one !
@@ -84,6 +86,7 @@ class Command(NoArgsCommand):
             else:
                 # use default email connection
                 connection = mail.get_connection()
-
+            print "-------------------------------- invio emails"
+            #vars(email_list)
             # send all the emails in a single call, using a single connection
             connection.send_messages(email_list)
