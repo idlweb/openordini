@@ -50,13 +50,14 @@ class Command(NoArgsCommand):
 
                 # build the context that will be rendered in the email
                 email_context ={
+                    'username': u.username,
                     'first_name': u.first_name,
                     'last_name': u.last_name,
                     'password': raw_password # the "raw" password (not encrypted!)
                 }
 
                 # build the email for the user
-                print "Quale email usiamo %s, nome %s, cognome %s" % (u.email, u.first_name, u.last_name)
+                print "Quale email usiamo %s" % (u.username)
                 email = u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
