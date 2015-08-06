@@ -33,7 +33,7 @@ class Command(NoArgsCommand):
 
         users_counter = 0
 
-        for u in User.objects.all():
+        for u in User.objects.all()[0:5]:
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
