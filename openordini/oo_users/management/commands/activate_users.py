@@ -8,6 +8,9 @@ from django.template.loader import render_to_string
 
 import os
 
+import smtplib
+from email.mime.text import MIMEText as text
+
 
 
 class Command(NoArgsCommand):
@@ -90,8 +93,12 @@ class Command(NoArgsCommand):
                 connection = mail.get_connection(backend='django.core.mail.backends.console.EmailBackend')
             else:
                 # use default email connection
-                connection = mail.get_connection()
+                connection = mail.get_connection(fail_silently=True)
             print "-------------------------------- invio emails"
             # vars(email_list)
             # send all the emails in a single call, using a single connection
-            connection.send_messages(email_list)
+            try:
+                connection.send_messages(email_list) 
+                print "Successfully sent email"
+            except SMTPException: 
+                print "Error: unable to send email" 
