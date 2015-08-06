@@ -15,8 +15,8 @@ http://ordine.psicologipuglia.it/cas/login
 
 Inserendo i suoi dati personali, che potra' modificare in seguito:
 
-user: {{email_context.username}}</strong>
-password: {{email_context.password}}</strong>
+user: {{username}}</strong>
+password: {{password}}</strong>
 
 
 Qualora riscontrasse errori nei Suoi dati, se avesse cambiato indirizzo email o in caso di qualsiasi incongruenza, e' invitato a rettificare autonomamente i suoi dati tramite la funzione “modifica” o a comunicarli presso la Segreteria dell’Ordine.
