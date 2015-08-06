@@ -8,7 +8,8 @@ from django.template.loader import render_to_string
 
 import os
 
-import smtplib
+#import smtplib
+from smtplib import SMTPException
 from email.mime.text import MIMEText as text
 
 
