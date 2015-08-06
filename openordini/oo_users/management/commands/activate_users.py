@@ -22,16 +22,16 @@ class Command(NoArgsCommand):
         make_option('--limit', type='int', dest='users_limit', help='Limit the number of users activated (and emails sent)'),
     )
 
-    def html_escape(text): 
-        text = text.replace('&', '&amp;')
-        text = text.replace('"', '&quot;')
-        text = text.replace("'", '&#39;')
-        text = text.replace(">", '&gt;') 
-        text = text.replace("<", '&lt;')
-        return text
-
-
+  
     def handle_noargs(self, **options):
+        
+        def html_escape(text):  
+            text = text.replace('&', '&amp;')
+            text = text.replace('"', '&quot;')
+            text = text.replace("'", '&#39;')
+            text = text.replace(">", '&gt;') 
+            text = text.replace("<", '&lt;')
+            return text
 
         self.stdout.write('Start assigning random passwords to the users and building one email for each of them ...')
 
