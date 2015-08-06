@@ -1,6 +1,6 @@
 
 Gentile Collega,
-da qualche mese è attivo il Nuovo Portale dell’Ordine, che può visitare all’indirizzo:
+da qualche mese e' attivo il Nuovo Portale dell’Ordine, che può visitare all’indirizzo:
 www.psicologipuglia.it
 
 Con il lancio del Nuovo Portale, l’Ordine ha dato avvio ad un aggiornamento dei dati in suo possesso. Dati personali, indirizzi postali ed indirizzi email sono infatti fondamentali per stabilire una buona comunicazione Ordine-iscritto e per Lei sono lo strumento principale per restare sempre aggiornato sul mondo della professione.
@@ -13,20 +13,20 @@ La invitiamo ad accedere al Suo Profilo Professionale, tramite il link evidenzia
 
 http://ordine.psicologipuglia.it/cas/login
 
-Inserendo i suoi dati personali, che potrà modificare in seguito:
+Inserendo i suoi dati personali, che potra' modificare in seguito:
 
 user: {{email_context.username}}</strong>
 password: {{email_context.password}}</strong>
 
 
-Qualora riscontrasse errori nei Suoi dati, se avesse cambiato indirizzo email o in caso di qualsiasi incongruenza, è invitato a rettificare autonomamente i suoi dati tramite la funzione “modifica” o a comunicarli presso la Segreteria dell’Ordine.
-In aggiunta, è invitato a fornire le autorizzazioni necessarie a norma di legge, nel caso voglia ricevere aggiornamenti, informazioni, newsletter relative alla professione anche da parte di soggetti terzi. Il Profilo cui ha accesso è quello che sarà visualizzato in Albo, cioè che sarà visualizzato dai cittadini che La ricercheranno tramite i canali istituzionali Ordinistici; pertanto, ne abbia cura!
+Qualora riscontrasse errori nei Suoi dati, se avesse cambiato indirizzo email o in caso di qualsiasi incongruenza, e' invitato a rettificare autonomamente i suoi dati tramite la funzione “modifica” o a comunicarli presso la Segreteria dell’Ordine.
+In aggiunta, e' invitato a fornire le autorizzazioni necessarie a norma di legge, nel caso voglia ricevere aggiornamenti, informazioni, newsletter relative alla professione anche da parte di soggetti terzi. Il Profilo cui ha accesso e' quello che sarà visualizzato in Albo, cioe' che sara' visualizzato dai cittadini che La ricercheranno tramite i canali istituzionali Ordinistici; pertanto, ne abbia cura!
 Viceversa, verranno presi in considerazione i dati forniti al momento dell'iscrizione all'Ordine, che se presentano errori rischierebbero di crearLe difficoltà nella comunicazione con lo stesso.
 
-In caso di difficoltà nella gestione della procedura, può contattare
+In caso di difficoltà nella gestione della procedura, puo' contattare
 - dott. Antonio Vangi (info@idlweb.net), webmaster del Nuovo Portale;
 - dott. Antonio Calamo-Specchia, (a.calamospecchia@gmail.com), Coordinatore della Commissione Comunicazione, gestione del web e trasparenza.
-La Segreteria è sempre a disposizione per fornirLe eventuali chiarimenti in merito, ma non può fornire assistenza tecnica nella procedura di aggiornamento.
+La Segreteria e' sempre a disposizione per fornirLe eventuali chiarimenti in merito, ma non puo' fornire assistenza tecnica nella procedura di aggiornamento.
 
 
 
