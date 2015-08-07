@@ -31,6 +31,7 @@ class Command(NoArgsCommand):
             text = text.replace("'", '&#39;')
             text = text.replace(">", '&gt;') 
             text = text.replace("<", '&lt;')
+            text = text.replace(u"\uFFFD", "?")
             return text
 
         self.stdout.write('Start assigning random passwords to the users and building one email for each of them ...')
@@ -70,7 +71,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = u.email
+                email = "antonio.vangi.av@gmail.com"#u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
@@ -83,18 +84,29 @@ class Command(NoArgsCommand):
                     email = 'vuota@vuota.it' 
 
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
-
                 msg.attach_alternative(msg_html, 'text/html')
 
                 # add the email to the list of emails that will be sent
-                email_list.append(msg)
+                self.stdout.write('Start sending emails to all the users ...')
 
-                users_counter += 1
+                connection = mail.get_connection(fail_silently=True) 
 
-            if options['users_limit']:
-                if users_counter >= options['users_limit']:
-                    break
+                if options['users_limit']: 
+                    if users_counter >= options['users_limit']: 
+                        break
 
+                try:
+                    connection.send_messages(email_list) 
+                    email_list.append(msg)
+                    connection.send_messages(msg)
+                    print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
+                    users_counter += 1
+                except SMTPException: 
+                    print "Error: unable to send email" 
+                        
+
+           
+        """
         if email_list:
             print "numero email da inviare %s" % (len(email_list))
             print "email inviate %s" %(users_counter)
@@ -114,3 +126,4 @@ class Command(NoArgsCommand):
                 print "Successfully sent email"
             except SMTPException: 
                 print "Error: unable to send email" 
+        """
