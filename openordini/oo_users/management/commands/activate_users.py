@@ -11,7 +11,7 @@ import os
 #import smtplib
 from smtplib import SMTPException
 from email.mime.text import MIMEText as text
-
+from django.core.mail import send_mail
 
 
 class Command(NoArgsCommand):
@@ -95,13 +95,12 @@ class Command(NoArgsCommand):
                     if users_counter >= options['users_limit']: 
                         break
 
-                try:
-                    connection.send_messages(email_list) 
+                try:                    
                     email_list.append(msg)
                     connection.send_messages(msg)
+                    #send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                     users_counter += 1
-                    connection.close()
                 except SMTPException: 
                     print "Error: unable to send email" 
                         
