@@ -77,7 +77,7 @@ class Command(NoArgsCommand):
                 msg_text = render_to_string(email_txt_template_path, email_context)
                 msg_html = render_to_string(email_html_template_path, email_context)
                 
-                self.stdout.write(msg_html)
+                #self.stdout.write(msg_html)
 
                 if not email:
                     email = 'vuota@vuota.it' 
