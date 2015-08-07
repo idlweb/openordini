@@ -97,8 +97,7 @@ class Command(NoArgsCommand):
 
                 try:                    
                     email_list.append(msg)
-                    connection.send_messages(msg)
-                    #send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
+                    send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                     users_counter += 1
                 except SMTPException: 
