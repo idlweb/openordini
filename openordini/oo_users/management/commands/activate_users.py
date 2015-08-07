@@ -106,6 +106,7 @@ class Command(NoArgsCommand):
 
            
         """
+        Isolo il blocco massivo
         if email_list:
             print "numero email da inviare %s" % (len(email_list))
             print "email inviate %s" %(users_counter)
