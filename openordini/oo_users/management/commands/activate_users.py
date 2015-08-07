@@ -42,7 +42,7 @@ class Command(NoArgsCommand):
 
         users_counter = 0
 
-        for u in User.objects.all().order_by("last_name")
+        for u in User.objects.all().order_by("last_name"):
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
