@@ -70,7 +70,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = "antonio.vangi.av@gmail.com"#u.email
+                email = u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
