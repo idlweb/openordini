@@ -89,7 +89,7 @@ class Command(NoArgsCommand):
                 # add the email to the list of emails that will be sent
                 self.stdout.write('Start sending emails to all the users ...')
 
-                #connection = mail.get_connection(fail_silently=True) 
+                connection = mail.get_connection(fail_silently=True) 
 
                 if options['users_limit']: 
                     if users_counter >= options['users_limit']: 
@@ -97,7 +97,7 @@ class Command(NoArgsCommand):
 
                 try:                    
                     email_list.append(msg)
-                    send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
+                    connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                     users_counter += 1
                 except SMTPException: 
