@@ -89,7 +89,7 @@ class Command(NoArgsCommand):
                 # add the email to the list of emails that will be sent
                 self.stdout.write('Start sending emails to all the users ...')
 
-                connection = mail.get_connection(fail_silently=True) 
+                #connection = mail.get_connection(fail_silently=True) 
 
                 if options['users_limit']: 
                     if users_counter >= options['users_limit']: 
