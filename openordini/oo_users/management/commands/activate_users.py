@@ -101,6 +101,7 @@ class Command(NoArgsCommand):
                     connection.send_messages(msg)
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                     users_counter += 1
+                    connection.close()
                 except SMTPException: 
                     print "Error: unable to send email" 
                         
