@@ -97,6 +97,7 @@ class Command(NoArgsCommand):
 
         if email_list:
             print "numero email da inviare %s" % (len(email_list))
+            print "email inviate %s" %(users_counter)
             self.stdout.write('Start sending emails to all the users ...')
 
             if options['dryrun']:
