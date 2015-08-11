@@ -218,7 +218,8 @@ class OOPoliticianSearchView(PoliticianSearchView):
                     "extra_data": "",
                 }
             }      
-
+            print person.first_name
+            print person.last_name
             #if person.userprofile and person.userprofile.userprofile: #and \
             if person.userprofile:
                     #person.userprofile.userprofile.anagrafica:
@@ -226,6 +227,7 @@ class OOPoliticianSearchView(PoliticianSearchView):
                 pass
 
             results.append(p_data)
+            vars(person)
 
         json_data = json.dumps(results)
 
