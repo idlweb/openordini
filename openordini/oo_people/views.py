@@ -193,7 +193,9 @@ class OOPoliticianSearchView(PoliticianSearchView):
 
         persons = Person.objects.\
             filter(Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)).distinct()[0:max_rows]
-
+        print "dalla select"
+        print persons
+        print "cio che arriva"
         # build persons array,substituting the img with a 50x50 thumbnail
         # and returning the absolute url of the thumbnail
     
@@ -227,10 +229,11 @@ class OOPoliticianSearchView(PoliticianSearchView):
                 pass
 
             results.append(p_data)
-            vars(person)
+            
 
         json_data = json.dumps(results)
-
+        print "----------------------"
+        vars(json_data)
 
         return HttpResponse(json_data, mimetype='text/json')
 
