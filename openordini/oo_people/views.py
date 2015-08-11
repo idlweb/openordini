@@ -219,7 +219,7 @@ class OOPoliticianSearchView(PoliticianSearchView):
                 }
             }      
 
-            if person.userprofile and person.userprofile.userprofile and \
+            if person.userprofile and person.userprofile.userprofile #and \
                     person.userprofile.userprofile.anagrafica:
                 p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio
 
