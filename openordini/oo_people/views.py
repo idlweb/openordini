@@ -233,7 +233,7 @@ class OOPoliticianSearchView(PoliticianSearchView):
 
         json_data = json.dumps(results)
         print "----------------------"
-        vars(json_data)
+        print results
 
         return HttpResponse(json_data, mimetype='text/json')
 
