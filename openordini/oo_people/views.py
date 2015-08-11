@@ -218,8 +218,8 @@ class OOPoliticianSearchView(PoliticianSearchView):
                     "extra_data": "",
                 }
             }      
-            print person.first_name
-            print person.last_name
+            print "nome %s" % (person.first_name)
+            print "cognome %s" % (person.last_name)
             #if person.userprofile and person.userprofile.userprofile: #and \
             if person.userprofile:
                     #person.userprofile.userprofile.anagrafica:
