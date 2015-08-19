@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'leaflet',
     'localflavor',
     'ajax_changelist',
-    #'sendgrid',
+    'sendgrid',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
