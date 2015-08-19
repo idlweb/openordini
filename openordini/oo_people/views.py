@@ -192,7 +192,7 @@ class OOPoliticianSearchView(PoliticianSearchView):
         current_site = Site.objects.get(pk=settings.SITE_ID)
 
         persons = Person.objects.\
-            filter(Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)).distinct()[0:max_rows]
+            filter((Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)) or (Q(first_name__icontains=key) and Q(last_name__icontains=key))).distinct()[0:max_rows]
         print "dalla select"
         print persons
         print "cio che arriva"
