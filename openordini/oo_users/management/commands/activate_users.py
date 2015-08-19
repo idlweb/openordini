@@ -110,14 +110,14 @@ class Command(NoArgsCommand):
                     email_invio.send()
                     #email_go.send()
                     
-                    sg = SendGridEmailMessage()
-                    message = sendgrid.Mail() 
-                    message.add_to([email])
-                    message.set_subject(subject)
-                    message.set_html( msg_html)
-                    message.set_text( msg_txt)
-                    message.set_from(email_sender)
-                    status, msg_sended = sg.send(message)
+                    #sg = SendGridEmailMessage()
+                    #message = sendgrid.Mail() 
+                    #message.add_to([email])
+                    #message.set_subject(subject)
+                    #message.set_html( msg_html)
+                    #message.set_text( msg_txt)
+                    #message.set_from(email_sender)
+                    #status, msg_sended = sg.send(message)
 
                     #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
                     
