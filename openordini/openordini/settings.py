@@ -107,6 +107,10 @@ LOGGING = {
             'filename': REPO_ROOT + "/log/webapp.log",
             'formatter': 'standard',
         },
+        'sendgrid':{
+			'level':'DEBUG',
+			'class':'logging.StreamHandler',
+	},
     },
     'loggers': {
         'django.request': {
@@ -138,7 +142,11 @@ LOGGING = {
             'handlers': ['console', ],
             'level': 'DEBUG',
             'propagate': True,
-            },               
+            },
+        'sendgrid': {
+	        'handlers': ['console',],
+	        'level': 'DEBUG',
+	        }               
     }
 }
 
