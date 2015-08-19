@@ -11,7 +11,9 @@ import os
 #import smtplib
 from smtplib import SMTPException
 from email.mime.text import MIMEText as text
-from django.core.mail import send_mail
+#from django.core.mail import send_mail
+from sendgrid.message import SendGridEmailMessage
+from sendgrid.message import SendGridEmailMultiAlternatives
 
 
 class Command(NoArgsCommand):
@@ -37,13 +39,15 @@ class Command(NoArgsCommand):
         self.stdout.write('Start assigning random passwords to the users and building one email for each of them ...')
 
         email_list = []
+        
         template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
+        
         email_txt_template_path = os.path.join(template_base_path, 'email.txt')
         email_html_template_path = os.path.join(template_base_path, 'email.html')
 
         users_counter = 0
 
-        for u in User.objects.all().order_by("last_name"):
+        for u in User.objects.all().order_by("last_name")[0:5]:
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
@@ -71,7 +75,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = "antonio.vangi.av@gmail.com"#u.email
+                email = "antonio.vangi.av@gmail.com" #u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
@@ -86,18 +90,37 @@ class Command(NoArgsCommand):
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
                 msg.attach_alternative(msg_html, 'text/html')
 
+                email_invio = SendGridEmailMultiAlternatives('Subject', 'Body di prova A', 'staff <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
+                email_invio.attach_alternative(msg_html, 'text/html')
+
+                email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
+
                 # add the email to the list of emails that will be sent
                 self.stdout.write('Start sending emails to all the users ...')
 
-                connection = mail.get_connection(fail_silently=True) 
+                #connection = mail.get_connection(fail_silently=True) 
 
                 if options['users_limit']: 
                     if users_counter >= options['users_limit']: 
                         break
 
                 try:                    
-                    email_list.append(msg)
-                    connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
+                    
+                    #email_list.append(msg)
+                    email_invio.send()
+                    #email_go.send()
+                    
+                    sg = SendGridEmailMessage()
+                    message = sendgrid.Mail() 
+                    message.add_to([email])
+                    message.set_subject(subject)
+                    message.set_html( msg_html)
+                    message.set_text( msg_txt)
+                    message.set_from(email_sender)
+                    status, msg_sended = sg.send(message)
+
+                    #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
+                    
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                     users_counter += 1
                 except SMTPException: 
