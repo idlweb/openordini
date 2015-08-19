@@ -90,8 +90,8 @@ class Command(NoArgsCommand):
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
                 msg.attach_alternative(msg_html, 'text/html')
 
-                email_invio = SendGridEmailMultiAlternatives('Subject', 'Body di prova A', 'staff <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
-                email_invio.attach_alternative(msg_html, 'text/html')
+                ##email_invio = SendGridEmailMultiAlternatives('Subject', 'Body di prova A', 'staff <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
+                ##email_invio.attach_alternative(msg_html, 'text/html')
 
                 email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
 
@@ -107,8 +107,8 @@ class Command(NoArgsCommand):
                 try:                    
                     
                     #email_list.append(msg)
-                    email_invio.send()
-                    #email_go.send()
+                    ##email_invio.send()
+                    email_go.send()
                     
                     #sg = SendGridEmailMessage()
                     #message = sendgrid.Mail() 
