@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from open_municipio.urls import *
-from sendgrid.urls import *
+#from sendgrid.urls import *
 from sendgrid.views import listener
 
 from .views import OOHomeView
@@ -35,5 +35,6 @@ urlpatterns = patterns('',
     url('^institutions/', include('openordini.oo_people.urls.institutions')),
     url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
+    url(r"^events/$", "sendgrid.views.listener", name="sendgrid_post_event"),
 ) + urlpatterns
 
