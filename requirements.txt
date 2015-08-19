@@ -1,6 +1,5 @@
 Django==1.5.0
 -e git+https://github.com/idlweb/open_municipio.git@dev-senigallia#egg=open_municipio
-
 # Requirements for OpenMunicipio
 # Requirements from github or mercurial repositories
 git+https://github.com/carljm/django-model-utils.git
@@ -10,7 +9,6 @@ git+https://github.com/informaetica/django-voting.git
 hg+https://fspegni@bitbucket.org/richert/django-profiles
 git+https://github.com/toastdriven/django-haystack.git@a01dc53adf8ddda4f99ae4437ad93015cf08695d
 git+git://github.com/omab/django-social-auth.git@v0.7.28#egg=django-social-auth
-
 # Additional requirements in staging/production
 psycopg2==2.5.1
 Fabric==1.4.3
@@ -32,5 +30,5 @@ django-endless-pagination==2.0
 django-leaflet==0.15.2
 django-localflavor==1.1
 django-ajax-changelist==0.1.3
-
 django-adaptors==0.2.5
+django-sendgrid
