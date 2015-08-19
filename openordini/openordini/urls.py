@@ -11,6 +11,8 @@ from open_municipio.urls import *
 
 from .views import OOHomeView
 from ..oo_users.forms import UserRegistrationForm
+#from sendgrid.urls import *
+#from sendgrid.views import listener
 
 admin.site.login = login_required(admin.site.login)
 
@@ -31,5 +33,5 @@ urlpatterns = patterns('',
     url('^institutions/', include('openordini.oo_people.urls.institutions')),
     url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
-) + urlpatterns
+)
 

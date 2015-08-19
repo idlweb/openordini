@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'leaflet',
     'localflavor',
     'ajax_changelist',
+    #'sendgrid',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -233,6 +234,17 @@ MODULES = {
 
 IMPORT_DATE_FORMAT = "%d-%m-%Y"
 
+#EMAIL_HOST_USER = "stafgnpop@psicologipuglia.it"
+#EMAIL_HOST_PASSWORD = "P$901Q.e/idow"
+#EMAIL_HOST = "mail.psicologipuglia.it"
+
 EMAIL_HOST_USER = "stafgnpop@psicologipuglia.it"
 EMAIL_HOST_PASSWORD = "P$901Q.e/idow"
 EMAIL_HOST = "mail.psicologipuglia.it"
+
+SENDGRID_EMAIL_BACKEND = "sendgrid.backends.SendGridEmailBackend"
+EMAIL_BACKEND = SENDGRID_EMAIL_BACKEND
+SENDGRID_EMAIL_HOST = "smtp.sendgrid.net"
+SENDGRID_EMAIL_PORT = 587
+SENDGRID_EMAIL_USERNAME = "idlweb"
+SENDGRID_EMAIL_PASSWORD = "idl2npop2"
