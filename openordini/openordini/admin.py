@@ -1,4 +1,5 @@
 from django.contrib import admin
+from sendgrid.admin import *
 
 from social_auth.models import UserSocialAuth, Nonce, Association
 from open_municipio.data_import.models import Provider, LookupPerson, \
