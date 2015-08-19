@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from open_municipio.urls import *
+from sendgrid.urls import *
+from sendgrid.views import listener
 
 from .views import OOHomeView
 from ..oo_users.forms import UserRegistrationForm
@@ -33,5 +35,6 @@ urlpatterns = patterns('',
     url('^institutions/', include('openordini.oo_people.urls.institutions')),
     url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
+    url(r"^$", include("testsendgrid.main.urls"), name="index_sendgrid"),,
 ) + urlpatterns
 
