@@ -35,6 +35,5 @@ urlpatterns = patterns('',
     url('^institutions/', include('openordini.oo_people.urls.institutions')),
     url('^users/', include('openordini.oo_users.urls')),
     url('^payments/', include('openordini.oo_payments.urls')),
-    url(r"^$", include("testsendgrid.main.urls"), name="index_sendgrid"),,
 ) + urlpatterns
 
