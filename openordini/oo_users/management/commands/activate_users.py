@@ -47,7 +47,7 @@ class Command(NoArgsCommand):
 
         users_counter = 0
 
-        for u in User.objects.all().order_by("last_name")[0:2]:
+        for u in User.objects.all().order_by("last_name").exclude(is_staff=True)[0:2]:
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
@@ -90,10 +90,10 @@ class Command(NoArgsCommand):
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
                 msg.attach_alternative(msg_html, 'text/html')
 
-                ##email_invio = SendGridEmailMultiAlternatives('Subject', 'Body di prova A', 'staff <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
-                ##email_invio.attach_alternative(msg_html, 'text/html')
+                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
+                email_invio.attach_alternative(msg_html, 'text/html')
 
-                email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
+                ###email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
 
                 # add the email to the list of emails that will be sent
                 self.stdout.write('Start sending emails to all the users ...')
@@ -107,18 +107,9 @@ class Command(NoArgsCommand):
                 try:                    
                     
                     #email_list.append(msg)
-                    ##email_invio.send()
-                    email_go.send()
+                    email_invio.send()
+                    ###email_go.send()
                     
-                    #sg = SendGridEmailMessage()
-                    #message = sendgrid.Mail() 
-                    #message.add_to([email])
-                    #message.set_subject(subject)
-                    #message.set_html( msg_html)
-                    #message.set_text( msg_txt)
-                    #message.set_from(email_sender)
-                    #status, msg_sended = sg.send(message)
-
                     #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
                     
                     print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
