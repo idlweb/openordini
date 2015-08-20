@@ -75,7 +75,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = "a.calamospecchia@gmail.com" #u.email
+                email = "a.calamospecchia@gmail.com, antonio.vangi.av@gmail.com" #u.email
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
@@ -90,7 +90,7 @@ class Command(NoArgsCommand):
                 msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
                 msg.attach_alternative(msg_html, 'text/html')
 
-                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', ['test <antonio.vangi.av@gmail.com>'])
+                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
                 email_invio.attach_alternative(msg_html, 'text/html')
 
                 ###email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
