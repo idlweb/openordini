@@ -103,9 +103,17 @@ class Command(NoArgsCommand):
                 if options['users_limit']: 
                     if users_counter >= options['users_limit']: 
                         break
-
+                categories = ['credenziali','accesso']
+                if categories:
+				    #logger.debug("Categories {c} were given".format(c=categories))
+				    #The SendGrid Event API will POST different data for single/multiple category messages.
+				    if len(categories) == 1:
+					    SendGridEmailMultiAlternatives.sendgrid_headers.setCategory(categories[0])
+				    elif len(categories) > 1:
+					    SendGridEmailMultiAlternatives.sendgrid_headers.setCategory(categories)
+				    SendGridEmailMultiAlternatives.update_headers()
+                
                 try:                    
-                    
                     #email_list.append(msg)
                     email_invio.send()
                     ###email_go.send()
