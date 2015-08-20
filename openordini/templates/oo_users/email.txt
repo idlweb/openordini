@@ -29,4 +29,48 @@ In caso di difficoltà nella gestione della procedura, puo' contattare
 La Segreteria e' sempre a disposizione per fornirLe eventuali chiarimenti in merito, ma non puo' fornire assistenza tecnica nella procedura di aggiornamento.
 
 
+BOZZA DI LETTERA AGLI ISCRITTI
+
+Gentile Collega,
+
+l’Ordine degli Psicologi ha avviato un processo di ammodernamento del proprio apparato comunicativo. Fra le varie attività avviate, c’è la realizzazione del Nuovo Portale dell’Ordine degli Psicologi (NPOP), che sostituisce il vecchio sito web, visualizzabile all’indirizzo:
+www.psicologipuglia.it
+NPOP sarà uno spazio interattivo, dove trovare come di consueto  tutte le informazioni utili e per essere aggiornato sulle attività professionali della Regione. Al suo interno è previsto uno spazio denominato PROFILO PROFESSIONALE, dove ciascun iscritto, con un accesso personalizzato, può inserire i propri dati professionali e rendersi così visibile ai cittadini che lo cercheranno sull’Albo.
+
+E’ INDISPENDABILE CHE CIASCUN ISCRITTO ACCEDA AL PROFILO E RILASCI LE AUTORIZZAZIONI AL TRATTAMENTO DEI DATI PERSONALI.
+
+L’Ordine degli Psicologi della Regione Puglia infatti ha esigenza, per ottemperare al mandato della nuova normativa, di aggiornare esplicitamente le autorizzazioni fornite dagli iscritti.
+
+L’AUTORIZZAZIONE SERVE PER RICEVERE LA NEWSLETTER, RICEVERE COMUNICAZIONI DA PARTE DI TERZI (SCUOLE DI SPECIALIZZAZIONE, ENTI, AZIENDE SPECIALISTICHE, ISTITUZIONI DEL SETTORE) CIRCA INIZIATIVE INERENTI LA NOSTRA PROFESSIONE ED E’ PERTANTO UN PASSAGGIO FONDAMENTALE PER RIMANERE AGGIORNATI ANCHE IN QUESTA NUOVA FASE CHE L’ORDINE HA AVVIATO.
+
+La invitiamo ad accedere al Suo Profilo Professionale, tramite il link evidenziato www.psicologipuglia.it
+
+Inserendo i suoi dati personali, che potrà modificare in seguito:
+
+user: {{username}}</strong>
+password: {{password}}</strong>
+
+
+Le ricordiamo che il Profilo Professionale cui Lei ha accesso è quello che sarà visualizzato in Albo, cioè che sarà visualizzato dai cittadini che La ricercheranno tramite i canali istituzionali Ordinistici. L’Ordine provvederà regolarmente ad una verifica dei dati fondamentali, ma non risponde in alcun modo di false dichiarazioni che restano sotto la responsabilità giuridica del singolo iscritto.
+
+Accedendo tramite il link sopra riportato, La invitiamo dunque a:
+
+- validare i Suoi dati;
+- comunicare tempestivamente in Segreteria eventuali errori ed eventuali cambi di indirizzi mail;
+- fornire le autorizzazioni al trattamento dei dati personali necessarie a norma di Legge.
+
+Viceversa, verranno presi in considerazione i dati forniti al momento dell'iscrizione all'Ordine, che però, essendo obsoleti, rischiano di tagliarLa fuori dai canali comunicativi dell’Ordine, che si ammodernano in considerazione dei nuovi strumenti tecnologici disponibili e delle richieste della Legge.
+
+Per godere appieno delle potenzialità di NPOP, è consigliato un browser sempre aggiornato ed una connessione veloce.
+
+Per qualsiasi difficoltà nella gestione del Suo profilo o nell’utilizzo di NPOP, può contattare:
+
+dott. Antonio Vangi (Webmaster Idlweb)
+mail: info@idlweb.net
+
+dott. Antonio Calamo-Specchia (Coordinatore della Commissione Comunicazione, Gestione del Web e 
+Trasparenza)
+mail: a.calamospecchia@gmail.com
+
+Certi della Sua collaborazione, cordiali saluti
 
