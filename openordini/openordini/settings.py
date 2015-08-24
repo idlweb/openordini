@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'localflavor',
     'ajax_changelist',
     'sendgrid',
+    'openordini.oo_email',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
