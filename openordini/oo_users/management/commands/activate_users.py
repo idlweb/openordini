@@ -119,8 +119,10 @@ class Command(NoArgsCommand):
                     #email_list.append(msg)
                     email_invio.send()
                     psicologo = User.objects.get(username=u.username)
-                    mail_inviata = EmailMessage.objects.get(to_email__contains = email)
-                    reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, utente_email = psicologo)
+                    #mail_inviata = EmailMessage.objects.get(to_email__contains = email)
+                    reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username)
+                    print "------------------------------------"
+                    print reg_test
                     ###email_go.send()
                     
                     #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
