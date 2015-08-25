@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.core.management.base import NoArgsCommand, CommandError
 from django.template.loader import render_to_string
-
+from openordini.oo_email.models import recordo_login_by_email
 import os
 
 #import smtplib
@@ -47,7 +47,7 @@ class Command(NoArgsCommand):
 
         users_counter = 0
 
-        for u in User.objects.all().order_by("last_name").exclude(is_staff=True):
+        for u in User.objects.all().order_by("last_name").exclude(is_staff=True)[0]:
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
@@ -75,7 +75,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = u.email #"a.calamospecchia@gmail.com, antonio.vangi.av@gmail.com" 
+                email = "antonio.vangi.av@gmail.com" #u.email 
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
@@ -115,7 +115,8 @@ class Command(NoArgsCommand):
                 
                 try:                    
                     #email_list.append(msg)
-                    email_invio.send()
+                    ei = email_invio.send()
+                    reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, ref_email = ei, utente_email = u)
                     ###email_go.send()
                     
                     #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
