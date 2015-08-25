@@ -6,6 +6,7 @@ from django.core import mail
 from django.core.management.base import NoArgsCommand, CommandError
 from django.template.loader import render_to_string
 from openordini.oo_email.models import recordo_login_by_email
+from sendgrid.models import EmailMessage
 import os
 
 #import smtplibu
