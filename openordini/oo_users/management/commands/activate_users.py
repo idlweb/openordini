@@ -115,7 +115,7 @@ class Command(NoArgsCommand):
                 
                 try:                    
                     #email_list.append(msg)
-                    ei = email_invio.send()
+                    email_invio.send()
                     #psicologo = User.objects.get(username=u.username)
                     #mail_inviata = EmailMessage.objects.get(to_email__contains = email)
                     #reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, ref_email = mail_inviata, utente_email = psicologo)
