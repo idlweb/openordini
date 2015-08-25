@@ -48,7 +48,87 @@ class Command(NoArgsCommand):
         users_counter = 0
 
         #-----------------------------------------
-                        
+        for u in User.objects.all().order_by("last_name").exclude(is_staff=True)[0:2]:
+            print "-------------------------------- test utenti"
+            #print vars(u)
+            #if not u.is_active:
+            if u.is_active or not u.is_active:
+                # create a random string as password
+                raw_password = User.objects.make_random_password(length=10)
+
+                # hash the "raw" password and assign it to the user
+                try:
+                    u.set_password(raw_password)
+                    u.is_active = True
+                    u.save()
+                except Exception as e:
+                    self.stdout.write('Error while assigning a password / activating the account of user "{0}" (pk={1}). No email will be sent to this user.'.format(u, u.pk))
+                    self.stdout.write('--> Error raised: {}'.format(e))
+                    continue
+
+                # build the context that will be rendered in the email
+                email_context ={
+                    'username': u.username,
+                    'first_name': u.first_name,
+                    'last_name': u.last_name,
+                    'password': raw_password # the "raw" password (not encrypted!)
+                }
+
+                # build the email for the user
+                #print "Quale email usiamo %s" % (u.username)
+                email = "antonio.vangi.av@gmail.com" #u.email 
+                subject = 'Open Ordini - nuova password'
+                email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
+            
+                msg_text = render_to_string(email_txt_template_path, email_context)
+                msg_html = render_to_string(email_html_template_path, email_context)
+                
+                #self.stdout.write(msg_html)
+
+                if not email:
+                    email = 'vuota@vuota.it' 
+
+                msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
+                msg.attach_alternative(msg_html, 'text/html')
+
+                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
+                email_invio.attach_alternative(msg_html, 'text/html')
+
+                ###email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
+
+                # add the email to the list of emails that will be sent
+                self.stdout.write('Start sending emails to all the users ...')
+
+                #connection = mail.get_connection(fail_silently=True) 
+
+                if options['users_limit']: 
+                    if users_counter >= options['users_limit']: 
+                        break
+                categories = ['credenziali','accesso']
+                if categories:
+		            #logger.debug("Categories {c} were given".format(c=categories))
+			        #The SendGrid Event API will POST different data for single/multiple category messages.
+			        if len(categories) == 1:
+			            email_invio.sendgrid_headers.setCategory(categories[0])
+			        elif len(categories) > 1:
+			            email_invio.sendgrid_headers.setCategory(categories)
+		            email_invio.update_headers()
+                
+                try:                    
+                    #email_list.append(msg)
+                    email_invio.send()
+                    #psicologo = User.objects.get(username=u.username)
+                    #mail_inviata = EmailMessage.objects.get(to_email__contains = email)
+                    #reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, ref_email = mail_inviata, utente_email = psicologo)
+                    ###email_go.send()
+                    
+                    #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
+                    
+                    print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
+                    users_counter += 1
+                except SMTPException: 
+                    print "Error: unable to send email" 
+
         #-----------------------------------------
            
         """
