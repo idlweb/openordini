@@ -3,9 +3,10 @@ from django.contrib import admin
 from openordini.oo_email.models import recordo_login_by_email
 
 class RecordoLoginByEmailAdmin(admin.ModelAdmin):
+    model = recordo_login_by_email
     list_display = ('username_email','utente_email')
     #list_filter = (VerificheListFilter,)
-    search_fields = ["username_email", "utente_email__email" ]
+    search_fields = ["username_email", "User__email" ]
     #actions = ['validazione_casellario','export_come_JSON','export_selected_objects']
     
 
