@@ -4,9 +4,7 @@ from openordini.oo_email.models import recordo_login_by_email
 
 class RecordoLoginByEmailAdmin(admin.ModelAdmin):
     model = recordo_login_by_email
-    list_display = ('username_email',)
-    
-    list_display = ['title', 'get_email', ]
+    list_display = ('username_email', 'get_email',)
 
     def get_email(self, obj):
         return obj.User.email
