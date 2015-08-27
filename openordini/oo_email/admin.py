@@ -7,7 +7,7 @@ class RecordoLoginByEmailAdmin(admin.ModelAdmin):
     list_display = ('username_email', 'get_email',)
 
     def get_email(self, obj):
-        return obj.User.email
+        return obj.user.email
     
     #list_filter = (VerificheListFilter,)
     search_fields = ["username_email", ]
