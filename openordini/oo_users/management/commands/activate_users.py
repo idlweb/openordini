@@ -28,21 +28,11 @@ class Command(NoArgsCommand):
   
     def handle_noargs(self, **options):
         
-        def html_escape(text):  
-            text = text.replace('&', '&amp;')
-            text = text.replace('"', '&quot;')
-            text = text.replace("'", '&#39;')
-            text = text.replace(">", '&gt;') 
-            text = text.replace("<", '&lt;')
-            text = text.replace(u"\uFFFD", "?")
-            return text
-
         self.stdout.write('Start assigning random passwords to the users and building one email for each of them ...')
 
-        email_list = []
+        #email_list = []
         
         template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
-        
         email_txt_template_path = os.path.join(template_base_path, 'email.txt')
         email_html_template_path = os.path.join(template_base_path, 'email.html')
 
@@ -89,8 +79,8 @@ class Command(NoArgsCommand):
                 if not email:
                     email = 'vuota@vuota.it' 
 
-                msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
-                msg.attach_alternative(msg_html, 'text/html')
+                #msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
+                #msg.attach_alternative(msg_html, 'text/html')
 
                 email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
                 email_invio.attach_alternative(msg_html, 'text/html')
