@@ -82,6 +82,19 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter',)
     list_filter =(emailBusinessListFilter,)
+    actions = ['send_email_on_selection',]
+    
+    def send_email_on_selection(self, request, queryset):
+        #rows_updated = queryset.update(accertamento_casellario=True)
+        #queryset
+        rows_update == 0
+        if rows_updated == 1:
+            message_bit = "email inviata"
+        else:
+            message_bit = "%s email inviate" % rows_updated
+        self.message_user(request, "%s email inviate." % message_bit)
+
+    send_email_on_selection.short_description = "Invia email psicologi selezionati"
     
     def save_model(self, request, obj, form, change):             
         up = self.model
