@@ -20,6 +20,8 @@ from .regbackend import finalize_registration
 from .forms import CustomAjaxModelFormView 
 from django.contrib.auth.models import User, Group
 
+from openordini.commons.subscription_email import picked_email_to_send
+
 
 #from django.utils.html import escape
 
@@ -80,14 +82,13 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     post_callback = finalize_registration
     exclude = ("says_is_politician", )
     search_fields = ["person__last_name", "person__first_name"]
-    list_display = ('person','wants_commercial_newsletter',)
+    list_display = ('person','wants_commercial_newsletter','email_login_inviata')
     list_filter =(emailBusinessListFilter,)
     actions = ['send_email_on_selection',]
     
     def send_email_on_selection(self, request, queryset):
-        #rows_updated = queryset.update(accertamento_casellario=True)
-        #queryset
-        rows_update == 0
+        send_email_picked(queryset)
+        rows_updated = queryset.update(email_login_inviata=True)
         if rows_updated == 1:
             message_bit = "email inviata"
         else:
@@ -102,16 +103,6 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
            print "verificata l'esistenza del profilo personale"
            u = up.objects.get(id = obj.id)
            finalize_registration(self, u)  
-        #print u._meta
-        #print u._meta.fields
-        #print obj.user.id
-        #print obj.id
-        #upopts = up._meta
-        #print upopts.fields
-        #print up.objects.get(id = obj.id).numero_iscrizione
-        #print up
-        #print obj.user
-        #print self.model    
         obj.save()
       
 
