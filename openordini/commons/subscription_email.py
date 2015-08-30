@@ -25,7 +25,7 @@ def email_sended(sender, **kwargs):
     #response = kwargs.get("response", None)
     #return message
 
-class picked_email_to_send(): 
+class picked_email_to_send(object): 
     m = email_sended # so i get the f or the return
     users_counter = 0
     def send_email_picked(self, profilo_utente_query):
