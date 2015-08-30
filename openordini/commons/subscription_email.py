@@ -34,7 +34,7 @@ class picked_email_to_send:
         for u in qs:#User.objects.all().order_by("last_name").exclude(is_staff=True):
             print u.user
             # create a random string as password
-            raw_password = User.objects.get(id = u.user.id).make_random_password(length=10)
+            raw_password = User.objects.make_random_password(length=10)
             print "password"
             print raw_password
             # hash the "raw" password and assign it to the user
