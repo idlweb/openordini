@@ -33,6 +33,13 @@ class picked_email_to_send:
     email_txt_template_path = os.path.join(template_base_path, 'email.txt')
     email_html_template_path = os.path.join(template_base_path, 'email.html')
     
+    @receiver(sendgrid_email_sent)
+    def email_sended(sender, **kwargs):
+        print "c e' nessuno... "	
+        message = kwargs.get("message", None)
+        print message
+        #response = kwargs.get("response", None)
+        #return message
     
     #u = User.objects.get() #utente, utenti passati da admin  
     #if u.is_active or not u.is_active: # non ci interessa
