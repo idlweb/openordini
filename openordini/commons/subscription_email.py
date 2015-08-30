@@ -34,7 +34,7 @@ class picked_email_to_send():
         print m.message
     
     
-    emplate_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
+    template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
     email_txt_template_path = os.path.join(template_base_path, 'email.txt')
     email_html_template_path = os.path.join(template_base_path, 'email.html')
     
