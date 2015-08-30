@@ -18,18 +18,12 @@ Antonio, 29_08_2015
 now, no loop but a single sending. So, User is the one we have selected 
 """
 
-@receiver(sendgrid_email_sent)
-def email_sended(sender, **kwargs):
-    print "c e' nessuno... "	
-    message = kwargs.get("message", None)
-    #response = kwargs.get("response", None)
-    #return message
 
 class picked_email_to_send: 
-    m = email_sended() # so i get the f or the return
-    print m
-    users_counter = 0
+    # so i get the f or the return
+    #actually it's wrong recall the function, upon, i must get the assignment ... m = email_sended() 
     def send_email_picked(self, qs):
+        users_counter = 0
         print qs
         print('testing  ... pick_email_to_send CLASS')
         
@@ -38,6 +32,7 @@ class picked_email_to_send:
     template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
     email_txt_template_path = os.path.join(template_base_path, 'email.txt')
     email_html_template_path = os.path.join(template_base_path, 'email.html')
+    
     
     #u = User.objects.get() #utente, utenti passati da admin  
     #if u.is_active or not u.is_active: # non ci interessa
