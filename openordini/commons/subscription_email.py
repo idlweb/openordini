@@ -35,8 +35,6 @@ class picked_email_to_send:
             print u.user
             # create a random string as password
             raw_password = User.objects.make_random_password(length=10)
-            print "password"
-            print raw_password
             # hash the "raw" password and assign it to the user
 	    try:
 	        #u.user.set_password(raw_password)
@@ -48,7 +46,7 @@ class picked_email_to_send:
 	        continue
 
                 # build the context that will be rendered in the email
-               
+                print u.user.first_name
                 email_context ={
                     'username': u.user.username,
                     'first_name': u.user.first_name,
