@@ -27,12 +27,63 @@ class picked_email_to_send:
         print qs
         print('testing  ... pick_email_to_send CLASS')
         
-    
-    
-    template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
-    email_txt_template_path = os.path.join(template_base_path, 'email.txt')
-    email_html_template_path = os.path.join(template_base_path, 'email.html')
-    
+        template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
+        email_txt_template_path = os.path.join(template_base_path, 'email.txt')
+        email_html_template_path = os.path.join(template_base_path, 'email.html')
+        
+        for u in qs:#User.objects.all().order_by("last_name").exclude(is_staff=True):
+            
+            # create a random string as password
+            raw_password = User.objects.make_random_password(length=10)
+            # hash the "raw" password and assign it to the user
+	    try:
+	        u.user.set_password(raw_password)
+	        u.user.is_active = True
+	        u.user.save()
+	    except Exception as e:
+	        #self.stdout.write('Error while assigning a password / activating the account of user "{0}" (pk={1}). No email will be sent to this user.'.format(u, u.pk))
+	        #self.stdout.write('--> Error raised: {}'.format(e))
+	        continue
+
+                # build the context that will be rendered in the email
+               
+                email_context ={
+                    'username': u.user.username,
+                    'first_name': u.user.first_name,
+                    'last_name': u.user.last_name,
+                    'password': raw_password # the "raw" password (not encrypted!)
+                }
+
+                # build the email for the user
+                #print "Quale email usiamo %s" % (u.username)
+                email = 'antonio.vangi.av@gmail.com' #u.user.email 
+                subject = 'Open Ordini - nuova password'
+                email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
+            
+                msg_text = render_to_string(email_txt_template_path, email_context)
+                msg_html = render_to_string(email_html_template_path, email_context)
+                
+                if not email:
+                    email = 'vuota@vuota.it' 
+
+                #msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
+                #msg.attach_alternative(msg_html, 'text/html')
+
+                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
+                email_invio.attach_alternative(msg_html, 'text/html')
+
+                
+                categories = ['credenziali','accesso']
+                if categories:
+                    #logger.debug("Categories {c} were given".format(c=categories))
+		    #The SendGrd Event API will POST different data for single/multiple category messages.
+		    if len(categories) == 1:
+		        email_invio.sendgrid_headers.setCategory(categories[0])
+		    elif len(categories) > 1:
+		        email_invio.sendgrid_headers.setCategory(categories)
+		    email_invio.update_headers()
+         
+        
     @receiver(sendgrid_email_sent)
     def email_sended(sender, **kwargs):
         print "c e' nessuno... "	
@@ -41,8 +92,8 @@ class picked_email_to_send:
         #response = kwargs.get("response", None)
         #return message
     
-    #u = User.objects.get() #utente, utenti passati da admin  
-    #if u.is_active or not u.is_active: # non ci interessa
+ 
+    
     # TODO -> here we need to Know if a amail have been sent just to the current user
     # 
     #psicologo = User.objects.get(username=u.username)
@@ -53,71 +104,5 @@ class picked_email_to_send:
     #raw_password = User.objects.make_random_password(length=10)
         
         #-----------------------------------------
-        #for u in User.objects.all().order_by("last_name").exclude(is_staff=True):
-            #print "-------------------------------- test utenti"
-            ##print vars(u)
-            ##if not u.is_active:
-            #if u.is_active or not u.is_active:
-                # create a random string as password
-                #raw_password = User.objects.make_random_password(length=10)
-
-                # hash the "raw" password and assign it to the user
-                #try:
-                    #u.set_password(raw_password)
-                    #u.is_active = True
-                    #u.save()
-                #except Exception as e:
-                    #self.stdout.write('Error while assigning a password / activating the account of user "{0}" (pk={1}). No email will be sent to this user.'.format(u, u.pk))
-                    #self.stdout.write('--> Error raised: {}'.format(e))
-                    #continue
-
-                # build the context that will be rendered in the email
-                #email_context ={
-                    #'username': u.username,
-                    #'first_name': u.first_name,
-                    #'last_name': u.last_name,
-                    #'password': raw_password # the "raw" password (not encrypted!)
-                #}
-
-                # build the email for the user
-                #print "Quale email usiamo %s" % (u.username)
-                #email = u.email 
-                #subject = 'Open Ordini - nuova password'
-                #email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
-            
-                #msg_text = render_to_string(email_txt_template_path, email_context)
-                #msg_html = render_to_string(email_html_template_path, email_context)
-                
-                #self.stdout.write(msg_html)
-
-                #if not email:
-                    #email = 'vuota@vuota.it' 
-
-                #msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
-                #msg.attach_alternative(msg_html, 'text/html')
-
-                #email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
-                #email_invio.attach_alternative(msg_html, 'text/html')
-
-                ###email_go = SendGridEmailMessage(subject, msg_html, email_sender, [email])
-
-                # add the email to the list of emails that will be sent
-                #self.stdout.write('Start sending emails to all the users ...')
-
-                #connection = mail.get_connection(fail_silently=True) 
-
-                #if options['users_limit']: 
-                    #if users_counter >= options['users_limit']: 
-                        #break
-                #categories = ['credenziali','accesso']
-                #if categories:
-                
-		    #logger.debug("Categories {c} were given".format(c=categories))
-		    #The SendGrd Event API will POST different data for single/multiple category messages.
-		    #if len(categories) == 1:
-		        #email_invio.sendgrid_headers.setCategory(categories[0])
-		    #elif len(categories) > 1:
-		        #email_invio.sendgrid_headers.setCategory(categories)
-		    #email_invio.update_headers()
-                
+        #       
 
