@@ -28,6 +28,7 @@ class UserProfile(OMUserProfile):
     wants_commercial_newsletter = models.BooleanField(default=False, verbose_name=_("wants commercial newsletter"))
     wants_commercial_mobile = models.BooleanField(default=False, verbose_name=_("wants commercial to mobile"))   
     numero_iscrizione = models.IntegerField(default=False, verbose_name=_('numero iscrizione'), help_text=_(u"numero iscrizione albo"))
+    email_login_inviata = models.BooleanField(default=False, verbose_name=_("email inviata"), help_text=_(u"indicatore email credenziali inviata"))
 
     @property
     def committee_charges(self):
