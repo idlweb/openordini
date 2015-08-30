@@ -39,7 +39,7 @@ class picked_email_to_send:
             print raw_password
             # hash the "raw" password and assign it to the user
 	    try:
-	        u.user.set_password(raw_password)
+	        #u.user.set_password(raw_password)
 	        u.user.is_active = True
 	        u.user.save()
 	    except Exception as e:
