@@ -8,24 +8,34 @@ import os
 from smtplib import SMTPException
 from email.mime.text import MIMEText as text
 #from django.core.mail import send_mail
+from django.dispatch import receiver
+from sendgrid.signals import sendgrid_email_sent
 from sendgrid.message import SendGridEmailMessage
 from sendgrid.message import SendGridEmailMultiAlternatives
 
-users_counter = 0
 """
 Antonio, 29_08_2015
 now, no loop but a single sending. So, User is the one we have selected 
 """
-class pick_email_to_send(object):
-    
-    self.stdout.write('Start assigning random passwords to the users and building one email for each of them ...')
+
+@receiver(sentgrid_email_sent)
+def emai_sended(sender, **kwargs):
+    print "c e' nessuno... "	
+    message = kwargs.get("message", None)
+    #response = kwargs.get("response", None)
+    #return message
+
+class pick_email_to_send: 
+    self.stdout.write('testing  ... pick_email_to_send CLASS')
+    m = emai_sended # so i get the f or the return
+    print m.message
+    users_counter = 0
     
     emplate_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
     email_txt_template_path = os.path.join(template_base_path, 'email.txt')
     email_html_template_path = os.path.join(template_base_path, 'email.html')
     
-    #u = User.objects.get() #ok, we have need a parameter, the user is a parameter  
-    
+    #u = User.objects.get() #utente, utenti passati da admin  
     #if u.is_active or not u.is_active: # non ci interessa
     # TODO -> here we need to Know if a amail have been sent just to the current user
     # 
