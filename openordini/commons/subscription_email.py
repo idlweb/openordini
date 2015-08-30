@@ -47,41 +47,54 @@ class picked_email_to_send:
 
                 # build the context that will be rendered in the email
                 print u.user.first_name
-                email_context ={
-                    'username': u.user.username,
-                    'first_name': u.user.first_name,
-                    'last_name': u.user.last_name,
-                    'password': raw_password # the "raw" password (not encrypted!)
-                }
+            email_context ={
+                'username': u.user.username,
+                'first_name': u.user.first_name,
+                'last_name': u.user.last_name,
+                'password': raw_password # the "raw" password (not encrypted!)
+            }
 
-                # build the email for the user
-                #print "Quale email usiamo %s" % (u.username)
-                email = 'antonio.vangi.av@gmail.com' #u.user.email 
-                subject = 'Open Ordini - nuova password'
-                email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
-            
-                msg_text = render_to_string(email_txt_template_path, email_context)
-                msg_html = render_to_string(email_html_template_path, email_context)
+            # build the email for the user
+            #print "Quale email usiamo %s" % (u.username)
+            email = 'antonio.vangi.av@gmail.com' #u.user.email 
+            subject = 'Open Ordini - nuova password'
+            email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
+    
+            msg_text = render_to_string(email_txt_template_path, email_context)
+            msg_html = render_to_string(email_html_template_path, email_context)
+        
+            if not email:
+                email = 'vuota@vuota.it' 
+
+            #msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
+            #msg.attach_alternative(msg_html, 'text/html')
+
+            email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
+            email_invio.attach_alternative(msg_html, 'text/html')
+
+        
+            categories = ['credenziali','accesso']
+            if categories:
+                #logger.debug("Categories {c} were given".format(c=categories))
+	        #The SendGrd Event API will POST different data for single/multiple category messages.
+	        if len(categories) == 1:
+	            email_invio.sendgrid_headers.setCategory(categories[0])
+	        elif len(categories) > 1:
+	            email_invio.sendgrid_headers.setCategory(categories)
+	        email_invio.update_headers()
+	    try:                    
+                #email_list.append(msg)
+                email_invio.send()
+                #psicologo = User.objects.get(username=u.username)
+                #mail_inviata = EmailMessage.objects.filter(to_email__contains = email)[0]
+                #reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, utente_email = psicologo, ref_email = mail_inviata)
+                #print "------------------------------------"
+                #print reg_test
+                print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
                 
-                if not email:
-                    email = 'vuota@vuota.it' 
-
-                #msg = mail.EmailMultiAlternatives(subject, msg_text, email_sender, [email])
-                #msg.attach_alternative(msg_html, 'text/html')
-
-                email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
-                email_invio.attach_alternative(msg_html, 'text/html')
-
-                
-                categories = ['credenziali','accesso']
-                if categories:
-                    #logger.debug("Categories {c} were given".format(c=categories))
-		    #The SendGrd Event API will POST different data for single/multiple category messages.
-		    if len(categories) == 1:
-		        email_invio.sendgrid_headers.setCategory(categories[0])
-		    elif len(categories) > 1:
-		        email_invio.sendgrid_headers.setCategory(categories)
-		    email_invio.update_headers()
+            except SMTPException: 
+                print "Error: unable to send email" 
+                continue
          
         
     @receiver(sendgrid_email_sent)
