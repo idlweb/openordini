@@ -87,8 +87,8 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     actions = ['send_email_on_selection',]
     
     def send_email_on_selection(self, request, queryset):
-        sap = send_email_picked()
-        sap.send_email_picked(queryset)
+        #sap = send_email_picked()
+        #sap.send_email_picked(queryset)
         rows_updated = queryset.update(email_login_inviata=True)
         if rows_updated == 1:
             message_bit = "email inviata"
