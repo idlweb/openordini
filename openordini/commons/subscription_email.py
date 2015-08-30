@@ -18,7 +18,7 @@ Antonio, 29_08_2015
 now, no loop but a single sending. So, User is the one we have selected 
 """
 
-@receiver(sentgrid_email_sent)
+@receiver(sendgrid_email_sent)
 def email_sended(sender, **kwargs):
     print "c e' nessuno... "	
     message = kwargs.get("message", None)
