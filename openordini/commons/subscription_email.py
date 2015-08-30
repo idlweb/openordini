@@ -26,12 +26,13 @@ def email_sended(sender, **kwargs):
     #return message
 
 class picked_email_to_send: 
-    m = email_sended # so i get the f or the return
+    m = email_sended() # so i get the f or the return
+    print m
     users_counter = 0
     def send_email_picked(self, qs):
         print qs
         print('testing  ... pick_email_to_send CLASS')
-        print m.message
+        
     
     
     template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
