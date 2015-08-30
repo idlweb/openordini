@@ -19,17 +19,20 @@ now, no loop but a single sending. So, User is the one we have selected
 """
 
 @receiver(sentgrid_email_sent)
-def emai_sended(sender, **kwargs):
+def email_sended(sender, **kwargs):
     print "c e' nessuno... "	
     message = kwargs.get("message", None)
     #response = kwargs.get("response", None)
     #return message
 
-class pick_email_to_send: 
-    self.stdout.write('testing  ... pick_email_to_send CLASS')
-    m = emai_sended # so i get the f or the return
-    print m.message
+class picked_email_to_send(): 
+    m = email_sended # so i get the f or the return
     users_counter = 0
+    def send_email_picked(self, profilo_utente_query)
+        print profilo_utente_query
+        self.stdout.write('testing  ... pick_email_to_send CLASS')
+        print m.message
+    
     
     emplate_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
     email_txt_template_path = os.path.join(template_base_path, 'email.txt')
