@@ -29,7 +29,7 @@ class picked_email_to_send:
     m = email_sended # so i get the f or the return
     users_counter = 0
     def send_email_picked(self, qs):
-        print profilo_utente_query
+        print qs
         self.stdout.write('testing  ... pick_email_to_send CLASS')
         print m.message
     
