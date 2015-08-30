@@ -116,22 +116,5 @@ class picked_email_to_send():
 		    #elif len(categories) > 1:
 		        #email_invio.sendgrid_headers.setCategory(categories)
 		    #email_invio.update_headers()
-                """
-                try:                    
-                    #email_list.append(msg)
-                    email_invio.send()
-                    psicologo = User.objects.get(username=u.username)
-                    mail_inviata = EmailMessage.objects.filter(to_email__contains = email)[0]
-                    reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, utente_email = psicologo, ref_email = mail_inviata)
-                    print "------------------------------------"
-                    print reg_test
-                    ###email_go.send()
-                    
-                    #connection.send_mail(subject, msg_html, email_sender, [email], fail_silently=True)
-                    
-                    print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
-                    users_counter += 1
-                except SMTPException: 
-                    print "Error: unable to send email" 
-                """
+                
 
