@@ -20,7 +20,7 @@ from .regbackend import finalize_registration
 from .forms import CustomAjaxModelFormView 
 from django.contrib.auth.models import User, Group
 
-from openordini.commons import subscription_email
+from openordini.commons.subscription_email import *
 
 
 #from django.utils.html import escape
