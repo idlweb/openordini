@@ -30,7 +30,7 @@ class picked_email_to_send:
     users_counter = 0
     def send_email_picked(self, qs):
         print qs
-        self.stdout.write('testing  ... pick_email_to_send CLASS')
+        print('testing  ... pick_email_to_send CLASS')
         print m.message
     
     
