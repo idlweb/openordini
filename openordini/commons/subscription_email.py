@@ -90,7 +90,7 @@ class picked_email_to_send:
                 #reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, utente_email = psicologo, ref_email = mail_inviata)
                 #print "------------------------------------"
                 #print reg_test
-                print "Successfully sent email a %s, %s" % (u.user.last_name, u.user.first_name) 
+                #print "Successfully sent email a %s, %s" % (u.user.last_name, u.user.first_name) 
                 
             except SMTPException: 
                 print "Error: unable to send email" 
