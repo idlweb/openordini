@@ -56,7 +56,7 @@ class picked_email_to_send:
 
             # build the email for the user
             #print "Quale email usiamo %s" % (u.username)
-            email = 'antonio.vangi.av@gmail.com' #u.user.email 
+            email = u.user.email 
             subject = 'Open Ordini - nuova password'
             email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
     
