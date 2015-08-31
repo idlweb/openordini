@@ -34,7 +34,7 @@ class picked_email_to_send:
         
         for u in qs:#User.objects.all().order_by("last_name").exclude(is_staff=True):
             print u.user
-            #email già inviate 
+            # email gia' inviate 
             # se trovo una email non devo mandarne un'altra
             ei = EmailMessage.objects.filter(to_email__contains = u.user.email)
             if ei.count() < 1:
