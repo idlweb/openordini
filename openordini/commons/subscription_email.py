@@ -37,7 +37,7 @@ class picked_email_to_send:
             raw_password = User.objects.make_random_password(length=10)
             # hash the "raw" password and assign it to the user
 	    try:
-	        #u.user.set_password(raw_password)
+	        u.user.set_password(raw_password)
 	        u.user.is_active = True
 	        u.user.save()
 	    except Exception as e:
@@ -90,7 +90,7 @@ class picked_email_to_send:
                 #reg_test = recordo_login_by_email.objects.create(password_email=raw_password, username_email = u.username, utente_email = psicologo, ref_email = mail_inviata)
                 #print "------------------------------------"
                 #print reg_test
-                print "Successfully sent email a %s, %s" % (u.last_name, u.first_name) 
+                print "Successfully sent email a %s, %s" % (u.user.last_name, u.user.first_name) 
                 
             except SMTPException: 
                 print "Error: unable to send email" 
