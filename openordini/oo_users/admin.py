@@ -88,7 +88,8 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     
     def send_email_on_selection(self, request, queryset):
         ioc = subscription_email.picked_email_to_send()
-        
+        print "risultato della funzione"
+        print t_email 
         t_email = ioc.send_email_picked(queryset)
         
         if t_email == True:
