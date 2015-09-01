@@ -104,12 +104,12 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         #ioc.send_email_picked(queryset)
 
         rows_updated = queryset.update(email_login_inviata=False)
-        if rows_updated == 0:
+        if rows_updated == 1:
             message_bit = "campo azzerato"
         else:
             message_bit = "%s email azzerate" % rows_updated
         self.message_user(request, "%s email azzerate." % message_bit)
-    send_email_on_selection.short_description = "deseleziona invio email"
+   send_email_on_selection_false.short_description = "deseleziona invio email"
     
     
     def save_model(self, request, obj, form, change):             
