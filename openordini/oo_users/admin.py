@@ -91,7 +91,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         print "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNrisultato della funzione"
        
         t_email = ioc.send_email_picked(queryset)
-        print t_email 
+        #print t_email 
         
         if t_email == True:
             rows_updated = queryset.update(email_login_inviata=True)
