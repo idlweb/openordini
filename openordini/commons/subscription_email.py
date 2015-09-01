@@ -31,7 +31,7 @@ class picked_email_to_send:
         template_base_path = os.path.join(settings.PROJECT_ROOT, 'templates/oo_users')
         email_txt_template_path = os.path.join(template_base_path, 'email.txt')
         email_html_template_path = os.path.join(template_base_path, 'email.html')
-        
+        cambia_stato_email = True
         for u in qs:#User.objects.all().order_by("last_name").exclude(is_staff=True):
             print u.user
             # email gia' inviate 
@@ -73,7 +73,9 @@ class picked_email_to_send:
 	        msg_html = render_to_string(email_html_template_path, email_context)
 	    
 	        if not email:
-	            email = 'vuota@vuota.it' 
+	            email = 'vuota@vuota.it'
+	            cambia_stato_email = False
+	            return cambia_stato_email
 	    
 	        email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
 	        email_invio.attach_alternative(msg_html, 'text/html')
