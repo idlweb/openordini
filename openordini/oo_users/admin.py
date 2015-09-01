@@ -91,7 +91,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         
         t_email = ioc.send_email_picked(queryset)
         
-        if t_email = True:
+        if t_email == True:
             rows_updated = queryset.update(email_login_inviata=True)
         else:
             rows_updated = queryset.update(email_login_inviata=False)
