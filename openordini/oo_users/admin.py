@@ -84,7 +84,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter','email_login_inviata')
     list_filter =(emailBusinessListFilter,)
-    actions = ['send_email_on_selection',]
+    actions = ['send_email_on_selection',send_email_on_selection_fals,]
     
     def send_email_on_selection(self, request, queryset):
         ioc = subscription_email.picked_email_to_send()
@@ -98,6 +98,19 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         self.message_user(request, "%s email inviate." % message_bit)
 
     send_email_on_selection.short_description = "Invia email psicologi selezionati"
+    
+    def send_email_on_selection_false(self, request, queryset):
+        #ioc = subscription_email.picked_email_to_send()
+        #ioc.send_email_picked(queryset)
+
+        rows_updated = queryset.update(email_login_inviata=False)
+        if rows_updated == 1:
+            message_bit = "campo azzerato"
+        else:
+            message_bit = "%s email azzerate" % rows_updated
+        self.message_user(request, "%s email azzerate." % message_bit)
+    send_email_on_selection.short_description = "deseleziona invio email"
+    
     
     def save_model(self, request, obj, form, change):             
         up = self.model
