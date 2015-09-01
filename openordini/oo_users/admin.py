@@ -84,7 +84,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
     search_fields = ["person__last_name", "person__first_name"]
     list_display = ('person','wants_commercial_newsletter','email_login_inviata')
     list_filter =(emailBusinessListFilter,)
-    actions = ['send_email_on_selection',send_email_on_selection_false,]
+    actions = ['send_email_on_selection','send_email_on_selection_false',]
     
     def send_email_on_selection(self, request, queryset):
         ioc = subscription_email.picked_email_to_send()
