@@ -36,7 +36,7 @@ class picked_email_to_send:
             print u.user
             # email gia' inviate 
             # se trovo una email non devo mandarne un'altra
-            ei = EmailMessage.objects.filter(to_email__contains = u.user.email)
+            ei = EmailMessage.objects.filter(to_email = u.user.email)
             print "email corrente"
             print u.user.email
             print "quanto e' ei"
