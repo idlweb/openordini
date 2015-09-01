@@ -73,10 +73,9 @@ class picked_email_to_send:
 	        msg_html = render_to_string(email_html_template_path, email_context)
 	    
 	        if not email:
-	            email = 'vuota@vuota.it'
+	            email = u.user.username + '@vuota.it'
 	            cambia_stato_email = False
-	            return cambia_stato_email
-	    
+	            
 	        email_invio = SendGridEmailMultiAlternatives('Processo di informatizzazione NPOP', 'Nuovo Portale Ordine degli Piscologi... segue email per comunicarLe i dati di accesso', 'staff NPOP <stafgnpop@psicologipuglia.it>', [email])
 	        email_invio.attach_alternative(msg_html, 'text/html')
 	 
