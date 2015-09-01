@@ -38,6 +38,7 @@ class picked_email_to_send:
             # se trovo una email non devo mandarne un'altra
             ei = EmailMessage.objects.filter(to_email__contains = u.user.email)
             if ei.count() < 1:
+            	print ------------------- ENTRATO
 	        # create a random string as password
 	        raw_password = User.objects.make_random_password(length=10)
 	        # hash the "raw" password and assign it to the user
