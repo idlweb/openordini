@@ -109,7 +109,8 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         else:
             message_bit = "%s email azzerate" % rows_updated
         self.message_user(request, "%s email azzerate." % message_bit)
-   send_email_on_selection_false.short_description = "deseleziona invio email"
+        
+    send_email_on_selection_false.short_description = "deseleziona invio email"
     
     
     def save_model(self, request, obj, form, change):             
