@@ -104,7 +104,7 @@ class UserProfileAdmin(CustomAjaxModelAdmin):
         #ioc.send_email_picked(queryset)
 
         rows_updated = queryset.update(email_login_inviata=False)
-        if rows_updated == 1:
+        if rows_updated == 0:
             message_bit = "campo azzerato"
         else:
             message_bit = "%s email azzerate" % rows_updated
