@@ -42,7 +42,7 @@ class picked_email_to_send:
             print "quanto e' ei"
             print ei
             if ei.count() < 1:
-            	print ------------------- ENTRATO
+            	print "------------------- ENTRATO"
 	        # create a random string as password
 	        raw_password = User.objects.make_random_password(length=10)
 	        # hash the "raw" password and assign it to the user
