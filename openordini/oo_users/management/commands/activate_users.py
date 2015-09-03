@@ -39,7 +39,7 @@ class Command(NoArgsCommand):
         users_counter = 0
 
         #-----------------------------------------
-        for u in User.objects.all().order_by("last_name").exclude(is_staff=True)[0:2]:
+        for u in User.objects.all().order_by("last_name").exclude(is_staff=True)[0:1]:
             print "-------------------------------- test utenti"
             #print vars(u)
             #if not u.is_active:
@@ -67,7 +67,7 @@ class Command(NoArgsCommand):
 
                 # build the email for the user
                 #print "Quale email usiamo %s" % (u.username)
-                email = 'latillagiuseppe@libero.it' #u.email 
+                email = u.email 
                 subject = 'Open Ordini - nuova password'
                 email_sender = 'stafgnpop@psicologipuglia.it' # TODO: replace this address with a meaningful one !
             
