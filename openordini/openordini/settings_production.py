@@ -24,7 +24,7 @@ DATABASES = {
         'USER': 'oo',
         'PASSWORD': '',
         'HOST': '',
-        'PORT': '5432',
+        'PORT': '5433', # modified for Postgres 9.4
     }
 }
 
