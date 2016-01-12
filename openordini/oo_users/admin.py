@@ -22,6 +22,10 @@ from django.contrib.auth.models import User, Group
 
 from openordini.commons import subscription_email 
 
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+from import_export import fields
+
 
 #from django.utils.html import escape
 
@@ -77,7 +81,15 @@ class CustomAjaxModelAdmin(AjaxModelAdmin):
         return list_urls + urls
 
 
-class UserProfileAdmin(CustomAjaxModelAdmin):
+class UserProfileResource(resources.ModelResource):
+    class Meta:
+        model = OOUserProfile #UserProfile
+        fields = ('id','person__last_name','person__first_name','user__last_name', 'user__first_name', 'wants_commercial_newsletter', 'wants_commercial_mobile')
+
+
+#CustomAjaxModelAdmin
+class UserProfileAdmin(ImportExportModelAdmin):
+    resource_class = UserProfileResource
     ajax_list_display = ('numero_iscrizione',)
     post_callback = finalize_registration
     exclude = ("says_is_politician", )
@@ -174,16 +186,20 @@ class VerificheListFilter(admin.SimpleListFilter):
             return queryset.filter(accertamento_universita=False)
 
 
+class ExtraPeopleResource(resources.ModelResource):
+    class Meta:
+        model = ExtraPeople
+        fields = ('id',)
 
-
-
-class ExtraPeopleAdmin(admin.ModelAdmin):
+#admin.ModelAdmin
+class ExtraPeopleAdmin(ImportExportModelAdmin):
     list_display = ('anagrafica_extra','accertamento_casellario','accertamento_universita')
     list_filter = (VerificheListFilter,)
     search_fields = ["anagrafica_extra__person__last_name", ]
 
     actions = ['validazione_casellario','export_come_JSON','export_selected_objects']
-
+    resource_class = ExtraPeopleResource    
+ 
     def validazione_casellario(self, request, queryset):
         rows_updated = queryset.update(accertamento_casellario=True)
         if rows_updated == 1:
@@ -284,7 +300,7 @@ class ButtonableModelAdmin(admin.ModelAdmin):
 
 
 # TODO try catch the unregister...
-admin.site.unregister(OMUserProfile)
+#admin.site.unregister(OMUserProfile)
 admin.site.register(OOUserProfile, UserProfileAdmin)
 admin.site.register(ExtraPeople, ExtraPeopleAdmin)
 admin.site.register(Recapito, RecapitoAdmin)

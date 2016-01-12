@@ -19,12 +19,12 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', #'django.db.backends.postgresql_psycopg2',
         'NAME': 'openordini',
         'USER': 'oo',
         'PASSWORD': '',
         'HOST': '',
-        'PORT': '5432',
+        'PORT': '5433', # try with postgres 9.4
     }
 }
 

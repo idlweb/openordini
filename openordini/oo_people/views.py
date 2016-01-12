@@ -130,24 +130,24 @@ class OOCommitteeDetailView(CommitteeDetailView):
         ctx["president"] = president
         ctx["vice_presidents"] = vicepresidents
         ctx["resources"] = resources
-
         ctx["current_site"] = Site.objects.get(pk=settings.SITE_ID)
-        #ctx["members_for_pages"] = members_for_pages
-#        members = self.object.sub_body_set.all()
-#        print "members: %s" % members
-#        paginator = Paginator(members, 20)
-##        page = self.request.GET.get('page', 1)
-##        try:
-##            page_obj = paginator.page(page)
-##        except PageNotAnInteger:
-##            # If page is not an integer, deliver first page.
-##            page_obj = paginator.page(1)
-##        except EmptyPage:
-##            # If page is out of range (e.g. 9999), deliver last page of results.
-##            page_obj = paginator.page(paginator.num_pages)
+
+#       ctx["members_for_pages"] = members_for_pages
+#       members = self.object.sub_body_set.all()
+#       print "members: %s" % members
+#       paginator = Paginator(members, 20)
+##      page = self.request.GET.get('page', 1)
+##      try:
+##          page_obj = paginator.page(page)
+##      except PageNotAnInteger:
+##          # If page is not an integer, deliver first page.
+##          page_obj = paginator.page(1)
+##      except EmptyPage:
+##          # If page is out of range (e.g. 9999), deliver last page of results.
+##          page_obj = paginator.page(paginator.num_pages)
 ##
-##        ctx['paginator'] = paginator        
-##        ctx['page_obj'] = page_obj
+##      ctx['paginator'] = paginator        
+##      ctx['page_obj'] = page_obj
         ctx["sub_committees"] = self.object.sub_body_set.all()
 
         return ctx
@@ -185,23 +185,29 @@ class OOPoliticianSearchView(PoliticianSearchView):
     def get(self, request, *args, **kwargs):
 
         key = request.GET.get('key', '')
+        print "test stringa in typehead %s" % (key.strip())
         ajax = request.GET.get('ajax', 0)
-        max_rows = request.GET.get('max_rows', 10)
-
+        max_rows = request.GET.get('max_rows', 100)
 
         current_site = Site.objects.get(pk=settings.SITE_ID)
 
-        persons = Person.objects.\
-            filter((Q(first_name__icontains=key) | Q(last_name__icontains=key) | Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key) | Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key)) or (Q(first_name__icontains=key) and Q(last_name__icontains=key))).distinct()[0:max_rows]
-        print "dalla select"
-        print persons
-        print "cio che arriva"
-        # build persons array,substituting the img with a 50x50 thumbnail
-        # and returning the absolute url of the thumbnail
-    
-        results = []
-        for person in persons:
+        persons = Person.objects.extra(select={"fullname":"CONCAT(first_name,' ', last_name)"}, where=["CONCAT(LOWER(first_name),' ',LOWER(last_name)) LIKE %s"], params=['%'+key.strip().lower()+'%']).distinct()[0:max_rows]
+            #.filter( \
+            #Q(first_name__icontains=key.strip()) | \
+            #Q(last_name__icontains=key.strip()) | \
+            #Q(userprofile__userprofile__anagrafica__indirizzo_studio__icontains=key.strip()) | \
+            #Q(userprofile__userprofile__anagrafica__citta_studio__icontains=key.strip()) | \
+            #Q(userprofile__userprofile__anagrafica__cap_studio__icontains=key.strip()) | \
+            #Q(userprofile__userprofile__anagrafica__denominazione_studio__icontains=key.strip()) ) \
+            #.extra(select={"fullname":"CONCAT(first_name,' ', last_name)"}, where=["CONCAT(LOWER(first_name),' ',LOWER(last_name)) LIKE %s"], params=['%'+key.strip().lower()+'%']) \
+            #.distinct()[0:max_rows]
+        
+        print "numero risultati N: %s" % (persons.count())
 
+        results = []
+        
+        for person in persons:
+            print "testo risultato fullname %s" % (person.fullname)
             try:
                 img = get_thumbnail(person.img, "50x50", crop="center", quality=99)
                 img_url = img.url
@@ -220,20 +226,18 @@ class OOPoliticianSearchView(PoliticianSearchView):
                     "extra_data": "",
                 }
             }      
-            print "nome %s" % (person.first_name)
-            print "cognome %s" % (person.last_name)
+            
             #if person.userprofile and person.userprofile.userprofile: #and \
-            if person.userprofile:
-                    #person.userprofile.userprofile.anagrafica:
+            #if person.userprofile:
                 #p_data["fields"]["extra_data"] = person.userprofile.userprofile.anagrafica.studio
-                pass
+                #pass
 
             results.append(p_data)
             
 
         json_data = json.dumps(results)
         print "----------------------"
-        print results
+        #print results
 
         return HttpResponse(json_data, mimetype='text/json')
 

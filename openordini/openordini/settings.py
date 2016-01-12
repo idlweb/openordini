@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'openordini.acts_fulfillments',  
     'openordini.oo_people',
     'openordini.oo_users',
+    'openordini.oo_mese_benessere',
     'openordini.openordini',
     'openordini.mvdb',
     'awesome_bootstrap',
@@ -47,7 +48,11 @@ INSTALLED_APPS = (
     'localflavor',
     'ajax_changelist',
     'sendgrid',
-    'openordini.oo_email',
+    'openordini.oo_email', 
+    'django.contrib.gis',
+    'import_export',
+    #'rest_framework',
+    #'rest_framework.authtoken',
 )
 
 ROOT_URLCONF = 'openordini.openordini.urls'
@@ -213,8 +218,8 @@ SUIT_CONFIG = {
         'auth': 'icon-lock',
     },
     # 'MENU_OPEN_FIRST_CHILD': True, # Default True
-    'MENU_EXCLUDE': ('auth.group',),
-     'MENU': (
+    #'MENU_EXCLUDE': ('auth.group',),
+    'MENU': (
         {'app': 'oo_users', 'label': 'Schede psicologi', 'icon':'icon-user', 'models': ('userprofile','extrapeople', 'recapito','psicologotitoli','caratteristiche_gestione','trasferimento')},
         {'app': 'people', 'label': 'Soggetti collegati', 'icon':'icon-user', 'models': ('person','office','institution','group','company','sitting')},       
         {'app': 'acts', 'label': 'Gestione atti del Consiglio', 'icon':'icon-book', 'models': ('act','deliberation', 'agenda','document','attach','speech','calendar')},
@@ -258,4 +263,9 @@ EMAIL_BACKEND = SENDGRID_EMAIL_BACKEND
 SENDGRID_EMAIL_HOST = "smtp.sendgrid.net"
 SENDGRID_EMAIL_PORT = 587
 SENDGRID_EMAIL_USERNAME = "idlweb"
-SENDGRID_EMAIL_PASSWORD = "idl2npop2"
+SENDGRID_EMAIL_PASSWORD = "idl^^^npop2"
+
+SERIALIZATION_MODULES = {
+ 'json': 'wadofstuff.django.serializers.json'
+}
+ 
