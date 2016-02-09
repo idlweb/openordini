@@ -33,24 +33,24 @@ INSTALLED_APPS = (
     ) + INSTALLED_APPS + (
     'payments',   
     'open_municipio',
-    'openordini.oo_payments',
-    'openordini.cas_integration',  
-    'openordini.acts_fulfillments',  
-    'openordini.oo_people',
-    'openordini.oo_users',
-    'openordini.openordini',
-    'openordini.mvdb',
+    'oo_payments',
+    'cas_integration',
+    'acts_fulfillments',
+    'oo_people',
+    'oo_users',
+    'openordini',
+    'mvdb',
     'awesome_bootstrap',
     'endless_pagination',
-    'openordini.utility',
+    'utility',
     'leaflet',
     'localflavor',
     'ajax_changelist',
     'sendgrid',
-    'openordini.oo_email',
+    'oo_email',
 )
 
-ROOT_URLCONF = 'openordini.openordini.urls'
+ROOT_URLCONF = 'openordini.urls'
 
 MEDIA_ROOT = os.path.join(REPO_ROOT, 'public', 'media')
 STATIC_ROOT = os.path.join(REPO_ROOT, 'public', 'static')
@@ -98,10 +98,6 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'mail_registration_managers': {
-            'level': 'INFO',
-            'class': 'openordini.commons.utils.ManagerEmailHandler',
-        },
         'webapp': {
             'level':'DEBUG',
             'class':'logging.FileHandler',
@@ -129,11 +125,6 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
             }, 
-        'registration': {
-            'handlers': ['mail_registration_managers', ],
-            'level': 'INFO',
-            'propagate': False,
-        },
         'mama_cas.forms': {
             'handlers': ['console', ],
             'level': 'DEBUG',
@@ -243,7 +234,11 @@ MODULES = {
     "sez_a_donna": os.path.join(MODULES_ROOT, "domanda_sez_a_d.rtf"), 
 }
 
+
 IMPORT_DATE_FORMAT = "%d-%m-%Y"
+
+IMPORT_DATE_FORMAT_CSV = "%d/%m/%Y"
+
 
 #EMAIL_HOST_USER = "stafgnpop@psicologipuglia.it"
 #EMAIL_HOST_PASSWORD = "P$901Q.e/idow"
